@@ -1,6 +1,6 @@
-package com.example.mdbspringboot;
+package com.smu.mdbspringboot;
 
-import com.example.demo.student.StudentRepository;
+import com.smu.oopg1t4.field.FieldRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +11,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 public class MdbSpringBootApplication{
 
     //to add class repos
+    @Autowired
+    FieldRepository fieldRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(MdbSpringBootApplication.class, args);
