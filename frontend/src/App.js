@@ -1,4 +1,4 @@
-import "./App.css";
+import "./index.css";
 // ========================= general components =========================
 // ======== routing ========
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
@@ -7,8 +7,7 @@ import React from "react";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-
-import vid_background from "./pages/assets/background.mp4";
+import NavbarVendor from "./navbarvendor"
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 
@@ -25,7 +24,10 @@ export default function App(){
             <div className="body">
             <Routes>
                 <Route exact path="/react" element={<Homepage />} />
+                {/* <Route exact path="/" element={<Homepage/>}/> */}
+                <Route exact path="/react/form/:formId" element={<Form/>}/>
             </Routes>
             </div>
         </BrowserRouter>
+    )
 }

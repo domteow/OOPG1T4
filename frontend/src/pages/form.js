@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { ReactDOM } from 'react-dom'
 import { Link, Route, Routes, BrowserRouter, useLocation, useParams } from 'react-router-dom'
 // import './index.css'
-import logo from './assets/quantum.jpg'
+import logo from '../assets/quantum.jpg'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
