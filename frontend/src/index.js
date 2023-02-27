@@ -8,7 +8,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import NavbarVendor from './navbarvendor'
-import App from './app.js'
+import App from './App.js'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
