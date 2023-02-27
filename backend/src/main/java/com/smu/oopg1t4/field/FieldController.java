@@ -30,5 +30,10 @@ public class FieldController {
     public void createField(@RequestBody Field field){
         fieldService.createField(field);
     }
+
+    @PostMapping("/createFields")
+    public void createFields(@RequestBody List<Field> fields) {
+        fieldService.createFields(fields);
+    }
 }
 
