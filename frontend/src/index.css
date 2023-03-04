@@ -71,7 +71,7 @@ img {
     justify-content: space-between;
     align-items: center;
     /* above 3 to split formname and button to left & right */
-    padding: 3%;
+    padding: 1.5%;
     text-align: center;
 }
 
@@ -102,4 +102,69 @@ img {
     margin-left: auto;
     margin-right: auto;
     box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+}
+
+/* FORM PAGE */
+.formPage{
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+}
+
+.formDetailsRow{
+    padding:1%;
+}
+
+.formName{
+    font-weight: bold;
+    font-size: 22px;
+    text-align: left;
+}
+
+.formDeets{
+    font-style: italic;
+    font-size:14px;
+    text-align: right;
+}
+
+.formRow{
+    text-align: center;
+    padding:2%;
+}
+
+.formQuestion{
+    font-weight: 600;
+    font-size: 18px;
+    text-align: left;
+}
+
+.formInput{
+    text-align: left;
+    font-size: 18px;
+}
+
+.inputtext{
+    width:95%;
+}
+
+.formOptionText{
+    margin-left: 1%;
+}
+
+input{
+    font-size: 18px;
+}
+
+.submitButt{
+    border-color: transparent;
+    justify-content: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #46AF05;
+    width: 15%;
+    padding: 1%;
+    border-radius: 5px;
 }
