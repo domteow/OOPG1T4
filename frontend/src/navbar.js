@@ -19,15 +19,27 @@ export default function Navbar(){
 
   // navigations 
   const navigate = useNavigate();
+
+  // to home page 
   const navigateHome = () => {
     navigate('/react/homepage');
   };
- 
+
+  // to log out 
+  const [authenticated, setAuthenticated] = useState(null); 
   const navigateLogout = () =>{
     localStorage.setItem('username', '');
     localStorage.setItem("authenticated", false);
+    setAuthenticated(false);
     navigate ('/react/login')
   }
+
+  // (admin) to display all vendors (allvendors) page 
+  const navigateAllVendors = () =>{
+    navigate('/react/allvendors');
+  }
+
+
   
   if (role == 'vendor'){
     return(
@@ -47,7 +59,7 @@ export default function Navbar(){
           <img src={logo2}/>
         </div>
         <div className="navbar__item" onClick={navigateHome}>Home</div>
-        <div className="navbar__item">Vendors</div>
+        <div className="navbar__item" onClick={navigateAllVendors}>Vendors</div>
         <div className="navbar__item">Forms</div>
         <div className='navbar__item' onClick={navigateLogout}>Logout</div>     
       </header>

@@ -20,6 +20,12 @@ import Homepage from "./pages/homepage"
 // ======== form ========
 import Form from "./pages/form"
 
+// ======== vendors ========
+// all vendors page 
+import Allvendors from "./pages/adminVendorPages/allvendors"
+import Viewvendor from "./pages/adminVendorPages/viewvendor"
+import Newvendor from "./pages/adminVendorPages/newvendor"
+
 export default function App(){
     return (
         <BrowserRouter>
@@ -29,6 +35,9 @@ export default function App(){
                 <Route exact path="/react/homepage" element={<Homepage />} />
                 {/* <Route exact path="/" element={<Homepage/>}/> */}
                 <Route exact path="/react/form/:formId" element={<Form/>}/>
+                <Route exact path="/react/allvendors" element={<Allvendors/>}/>
+                <Route exact path="/react/newvendor" element={<Newvendor/>}/>
+                <Route exact path="/react/viewvendor/:vendorId" element={<Viewvendor/>}/>
             </Routes>
             </div>
         </BrowserRouter>

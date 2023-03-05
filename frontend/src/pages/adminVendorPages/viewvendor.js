@@ -1,72 +1,55 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { ReactDOM } from 'react-dom'
-import { Link, Router, Route, Routes, BrowserRouter, useNavigate } from 'react-router-dom'
-import '../index.css'
-import logo from '../assets/quantum.png'
+import { Link, Router, Route, Routes, BrowserRouter, useNavigate, useParams } from 'react-router-dom'
+import '../../index.css'
+import logo from '../../assets/quantum.png'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Navbar from '../navbar'
+import Navbar from '../../navbar'
 
-import axios from '../api/axios'
-
-export default function Homepage() {
-    // navigate to forms page with formId
+export default function Viewvendor(){
+    const vendorId = useParams().vendorId; 
     const navigate = useNavigate();
-    const goToForm = (formId) =>{
-      navigate("/react/form/" + formId)
-    };
+    console.log(vendorId);
 
-    // forms from backend
-    const backendDomain = process.env.REACT_APP_backendDomain;
-    const usersInfos = {
-      'dom' : {
+    // from backend get all the stuff we need to display.. idek what.......... fuck
+    const vendorDetails = {
+        'name': 'Kelv',
         'allForms': {'form1': {'status':'Read only', 'id': 1}, 'form2': {'status':'read only', 'id': 2}},
         'incompleteForms': {'form3': {'status':'Incomplete', 'action': 'incomplete', 'id' :3}, 'form4': {'status':'Incomplete', 'action': 'continue draft', 'id':4}},
-        'completedForms': {'form5':{'status':'complete', 'id':5}, 'form6':{'status': 'complete', 'id': 6}}
-      }, 
-      'rhys': {
-        'allForms': {'form7': {'status':'Read only', 'id': 7}, 'form8': {'status':'read only', 'id': 8}},
-        'incompleteForms': {'form9': {'status':'Incomplete', 'action': 'incomplete', 'id' :9}, 'form10': {'status':'Incomplete', 'action': 'continue draft', 'id':10}, 'form11': {'status':'Incomplete', 'action': 'continue draft', 'id':11}},
-        'completedForms': {'form12':{'status':'complete', 'id':12}}
-      }
+        'completedForms': {'form5':{'status':'complete', 'id':5}, 'form6':{'status': 'complete', 'id': 6, 'submission': 289}}
+    }
+    const vendorName = vendorDetails['name'];
+    const allForms = vendorDetails['allForms'];
+    const incompleteForms = vendorDetails['incompleteForms'];
+    const completedForms = vendorDetails['completedForms'];
+
+    const back = () =>{
+        navigate('/react/allvendors');
     }
 
-    // to authenticate the homepage 
-    const [authenticated, setAuthenticated] = useState(null);
+    return(
+        <>
+            <Navbar />
 
-    // use effect to check the user, get the data and return 
-    useEffect (() =>{
-      const loggedInUser = localStorage.getItem('authenticated');
-      if (loggedInUser){
-        setAuthenticated(loggedInUser);
-        console.log(loggedInUser);
-      }
-    }, []); 
-
-    if (!authenticated){
-      // not logged in, i never check if this works hehe.... 
-      navigate("/react/login/");
-    }
-
-    else{
-      // to get the current username (should be id in the actual thing, using name for now)
-      const user = localStorage.getItem('username');
-      const allForms = usersInfos[user]['allForms'];
-      const incompleteForms = usersInfos[user]['incompleteForms'];
-      const completedForms = usersInfos[user]['completedForms'];
-
-      return (
-        <> 
-          <Navbar />
-
-          <div className='mainContent'>
-            <div className='welcomeMsg'>
-              Welcome {user}!
+            <div className='back'>
+                <button className='backButton' onClick={back}>
+                    Back to All Vendors
+                </button>
             </div>
 
-            {/* for all forms that are read only */}
+            <div className='formContent'>
+                <div className='vendorName'>
+                    {vendorName}
+                </div>
+
+                <button className='assignForm'>
+                    + Assign Form
+                </button>
+
+                {/* for all forms that are read only */}
             <div className='subDivider'>
               All Forms
             </div>
@@ -84,9 +67,9 @@ export default function Homepage() {
                       </div>
                     </Col>
                     <Col xs={6} md={4} xl={2}>
-                      <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(allForms[formName]['id'])}>
-                        View Form
-                      </button>
+                        <button className='formButton' size="lg" style={{backgroundColor: '#AF0505', color: '#FFEDED', fontStyle:'none'}}>
+                            Delete
+                        </button>
                     </Col>
                   </Row>
                 </Container>
@@ -112,9 +95,9 @@ export default function Homepage() {
                       </div>
                     </Col>
                     <Col xs={6} md={4} xl={2}>
-                      <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(incompleteForms[formName]['id'])}>
-                        {incompleteForms[formName]['action']}
-                      </button>
+                        <button className='formButton' size="lg" style={{backgroundColor: '#AF0505', color: '#FFEDED', fontStyle:'none'}}>
+                            Delete
+                        </button>
                     </Col>
                   </Row>
                 </Container>
@@ -139,17 +122,22 @@ export default function Homepage() {
                       Status: {completedForms[formName]['status']}
                       </div>
                     </Col>
-                    <Col xs={6} md={4} xl={2}>
-                      <button className='formButton' size="lg" style={{backgroundColor: '#46AF05', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(completedForms[formName]['id'])}>
+                    <Col xs={6} md={2} xl={2}>
+                      <button className='formButton' size="lg" style={{backgroundColor: '#46AF05', color: '#edfffe', fontStyle:'none'}}>
                         View Submission
                       </button>
+                    </Col>
+                    <Col xs={6} md={2} xl={2}>
+                        <button className='formButton' size="lg" style={{backgroundColor: '#AF0505', color: '#FFEDED', fontStyle:'none'}}>
+                        Delete
+                        </button>
                     </Col>
                   </Row>
                 </Container>
               )
             })}
-          </div>
+            </div>
         </>
-      )
-    }
+    )
+
 }
