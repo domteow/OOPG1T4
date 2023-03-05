@@ -42,9 +42,10 @@ export default function Formpage(props) {
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (e.target.type == 'checkbox'){
+            const isChecked = e.target.checked;
             setValues({
                 ...values,
-                [name]: [...value],
+                [name]: isChecked ? [...values[name], value] : values[name].filter((item) => item !== value),
             });
         }
         else{
@@ -130,7 +131,7 @@ export default function Formpage(props) {
                                     </fieldset>
                                 )
                             }
-                            else{
+                            else if (typeMultiSelect == 'checkbox') {
                                 // for input type checkbox 
                                 return (
                                     <fieldset>
