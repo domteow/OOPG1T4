@@ -2,11 +2,11 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { ReactDOM } from 'react-dom'
 import { Link, Route, Routes, BrowserRouter, useLocation, useParams } from 'react-router-dom'
-import logo from '../assets/quantum.jpg'
+import logo from '../assets/quantum.png'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import NavbarVendor from '../navbarvendor'
+import Navbar from '../navbar'
 
 
 export default function Formpage(props) {
@@ -36,9 +36,9 @@ export default function Formpage(props) {
         }
     }
     console.log(initialValues);
-
     const [values, setValues] = useState(initialValues);
 
+    // to save use state values 
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (e.target.type == 'checkbox'){
@@ -65,7 +65,7 @@ export default function Formpage(props) {
 
     return (
         <>
-            <NavbarVendor />
+            <Navbar />
 
             <Container className='formPage'>
                 <Row className='formDetailsRow'>
@@ -89,6 +89,7 @@ export default function Formpage(props) {
                         const inputType = questions[question];
 
                         if (typeof(inputType) == 'string'){
+                            // for input type string, number, text all 
                             return(
                                 <fieldset>
                                     <Row className='formRow'>
@@ -108,6 +109,7 @@ export default function Formpage(props) {
                             multiOptions.splice(0,1);
 
                             if (typeMultiSelect == 'radio'){
+                                // for input type radio 
                                 return (
                                     <fieldset>
                                         <Row className='formRow'>
@@ -129,6 +131,7 @@ export default function Formpage(props) {
                                 )
                             }
                             else{
+                                // for input type checkbox 
                                 return (
                                     <fieldset>
                                         <Row className='formRow'>
@@ -159,7 +162,6 @@ export default function Formpage(props) {
                     </Row>
                     {/* <button type="reset" onClick={reset}>Reset</button> */}
                 </form>
-
             </Container>
         </>)
 }
