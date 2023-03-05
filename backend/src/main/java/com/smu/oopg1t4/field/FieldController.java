@@ -1,6 +1,8 @@
 package com.smu.oopg1t4.field;
 
+import com.smu.oopg1t4.statusResponse.StatusResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,28 +14,24 @@ public class FieldController {
     FieldService fieldService;
 
     @GetMapping("/getAllFields")
-    public List<Field> getAllFields() {
+    public ResponseEntity<?> getAllFields() {
         return fieldService.getAllFields();
     }
 
     @GetMapping("/getFieldByID/{id}")
-    public Field getFieldByID(@PathVariable int id){
-        try{
-            Field myField = fieldService.getFieldByID(id);
-            return myField;
-        } catch (Exception e){
-            return null;
-        }
+    public ResponseEntity<?> getFieldByID(@PathVariable int id){
+        return fieldService.getFieldByID(id);
+
     }
 
     @PostMapping("/createField")
-    public void createField(@RequestBody Field field){
-        fieldService.createField(field);
+    public ResponseEntity<StatusResponse> createField(@RequestBody Field field){
+        return fieldService.createField(field);
     }
 
     @PostMapping("/createFields")
-    public void createFields(@RequestBody List<Field> fields) {
-        fieldService.createFields(fields);
+    public ResponseEntity<StatusResponse> createFields(@RequestBody List<Field> fields) {
+        return fieldService.createFields(fields);
     }
 }
 
