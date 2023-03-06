@@ -7,6 +7,22 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Navbar from '../navbar'
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Input from '@mui/material/Input';
+import FilledInput from '@mui/material/FilledInput';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import FormGroup from '@mui/material/FormGroup';
 
 
 export default function Formpage(props) {
@@ -95,10 +111,19 @@ export default function Formpage(props) {
                                 <fieldset>
                                     <Row className='formRow'>
                                         <Col xs={6} md={4} xl={2} className='formQuestion'>
+                                            {/* <InputLabel htmlFor="outlined-adornment-amount">{question}</InputLabel> */}
                                             {question}
                                         </Col>
-                                        <Col xs={12} md={8} className='formInput'>
-                                            <input name={question} className='inputtext' type={inputType} id={question} onChange={handleChange} />
+                                        <Col xs={12} md={8} className='formInput'> 
+                                            <FormControl fullWidth>
+                                                <TextField
+                                                    required
+                                                    id={question}
+                                                    name={question}
+                                                    onChange={handleChange}
+                                                    type={inputType}
+                                                />
+                                            </FormControl>
                                         </Col>
                                     </Row>
                                 </fieldset>
@@ -118,14 +143,19 @@ export default function Formpage(props) {
                                                 {question}
                                             </Col>
                                             <Col xs={12} md={8} className='formInput'>
-                                                {multiOptions.map(option =>{
-                                                    return(
-                                                        <div>
-                                                            <input type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/> 
-                                                            <span className='formOptionText'>{option}</span>
-                                                        </div>
-                                                    )
-                                                })}
+                                                <RadioGroup
+                                                    aria-labelledby="demo-controlled-radio-buttons-group"
+                                                    name={question}
+                                                    onChange={handleChange}
+                                                >
+                                                    {multiOptions.map(option =>{
+                                                        return(
+                                                            <FormControlLabel value={option} control={<Radio />} label={option} />
+                                                            )
+                                                    })}
+                                                </RadioGroup>
+                                                
+                                                
                                             </Col>
                                         </Row>
                                     </fieldset>
@@ -140,14 +170,17 @@ export default function Formpage(props) {
                                                 {question}
                                             </Col>
                                             <Col xs={12} md={8} className='formInput'>
+                                                <FormGroup>
                                                 {multiOptions.map(option =>{
                                                     return(
                                                         <div>
-                                                            <input type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/> 
+                                                            <FormControlLabel control={<Checkbox />} type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/>
+                                                            {/* <input type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/>  */}
                                                             <span className='formOptionText'>{option}</span>
                                                         </div>
                                                     )
                                                 })}
+                                                </FormGroup>
                                             </Col>
                                         </Row>
                                     </fieldset>
