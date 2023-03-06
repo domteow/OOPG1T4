@@ -8,8 +8,12 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "api/v1/questionnaire")
 public class QuestionnaireController {
+    private final QuestionnaireService questionnaireService;
+
     @Autowired
-    QuestionnaireService questionnaireService;
+    public QuestionnaireController(QuestionnaireService questionnaireService) {
+        this.questionnaireService = questionnaireService;
+    }
 
     @GetMapping("/getAllQuestionnaires")
     public List<Questionnaire> getAllQuestionnaires() {
@@ -17,16 +21,16 @@ public class QuestionnaireController {
     }
 
     @GetMapping("/getQuestionnaireByID/{id}")
-    public Questionnaire getQuestionnaireByID(@PathVariable int id){
-        try{
+    public Questionnaire getQuestionnaireByID(@PathVariable int id) {
+        try {
             return questionnaireService.getQuestionnaireByID(id);
-        } catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
 
     @PostMapping("/createQuestionnaire")
-    public void createQuestionnaire(@RequestBody Questionnaire questionnaire){
+    public void createQuestionnaire(@RequestBody Questionnaire questionnaire) {
         questionnaireService.createQuestionnaire(questionnaire);
     }
 

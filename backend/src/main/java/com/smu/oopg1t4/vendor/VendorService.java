@@ -14,14 +14,14 @@ import java.util.Optional;
 @Service
 public class VendorService {
 
-    @Autowired
     private final VendorRepository vendorRepository;
 
-    @Autowired
-    SequenceGeneratorService sequenceGeneratorService;
+    private final SequenceGeneratorService sequenceGeneratorService;
 
-    public VendorService(VendorRepository vendorRepository) {
+    @Autowired
+    public VendorService(VendorRepository vendorRepository, SequenceGeneratorService sequenceGeneratorService) {
         this.vendorRepository = vendorRepository;
+        this.sequenceGeneratorService = sequenceGeneratorService;
     }
 
     public ResponseEntity<StatusResponse> createNewVendor(Vendor vendor) {
@@ -30,7 +30,7 @@ public class VendorService {
             vendorRepository.save(vendor);
             StatusResponse successResponse = new StatusResponse("Vendor added successfully", HttpStatus.CREATED.value());
             return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
-        }catch(Exception e){
+        } catch (Exception e) {
             StatusResponse statusResponse = new StatusResponse("Error saving vendor: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
         }
@@ -38,9 +38,9 @@ public class VendorService {
     }
 
     public ResponseEntity<?> getAllVendors() {
-        try{
+        try {
             return ResponseEntity.ok().body(vendorRepository.findAll());
-        }catch(Exception e){
+        } catch (Exception e) {
             StatusResponse statusResponse = new StatusResponse("Error retrieving vendors", HttpStatus.INTERNAL_SERVER_ERROR.value());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
         }
@@ -49,9 +49,9 @@ public class VendorService {
 
     public ResponseEntity<?> getVendor(int id) {
         Optional<Vendor> optionalVendor = vendorRepository.findById(id);
-        if (optionalVendor.isPresent()){
+        if (optionalVendor.isPresent()) {
             return ResponseEntity.ok().body(optionalVendor.get());
-        }else{
+        } else {
             StatusResponse statusResponse = new StatusResponse("Vendor not found for id: " + id, HttpStatus.NOT_FOUND.value());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
         }
@@ -59,14 +59,14 @@ public class VendorService {
     }
 
     public ResponseEntity<StatusResponse> createNewVendors(List<Vendor> vendors) {
-        try{
-            for (Vendor vendor: vendors) {
+        try {
+            for (Vendor vendor : vendors) {
                 vendor.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
             }
             vendorRepository.saveAll(vendors);
             StatusResponse successResponse = new StatusResponse("Vendors added successfully", HttpStatus.CREATED.value());
             return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
-        }catch(Exception e){
+        } catch (Exception e) {
             StatusResponse statusResponse = new StatusResponse("Error saving vendors: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
         }
@@ -75,12 +75,12 @@ public class VendorService {
 
     public ResponseEntity<StatusResponse> deleteVendor(int id) {
         Optional<Vendor> optionalVendor = vendorRepository.findById(id);
-        if(optionalVendor.isPresent()){
+        if (optionalVendor.isPresent()) {
             vendorRepository.deleteById(id);
             StatusResponse successResponse = new StatusResponse("Vendor with id " + id + " deleted successfully", HttpStatus.NO_CONTENT.value());
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(successResponse);
 
-        }else{
+        } else {
             StatusResponse statusResponse = new StatusResponse("Vendor not found for id: " + id, HttpStatus.NOT_FOUND.value());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
         }

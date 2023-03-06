@@ -19,31 +19,51 @@ public class Questionnaire {
     private String name;
     private ArrayList<Field<String[]>> fields;
     private String roleRequired;
-    public Questionnaire(int id, String name, ArrayList<Field<String[]>> fields, String roleRequired){
-        this.id = id;
+
+    public Questionnaire() {
+    }
+
+    public Questionnaire(String name, ArrayList<Field<String[]>> fields, String roleRequired) {
         this.name = name;
         this.fields = fields;
         this.roleRequired = roleRequired;
     }
-    public int getID(){
+
+    public int getID() {
         return this.id;
     }
-    public void setID(int i){
+
+    public void setID(int i) {
         this.id = i;
     }
-    public String getName(){
+
+    public String getName() {
         return this.name;
     }
-    public void setName(String s){
+
+    public void setName(String s) {
         this.name = s;
     }
-    public ArrayList<Field<String[]>> getFields(){
+
+    public ArrayList<Field<String[]>> getFields() {
         return this.fields;
     }
-    public void addField(Field<String[]> f){
+
+    public void addField(Field<String[]> f) {
         this.fields.add(f);
     }
-    public void removeField(Field<String[]> f){
+
+    public void removeField(Field<String[]> f) {
         this.fields.remove(f);
+    }
+
+    @Override
+    public String toString() {
+        return "Questionnaire{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", fields=" + fields +
+                ", roleRequired='" + roleRequired + '\'' +
+                '}';
     }
 }

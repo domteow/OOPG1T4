@@ -9,11 +9,15 @@ import java.util.List;
 
 @Service
 public class QuestionnaireService {
-    @Autowired
-    QuestionnaireRepository questionnaireRepository;
+    private final QuestionnaireRepository questionnaireRepository;
+
+    private final SequenceGeneratorService sequenceGeneratorService;
 
     @Autowired
-    SequenceGeneratorService sequenceGeneratorService;
+    public QuestionnaireService(QuestionnaireRepository questionnaireRepository, SequenceGeneratorService sequenceGeneratorService) {
+        this.questionnaireRepository = questionnaireRepository;
+        this.sequenceGeneratorService = sequenceGeneratorService;
+    }
 
     //returns all questionnaires in a List
     public List<Questionnaire> getAllQuestionnaires() {
@@ -21,16 +25,16 @@ public class QuestionnaireService {
     }
 
     //get questionnaire by id
-    public Questionnaire getQuestionnaireByID(int id) throws Exception{
+    public Questionnaire getQuestionnaireByID(int id) throws Exception {
         List<Questionnaire> questionnaires = questionnaireRepository.findByID(id);
         // need to implement check if id exists
         return questionnaires.get(0);
     }
 
     //create a new questionnaire
-    public void createQuestionnaire(Questionnaire questionnaire){
+    public Questionnaire createQuestionnaire(Questionnaire questionnaire) {
         questionnaire.setID(sequenceGeneratorService.generateSequence(Questionnaire.SEQUENCE_NAME));
-        questionnaireRepository.save(questionnaire);
+        return questionnaireRepository.save(questionnaire);
     }
 
     //create more than one questionnaire
