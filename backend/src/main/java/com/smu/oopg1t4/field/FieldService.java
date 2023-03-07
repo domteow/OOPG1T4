@@ -55,7 +55,7 @@ public class FieldService {
             fieldRepository.save(field);
             StatusResponse successResponse = new StatusResponse("Field added successfully", HttpStatus.CREATED.value());
             return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             StatusResponse statusResponse = new StatusResponse("Error saving field: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
         }
