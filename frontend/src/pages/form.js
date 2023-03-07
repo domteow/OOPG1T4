@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { ReactDOM } from 'react-dom'
-import { Link, Route, Routes, BrowserRouter, useLocation, useParams } from 'react-router-dom'
+import { Link, Route, Routes, BrowserRouter, useLocation, useParams, useNavigate } from 'react-router-dom'
 import logo from '../assets/quantum.png'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -80,6 +80,12 @@ export default function Formpage(props) {
     }
     console.log(values);
 
+    // to navigate
+    const navigate = useNavigate();
+    const cancel = () =>{
+        navigate(-1);
+    }
+
     return (
         <>
             <Navbar />
@@ -111,7 +117,6 @@ export default function Formpage(props) {
                                 <fieldset>
                                     <Row className='formRow'>
                                         <Col xs={6} md={4} xl={2} className='formQuestion'>
-                                            {/* <InputLabel htmlFor="outlined-adornment-amount">{question}</InputLabel> */}
                                             {question}
                                         </Col>
                                         <Col xs={12} md={8} className='formInput'> 
@@ -174,9 +179,8 @@ export default function Formpage(props) {
                                                 {multiOptions.map(option =>{
                                                     return(
                                                         <div>
-                                                            <FormControlLabel control={<Checkbox />} type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/>
+                                                            <FormControlLabel control={<Checkbox />} type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange} label = {option}/>
                                                             {/* <input type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/>  */}
-                                                            <span className='formOptionText'>{option}</span>
                                                         </div>
                                                     )
                                                 })}
@@ -189,8 +193,12 @@ export default function Formpage(props) {
                         }
                     }
                     )}
-                    <Row className='formRow'>
-                        <Col>
+                    <Row className='buttonRow'>
+                        <Col className='formCancelRow'>
+                            <button className='cancelButt' onClick={cancel}>Cancel</button>                           
+                        </Col>
+                        <Col className='formSubmitRow'>
+                            <button className='saveDraft' onClick={submit}>Save Draft</button>
                             <button className='submitButt' onClick={submit}>Submit</button>
                         </Col>
                     </Row>

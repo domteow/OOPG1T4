@@ -7,6 +7,8 @@ import logo from '../assets/quantum.png'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import loginLogo from '../assets/loginLogo.png';
+import TextField from '@mui/material/TextField';
 
 const Login = () =>{
     const navigate = useNavigate();
@@ -17,11 +19,13 @@ const Login = () =>{
     const users = [
         { 
             username: "dom", 
-            password: "dom" 
+            password: "dom", 
+            role : 'vendor'
         }, 
         {
             username: 'rhys',
             password: 'rhys',
+            role: 'admin'
         }
     ];
     const handleSubmit = (e) => {
@@ -32,34 +36,66 @@ const Login = () =>{
             localStorage.setItem("authenticated", true);
             localStorage.setItem('username', username);
             setUser(account.username);
-            navigate('/react/homepage');
+            const role = account.role;
+            if (role == 'vendor'){
+                navigate('/react/vendor/homepage');
+            }
+            else if (role == 'admin'){
+                navigate('/react/admin/homepage');
+            }
         }
     };
-    return (
-        <>
-            <Container className='formBody'>
+    return(
+        <div className='loginBody'>
+            <Container >
                 <Row>
-                    <Col className='loginLogoPortion'>
-                        <img className='formLogo' src={logo}/>
+                    <Col>
+                        <div className='welcomeText'>
+                            Welcome!
+                        </div>
+                        <div className='welcomeSubText'>
+                            Enter your username and password to login.
+                        </div>
                     </Col>
-                    <Col className='formPortion'>
+                </Row>
+
+                <Row>
+                    <Col classame='formPortion' xl={7}>
                         <form onSubmit={handleSubmit} className='formPortion'>
-                            <div className='formInputLabel'>
-                                Username: 
+                            <div className='loginInput'>
+                                <TextField
+                                    onChange={(e)=> setUsername(e.target.value)}
+                                    required
+                                    id="outlined-required"
+                                    label="Username"
+                                    className='loginInputField'
+                                />
                             </div>
-                            <input className='formInputField' type ='text' name='Username' value={username} onChange={(e)=> setUsername(e.target.value)} />
-                            <div className='formInputLabel'>
-                                Password: 
+                            <div className='loginInput'>
+                                <TextField
+                                    onChange={(e)=> setPassword(e.target.value)}
+                                    required
+                                    id="outlined-password-input"
+                                    label="Password"
+                                    type="password"
+                                    autoComplete="current-password"
+                                    className='loginInputField'
+                                />
                             </div>
-                            <input className='formInputField' type ='password' name='Password' onChange={(e)=> setPassword(e.target.value)} />
-                            <div>
+                            <div className='loginInput'>
                                 <input className='submitButton' type="submit" value="Login" />
                             </div>
                         </form>
                     </Col>
+                
+                    <Col className='logoPart' xl={5}>
+                        <div className='cover'/>
+                    </Col>
                 </Row>
+
+
             </Container>
-        </>
+        </div>
     )
 };
 

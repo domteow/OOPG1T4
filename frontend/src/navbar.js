@@ -3,11 +3,17 @@ import { useState, useEffect } from 'react'
 import { ReactDOM } from 'react-dom'
 import { Link, Route, Routes, BrowserRouter, useNavigate } from 'react-router-dom'
 import './index.css'
-import logo from './assets/quantum.jpg'
 import logo2 from './assets/logo.png'
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+
+/* NAV BAR MUI */
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
 
 export default function Navbar(){
   const userRole = {
@@ -22,8 +28,13 @@ export default function Navbar(){
 
   // to home page 
   const navigateHome = () => {
-    navigate('/react/homepage');
+    navigate('/react/vendor/homepage');
   };
+
+  // to admin main page (vendor page)
+  const navigateAdminHome = () =>{
+    navigate('/react/admin/homepage')
+  }
 
   // to log out 
   const [authenticated, setAuthenticated] = useState(null); 
@@ -34,35 +45,127 @@ export default function Navbar(){
     navigate ('/react/login')
   }
 
-  // (admin) to display all vendors (allvendors) page 
-  const navigateAllVendors = () =>{
-    navigate('/react/allvendors');
-  }
+  const settings = ['Account', 'Logout'];
 
+  /* to handle the nav menu */
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
 
   
   if (role == 'vendor'){
     return(
         <header className='navbar'>
-          <div className="navBar_logo">
+
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+          >
             <img src={logo2}/>
-          </div>
-          <div className="navbar__item" onClick={navigateHome}>Home</div>
-          <div className='navbar__item' onClick={navigateLogout}>Logout</div>     
+          </Typography>
+          <Box sx={{ display: { xs: 'none', sm: 'block' }, marginRight: '2%' }}>
+            <Button sx={{color: '#2c2626'}} onClick={navigateHome}>
+              Home
+            </Button>
+          </Box>
+
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 2, marginRight: 5}}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">Account</Typography>
+                </MenuItem>
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center" onClick={navigateLogout}>Logout</Typography>
+                </MenuItem>
+            </Menu>
+          </Box> 
         </header>
     )
   }
+
   else if (role == 'admin'){
     return(
       <header className='navbar'>
-        <div className="navBar_logo">
+
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+        >
           <img src={logo2}/>
-        </div>
-        <div className="navbar__item" onClick={navigateHome}>Home</div>
-        <div className="navbar__item" onClick={navigateAllVendors}>Vendors</div>
-        <div className="navbar__item">Forms</div>
-        <div className='navbar__item' onClick={navigateLogout}>Logout</div>     
+        </Typography>
+        <Box sx={{ display: { xs: 'none', sm: 'block' }, marginRight: '3%' }}>
+          <Button sx={{color: '#2c2626', marginRight: '1%'}} onClick={navigateAdminHome}>
+            Home
+          </Button>
+        </Box>
+        <Box sx={{ display: { xs: 'none', sm: 'block' }, marginRight: '3%' }}>
+          <Button sx={{color: '#2c2626', marginRight: '1%'}} onClick={navigateHome}>
+            Forms
+          </Button>
+        </Box>
+
+        <Box sx={{ flexGrow: 0 }}>
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 2, marginRight: 5}}>
+              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            sx={{ mt: '45px' }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center">Account</Typography>
+              </MenuItem>
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center" onClick={navigateLogout}>Logout</Typography>
+              </MenuItem>
+          </Menu>
+        </Box> 
       </header>
-    )
+  )
   }
 }

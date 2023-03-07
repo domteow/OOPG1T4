@@ -5,6 +5,7 @@
 .body{
     max-width: 100vw;
     font-family: Roboto, sans-serif;
+    background-color: #fcfcfc;
 }
 
 /* FOR THE TITLE PORTION W THE GREY LINE BELOW IT */
@@ -13,24 +14,27 @@
 }
 
 .subDivider{
-    border-bottom: 2px solid #7f7f7f;
+    border-bottom: 1px solid #cecece;
     margin-top: 3%;
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 22px;
+    font-weight: 400;
     padding-left: 1%;
+    width: 80%;
 }
 /* END OF THE TITLE PORTION W THE GREY LINE BELOW IT */
 
 /* FOR ANY FORM OF FORM INPUT, LABEL ETC */ 
 .formRow{
     text-align: center;
-    padding:2%;
+    padding-top: 2%;
 }
 
 .formQuestion{
-    font-weight: 600;
+    font-weight: 500;
     font-size: 18px;
     text-align: left;
+    justify-content: center;
+    padding-top: 1%;
 }
 
 .formInput{
@@ -41,6 +45,59 @@
 .inputtext{
     width:95%;
 }
+
+.buttonRow{
+    padding-top: 3%;
+}
+
+.saveDraft{
+    border-color: transparent;
+    justify-content:right;
+    text-align: center;
+    margin-left: auto;
+    margin-right: 2%;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #0889da;
+    color: #f9f9f9;
+    width: 15%;
+    padding: 1%;
+    border-radius: 5px;
+}
+
+.cancelButt{
+    border-color: transparent;
+    text-align: center;
+    margin-right: 2%;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #848783;
+    color: #f9f9f9;
+    width: 10%;
+    padding: 1%;
+    border-radius: 5px;
+}
+
+.submitButt{
+    border-color: transparent;
+    justify-content: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: 2%;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #066FB0;
+    color: #f9f9f9;
+    width: 15%;
+    padding: 1%;
+    border-radius: 5px;
+}
+
+.formCancelRow{
+    text-align: left;
+}
+
+.formSubmitRow{
+    text-align: right
+}
+
 /* END OF ANY FORM OF FORM INPUT, LABEL ETC */ 
 
 /* TO DISPLAY VENDORS, ADMINS, FORMS TO DO ALL THOSE*/
@@ -56,45 +113,83 @@
 /* END OF THE PART TO DISPLAY VENDORS, ADMINS, FORMS TO DO ALL THOSE*/
 
 /* LOGIN PAGE */
-.formBody{
+.loginBody{
     height: 100vh;
-    background: linear-gradient(90deg, #dadfeb 50%, #FFFF 50%);
+    background: linear-gradient(90deg, #fff 50%, #f7f7fc 50%);
     margin: 0%;
     padding:0%;
     max-width: 100%;
-    margin-left: 0%;
-    margin-right: 0%;
+    margin:0%;
     padding-left: 0%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.formLogo{
-    width: 80%;
-    height: auto;
-    margin-top: 25%;
-    margin-left: 10%;
+.welcomeText{
+    padding-top:15%;
+    font-weight: bold;
+    font-size: 28px;
+    margin-left: 3%;
+    color: #2c2626;
+}
+
+.welcomeSubText{
+    font-size: 18px;
+    margin-left: 3%;
+    color: #867f7f;
 }
 
 .formPortion{
     height: 100%;
     text-align: left;
-    margin-top: 40%;
+    margin-top: 7%;
     margin-left: 5%;
 }
 
-.formInputLabel{
-    font-size: 25px;
-    color: #2c2626;
+.loginInput{
     margin-top: 5%;
 }
 
-.formInputField{
-    font-size: 22px;
-    width: 50%;
-    border-radius: 3px;
+.loginInputField{
+    width: 65%;
+}
+
+.logoPart{
+    background-image: url('./assets/loginLogo.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 50% 50% ;
+    text-align: center;
+}
+
+.cover{
+    display: flex;
+    position: relative;
+    /* Setting the size of the upper layer to 80% of the screen size*/
+    height: 133%;
+    width: 143%;
+    top: 43%;
+    left: -23.5%;
+
+    
+    /*the alpha value controls the transparency*/
+    background: rgba( 255, 255, 255, 0.3 );
+    
+    /* This controls the blurring effect*/
+    backdrop-filter: blur( 5px );
+    -webkit-backdrop-filter: blur( 7.5px );
+    
+    /*Adding the shadow*/
+    /* box-shadow: 0 8px 32px 0 rgba( 0, 0, 0, 0.18 ); */
+    
+    /* Adding our borders*/
+    border-radius: 10px;
+    border: 1px solid rgba(232, 236, 255, 0.18);
+    z-index: 4;
 }
 
 .submitButton{
-    width: 50%;
+    width: 65%;
     font-size: 22px;
     text-align: center;
     border-radius: 3px;
@@ -103,18 +198,19 @@
     margin-top: 7%;
     border: 1px solid #d9deec;
     padding: 1%;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
 }
 /* END OF LOGIN PAGE */
 
 /* NAVBAR */
 .navbar {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #7f7f7f;
+    align-items: left;
     color: #2c2626;
     font-weight: 300;
-    height: 10%;
+    height: 15%;
     padding: 2%;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    text-align: left;
 }
 
 .navbar_logo{
@@ -127,19 +223,14 @@ img {
     height: auto;
 }
 
-.navbar__title {
-    margin-right: auto;
-    font-size: 150%;
-    padding: 12px 16px;
-}
-
 .navbar__item {
     padding: 16px 16px;
     cursor: pointer;
-    vertical-align: middle;
-    margin-left: auto;
+    vertical-align: left;
     font-weight: 500;
-    margin:1%
+    margin:1%;
+    margin-left: 0%;
+    
 }
 /* END OF NAVBAR */
 
@@ -147,6 +238,9 @@ img {
 .welcomeMsg{
     font-size: 28px;
     margin-top: 3%;
+    font-weight: 600;
+    font-style: italic;
+    color: #2c2626
 }
 
 .homepageFormDisplay{
@@ -162,12 +256,15 @@ img {
 }
 
 .homepageFormName{
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #333333
 }
 
 .homepageFormStatus{
     font-size: 14px;
     font-style: italic;
+    color: #666666;
 }
 
 .formButton{
@@ -192,6 +289,7 @@ img {
     margin-left: auto;
     margin-right: auto;
     margin-top: 2%;
+    color: #2c2626;
 }
 
 .formDetailsRow{
@@ -214,21 +312,9 @@ img {
     margin-left: 1%;
 }
 
+
 input{
     font-size: 18px;
-}
-
-.submitButt{
-    border-color: transparent;
-    justify-content: center;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
-    background-color: #46AF05;
-    width: 15%;
-    padding: 1%;
-    border-radius: 5px;
 }
 /* END OF FORM PAGE */
 

@@ -9,6 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Navbar from '../../navbar'
 
+// this is the main page for admin !!!!!!!!!!!!!
 export default function Allvendors(){
     // for backend to get list of all vendors from database
     const allVendors = {
@@ -26,6 +27,8 @@ export default function Allvendors(){
         }
     }
 
+    const user = localStorage.getItem('username');
+
     const navigate = useNavigate();
     const addNewVendor = () =>{
         navigate('/react/newvendor');
@@ -40,8 +43,8 @@ export default function Allvendors(){
             <Navbar />
 
             <div className='mainContent'>
-                <div className='subDivider'>
-                    Vendors
+                <div className='welcomeMsg'>
+                Welcome {user}!
                 </div>
 
                 {/* button to add a new vendor */}

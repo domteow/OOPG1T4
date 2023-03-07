@@ -27,7 +27,7 @@ export default function Viewvendor(){
     const completedForms = vendorDetails['completedForms'];
 
     const back = () =>{
-        navigate('/react/allvendors');
+        navigate(-1);
     }
 
     return(

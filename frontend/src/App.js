@@ -14,7 +14,7 @@ import Container from "react-bootstrap/Container";
 // ========================= pages/entities =========================
 import Login from './pages/login'
 
-// ======== homepage ========
+// ======== homepage for vendor ========
 import Homepage from "./pages/homepage"
 
 // ======== form ========
@@ -23,6 +23,7 @@ import Form from "./pages/form"
 // ======== vendors ========
 // all vendors page 
 import Allvendors from "./pages/adminVendorPages/allvendors"
+// home page for admin ^
 import Viewvendor from "./pages/adminVendorPages/viewvendor"
 import Newvendor from "./pages/adminVendorPages/newvendor"
 
@@ -32,10 +33,10 @@ export default function App(){
             <div className="body">
             <Routes>
                 <Route exact path='/react/login' element={<Login />} />
-                <Route exact path="/react/homepage" element={<Homepage />} />
+                <Route exact path="/react/vendor/homepage" element={<Homepage />} />
                 {/* <Route exact path="/" element={<Homepage/>}/> */}
                 <Route exact path="/react/form/:formId" element={<Form/>}/>
-                <Route exact path="/react/allvendors" element={<Allvendors/>}/>
+                <Route exact path="/react/admin/homepage" element={<Allvendors/>}/>
                 <Route exact path="/react/newvendor" element={<Newvendor/>}/>
                 <Route exact path="/react/viewvendor/:vendorId" element={<Viewvendor/>}/>
             </Routes>
