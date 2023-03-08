@@ -116,10 +116,10 @@ export default function Formpage(props) {
                             return(
                                 <fieldset>
                                     <Row className='formRow'>
-                                        <Col xs={6} md={4} xl={2} className='formQuestion'>
+                                        <Col xs={6} md={2} xl={2} className='formQuestion'>
                                             {question}
                                         </Col>
-                                        <Col xs={12} md={8} className='formInput'> 
+                                        <Col xs={12} md={10} className='formInput'> 
                                             <FormControl fullWidth>
                                                 <TextField
                                                     required
@@ -144,10 +144,10 @@ export default function Formpage(props) {
                                 return (
                                     <fieldset>
                                         <Row className='formRow'>
-                                            <Col xs={6} md={4} xl={2} className='formQuestion'>
+                                            <Col xs={6} md={2} xl={2} className='formQuestion'>
                                                 {question}
                                             </Col>
-                                            <Col xs={12} md={8} className='formInput'>
+                                            <Col xs={12} md={10} className='formInput'>
                                                 <RadioGroup
                                                     aria-labelledby="demo-controlled-radio-buttons-group"
                                                     name={question}
@@ -171,10 +171,10 @@ export default function Formpage(props) {
                                 return (
                                     <fieldset>
                                         <Row className='formRow'>
-                                            <Col xs={6} md={4} xl={2} className='formQuestion'>
+                                            <Col xs={6} md={2} xl={2} className='formQuestion'>
                                                 {question}
                                             </Col>
-                                            <Col xs={12} md={8} className='formInput'>
+                                            <Col xs={12} md={10} className='formInput'>
                                                 <FormGroup>
                                                 {multiOptions.map(option =>{
                                                     return(

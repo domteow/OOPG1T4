@@ -10,7 +10,7 @@ import Col from 'react-bootstrap/Col';
 import Navbar from '../../navbar'
 
 // this is the main page for admin !!!!!!!!!!!!!
-export default function Allvendors(){
+export default function AdminHomepage(){
     // for backend to get list of all vendors from database
     const allVendors = {
         'kelvin' : {
@@ -60,12 +60,14 @@ export default function Allvendors(){
                             return(
                                 <Row className='displayRow'>
                                     <Col xs={12} md={8} className='vendorDetailsCol'>
-                                        <div className='vendorName'>
+                                        <div className='vendorDisplayName'>
                                             {vendorName}
                                         </div>
                                         <div className='vendorCompany'>
                                             {vendorCompany}
                                         </div>
+
+                                        
                                     </Col>
                                     <Col xs={6} md={4} xl={2} className='vendorButtonCol'>
                                         <button className='viewVendorButton' id={vendorId} onClick={() => viewVendor(vendorId)}>

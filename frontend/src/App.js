@@ -18,11 +18,11 @@ import Login from './pages/login'
 import Homepage from "./pages/homepage"
 
 // ======== form ========
-import Form from "./pages/form"
+import Form from "./pages/viewform"
 
 // ======== vendors ========
 // all vendors page 
-import Allvendors from "./pages/adminVendorPages/allvendors"
+import AdminHomepage from "./pages/adminVendorPages/adminHomepage"
 // home page for admin ^
 import Viewvendor from "./pages/adminVendorPages/viewvendor"
 import Newvendor from "./pages/adminVendorPages/newvendor"
@@ -35,8 +35,8 @@ export default function App(){
                 <Route exact path='/react/login' element={<Login />} />
                 <Route exact path="/react/vendor/homepage" element={<Homepage />} />
                 {/* <Route exact path="/" element={<Homepage/>}/> */}
-                <Route exact path="/react/form/:formId" element={<Form/>}/>
-                <Route exact path="/react/admin/homepage" element={<Allvendors/>}/>
+                <Route exact path="/react/viewform/:formId" element={<Form/>}/>
+                <Route exact path="/react/admin/homepage" element={<AdminHomepage/>}/>
                 <Route exact path="/react/newvendor" element={<Newvendor/>}/>
                 <Route exact path="/react/viewvendor/:vendorId" element={<Viewvendor/>}/>
             </Routes>
