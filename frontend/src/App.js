@@ -19,6 +19,8 @@ import Homepage from "./pages/homepage"
 
 // ======== form ========
 import Form from "./pages/viewform"
+import AllForms from "./pages/form/allforms"
+import Newform from "./pages/form/newform"
 
 // ======== vendors ========
 // all vendors page 
@@ -39,6 +41,8 @@ export default function App(){
                 <Route exact path="/react/admin/homepage" element={<AdminHomepage/>}/>
                 <Route exact path="/react/newvendor" element={<Newvendor/>}/>
                 <Route exact path="/react/viewvendor/:vendorId" element={<Viewvendor/>}/>
+                <Route exact path="/react/allforms" element={<AllForms/>}/>
+                <Route exact path="/react/newform" element={<Newform/>}/>
             </Routes>
             </div>
         </BrowserRouter>

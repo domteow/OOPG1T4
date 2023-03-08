@@ -322,6 +322,15 @@ input{
 /* END OF FORM PAGE */
 
 /* ADMIN HOME PAGE */
+.welcomeAdmin{
+    font-size: 28px;
+    margin-top: 3%;
+    font-weight: 600;
+    font-style: italic;
+    color: #2c2626;
+    margin-left: 3%;
+}
+
 .addVendorButton{
     width: 15%;
     font-size: 18px;
@@ -338,8 +347,29 @@ input{
     margin-left: 5%;
 }
 
+.addVendorDiv{
+    text-align: right;
+    width: 95%;
+}
+
+.vendorContainer{
+    border: 1px solid #d3d3d3;
+    padding-bottom: 5%;
+    margin-top: 3%;
+}
+
 .container{
     margin-top: 3%;
+}
+
+.containerHeaders{
+    color: #6f6f6f;
+    border-bottom: 0.5px solid #e4e3e3;
+    
+}
+
+.vendorDisplayRows{
+    padding-top: 3%;
 }
 
 .vendorDetailsCol{
@@ -357,16 +387,19 @@ input{
     font-size: 16px;
     font-weight: 400;
     font-style: italic;
-    text-align: left;
+    text-align: center;
+}
+
+.companyHeader{
+    text-align: center;
 }
 
 .vendorButtonCol{
     text-align: center;
-
 }
 
 .viewVendorButton{
-    width: 100%;
+    width: 95%;
     border-radius: 5px;
     font-size: 18px;
     color: #2c2626;
@@ -531,5 +564,91 @@ input{
     margin-right: 3%;
     margin-top: 2%;
 }
-
 /* END OF ALL VENDORS PAGE */
+
+/* ALL FORM PAGE */
+.allFormContent{
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.formHeaderRow{
+    color: #6f6f6f;
+    border-bottom: 0.5px solid #e4e3e3;
+}
+
+.headerCenter{
+    text-align: center;
+}
+
+.formDataRow{
+    color: #2c2626;
+    padding-top: 3%;
+}
+
+.viewForm{
+    width:90%;
+    padding: 3%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #066FB0;
+    color: #EDFFFE;
+    border: 1px solid #1073b0
+}
+
+.buttonFormRow{
+    text-align: right;
+    width:95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.newFormButton{
+    width:15%;
+    padding: 1%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #066FB0;
+    color: #EDFFFE;
+    border: 1px solid #1073b0
+}
+
+.editForm{
+    width:90%;
+    padding: 3%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #0e80c6;
+    color: #f9f9f9;
+    border: 1px solid #1073b0
+}
+/* END OF ALL FORM PAGE */
+
+/* NEW FORM */
+.newFormContent{
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.standardInputForm{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.allOptions{
+    width: 500px;
+}
+
+.dialogueButton{
+    width: 10%;
+    padding: 0.5%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #0e80c6;
+    color: #f9f9f9;
+    border: 1px solid #1073b0;
+    margin-left: 5%;
+}
+/* END OF NEW FORM*/

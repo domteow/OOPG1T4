@@ -36,6 +36,10 @@ export default function Navbar(){
     navigate('/react/admin/homepage')
   }
 
+  const navigateForm = () =>{
+    navigate('/react/allforms');
+  }
+
   // to log out 
   const [authenticated, setAuthenticated] = useState(null); 
   const navigateLogout = () =>{
@@ -129,7 +133,7 @@ export default function Navbar(){
           </Button>
         </Box>
         <Box sx={{ display: { xs: 'none', sm: 'block' }, marginRight: '3%' }}>
-          <Button sx={{color: '#2c2626', marginRight: '1%'}} onClick={navigateHome}>
+          <Button sx={{color: '#2c2626', marginRight: '1%'}} onClick={navigateForm}>
             Forms
           </Button>
         </Box>

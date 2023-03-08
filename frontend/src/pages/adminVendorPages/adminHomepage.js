@@ -8,6 +8,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Navbar from '../../navbar'
+import DeleteIcon from '@mui/icons-material/Delete';
 
 // this is the main page for admin !!!!!!!!!!!!!
 export default function AdminHomepage(){
@@ -38,49 +39,74 @@ export default function AdminHomepage(){
         navigate("/react/viewvendor/" + vendorId);
     }
 
+    const deleteVendor = (vendorId)=>{
+        // add code to delete the vendor 
+    }
+
     return(
         <>
             <Navbar />
 
             <div className='mainContent'>
-                <div className='welcomeMsg'>
+                <div className='welcomeAdmin'>
                 Welcome {user}!
                 </div>
 
-                {/* button to add a new vendor */}
-                <button className='addVendorButton' onClick={addNewVendor}>+ New Vendor</button>
 
-                {/* to display all vendors */}
-                <Container>
+                {/* button to add a new vendor */}
+                <div className='addVendorDiv'>
+                    <button className='addVendorButton' onClick={addNewVendor}>+ New Vendor</button>
+                </div>
+
+                <div className='vendorContainer'>
+                    <Container>
+                        <Row className='containerHeaders'>
+                            <Col xs={12} md={6} >
+                                Name
+                            </Col>
+                            <Col xs={12} md={3} className='companyHeader'>
+                                Company
+                            </Col>
+                            <Col xs={8} md={2} className='companyHeader'>
+                                View Vendor
+                            </Col>
+                            <Col xs={4} md={1} ></Col>
+                        </Row>
+                    
+                        {/* to display all vendors */}
+
                         {Object.keys(allVendors).map((vendorName, index)=>{
                             const vendorDetails = allVendors[vendorName];
                             const vendorCompany = vendorDetails['company'];
                             const vendorId = vendorDetails['id'];
                             console.log(vendorId);
                             return(
-                                <Row className='displayRow'>
-                                    <Col xs={12} md={8} className='vendorDetailsCol'>
+                                <Row className='vendorDisplayRows'>
+                                    <Col xs={12} md={6} className='vendorDetailsCol'>
                                         <div className='vendorDisplayName'>
                                             {vendorName}
                                         </div>
+                                    </Col>
+                                    <Col xs={12} md={3}>
                                         <div className='vendorCompany'>
                                             {vendorCompany}
                                         </div>
-
-                                        
                                     </Col>
-                                    <Col xs={6} md={4} xl={2} className='vendorButtonCol'>
+                                    <Col xs={8} md={2}  className='vendorButtonCol'>
                                         <button className='viewVendorButton' id={vendorId} onClick={() => viewVendor(vendorId)}>
                                             View Vendor
                                         </button>
                                     </Col>
+                                    <Col xs={4} md={1} className='companyHeader' >
+                                        <DeleteIcon onClick={()=>deleteVendor(vendorId)}/>
+                                    </Col>
                                 </Row>
                             )
                         })}
-                </Container>
+
+                    </Container>
+                </div>
             </div>
         </>
     )
-
-
 }
