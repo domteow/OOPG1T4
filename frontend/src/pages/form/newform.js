@@ -23,19 +23,26 @@ import Typography from '@mui/material/Typography';
 import Dialogue from './dialogue';
 import PropTypes from 'prop-types';
 import Add from '@mui/icons-material/Add'
+import Questionnaire from './questionnaire';
+import TextInput from './textfield';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import RadioButton from './radiobutton';
 
 const options = ['Questionnaire', 'Text Field', 'Radio Button', 'Checkbox', 'Dropdown'];
 
 export default function Newform(){
     const [open, setOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(options[1]);
-
     const initialValues ={
         formName: ''
     }
     const [values, setValues] = useState(initialValues);
+    const [newFormList, setNewFormList] = useState({});
     const [inputList, setInputList] = useState([]);
 
+    // THIS IS TO SET/ SAVE THE STANDARD DATA VALUES... 
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (e.target.type == 'checkbox'){
@@ -53,27 +60,79 @@ export default function Newform(){
         }
     };
 
+    // NEED HELP DOM DOMDOMDODMODMDOMDOMD TO SAVE ALL THE QUESTIONS AND WHAT NOT THAT HAVE BEEN ADDED
+    const handleInputChange = (e, i) => {
+        const { name, value } = e.target;
+        let updatedValue = {'type': name, 'question': value};
+
+        // const list = [...newFormList];
+        // list[value] = name;
+        setNewFormList({
+            ...newFormList, updatedValue
+        });
+
+        // setValues({ ...values, nickName: 'new Value' })
+    };
+    console.log(newFormList);
+
+    /* THIS IS TO OPEN THE DIALOGUE TO CHOOSE WHAT TO ADD */
     const handleClickOpen = () => {
         setOpen(true);
-        
-        
     };
-    
+    /* END OF OPEN DIALOGUE FUNCTION THING */
+
+    /* ONCLICK ON THE INPUT THING, DIALOGUE CLOSES, WHEN CLOSE, IT WILL UPDATE THE INPUTLIST THAT WILL BE USED TO RENDER THE RENDERINPUTFIELD */
     const handleClose = (value) => {
         setOpen(false);
         setSelectedValue(value);
         setInputList([...inputList, value]);
     };
+    /* END OF ONCLICK INPUT THING TO ADD INPUTFIELD */
 
-    const renderInputField = (item) =>{
+    
+    //  ON CLICK, DELETE THE INPUT FIELD
+    const handleRemoveInputField = index => {
+        const list = [...inputList];
+        list.splice(index, 1);
+        setInputList(list);
+    };
+
+    // const handleRemoveRadioOption = index => {
+    //     const list = [...radioList];
+    //     list.splice(index, 1);
+    //     setRadioList(list);
+    // };
+
+    /* THIS IS TO RENDER THE ADDING OF INPUT FIELDS */
+    const renderInputField = (item, i) =>{
         if(item === 'Text Field'){
-            return(<div>hi</div>)
+            return(
+                <>
+                <div className='newFormQuestion'>
+                    <div className='newFormInput'>
+                        <TextField name='text' placeholder='Question' sx={{width: '100%'}} onChange={e => handleInputChange(e, i)}/>
+                    </div>
+                    <div className='newFormInput'>
+                        <TextField name='answer' placeholder='Answer' sx={{width: '100%'}} disabled={true}/>
+                    </div>
+                </div>
+                <DeleteIcon onClick={()=>handleRemoveInputField(i)} sx={{fontSize: 30, marginLeft:5, marginTop: 2}}/>
+                </>
+            )
         }
+
         else if(item === 'Questionnaire'){
-            return(<div>hi2</div>)
+            return(<Questionnaire />)
         }
+
         else if(item === 'Radio Button'){
-            return(<div>hi3</div>)
+            return(
+                <>
+                    <RadioButton />
+                    <DeleteIcon onClick={()=>handleRemoveInputField(i)} sx={{fontSize: 30, marginLeft:5, marginTop: 2}}/>
+                    
+                </>
+            )
         }
         else if(item === 'Checkbox'){
             return(<div>hi4</div>)
@@ -83,7 +142,7 @@ export default function Newform(){
         }
     }
 
-    
+    /* END OF RENDER OF ADDING OF INPUT FIELDS */
 
     return(
         <>
@@ -117,7 +176,7 @@ export default function Newform(){
                             {inputList.map((item, i)=>{
                                 return(
                                     <div>
-                                        {renderInputField(item)}
+                                        {renderInputField(item, i)}
                                     </div>
                                 )
                             })}

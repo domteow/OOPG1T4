@@ -650,5 +650,47 @@ input{
     color: #f9f9f9;
     border: 1px solid #1073b0;
     margin-left: 5%;
+    margin-top: 5%;
 }
 /* END OF NEW FORM*/
+
+/* QUESTIONNAIRE COMPONENT */
+.questionnaireContent{
+    border: 1px solid #c6c6c6;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    width: 90%; 
+    margin-left: auto;
+    margin-right:auto;
+    margin-top: 5%;
+}
+/* END OF QUESTIONNAIRE COMPONENT */
+
+/* TEXTINPUT COMPONENT */
+.newFormQuestion{
+    margin-top: 3%;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0.5px solid #ededed;
+    padding-left:2%;
+    padding-right: 2%;
+    padding-bottom: 1%;
+}
+/* END OF TEXTINPUT COMPONENT */
+
+/* RADIO COMPONENT */
+.addRadio{
+    width: 10%;
+    padding: 0.5%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #0e80c6;
+    color: #f9f9f9;
+    border: 1px solid #1073b0
+
+}
+/* END OF RADIO COMPONENT */
+
+.newFormInput{
+    margin-top: 1%;
+}
