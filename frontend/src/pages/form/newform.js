@@ -67,9 +67,10 @@ export default function Newform(){
 
         // const list = [...newFormList];
         // list[value] = name;
-        setNewFormList({
-            ...newFormList, updatedValue
-        });
+        setNewFormList(prevState => ({
+            ...prevState, 
+            [i]: updatedValue
+        }));
 
         // setValues({ ...values, nickName: 'new Value' })
     };
