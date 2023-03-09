@@ -10,6 +10,8 @@ async function dbConn() {
         await client.connect();
 
         await listDatabases(client);
+
+        await findOneField(client, "Blood Type")
     } catch (error) {
         console.error(error);
     } finally {
@@ -26,3 +28,14 @@ async function listDatabases(client){
 
     databasesList.databases.forEach(db => console.log(` - ${db.name}`));
 }
+
+async function findOneField(client, fieldName) {
+    const result = await client.db("admin").collection("field").findOne({name : fieldName});
+    if (result) {
+        console.log(`Found a listing in the collection with the name '${fieldName}':`);
+        console.log(result);
+    } else {
+        console.log(`No listings found with the name '${fieldName}'`);
+    }
+}
+
