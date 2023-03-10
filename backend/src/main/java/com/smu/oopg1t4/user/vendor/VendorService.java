@@ -1,7 +1,9 @@
 package com.smu.oopg1t4.user.vendor;
 
 import com.smu.oopg1t4.response.StatusResponse;
+import com.smu.oopg1t4.response.SuccessResponse;
 import com.smu.oopg1t4.user.UserRepository;
+import com.smu.oopg1t4.user.admin.Admin;
 import com.smu.oopg1t4.util.SequenceGeneratorService;
 import com.smu.oopg1t4.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,9 @@ public class VendorService {
 
     public ResponseEntity<?> getAllVendors() {
         try {
-            return ResponseEntity.ok().body(userRepository.findAll());
+            List<User> vendors = userRepository.findByAccountType("Vendor");
+            SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), vendors);
+            return ResponseEntity.ok().body(successResponse);
         } catch (Exception e) {
             StatusResponse statusResponse = new StatusResponse("Error retrieving vendors", HttpStatus.INTERNAL_SERVER_ERROR.value());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
@@ -49,14 +53,15 @@ public class VendorService {
     }
 
     public ResponseEntity<?> getVendor(int id) {
-        Optional<User> optionalVendor = userRepository.findById(id);
-        if (optionalVendor.isPresent()) {
-            return ResponseEntity.ok().body(optionalVendor.get());
-        } else {
+        try{
+            List<User> vendor = userRepository.findById(id, "Vendor");
+            SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), vendor.get(0));
+            return ResponseEntity.ok().body(successResponse);
+
+        } catch (Exception e) {
             StatusResponse statusResponse = new StatusResponse("Vendor not found for id: " + id, HttpStatus.NOT_FOUND.value());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
         }
-
     }
 
     public ResponseEntity<StatusResponse> createNewVendors(List<Vendor> vendors) {

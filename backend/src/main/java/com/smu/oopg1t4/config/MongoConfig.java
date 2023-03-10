@@ -56,7 +56,7 @@ public class MongoConfig {
 
             ArrayList<Field> fields1 = new ArrayList<>();
             fields1.addAll(List.of(f1, f2));
-            Questionnaire q1 = new Questionnaire("Generic Questionnaire", fields1, "vendor");
+            Questionnaire q1 = new Questionnaire("Generic Questionnaire", fields1, "Vendor");
             q1.setId(1);
             questionnaireRepository.saveAll(
                     List.of(q1)
@@ -69,7 +69,7 @@ public class MongoConfig {
 
             // ------------------Database Sequence-----------------------
 
-            DatabaseSequence userSequence = new DatabaseSequence("user_sequence",2);
+            DatabaseSequence userSequence = new DatabaseSequence("user_sequence",3);
             DatabaseSequence fieldSequence = new DatabaseSequence("field_sequence", 3);
             DatabaseSequence questionnaireSequence = new DatabaseSequence("questionnaire_sequence", 1);
             DatabaseSequence formSequence = new DatabaseSequence("form_sequence", 0);

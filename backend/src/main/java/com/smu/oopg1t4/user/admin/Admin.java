@@ -1,13 +1,13 @@
 package com.smu.oopg1t4.user.admin;
 
 import com.smu.oopg1t4.user.User;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 
-@Document(collection = "user")
+@AllArgsConstructor
 public class Admin extends User {
-
 
     public Admin(String name, String emailAddress, String password, String accountType) {
         super(name, emailAddress, password, accountType);

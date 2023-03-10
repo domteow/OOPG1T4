@@ -1,9 +1,9 @@
 package com.smu.oopg1t4.user.admin;
 
 import com.smu.oopg1t4.response.StatusResponse;
+import com.smu.oopg1t4.response.SuccessResponse;
 import com.smu.oopg1t4.user.User;
 import com.smu.oopg1t4.user.UserRepository;
-import com.smu.oopg1t4.user.vendor.Vendor;
 import com.smu.oopg1t4.util.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,7 +41,10 @@ public class AdminService {
 
     public ResponseEntity<?> getAllAdmins() {
         try {
-            return ResponseEntity.ok().body(userRepository.findAll());
+            List<User> admins = userRepository.findByAccountType("Admin");
+
+            SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), admins);
+            return ResponseEntity.ok().body(successResponse);
         } catch (Exception e) {
             StatusResponse statusResponse = new StatusResponse("Error retrieving admins", HttpStatus.INTERNAL_SERVER_ERROR.value());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
@@ -50,14 +53,15 @@ public class AdminService {
     }
 
     public ResponseEntity<?> getAdmin(int id) {
-        Optional<User> optionalAdmin = userRepository.findById(id);
-        if (optionalAdmin.isPresent()) {
-            return ResponseEntity.ok().body(optionalAdmin.get());
-        } else {
+        try{
+            List<User> admin = userRepository.findById(id, "Admin");
+            SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), admin.get(0));
+            return ResponseEntity.ok().body(successResponse);
+
+        } catch (Exception e) {
             StatusResponse statusResponse = new StatusResponse("Admin not found for id: " + id, HttpStatus.NOT_FOUND.value());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
         }
-
     }
 
     public ResponseEntity<StatusResponse> createNewAdmins(List<Admin> admins) {

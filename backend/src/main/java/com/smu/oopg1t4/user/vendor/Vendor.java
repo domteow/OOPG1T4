@@ -1,11 +1,15 @@
 package com.smu.oopg1t4.user.vendor;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.smu.oopg1t4.user.User;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 
-@Document(collection = "user")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Vendor extends User {
 
     private ArrayList<String> countries;
@@ -25,8 +29,6 @@ public class Vendor extends User {
         this.phoneNumber = phoneNumber;
         this.faxNumber = faxNumber;
     }
-
-
 
     @Override
     public String getName() {
