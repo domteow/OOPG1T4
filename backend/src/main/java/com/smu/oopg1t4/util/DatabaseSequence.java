@@ -14,6 +14,11 @@ public class DatabaseSequence {
 
     public DatabaseSequence() {}
 
+    public DatabaseSequence(String id, int seq) {
+        this.id = id;
+        this.seq = seq;
+    }
+
     public String getId() {
         return id;
     }

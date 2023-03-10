@@ -24,6 +24,12 @@ public class Field<T> {
         this.type = type;
     }
 
+    public Field(int id, String name, String type){
+        this.id = id;
+        this.name = name;
+        this.type = type;
+    }
+
     public Field(String name, T value, String type){
         this.name = name;
         this.value = value;

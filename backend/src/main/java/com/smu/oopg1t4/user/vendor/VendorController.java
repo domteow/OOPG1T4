@@ -1,4 +1,4 @@
-package com.smu.oopg1t4.vendor;
+package com.smu.oopg1t4.user.vendor;
 
 import com.smu.oopg1t4.response.StatusResponse;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -49,7 +49,7 @@ public class FormService {
             }
             Questionnaire newQuestionnaire = questionnaireService.createQuestionnaire(new Questionnaire());
 
-            form.addQuestionnaireID(newQuestionnaire.getID());
+            form.addQuestionnaireID(newQuestionnaire.getId());
 
             Form createdForm = formRepository.save(form);
             createdForm.addQuestionnaireToForm(newQuestionnaire);

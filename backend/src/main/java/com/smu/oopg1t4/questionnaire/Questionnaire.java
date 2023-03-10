@@ -17,23 +17,23 @@ public class Questionnaire {
     @Id
     private int id;
     private String name;
-    private ArrayList<Field<String[]>> fields;
+    private ArrayList<Field> fields;
     private String roleRequired;
 
     public Questionnaire() {
     }
 
-    public Questionnaire(String name, ArrayList<Field<String[]>> fields, String roleRequired) {
+    public Questionnaire(String name, ArrayList<Field> fields, String roleRequired) {
         this.name = name;
         this.fields = fields;
         this.roleRequired = roleRequired;
     }
 
-    public int getID() {
+    public int getId() {
         return this.id;
     }
 
-    public void setID(int i) {
+    public void setId(int i) {
         this.id = i;
     }
 
@@ -45,16 +45,24 @@ public class Questionnaire {
         this.name = s;
     }
 
-    public ArrayList<Field<String[]>> getFields() {
+    public ArrayList<Field> getFields() {
         return this.fields;
     }
 
-    public void addField(Field<String[]> f) {
+    public void addField(Field f) {
         this.fields.add(f);
     }
 
-    public void removeField(Field<String[]> f) {
+    public void removeField(Field f) {
         this.fields.remove(f);
+    }
+
+    public String getRoleRequired() {
+        return roleRequired;
+    }
+
+    public void setRoleRequired(String roleRequired) {
+        this.roleRequired = roleRequired;
     }
 
     @Override

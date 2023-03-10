@@ -1,7 +1,7 @@
 package com.smu.mdbspringboot;
 
 import com.smu.oopg1t4.field.FieldRepository;
-import com.smu.oopg1t4.vendor.VendorRepository;
+import com.smu.oopg1t4.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +16,7 @@ public class MdbSpringBootApplication{
     FieldRepository fieldRepository;
 
     @Autowired
-    VendorRepository vendorRepository;
+    UserRepository userRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(MdbSpringBootApplication.class, args);

@@ -1,16 +1,23 @@
-package com.smu.oopg1t4.vendor;
+package com.smu.oopg1t4.user.vendor;
 
 import com.smu.oopg1t4.user.User;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 
-@Document(collection = "vendors")
+@Document(collection = "user")
 public class Vendor extends User {
 
     private ArrayList<String> countries;
     private String phoneNumber;
     private String faxNumber;
+
+    public Vendor(String name, String emailAddress, String password, ArrayList<String> countries, String phoneNumber, String faxNumber) {
+        super(name, emailAddress, password);
+        this.countries = countries;
+        this.phoneNumber = phoneNumber;
+        this.faxNumber = faxNumber;
+    }
 
     public Vendor(int id, String name, String emailAddress, String password, ArrayList<String> countries, String phoneNumber, String faxNumber) {
         super(id, name, emailAddress, password);
@@ -18,6 +25,8 @@ public class Vendor extends User {
         this.phoneNumber = phoneNumber;
         this.faxNumber = faxNumber;
     }
+
+
 
     @Override
     public String getName() {

@@ -17,12 +17,20 @@ public abstract class User {
     protected String emailAddress;
     protected String password;
 
+    public User(String name, String emailAddress, String password) {
+        this.name = name;
+        this.emailAddress = emailAddress;
+        this.password = password;
+    }
+
     public User(int id, String name, String emailAddress, String password) {
         this.id = id;
         this.name = name;
         this.emailAddress = emailAddress;
         this.password = password;
     }
+
+
 
     public abstract String getName();
     public abstract void setName(String name);

@@ -33,14 +33,14 @@ public class QuestionnaireService {
 
     //create a new questionnaire
     public Questionnaire createQuestionnaire(Questionnaire questionnaire) {
-        questionnaire.setID(sequenceGeneratorService.generateSequence(Questionnaire.SEQUENCE_NAME));
+        questionnaire.setId(sequenceGeneratorService.generateSequence(Questionnaire.SEQUENCE_NAME));
         return questionnaireRepository.save(questionnaire);
     }
 
     //create more than one questionnaire
     public void createQuestionnaires(List<Questionnaire> questionnaires) {
         for (Questionnaire questionnaire : questionnaires) {
-            questionnaire.setID(sequenceGeneratorService.generateSequence(Questionnaire.SEQUENCE_NAME));
+            questionnaire.setId(sequenceGeneratorService.generateSequence(Questionnaire.SEQUENCE_NAME));
         }
         questionnaireRepository.saveAll(questionnaires);
     }
