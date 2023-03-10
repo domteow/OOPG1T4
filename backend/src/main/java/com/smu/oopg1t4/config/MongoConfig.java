@@ -70,7 +70,7 @@ public class MongoConfig {
             DatabaseSequence formResponseSequence = new DatabaseSequence("form_response_sequence", 0);
 
             databaseSequenceRepository.saveAll(
-                    List.of(fieldSequence)
+                    List.of(userSequence,fieldSequence, questionnaireSequence)
             );
         };
     }
