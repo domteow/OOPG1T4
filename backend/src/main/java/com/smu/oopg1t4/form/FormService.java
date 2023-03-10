@@ -2,7 +2,7 @@ package com.smu.oopg1t4.form;
 
 import com.smu.oopg1t4.questionnaire.Questionnaire;
 import com.smu.oopg1t4.questionnaire.QuestionnaireService;
-import com.smu.oopg1t4.statusResponse.StatusResponse;
+import com.smu.oopg1t4.response.StatusResponse;
 import com.smu.oopg1t4.util.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

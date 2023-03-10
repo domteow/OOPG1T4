@@ -1,6 +1,6 @@
 package com.smu.oopg1t4.vendor;
 
-import com.smu.oopg1t4.statusResponse.StatusResponse;
+import com.smu.oopg1t4.response.StatusResponse;
 import com.smu.oopg1t4.util.SequenceGeneratorService;
 import com.smu.oopg1t4.user.User;
 import org.springframework.beans.factory.annotation.Autowired;

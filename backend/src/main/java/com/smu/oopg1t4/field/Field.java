@@ -13,18 +13,21 @@ public class Field<T> {
     private int id;
     private String name;
     private T value;
+    private String type;
 
     public Field(){
 
     }
 
-    public Field(String name){
+    public Field(String name, String type){
         this.name = name;
+        this.type = type;
     }
 
-    public Field(String name, T value){
+    public Field(String name, T value, String type){
         this.name = name;
         this.value = value;
+        this.type = type;
     }
 
     public int getId() {
@@ -51,4 +54,11 @@ public class Field<T> {
         this.value = value;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

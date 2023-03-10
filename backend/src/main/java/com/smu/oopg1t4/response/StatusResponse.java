@@ -1,12 +1,12 @@
-package com.smu.oopg1t4.statusResponse;
+package com.smu.oopg1t4.response;
 
 public class StatusResponse {
     private String message;
-    private int statusCode;
+    private int status;
 
     public StatusResponse(String message, int statusCode) {
         this.message = message;
-        this.statusCode = statusCode;
+        this.status = statusCode;
     }
 
     public String getMessage() {
@@ -17,11 +17,11 @@ public class StatusResponse {
         this.message = message;
     }
 
-    public int getStatusCode() {
-        return statusCode;
+    public int getStatus() {
+        return status;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void setStatus(int statusCode) {
+        this.status = statusCode;
     }
 }

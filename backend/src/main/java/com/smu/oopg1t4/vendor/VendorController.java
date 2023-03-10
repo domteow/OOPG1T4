@@ -1,7 +1,6 @@
 package com.smu.oopg1t4.vendor;
 
-import com.smu.oopg1t4.field.Field;
-import com.smu.oopg1t4.statusResponse.StatusResponse;
+import com.smu.oopg1t4.response.StatusResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
