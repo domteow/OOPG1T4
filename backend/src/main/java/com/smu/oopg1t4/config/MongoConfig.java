@@ -41,9 +41,9 @@ public class MongoConfig {
 
             Field f1 = new Field(1, "Vendor Name", "text");
             Field f2 = new Field(2, "Age", "text");
-
+            Field f3 = new Field( 3, "Location", "text");
             fieldRepository.saveAll(
-                    List.of(f1, f2)
+                    List.of(f1, f2, f3)
             );
 
             // ------------------Questionnaires-----------------------
@@ -64,7 +64,7 @@ public class MongoConfig {
             // ------------------Database Sequence-----------------------
 
             DatabaseSequence userSequence = new DatabaseSequence("user_sequence",2);
-            DatabaseSequence fieldSequence = new DatabaseSequence("field_sequence", 2);
+            DatabaseSequence fieldSequence = new DatabaseSequence("field_sequence", 3);
             DatabaseSequence questionnaireSequence = new DatabaseSequence("questionnaire_sequence", 1);
             DatabaseSequence formSequence = new DatabaseSequence("form_sequence", 0);
             DatabaseSequence formResponseSequence = new DatabaseSequence("form_response_sequence", 0);
