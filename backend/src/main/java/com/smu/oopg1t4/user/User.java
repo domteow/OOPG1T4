@@ -16,25 +16,29 @@ public abstract class User {
     protected String name;
     protected String emailAddress;
     protected String password;
+    protected String accountType;
 
-    public User(String name, String emailAddress, String password) {
+    public User(String name, String emailAddress, String password, String accountType) {
         this.name = name;
         this.emailAddress = emailAddress;
         this.password = password;
+        this.accountType = accountType;
     }
 
-    public User(int id, String name, String emailAddress, String password) {
+    public User(int id, String name, String emailAddress, String password, String accountType) {
         this.id = id;
         this.name = name;
         this.emailAddress = emailAddress;
         this.password = password;
+        this.accountType = accountType;
+
     }
 
 
 
     public abstract String getName();
     public abstract void setName(String name);
-    public abstract int getID();
+    public abstract int getId();
 
     public void setId(int id) {
         this.id = id;
@@ -42,4 +46,11 @@ public abstract class User {
     public abstract String getEmailAddress();
     public abstract void setEmailAddress(String emailAddress);
 
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
 }

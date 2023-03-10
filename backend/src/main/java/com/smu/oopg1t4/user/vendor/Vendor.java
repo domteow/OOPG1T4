@@ -12,15 +12,15 @@ public class Vendor extends User {
     private String phoneNumber;
     private String faxNumber;
 
-    public Vendor(String name, String emailAddress, String password, ArrayList<String> countries, String phoneNumber, String faxNumber) {
-        super(name, emailAddress, password);
+    public Vendor(String name, String emailAddress, String password, String accountType, ArrayList<String> countries, String phoneNumber, String faxNumber) {
+        super(name, emailAddress, password, accountType);
         this.countries = countries;
         this.phoneNumber = phoneNumber;
         this.faxNumber = faxNumber;
     }
 
-    public Vendor(int id, String name, String emailAddress, String password, ArrayList<String> countries, String phoneNumber, String faxNumber) {
-        super(id, name, emailAddress, password);
+    public Vendor(int id, String name, String emailAddress, String password, String accountType, ArrayList<String> countries, String phoneNumber, String faxNumber) {
+        super(id, name, emailAddress, password, accountType);
         this.countries = countries;
         this.phoneNumber = phoneNumber;
         this.faxNumber = faxNumber;
@@ -39,7 +39,7 @@ public class Vendor extends User {
     }
 
     @Override
-    public int getID() {
+    public int getId() {
         return this.id;
     }
 

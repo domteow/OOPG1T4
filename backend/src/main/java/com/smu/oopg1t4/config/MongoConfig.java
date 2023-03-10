@@ -6,6 +6,7 @@ import com.smu.oopg1t4.questionnaire.Questionnaire;
 import com.smu.oopg1t4.questionnaire.QuestionnaireController;
 import com.smu.oopg1t4.questionnaire.QuestionnaireRepository;
 import com.smu.oopg1t4.user.UserRepository;
+import com.smu.oopg1t4.user.admin.Admin;
 import com.smu.oopg1t4.user.vendor.Vendor;
 import com.smu.oopg1t4.util.DatabaseSequence;
 import com.smu.oopg1t4.util.DatabaseSequenceRepository;
@@ -28,13 +29,18 @@ public class MongoConfig {
 
             ArrayList<String> countries1 = new ArrayList<>();
             countries1.addAll(List.of("doggydogworld","spca"));
-            Vendor v1 = new Vendor("Bruno", "doggydog@gmail.com", "woof3", countries1, "999", "9843037");
+            Vendor v1 = new Vendor("Bruno", "doggydog@gmail.com", "woof3", "Vendor", countries1, "999", "9843037");
             v1.setId(1);
-            Vendor v2 = new Vendor("Dom", "meow2@gmail.com", "meow5", countries1, "99292922", "1231231");
+            Vendor v2 = new Vendor("Dom", "meow2@gmail.com", "meow5","Vendor", countries1, "99292922", "1231231");
             v2.setId(2);
 
+            ArrayList<String> countries2 = new ArrayList<>();
+            countries2.addAll(List.of("Singapore", "Malaysia"));
+            Admin a1 = new Admin("Kelvin", "kelvin@gmail.com", "xdxd", "Admin");
+            a1.setId(3);
+
             userRepository.saveAll(
-                    List.of(v1,v2)
+                    List.of(v1,v2,a1)
             );
 
             // ------------------Fields-----------------------

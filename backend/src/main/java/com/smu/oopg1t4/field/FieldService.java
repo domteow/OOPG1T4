@@ -1,6 +1,7 @@
 package com.smu.oopg1t4.field;
 
 import com.smu.oopg1t4.response.StatusResponse;
+import com.smu.oopg1t4.response.SuccessResponse;
 import com.smu.oopg1t4.util.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,8 @@ public class FieldService {
     //returns all fields in a List
     public ResponseEntity<?> getAllFields() {
         try {
-            return ResponseEntity.ok().body(fieldRepository.findAll());
+            SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), fieldRepository.findAll());
+            return ResponseEntity.ok().body(successResponse);
         } catch (Exception e) {
             StatusResponse statusResponse = new StatusResponse("Error retrieving vendors", HttpStatus.INTERNAL_SERVER_ERROR.value());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
@@ -41,7 +43,8 @@ public class FieldService {
         Optional<Field> field = fieldRepository.findById(id);
         // need to implement check if id exists
         if (field.isPresent()) {
-            return ResponseEntity.ok().body(field.get());
+            SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), field.get());
+            return ResponseEntity.ok().body(successResponse);
         } else {
             StatusResponse statusResponse = new StatusResponse("Field not found for id: " + id, HttpStatus.NOT_FOUND.value());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);

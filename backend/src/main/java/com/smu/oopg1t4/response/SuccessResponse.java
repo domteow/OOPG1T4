@@ -2,12 +2,12 @@ package com.smu.oopg1t4.response;
 
 import java.util.HashMap;
 
-public class SuccessResponse {
+public class SuccessResponse<T> {
     private String message;
     private int status;
-    private HashMap data;
+    private T data;
 
-    public SuccessResponse(String message, int statusCode, HashMap data) {
+    public SuccessResponse(String message, int statusCode, T data) {
         this.message = message;
         this.status = statusCode;
         this.data = data;
@@ -29,11 +29,11 @@ public class SuccessResponse {
         this.status = statusCode;
     }
 
-    public HashMap getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(HashMap data) {
+    public void setData(T data) {
         this.data = data;
     }
 }
