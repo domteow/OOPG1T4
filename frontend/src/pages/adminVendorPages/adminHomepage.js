@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from '../../api/axios'
 import { useState, useEffect } from 'react'
 import { ReactDOM } from 'react-dom'
 import { Link, Router, Route, Routes, BrowserRouter, useNavigate } from 'react-router-dom'
@@ -13,22 +14,41 @@ import DeleteIcon from '@mui/icons-material/Delete';
 // this is the main page for admin !!!!!!!!!!!!!
 export default function AdminHomepage(){
     // for backend to get list of all vendors from database
-    const allVendors = {
-        'kelvin' : {
-            'id': '123',
-            'company': 'jien'
-        }, 
-        'bruno' : {
-            'id': '456',
-            'company': 'br.no'
-        },
-        'dom':{
-            'id': '789',
-            'company': 'dominicteow'
+    const [allVendors, setAllVendors] = useState({});
+    const user = localStorage.getItem('username');
+    const getAllVendors = async() => {
+        try {
+            const response = await axios.get("/api/v1/vendor/getAllVendors")
+            
+            // console.log([response.data.data]);
+            setAllVendors(response.data.data);
+            
+        } catch (error) {
+            console.error(error)
         }
     }
+    
+    useEffect(() => {
+        getAllVendors();
+    }, []);
 
-    const user = localStorage.getItem('username');
+    // console.log(allVendors)
+    // const allVendors = {
+    //     'kelvin' : {
+    //         'id': '123',
+    //         'company': 'jien'
+    //     }, 
+    //     'bruno' : {
+    //         'id': '456',
+    //         'company': 'br.no'
+    //     },
+    //     'dom':{
+    //         'id': '789',
+    //         'company': 'dominicteow'
+    //     }
+    // }
+
+    
 
     const navigate = useNavigate();
     const addNewVendor = () =>{
@@ -75,21 +95,24 @@ export default function AdminHomepage(){
                     
                         {/* to display all vendors */}
 
-                        {Object.keys(allVendors).map((vendorName, index)=>{
-                            const vendorDetails = allVendors[vendorName];
-                            const vendorCompany = vendorDetails['company'];
+                        {Object.values(allVendors).map((vendorDetails, index)=>{
+                            
+                            
+                            
+                            
                             const vendorId = vendorDetails['id'];
-                            console.log(vendorId);
+                            
                             return(
                                 <Row className='vendorDisplayRows'>
                                     <Col xs={12} md={6} className='vendorDetailsCol'>
                                         <div className='vendorDisplayName'>
-                                            {vendorName}
+                                            {vendorDetails.name}
                                         </div>
                                     </Col>
                                     <Col xs={12} md={3}>
                                         <div className='vendorCompany'>
-                                            {vendorCompany}
+                                            {vendorDetails.company}
+                                            
                                         </div>
                                     </Col>
                                     <Col xs={8} md={2}  className='vendorButtonCol'>

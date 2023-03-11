@@ -16,7 +16,7 @@ public abstract class User {
     protected int id;
     protected String name;
     protected String emailAddress;
-//    @JsonProperty("password") IF YOU WANT TO FORCE A RETURN OF PASSWORD
+   @JsonProperty("password") // IF YOU WANT TO FORCE A RETURN OF PASSWORD
     protected String password;
     protected String accountType;
 

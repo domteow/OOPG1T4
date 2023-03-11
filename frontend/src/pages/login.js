@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import axios from '../api/axios'
 import { ReactDOM } from 'react-dom'
 import { Link, Router, Route, Routes, BrowserRouter, useNavigate } from 'react-router-dom'
 import '../index.css'
@@ -16,33 +17,43 @@ const Login = () =>{
     const [password, setPassword] = useState("");
     const [user, setUser] = useState();
     const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated")|| false));
-    const users = [
-        { 
-            username: "dom", 
-            password: "dom", 
-            role : 'vendor'
-        }, 
-        {
-            username: 'rhys',
-            password: 'rhys',
-            role: 'admin'
+    
+
+    // RETRIEVE ALL USERS FROM API
+    const getAllUsers = async() => {
+        try {
+            const response = await axios.get("/api/v1/user/getAllUsers")
+            
+            console.log([response.data.data]);
+            return response.data.data;
+            
+        } catch (error) {
+            console.error(error)
         }
-    ];
-    const handleSubmit = (e) => {
+    }
+    const handleSubmit = async(e) => {
         e.preventDefault()
-        const account = users.find((user) => user.username === username);
+
+        const users = await getAllUsers();
+        
+        const account = Object.values(users).find((user) => user.name.toLowerCase() === username);
+        
         if (account && account.password === password) {
+            
             setauthenticated(true)
             localStorage.setItem("authenticated", true);
             localStorage.setItem('username', username);
-            setUser(account.username);
-            const role = account.role;
+            setUser(account.name);
+            const role = account.accountType.toLowerCase();
             if (role == 'vendor'){
                 navigate('/react/vendor/homepage');
             }
             else if (role == 'admin'){
                 navigate('/react/admin/homepage');
             }
+        }
+        else {
+            alert("Incorrect username or password")
         }
     };
     return(

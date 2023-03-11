@@ -15,19 +15,22 @@ public class Vendor extends User {
     private ArrayList<String> countries;
     private String phoneNumber;
     private String faxNumber;
+    private String company;
 
-    public Vendor(String name, String emailAddress, String password, String accountType, ArrayList<String> countries, String phoneNumber, String faxNumber) {
+    public Vendor(String name, String emailAddress, String password, String accountType, ArrayList<String> countries, String phoneNumber, String faxNumber, String company) {
         super(name, emailAddress, password, accountType);
         this.countries = countries;
         this.phoneNumber = phoneNumber;
         this.faxNumber = faxNumber;
+        this.company = company;
     }
 
-    public Vendor(int id, String name, String emailAddress, String password, String accountType, ArrayList<String> countries, String phoneNumber, String faxNumber) {
+    public Vendor(int id, String name, String emailAddress, String password, String accountType, ArrayList<String> countries, String phoneNumber, String faxNumber, String company) {
         super(id, name, emailAddress, password, accountType);
         this.countries = countries;
         this.phoneNumber = phoneNumber;
         this.faxNumber = faxNumber;
+        this.company = company;
     }
 
     @Override
@@ -80,4 +83,11 @@ public class Vendor extends User {
         this.faxNumber = faxNumber;
     }
 
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
 }

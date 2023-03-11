@@ -29,9 +29,9 @@ public class MongoConfig {
 
             ArrayList<String> countries1 = new ArrayList<>();
             countries1.addAll(List.of("doggydogworld","spca"));
-            Vendor v1 = new Vendor("Bruno", "doggydog@gmail.com", "woof3", "Vendor", countries1, "999", "9843037");
+            Vendor v1 = new Vendor("Bruno", "doggydog@gmail.com", "woof3", "Vendor", countries1, "999", "9843037", "Bruno's Company");
             v1.setId(1);
-            Vendor v2 = new Vendor("Dom", "meow2@gmail.com", "meow5","Vendor", countries1, "99292922", "1231231");
+            Vendor v2 = new Vendor("Dom", "meow2@gmail.com", "meow5","Vendor", countries1, "99292922", "1231231","Dom's Company");
             v2.setId(2);
 
             ArrayList<String> countries2 = new ArrayList<>();
