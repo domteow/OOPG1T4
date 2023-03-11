@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from '../../api/axios'
 import { useState, useEffect } from 'react'
 import { ReactDOM } from 'react-dom'
 import { Link, Router, Route, Routes, BrowserRouter, useNavigate } from 'react-router-dom'
@@ -39,10 +40,13 @@ export default function NewVendor(){
     })
 
     const initialValues ={
-        vendorName: '',
-        vendorEmail: '',
-        vendorCompany: '',
-        vendorPwd: '', 
+        name: '',
+        emailAddress: '',
+        company: '',
+        countries: '',
+        password: '', 
+        faxNumber: '',
+        phoneNumber: '',
         vendorCfmPwd: '', 
         error: false,
     }
@@ -55,6 +59,11 @@ export default function NewVendor(){
             setValues({
                 ...values,
                 [name]: isChecked ? [...values[name], value] : values[name].filter((item) => item !== value),
+            });
+        } else if (name ==='countries') {
+            setValues({
+                ...values,
+                [name]: value.split(','),
             });
         }
         else{
@@ -79,17 +88,24 @@ export default function NewVendor(){
         }
 
         setFormValues(newFormValues)
-
+        addVendor();
     }
 
     
 
     // to save the vendor 
-    const addVendor = () => {
-        console.log(values);
-        alert(JSON.stringify(values));
+    const addVendor = async() => {
+        const { error, vendorCfmPwd, ...vendorData } = values;
+        console.log(vendorData);
+        
+        try {
+            const response = await axios.post('/api/v1/vendor/createVendor', vendorData);
+            console.log(response.data);
+        } catch (error) {
+            console.error(error)
+        }
     }
-    console.log(values);
+    // console.log(values);
 
     const cancel = () =>{
         navigate(-1);
@@ -110,7 +126,7 @@ export default function NewVendor(){
                                 Name:
                             </Col>
                             <Col xs={12} md={8} className='formInput'>
-                                <input name='vendorName' className='inputtext' type='text' onChange={handleChange} />
+                                <input name='name' className='inputtext' type='text' onChange={handleChange} />
                             </Col>
                         </Row>
 
@@ -119,7 +135,7 @@ export default function NewVendor(){
                                 Company:
                             </Col>
                             <Col xs={12} md={8} className='formInput'>
-                                <input name='vendorCompany' className='inputtext' type='text' onChange={handleChange} />
+                                <input name='company' className='inputtext' type='text' onChange={handleChange} />
                             </Col>
                         </Row>
                         
@@ -128,7 +144,34 @@ export default function NewVendor(){
                                 Email:
                             </Col>
                             <Col xs={12} md={8} className='formInput'>
-                                <input name='vendorEmail' className='inputtext' type='email' onChange={handleChange} />
+                                <input name='emailAddress' className='inputtext' type='email' onChange={handleChange} />
+                            </Col>
+                        </Row>
+
+                        <Row className='formRow'>
+                            <Col xs={6} md={4} xl={2} className='formQuestion'>
+                                Country/Countries:
+                            </Col>
+                            <Col xs={12} md={8} className='formInput'>
+                                <input name='countries' className='inputtext' type='text' onChange={handleChange} />
+                            </Col>
+                        </Row>
+
+                        <Row className='formRow'>
+                            <Col xs={6} md={4} xl={2} className='formQuestion'>
+                                Fax Number
+                            </Col>
+                            <Col xs={12} md={8} className='formInput'>
+                                <input name='faxNumber' className='inputtext' type='text' onChange={handleChange} />
+                            </Col>
+                        </Row>
+
+                        <Row className='formRow'>
+                            <Col xs={6} md={4} xl={2} className='formQuestion'>
+                                Phone Number
+                            </Col>
+                            <Col xs={12} md={8} className='formInput'>
+                                <input name='phoneNumber' className='inputtext' type='text' onChange={handleChange} />
                             </Col>
                         </Row>
 
@@ -137,7 +180,7 @@ export default function NewVendor(){
                                 Password:
                             </Col>
                             <Col xs={12} md={8} className='formInput'>
-                                <input name='vendorPwd' className='inputtext' type='text' onChange={handleChange} />
+                                <input name='password' className='inputtext' type='text' onChange={handleChange} />
                             </Col>
                         </Row>
 
