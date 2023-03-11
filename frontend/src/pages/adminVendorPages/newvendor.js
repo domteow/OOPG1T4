@@ -89,6 +89,7 @@ export default function NewVendor(){
 
         setFormValues(newFormValues)
         addVendor();
+        
     }
 
     
@@ -101,6 +102,10 @@ export default function NewVendor(){
         try {
             const response = await axios.post('/api/v1/vendor/createVendor', vendorData);
             console.log(response.data);
+            if (response.data.status == 201) {
+                navigate('../react/admin/homepage')
+                alert('Vendor added successfully')
+            }
         } catch (error) {
             console.error(error)
         }
