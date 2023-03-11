@@ -15,4 +15,6 @@ public interface UserRepository extends MongoRepository<User, Integer> {
     @Query("{'_id':?0, 'accountType': ?1}")
     List<User> findById(int id, String accountType);
 
+    @Query("{'emailAddress':?0, 'accountType': ?1}")
+    List<User> findByEmail(String emailAddress, String accountType);
 }

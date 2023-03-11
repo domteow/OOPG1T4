@@ -28,6 +28,12 @@ public class VendorController {
 
     }
 
+    @GetMapping("/getVendorByEmail/{email}")
+    public ResponseEntity<?> getVendorByEmail(@PathVariable String email){
+        return vendorService.getVendorByEmail(email);
+    }
+
+
     @PostMapping("/createVendor")
     public ResponseEntity<StatusResponse> createNewVendor(@RequestBody Vendor vendor){
         return vendorService.createNewVendor(vendor);

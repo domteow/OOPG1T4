@@ -64,6 +64,18 @@ public class AdminService {
         }
     }
 
+    public ResponseEntity<?> getAdminByEmail(String email) {
+        try{
+            List<User> admin = userRepository.findByEmail(email, "Admin");
+            SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), admin.get(0));
+            return ResponseEntity.ok().body(successResponse);
+
+        } catch (Exception e) {
+            StatusResponse statusResponse = new StatusResponse("Admin not found for email: " + email, HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
+        }
+    }
+
     public ResponseEntity<StatusResponse> createNewAdmins(List<Admin> admins) {
         try {
             for (Admin admin : admins) {

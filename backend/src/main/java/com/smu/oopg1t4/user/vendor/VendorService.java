@@ -64,6 +64,17 @@ public class VendorService {
         }
     }
 
+    public ResponseEntity<?> getVendorByEmail(String email) {
+        try{
+            List<User> vendor = userRepository.findByEmail(email, "Vendor");
+            SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), vendor.get(0));
+            return ResponseEntity.ok().body(successResponse);
+        } catch (Exception e) {
+            StatusResponse statusResponse = new StatusResponse("Vendor not found for email: " + email, HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
+        }
+    }
+
     public ResponseEntity<StatusResponse> createNewVendors(List<Vendor> vendors) {
         try {
             for (Vendor vendor : vendors) {
@@ -92,4 +103,6 @@ public class VendorService {
         }
 
     }
+
+
 }

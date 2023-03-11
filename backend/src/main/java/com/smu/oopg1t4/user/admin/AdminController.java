@@ -30,6 +30,11 @@ public class AdminController {
 
     }
 
+    @GetMapping("/getAdminByEmail/{email}")
+    public ResponseEntity<?> getAdminByEmail(@PathVariable String email){
+        return adminService.getAdminByEmail(email);
+    }
+
     @PostMapping("/createAdmin")
     public ResponseEntity<StatusResponse> createNewAdmin(@RequestBody Admin admin){
         return adminService.createNewAdmin(admin);
