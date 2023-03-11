@@ -2,6 +2,7 @@ package com.smu.oopg1t4.config;
 
 import com.smu.oopg1t4.field.Field;
 import com.smu.oopg1t4.field.FieldRepository;
+import com.smu.oopg1t4.field.FieldService;
 import com.smu.oopg1t4.questionnaire.Questionnaire;
 import com.smu.oopg1t4.questionnaire.QuestionnaireController;
 import com.smu.oopg1t4.questionnaire.QuestionnaireRepository;
@@ -68,16 +69,23 @@ public class MongoConfig {
 
 
             // ------------------Database Sequence-----------------------
+            if (!databaseSequenceRepository.findById("user_sequence").isPresent() || databaseSequenceRepository.findById("user_sequence").get().getSeq() < 3){
+                DatabaseSequence userSequence = new DatabaseSequence("user_sequence",3);
+                databaseSequenceRepository.save(userSequence);
+            }
+            if (!databaseSequenceRepository.findById("field_sequence").isPresent() || databaseSequenceRepository.findById("field_sequence").get().getSeq() < 3){
+                DatabaseSequence fieldSequence = new DatabaseSequence("field_sequence",3);
+                databaseSequenceRepository.save(fieldSequence);
+            }
+            if (!databaseSequenceRepository.findById("questionnaire_sequence").isPresent() || databaseSequenceRepository.findById("questionnaire_sequence").get().getSeq() < 1){
+                DatabaseSequence questionnaireSequence = new DatabaseSequence("questionnaire_sequence",1);
+                databaseSequenceRepository.save(questionnaireSequence);
+            }
 
-            DatabaseSequence userSequence = new DatabaseSequence("user_sequence",3);
-            DatabaseSequence fieldSequence = new DatabaseSequence("field_sequence", 3);
-            DatabaseSequence questionnaireSequence = new DatabaseSequence("questionnaire_sequence", 1);
             DatabaseSequence formSequence = new DatabaseSequence("form_sequence", 0);
             DatabaseSequence formResponseSequence = new DatabaseSequence("form_response_sequence", 0);
 
-            databaseSequenceRepository.saveAll(
-                    List.of(userSequence,fieldSequence, questionnaireSequence)
-            );
+
         };
     }
 
