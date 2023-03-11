@@ -1,13 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-
-import { Link, Router, Route, Routes, BrowserRouter, useNavigate } from 'react-router-dom'
 import './index.css'
-import logo from './assets/quantum.jpg'
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import NavbarVendor from './navbarvendor'
 import App from './App.js'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

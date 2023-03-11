@@ -1,22 +1,218 @@
 /* nav bar */
 @import url("https://use.typekit.net/jcn3uwu.css");
+
+/* ALL GENERAL STUFF TO REUSE */
 .body{
-    max-width: 100%;
+    max-width: 100vw;
     font-family: Roboto, sans-serif;
+    background-color: #fcfcfc;
 }
 
+/* FOR THE TITLE PORTION W THE GREY LINE BELOW IT */
 .mainContent{
-    margin:3%;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.navbar {
+.subDivider{
+    border-bottom: 1px solid #cecece;
+    margin-top: 3%;
+    font-size: 22px;
+    font-weight: 400;
+    padding-left: 1%;
+    width: 80%;
+}
+/* END OF THE TITLE PORTION W THE GREY LINE BELOW IT */
+
+/* FOR ANY FORM OF FORM INPUT, LABEL ETC */ 
+.formRow{
+    text-align: center;
+    padding-top: 3%;
+}
+
+.formQuestion{
+    font-weight: 500;
+    font-size: 18px;
+    text-align: left;
+    padding-top: 0;
+}
+
+.formInput{
+    text-align: left;
+    font-size: 18px;
+}
+
+.inputtext{
+    width:95%;
+}
+
+.buttonRow{
+    padding-top: 3%;
+}
+
+.saveDraft{
+    border-color: transparent;
+    justify-content:right;
+    text-align: center;
+    margin-left: auto;
+    margin-right: 2%;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #0889da;
+    color: #f9f9f9;
+    width: 15%;
+    padding: 1%;
+    border-radius: 5px;
+}
+
+.cancelButt{
+    border-color: transparent;
+    text-align: center;
+    margin-right: 2%;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #848783;
+    color: #f9f9f9;
+    width: 10%;
+    padding: 1%;
+    border-radius: 5px;
+}
+
+.submitButt{
+    border-color: transparent;
+    justify-content: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: 2%;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #066FB0;
+    color: #f9f9f9;
+    width: 15%;
+    padding: 1%;
+    border-radius: 5px;
+}
+
+.formCancelRow{
+    text-align: left;
+}
+
+.formSubmitRow{
+    text-align: right
+}
+
+/* END OF ANY FORM OF FORM INPUT, LABEL ETC */ 
+
+/* TO DISPLAY VENDORS, ADMINS, FORMS TO DO ALL THOSE*/
+
+.displayRow{
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #7f7f7f;
-    color: black;
+    /* above 3 to split formname and button to left & right */
+    padding: 1.5%;
+    text-align: center;
+}
+
+/* END OF THE PART TO DISPLAY VENDORS, ADMINS, FORMS TO DO ALL THOSE*/
+
+/* LOGIN PAGE */
+.loginBody{
+    height: 100vh;
+    background: linear-gradient(90deg, #fff 50%, #f7f7fc 50%);
+    margin: 0%;
+    padding:0%;
+    max-width: 100%;
+    margin:0%;
+    padding-left: 0%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.welcomeText{
+    padding-top:15%;
+    font-weight: bold;
+    font-size: 28px;
+    margin-left: 3%;
+    color: #2c2626;
+}
+
+.welcomeSubText{
+    font-size: 18px;
+    margin-left: 3%;
+    color: #867f7f;
+}
+
+.formPortion{
+    height: 100%;
+    text-align: left;
+    margin-top: 7%;
+    margin-left: 5%;
+}
+
+.loginInput{
+    margin-top: 5%;
+}
+
+.loginInputField{
+    width: 65%;
+}
+
+.logoPart{
+    background-image: url('./assets/loginLogo.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 50% 50% ;
+    text-align: center;
+}
+
+.cover{
+    display: flex;
+    position: relative;
+    /* Setting the size of the upper layer to 80% of the screen size*/
+    height: 133%;
+    width: 143%;
+    top: 43%;
+    left: -23.5%;
+
+    
+    /*the alpha value controls the transparency*/
+    background: rgba( 255, 255, 255, 0.3 );
+    
+    /* This controls the blurring effect*/
+    backdrop-filter: blur( 5px );
+    -webkit-backdrop-filter: blur( 7.5px );
+    
+    /*Adding the shadow*/
+    /* box-shadow: 0 8px 32px 0 rgba( 0, 0, 0, 0.18 ); */
+    
+    /* Adding our borders*/
+    border-radius: 10px;
+    border: 1px solid rgba(232, 236, 255, 0.18);
+    z-index: 4;
+}
+
+.submitButton{
+    width: 65%;
+    font-size: 22px;
+    text-align: center;
+    border-radius: 3px;
+    color:#2c2626;
+    background-color: #b8c2db;
+    margin-top: 7%;
+    border: 1px solid #d9deec;
+    padding: 1%;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+}
+/* END OF LOGIN PAGE */
+
+/* NAVBAR */
+.navbar {
+    align-items: left;
+    color: #2c2626;
     font-weight: 300;
-    height: 10%;
+    height: 15%;
     padding: 2%;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    text-align: left;
 }
 
 .navbar_logo{
@@ -29,34 +225,25 @@ img {
     height: auto;
 }
 
-.navbar__title {
-    margin-right: auto;
-    font-size: 150%;
-    padding: 12px 16px;
-}
-
 .navbar__item {
     padding: 16px 16px;
     cursor: pointer;
-    vertical-align: middle;
-    margin-left: auto;
+    vertical-align: left;
     font-weight: 500;
-    margin:1%
+    margin:1%;
+    margin-left: 0%;
+    
 }
-/* end of nav bar */
+/* END OF NAVBAR */
 
-/* home page */
+/* HOME PAGE */
 .welcomeMsg{
     font-size: 28px;
     margin-top: 3%;
-}
-
-.subDivider{
-    border-bottom: 2px solid #7f7f7f;
-    margin-top: 3%;
-    font-size: 20px;
-    font-weight: bold;
-    padding-left: 1%;
+    font-weight: 600;
+    font-style: italic;
+    color: #2c2626;
+    margin-left: 5%;
 }
 
 .homepageFormDisplay{
@@ -66,34 +253,28 @@ img {
     text-align: center;
 }
 
-.homepageFormRow{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    /* above 3 to split formname and button to left & right */
-    padding: 3%;
-    text-align: center;
-}
-
 .homepageFormDetails{
     justify-content: left;
     text-align: left;
 }
 
 .homepageFormName{
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #333333
 }
 
 .homepageFormStatus{
     font-size: 14px;
     font-style: italic;
+    color: #666666;
 }
 
 .formButton{
-    width: 120%;
+    width: 100%;
     border-radius: 5px;
-    font-size: 20px;
-    color: #000;
+    font-size: 18px;
+    color: #2c2626;
     text-decoration: none;
     padding: 3%;
     border-color: transparent;
@@ -102,4 +283,414 @@ img {
     margin-left: auto;
     margin-right: auto;
     box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+}
+/* END OF HOMEPAGE */
+
+/* FORM PAGE */
+.formPage{
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+    color: #2c2626;
+}
+
+.formDetailsRow{
+    padding:1%;
+}
+
+.formName{
+    font-weight: bold;
+    font-size: 22px;
+    text-align: left;
+}
+
+.formDeets{
+    font-style: italic;
+    font-size:14px;
+    text-align: right;
+}
+
+.formOptionText{
+    margin-left: 1%;
+}
+
+
+input{
+    font-size: 18px;
+}
+/* END OF FORM PAGE */
+
+/* ADMIN HOME PAGE */
+.welcomeAdmin{
+    font-size: 28px;
+    margin-top: 3%;
+    font-weight: 600;
+    font-style: italic;
+    color: #2c2626;
+    margin-left: 3%;
+}
+
+.addVendorButton{
+    width: 15%;
+    font-size: 18px;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #066FB0;
+    color: #EDFFFE;
+    text-align: center;
+    font-family: 500;
+    font-style: italic;
+    padding: 0.5%;
+    margin-top: 3%;
+    border: 1px solid #67a7cf;
+    margin-left: 5%;
+}
+
+.addVendorDiv{
+    text-align: right;
+    width: 95%;
+}
+
+.vendorContainer{
+    border: 1px solid #d3d3d3;
+    padding-bottom: 5%;
+    margin-top: 3%;
+}
+
+.container{
+    margin-top: 3%;
+}
+
+.containerHeaders{
+    color: #6f6f6f;
+    border-bottom: 0.5px solid #e4e3e3;
+    
+}
+
+.vendorDisplayRows{
+    padding-top: 3%;
+}
+
+.vendorDetailsCol{
+    text-align: left;
+}
+
+.vendorDisplayName{
+    font-size: 24px; 
+    font-weight: 500;
+    text-align: left;
+
+}
+
+.vendorCompany{
+    font-size: 16px;
+    font-weight: 400;
+    font-style: italic;
+    text-align: center;
+}
+
+.companyHeader{
+    text-align: center;
+}
+
+.vendorButtonCol{
+    text-align: center;
+}
+
+.viewVendorButton{
+    width: 95%;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #2c2626;
+    text-decoration: none;
+    padding: 3%;
+    border-color: transparent;
+    justify-content: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #066FB0;
+    color: #EDFFFE;
+}
+
+/* FOR ADDING NEW VENDOR */
+.newVendorContent{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.newVendorForm{
+    margin-top: 3%;
+}
+
+.subDividerForm{
+    border-bottom: 1px solid #cecece;
+    margin-top: 3%;
+    font-size: 22px;
+    font-weight: 600;
+    padding-left: 1%;
+    width: 80%;
+    font-style: italic;
+}
+
+.cancelButton{
+    width: 40%;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #2c2626;
+    text-decoration: none;
+    padding: 1%;
+    border-color: transparent;
+    justify-content: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #AF0505;
+    color: #ffeded;
+    margin-right: 0%;
+}
+
+.cfmVendorButton{
+    width: 40%;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #2c2626;
+    text-decoration: none;
+    padding: 1%;
+    border-color: transparent;
+    justify-content: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #066FB0;
+    color: #EDFFFE;
+    margin-left: 0%;
+}
+/* END OF FOR ADDING NEW VENDOR */
+
+/* VIEW VENDOR */
+.vendorName{
+    font-weight: bold;
+    font-size: 28px;
+    margin-left: 5%;
+}
+
+.formContent{
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 5%;
+}
+
+.assignForm{
+    width: 15%;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #2c2626;
+    text-decoration: none;
+    padding: 0.5%;
+    border-color: transparent;
+    justify-content: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #066FB0;
+    color: #EDFFFE;
+    margin-left: 5%;
+    margin-top: 2%;
+}
+
+.formHeader{
+    font-size: 22px;
+    font-weight: 500;
+    margin-top: 3%; 
+    margin-left: 5%;
+}
+
+.vendorAccord{
+    margin-top: 1%;
+}
+
+.accordTitle{
+    padding: 1%;
+    font-weight: 500;
+}
+
+.formRow{
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* above 3 to split formname and button to left & right */
+    padding: 1.5%;
+    text-align: center;
+}
+
+.displayAllForms{
+    margin-top: 0%;
+}
+
+.accordion{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.back{
+    width: 100%;
+    text-align: right;;
+}
+
+.backButton{
+    width: 15%;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #2c2626;
+    text-decoration: none;
+    padding: 0.5%;
+    border-color: transparent;
+    justify-content: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #7F7F7F;
+    color: #fff;
+    margin-right: 3%;
+    margin-top: 2%;
+}
+/* END OF ALL VENDORS PAGE */
+
+/* ALL FORM PAGE */
+.allFormContent{
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.formHeaderRow{
+    color: #6f6f6f;
+    border-bottom: 0.5px solid #e4e3e3;
+}
+
+.headerCenter{
+    text-align: center;
+}
+
+.formDataRow{
+    color: #2c2626;
+    padding-top: 3%;
+}
+
+.viewForm{
+    width:90%;
+    padding: 3%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #066FB0;
+    color: #EDFFFE;
+    border: 1px solid #1073b0
+}
+
+.buttonFormRow{
+    text-align: right;
+    width:95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.newFormButton{
+    width:15%;
+    padding: 1%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #066FB0;
+    color: #EDFFFE;
+    border: 1px solid #1073b0
+}
+
+.editForm{
+    width:90%;
+    padding: 3%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #0e80c6;
+    color: #f9f9f9;
+    border: 1px solid #1073b0
+}
+/* END OF ALL FORM PAGE */
+
+/* NEW FORM */
+.newFormContent{
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.standardInputForm{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.allOptions{
+    width: 500px;
+}
+
+.dialogueButton{
+    width: 10%;
+    padding: 0.5%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #0e80c6;
+    color: #f9f9f9;
+    border: 1px solid #1073b0;
+    margin-left: 5%;
+    margin-top: 5%;
+}
+/* END OF NEW FORM*/
+
+/* QUESTIONNAIRE COMPONENT */
+.questionnaireContent{
+    border: 1px solid #c6c6c6;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    width: 90%; 
+    margin-left: auto;
+    margin-right:auto;
+    margin-top: 5%;
+}
+/* END OF QUESTIONNAIRE COMPONENT */
+
+/* TEXTINPUT COMPONENT */
+.newFormQuestion{
+    margin-top: 3%;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0.5px solid #ededed;
+    padding-left:2%;
+    padding-right: 2%;
+    padding-bottom: 1%;
+}
+/* END OF TEXTINPUT COMPONENT */
+
+/* RADIO COMPONENT */
+.addRadio{
+    width: 10%;
+    padding: 0.5%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #0e80c6;
+    color: #f9f9f9;
+    border: 1px solid #1073b0
+
+}
+/* END OF RADIO COMPONENT */
+
+.newFormInput{
+    margin-top: 1%;
 }
