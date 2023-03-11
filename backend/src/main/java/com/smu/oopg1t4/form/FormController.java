@@ -1,6 +1,8 @@
 package com.smu.oopg1t4.form;
 
+import com.smu.oopg1t4.questionnaire.QuestionnaireService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,67 +11,67 @@ import java.util.List;
 @RequestMapping(path = "api/v1/form")
 public class FormController {
     private final FormService formService;
+    private final QuestionnaireService questionnaireService;
 
     @Autowired
-    public FormController(FormService formService) {
+    public FormController(
+            FormService formService,
+            QuestionnaireService questionnaireService
+    ) {
         this.formService = formService;
+        this.questionnaireService = questionnaireService;
     }
 
-    /*
-    For admin users to "Create New Form Template"
-    Example format to be passed in:
-    {
-        "formCode": "QLI-QHSP-10-F01",
-        "revisionNo": 1,
-        "description": "New Vendor Assessment Form"
-        "effectiveDate": "2023-03-03"
-    }
-
-    Format for caller to receive:
-    {
-        "formID": 17,
-        "formCode": "QLI-QHSP-10-F01",
-        "revisionNo": 1,
-        "effectiveDate": "2023-03-03T00:00:00.000+00:00",
-        "questionnaires": [<1 new questionnaire here>], // Automatically created new questionnaire
-        "questionnaireIDs": [<1 new questionnaire ID here>], // Automatically created new questionnaire
-        "vendorsAllowed": [],
-        "formType": null,
-        "formOwners": [],
-        "pendingUserInput": null,
-        "approved": false
-    }
-    If error:
-    {
-        "message": "Form already exists. Please try creating form under a different form code or revision number.",
-        "statusCode": 500
-    }
-     */
-    @PostMapping("/createForm")
-    public Object createForm(@RequestBody Form form) {
-        return formService.createForm(form);
-    }
-
-//    @PutMapping("/addQuestionnaire/{id}")
-//    public
-
-
-    @GetMapping("/getAllForms")
-    public List<Form> getAllForms() {
+    @GetMapping("/get")
+    public ResponseEntity<?> getAllForms() {
         return formService.getAllForms();
     }
 
-    @GetMapping("/getFormByID/{id}")
-    public Form getFormByID(@PathVariable int id) {
-        try {
-            return formService.getFormByID(id);
-        } catch (Exception e) {
-            return null;
-        }
+    @GetMapping("/get/id/{id}")
+    public ResponseEntity<?> getFormByID(@PathVariable int id) {
+        return formService.getFormByID(id);
     }
 
-    @PostMapping("/createForms")
-    public void createForms(@RequestBody List<Form> forms) {
-        formService.createForms(forms);
+    @PostMapping("/createForm")
+    public ResponseEntity<?> createForm(@RequestBody Form form) {
+        return formService.createForm(form);
     }
+
+    @PostMapping("/revise/{id}")
+    public ResponseEntity<?> reviseForm(
+            @PathVariable int id
+    ) {
+        return formService.reviseForm(id);
+    }
+
+    // Only updates description, effectiveDate, questionnaires.
+    // (?) revisionNo should only be updated when admins "revise" a form?
+    // formStatus should only be updated when they "publish" a form
+    @PutMapping("/update/{formId}")
+    public ResponseEntity<?> updateForm(
+            @PathVariable int formId,
+            @RequestBody Form form) {
+        return formService.updateFormById(formId, form);
+    }
+
+    @PutMapping("/update/{formId}/{questionnaireIndex}")
+    public ResponseEntity<?> updateFormAndSaveQuestionnaire(
+            @PathVariable int formId,
+            @PathVariable int questionnaireIndex,
+            @RequestBody Form form
+    ) {
+        return formService.updateFormAndSaveQuestionnaire(formId, questionnaireIndex, form);
+    }
+
+    @PutMapping("/publish/{id}")
+    public ResponseEntity<?> saveAndPublishForm(
+            @PathVariable int id,
+            @RequestBody Form form
+    ) {
+        return formService.saveAndPublishForm(id, form);
+    }
+
+    // implement searching for forms
+    // need to get forms by status
+    // need to get forms by formcode + description (search)
 }

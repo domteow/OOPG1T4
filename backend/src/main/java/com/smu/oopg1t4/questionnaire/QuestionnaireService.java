@@ -33,6 +33,7 @@ public class QuestionnaireService {
 
     //create a new questionnaire
     public Questionnaire createQuestionnaire(Questionnaire questionnaire) {
+        // TODO: Is there any way to find duplicates of the questionnaires without the id??
         questionnaire.setId(sequenceGeneratorService.generateSequence(Questionnaire.SEQUENCE_NAME));
         return questionnaireRepository.save(questionnaire);
     }
