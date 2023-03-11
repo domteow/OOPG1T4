@@ -27,7 +27,6 @@ public class AdminController {
     @GetMapping("/getAdmin/{id}")
     public ResponseEntity<?> getAdmin(@PathVariable int id){
         return adminService.getAdmin(id);
-
     }
 
     @GetMapping("/getAdminByEmail/{email}")
