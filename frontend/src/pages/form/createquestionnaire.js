@@ -15,6 +15,7 @@ import TextInput from './textfield';
 import RadioButton from './radiobutton';
 import Checkbox from './checkbox';
 import Select from './select';
+import NativeSelect from '@mui/material/NativeSelect';
 
 const options = ['Text Field', 'Radio Button', 'Checkbox', 'Select'];
 
@@ -116,6 +117,26 @@ export default function CreateQuestionnaire(){
                         </div>
                     )
                 })}
+
+                <Container>
+                    <Row>
+                        <Col md={1}>
+                            Assignment:
+                        </Col>
+                        <Col>
+                            <NativeSelect
+                                inputProps={{
+                                    id: 'uncontrolled-native',
+                                    name:'Assigned',
+                                }}>
+                                
+                                <option value='admin'>Admin</option>
+                                <option value='vendor'>Vendor</option>
+                            </NativeSelect>
+                        </Col>
+                    </Row>
+                </Container>
+
 
                 <button onClick={handleClickOpen} className='addFieldButton'>
                     <AddIcon/> Add 
