@@ -25,6 +25,7 @@ import { fontSize } from '@mui/system'
 
 export default function Checkbox(){
     const [newFormList, setNewFormList] = useState({});
+    const [question, setQuestion] = useState('');
 
     const handleInputChange = (e, i) => {
         const { name, value, type } = e.target;
@@ -53,17 +54,37 @@ export default function Checkbox(){
 
     console.log(newFormList);
 
+    const handleQuestion = (e) =>{
+        setQuestion(e.target.value);
+    }
+    console.log(question);
+
+    // HI DOM THIS PART IS THE PART THAT WILL LIKE STORE THE DATA IN LIKE {'Question: question, 'Options':{}} hehe 
+    const [checkbox, setCheckbox] = useState({});
+    const handleCBox = () =>{
+        let cbox= {
+        'Question' :question,
+        'Options' : newFormList
+        }
+        setCheckbox(cbox);
+    }
+    console.log(checkbox);
+
+
+
     /* THIS IS TO ADD A VALUE INTO CHECKLIST, WHICH MEANS ON CLICK ON ADD BUTTON, A NEW CHECKBOX OPTION IS ADDED */
     const [checkboxList, setCheckboxList] = useState([]);
     const addCheckboxOption = () => {
         setCheckboxList([...checkboxList, checkboxList.length]); // use length to specify the index of the radio option
     }
-
+    console.log(checkboxList);
     const handleRemoveCheckboxOption = index => {
+        // DOM HELP ME PLEASE I NEED TO LIKE ON CLICK DELETE THE CORRECT OPTION COS IDK WHY IT JUST DELETES THE MOST RECENT OPTION :(         
         const list = [...checkboxList];
         list.splice(index, 1);
         setCheckboxList(list);
     };
+    console.log(checkboxList);
 
     const renderCheckboxOption = (i)=>{
         return (
@@ -79,14 +100,14 @@ export default function Checkbox(){
     const renderTextField = (i)=>{
         return (
             <>
-                <TextField name='checkboxQuestion' className='newFormInput' placeholder='Question' sx={{width: '100%'}} onChange={e => handleInputChange(e, i)} key={i}/>
+                <TextField name='checkboxQuestion' className='newFormInput' placeholder='Question' sx={{width: '100%'}} onChange={e => handleQuestion(e, i)} key={i}/>
             </>
         )
     }
 
     return(
         <>
-            <div className='newFormQuestion'>
+            <div className='newFormQuestion' onChange={handleCBox}>
                 {renderTextField(0)}
                 <div>
                     {checkboxList.map((item, i)=>{
