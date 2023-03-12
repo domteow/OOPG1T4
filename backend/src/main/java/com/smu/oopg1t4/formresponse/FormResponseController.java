@@ -2,6 +2,7 @@ package com.smu.oopg1t4.formresponse;
 
 
 import com.smu.oopg1t4.questionnaire.QuestionnaireService;
+import com.smu.oopg1t4.response.StatusResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,11 @@ public class FormResponseController {
     @GetMapping("/getFormByFormResponseID/{id}")
     public ResponseEntity<?> getFormByID(@PathVariable int id) {
         return formResponseService.getFormByFormResponseID(id);
+    }
+
+    @GetMapping("/assignFormToVendor/{formId}/{vendorId}")
+    public ResponseEntity<StatusResponse> assignFormToVendor(@PathVariable int formId, @PathVariable int vendorId){
+        return formResponseService.assignFormToVendor(formId, vendorId);
     }
 
 

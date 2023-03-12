@@ -1,5 +1,8 @@
 package com.smu.oopg1t4.formresponse;
 
+import com.smu.oopg1t4.field.Field;
+import com.smu.oopg1t4.form.Form;
+import com.smu.oopg1t4.form.FormRepository;
 import com.smu.oopg1t4.questionnaire.QuestionnaireService;
 import com.smu.oopg1t4.response.StatusResponse;
 import com.smu.oopg1t4.response.SuccessResponse;
@@ -15,6 +18,7 @@ import java.util.Optional;
 
 @Service
 public class FormResponseService {
+    private final FormRepository formRepository;
     private final FormResponseRepository formResponseRepository;
     private final SequenceGeneratorService sequenceGeneratorService;
     private final QuestionnaireService questionnaireService;
@@ -23,11 +27,13 @@ public class FormResponseService {
     public FormResponseService(
             FormResponseRepository formResponseRepository,
             SequenceGeneratorService sequenceGeneratorService,
-            QuestionnaireService questionnaireService
+            QuestionnaireService questionnaireService,
+            FormRepository formRepository
     ) {
         this.formResponseRepository = formResponseRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
         this.questionnaireService = questionnaireService;
+        this.formRepository = formRepository;
     }
 
 
@@ -52,4 +58,32 @@ public class FormResponseService {
                 new StatusResponse("Form not found.", HttpStatus.NOT_FOUND.value()));
     }
 
+    public ResponseEntity<StatusResponse> assignFormToVendor(int formId, int vendorId){
+        Optional<Form> optionalForm = formRepository.findById(formId);
+        if(optionalForm.isPresent()){
+            Form form = optionalForm.get();
+            FormResponse formResponse = new FormResponse(
+                    sequenceGeneratorService.generateSequence(FormResponse.SEQUENCE_NAME),
+                    form.getFormCode(),
+                    form.getRevisionNo(),
+                    form.getDescription(),
+                    form.getEffectiveDate(),
+                    form.getQuestionnaires(),
+                    form.getFormStatus(),
+                    vendorId,
+                    form.getQuestionnaires().get(0).getRoleRequired(),
+                    0,
+                    false,
+                    false
+            );
+            formResponseRepository.save(formResponse);
+
+            return ResponseEntity.ok().body(
+                    new StatusResponse("Success", HttpStatus.OK.value())) ;
+        } else {
+            return ResponseEntity.ok().body(
+                    new StatusResponse("Failure", HttpStatus.OK.value())) ;
+        }
+
+    }
 }

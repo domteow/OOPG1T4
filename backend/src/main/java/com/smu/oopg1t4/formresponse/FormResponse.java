@@ -2,8 +2,12 @@ package com.smu.oopg1t4.formresponse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.smu.oopg1t4.form.Form;
+import com.smu.oopg1t4.questionnaire.Questionnaire;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 @Document(collection = "form_response")
 public class FormResponse extends Form {
@@ -29,6 +33,28 @@ public class FormResponse extends Form {
             boolean submitted,
             boolean approved
     ) {
+        this.ownerId = ownerId;
+        this.pendingUserInput = pendingUserInput;
+        this.questionnairesCompleted = questionnairesCompleted;
+        this.submitted = submitted;
+        this.approved = approved;
+    }
+
+    public FormResponse(
+            int formId,
+            String formCode,
+            int revisionNo,
+            String description,
+            Date effectiveDate,
+            ArrayList<Questionnaire> questionnaires,
+            String formStatus,
+            int ownerId,
+            String pendingUserInput,
+            int questionnairesCompleted,
+            boolean submitted,
+            boolean approved
+    ) {
+        super(formId, formCode, revisionNo, description, effectiveDate, questionnaires, formStatus);
         this.ownerId = ownerId;
         this.pendingUserInput = pendingUserInput;
         this.questionnairesCompleted = questionnairesCompleted;

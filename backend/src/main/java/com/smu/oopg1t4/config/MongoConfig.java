@@ -5,6 +5,7 @@ import com.smu.oopg1t4.field.FieldRepository;
 import com.smu.oopg1t4.field.FieldService;
 import com.smu.oopg1t4.form.Form;
 import com.smu.oopg1t4.form.FormRepository;
+import com.smu.oopg1t4.formresponse.FormResponse;
 import com.smu.oopg1t4.questionnaire.Questionnaire;
 import com.smu.oopg1t4.questionnaire.QuestionnaireController;
 import com.smu.oopg1t4.questionnaire.QuestionnaireRepository;
@@ -75,6 +76,22 @@ public class MongoConfig {
                     List.of(form1)
             );
 
+            // ------------------Form Responses-----------------------
+            FormResponse formResponse = new FormResponse(
+                    1,
+                    "QLI-QHSP-10-F01",
+                    1,
+                    "New Vendor Assessment Form",
+                    new SimpleDateFormat("yyyy-MM-dd").parse("2022-04-04"),
+                    questionnaires1,
+                    "published",
+                    1,
+                    "Vendor",
+                    0,
+                    false,
+                    false
+            );
+
             // ------------------Database Sequence-----------------------
             if (!databaseSequenceRepository.findById("user_sequence").isPresent() || databaseSequenceRepository.findById("user_sequence").get().getSeq() < 3){
                 DatabaseSequence userSequence = new DatabaseSequence("user_sequence",3);
@@ -92,9 +109,11 @@ public class MongoConfig {
                 DatabaseSequence formSequence = new DatabaseSequence("form_sequence",1);
                 databaseSequenceRepository.save(formSequence);
             }
-
-            DatabaseSequence formResponseSequence = new DatabaseSequence("form_response_sequence", 0);
-
+            if (!databaseSequenceRepository.findById("form_response_sequence").isPresent() || databaseSequenceRepository.findById("form_response_sequence").get().getSeq() < 1){
+                DatabaseSequence formResponseSequence = new DatabaseSequence("form_response_sequence",1);
+                databaseSequenceRepository.save(formResponseSequence);
+            }
+            
 
         };
     }
