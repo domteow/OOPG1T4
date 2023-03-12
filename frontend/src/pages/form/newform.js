@@ -21,18 +21,14 @@ import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/material/Typography';
 import Dialogue from './dialogue';
-import PropTypes from 'prop-types';
-import Add from '@mui/icons-material/Add'
+import CreateQuestionnaire from './createquestionnaire';
 import Questionnaire from './questionnaire';
-import TextInput from './textfield';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import RadioButton from './radiobutton';
 
-const options = ['Questionnaire', 'Text Field', 'Radio Button', 'Checkbox', 'Dropdown'];
+
 
 export default function Newform(){
+    const options = ['New Questionnaire'];
     const [open, setOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(options[1]);
     const initialValues ={
@@ -41,6 +37,26 @@ export default function Newform(){
     const [values, setValues] = useState(initialValues);
     const [newFormList, setNewFormList] = useState({});
     const [inputList, setInputList] = useState([]);
+
+    // FROM BACKEND GET THE EXISTING QUESTIONNAIRES and add into options 
+    const questionnaireList = [
+        {
+            'name' : 'Questionnaire 1',
+            'id': 'q1' 
+        },
+        {
+            'name' : 'Questionnaire 2',
+            'id': 'q2'
+        },
+        {
+            'name' : 'Questionnaire 3',
+            'id': 'q3' 
+        },
+        {
+            'name' : 'Questionnaire 4',
+            'id': 'q4' 
+        }
+    ];
 
     // THIS IS TO SET/ SAVE THE STANDARD DATA VALUES... 
     const handleChange = (e) => {
@@ -86,24 +102,30 @@ export default function Newform(){
     const handleClose = (value) => {
         setOpen(false);
         setSelectedValue(value);
-        setInputList([...inputList, value]);
+        if (value !== 'New Questionnaire'){
+            console.log(value);
+            questionnaireList.map((questionnaire) => {
+                const name = questionnaire.name;
+                const id = questionnaire.id;
+                if (name === value){
+                    console.log(questionnaire.id);
+                    setInputList([...inputList, id]);
+                }
+            })
+        }
+        else{
+            setInputList([...inputList, value])
+        }
     };
     /* END OF ONCLICK INPUT THING TO ADD INPUTFIELD */
 
-    
     //  ON CLICK, DELETE THE INPUT FIELD
     const handleRemoveInputField = index => {
         const list = [...inputList];
         list.splice(index, 1);
         setInputList(list);
     };
-
-    // const handleRemoveRadioOption = index => {
-    //     const list = [...radioList];
-    //     list.splice(index, 1);
-    //     setRadioList(list);
-    // };
-
+    console.log(inputList);
     /* THIS IS TO RENDER THE ADDING OF INPUT FIELDS */
     const renderInputField = (item, i) =>{
         if(item === 'Text Field'){
@@ -122,8 +144,8 @@ export default function Newform(){
             )
         }
 
-        else if(item === 'Questionnaire'){
-            return(<Questionnaire />)
+        else if(item === 'New Questionnaire'){
+            return(<CreateQuestionnaire />)
         }
 
         else if(item === 'Radio Button'){
@@ -131,7 +153,6 @@ export default function Newform(){
                 <>
                     <RadioButton />
                     <DeleteIcon onClick={()=>handleRemoveInputField(i)} sx={{fontSize: 30, marginLeft:5, marginTop: 2}}/>
-                    
                 </>
             )
         }
@@ -140,6 +161,11 @@ export default function Newform(){
         }
         else if(item === 'Dropdown'){
             return(<div>hi5</div>)
+        }
+
+        else{
+            return (<Questionnaire id={item} />)
+            // return(<div>hi6</div>)
         }
     }
 
@@ -175,6 +201,7 @@ export default function Newform(){
                         </Container>
                         <div>
                             {inputList.map((item, i)=>{
+                                console.log(item);
                                 return(
                                     <div>
                                         {renderInputField(item, i)}
@@ -184,7 +211,7 @@ export default function Newform(){
                         </div>
 
                         <button onClick={handleClickOpen} className='dialogueButton'>
-                            <AddIcon/> Add 
+                            <AddIcon/> Add Questionnaire
                         </button>
 
                         <Dialogue 
