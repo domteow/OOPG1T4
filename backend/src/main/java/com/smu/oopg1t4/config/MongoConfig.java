@@ -3,6 +3,9 @@ package com.smu.oopg1t4.config;
 import com.smu.oopg1t4.field.Field;
 import com.smu.oopg1t4.field.FieldRepository;
 import com.smu.oopg1t4.field.FieldService;
+import com.smu.oopg1t4.form.Form;
+import com.smu.oopg1t4.form.FormRepository;
+import com.smu.oopg1t4.formresponse.FormResponse;
 import com.smu.oopg1t4.questionnaire.Questionnaire;
 import com.smu.oopg1t4.questionnaire.QuestionnaireController;
 import com.smu.oopg1t4.questionnaire.QuestionnaireRepository;
@@ -17,14 +20,16 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.xml.crypto.Data;
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 @Configuration
 public class MongoConfig {
 
     @Bean
-    CommandLineRunner commandLineRunner(FieldRepository fieldRepository, DatabaseSequenceRepository databaseSequenceRepository, QuestionnaireRepository questionnaireRepository, UserRepository userRepository){
+    CommandLineRunner commandLineRunner(FieldRepository fieldRepository, DatabaseSequenceRepository databaseSequenceRepository, QuestionnaireRepository questionnaireRepository, UserRepository userRepository, FormRepository formRepository){
         return args -> {
             // ------------------Users-----------------------
 
@@ -64,9 +69,28 @@ public class MongoConfig {
             );
 
             // ------------------Forms-----------------------
+            ArrayList<Questionnaire> questionnaires1 = new ArrayList<>();
+            questionnaires1.addAll(List.of(q1));
+            Form form1 = new Form(1,"QLI-QHSP-10-F01", 1, "New Vendor Assessment Form", new SimpleDateFormat("yyyy-MM-dd").parse("2022-04-04"), questionnaires1,"published");
+            formRepository.saveAll(
+                    List.of(form1)
+            );
 
-
-
+            // ------------------Form Responses-----------------------
+            FormResponse formResponse = new FormResponse(
+                    1,
+                    "QLI-QHSP-10-F01",
+                    1,
+                    "New Vendor Assessment Form",
+                    new SimpleDateFormat("yyyy-MM-dd").parse("2022-04-04"),
+                    questionnaires1,
+                    "published",
+                    1,
+                    "Vendor",
+                    0,
+                    false,
+                    false
+            );
 
             // ------------------Database Sequence-----------------------
             if (!databaseSequenceRepository.findById("user_sequence").isPresent() || databaseSequenceRepository.findById("user_sequence").get().getSeq() < 3){
@@ -81,10 +105,15 @@ public class MongoConfig {
                 DatabaseSequence questionnaireSequence = new DatabaseSequence("questionnaire_sequence",1);
                 databaseSequenceRepository.save(questionnaireSequence);
             }
-
-            DatabaseSequence formSequence = new DatabaseSequence("form_sequence", 0);
-            DatabaseSequence formResponseSequence = new DatabaseSequence("form_response_sequence", 0);
-
+            if (!databaseSequenceRepository.findById("form_sequence").isPresent() || databaseSequenceRepository.findById("form_sequence").get().getSeq() < 1){
+                DatabaseSequence formSequence = new DatabaseSequence("form_sequence",1);
+                databaseSequenceRepository.save(formSequence);
+            }
+            if (!databaseSequenceRepository.findById("form_response_sequence").isPresent() || databaseSequenceRepository.findById("form_response_sequence").get().getSeq() < 1){
+                DatabaseSequence formResponseSequence = new DatabaseSequence("form_response_sequence",1);
+                databaseSequenceRepository.save(formResponseSequence);
+            }
+            
 
         };
     }
