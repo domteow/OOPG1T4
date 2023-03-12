@@ -1,3 +1,4 @@
+// to display an existing questionnaire 
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { ReactDOM } from 'react-dom'
@@ -23,61 +24,103 @@ import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import Dialogue from './dialogue';
 import TextInput from './textfield';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
 
 const options = ['Text Field', 'Radio Button', 'Checkbox', 'Dropdown'];
 
-export default function Questionnaire(){
-    const [open, setOpen] = useState(false);
-    const [selectedValue, setSelectedValue] = useState(options[1]);
-    const [inputList, setInputList] = useState([]);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    
-    const handleClose = (value) => {
-        setOpen(false);
-        setSelectedValue(value);
-        setInputList([...inputList, value]);
-    };
-
-    const renderInputField = (item) =>{
-        if(item === 'Text Field'){
-            return(<TextInput/>)
-        }
-        else if(item === 'Radio Button'){
-            return(<div>hi3</div>)
-        }
-        else if(item === 'Checkbox'){
-            return(<div>hi4</div>)
-        }
-        else if(item === 'Dropdown'){
-            return(<div>hi5</div>)
+export default function Questionnaire(props){
+    // props is the id of the questionnaire
+    const questionnaireId = props.id; 
+    console.log(questionnaireId);
+    // use questionnaireId to get the questionnaire from backend 
+    // dummy data here 
+    const questionnaire = {
+        'questionnaireNo' : '389273', 
+        'questionnaireName' : 'intro questions',
+        'questions':{
+            'Name:' : 'text',
+            'Age:' : 'text', 
+            'Gender:' : ['radio', 'male', 'female'],
+            'idk bro:' : ['checkbox', 'cbox1', 'cbox2']
         }
     }
-
     return(
-        <>
-            <div className='questionnaireContent'>
-                <div>
-                    {inputList.map((item, i)=>{
-                        return(
-                            <div>
-                                {renderInputField(item)}
-                            </div>
-                        )
-                    })}
-                </div>
-                <button onClick={handleClickOpen} className='dialogueButton'>
-                    <AddIcon/> Add 
-                </button>
-
-                <Dialogue 
-                    selectedValue={selectedValue}
-                    open={open}
-                    onClose={handleClose}
-                />
+        <div className='questionnaireContent'>
+            <div className='questionnaireName'>
+                {questionnaire['questionnaireName']}
             </div>
-        </>
+
+            <FormControl fullWidth>
+                <Container>
+                    {Object.keys(questionnaire['questions']).map((key, index)=>{
+                        const inputType = questionnaire['questions'][key];
+                        if (inputType == 'text'){
+                            return(
+                                <>
+                                    <Row>
+                                        <div className='questionnaireQuestion'>
+                                            {key}
+                                        </div>
+                                    </Row>
+                                    <Row>                                    
+                                        <div>
+                                            <TextField
+                                                required
+                                                disabled
+                                                sx={{width:'100%'}}
+                                            />
+                                        </div>
+                                    </Row>
+                                </>
+                            )
+                        }
+                        else if (inputType[0] == 'radio'){
+                            const multiOptions = inputType.slice();
+                            multiOptions.splice(0,1);
+                            return(
+                                <>
+                                    <Row>
+                                        <div className='questionnaireQuestion'>
+                                            {key}
+                                        </div>
+                                    </Row>
+                                    <Row>
+                                        {multiOptions.map((option)=>{
+                                            return(
+                                                <FormControlLabel value={option} control={<Radio />} label={option} />
+                                            )
+                                        })}
+                                    </Row>
+                                </>
+                            )
+                        }
+
+                        else if (inputType[0] == 'checkbox'){
+                            const multiOptions = inputType.slice();
+                            multiOptions.splice(0,1);
+                            return(
+                                <>
+                                    <Row>
+                                        <div className='questionnaireQuestion'>
+                                            {key}
+                                        </div>
+                                    </Row>
+                                    <Row>
+                                        {multiOptions.map((option)=>{
+                                            return(
+                                                <FormControlLabel control={<Checkbox />} value = {option} label = {option}/>
+                                            )
+                                        })}
+                                    </Row>
+                                </>
+                            )
+                        }
+                    })}
+                </Container>
+            </FormControl>
+            
+        </div>
     )
+
 }
