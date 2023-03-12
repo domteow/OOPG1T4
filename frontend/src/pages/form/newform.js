@@ -118,6 +118,7 @@ export default function Newform(){
 
     /* THIS IS TO RENDER THE ADDING OF INPUT FIELDS */
     const renderInputField = (item, i) =>{
+        console.log(item);
         if(item === 'New Questionnaire'){
             return(
                 <>
@@ -176,6 +177,7 @@ export default function Newform(){
                                 </Col>
                             </Row>
                         </Container>
+                    </FormControl>
                         <div>
                             {inputList.map((item, i)=>{
                                 console.log(item);
@@ -197,7 +199,7 @@ export default function Newform(){
                             open={open}
                             onClose={handleClose}
                         />
-                    </FormControl>
+                    
                 </div>
             </div>
         </>
