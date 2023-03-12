@@ -76,7 +76,7 @@ export default function Newform(){
         }
     };
 
-    // NEED HELP DOM DOMDOMDODMODMDOMDOMD TO SAVE ALL THE QUESTIONS AND WHAT NOT THAT HAVE BEEN ADDED
+    // TO SAVE ALL THE QUESTIONS AND WHAT NOT THAT HAVE BEEN ADDED
     const handleInputChange = (e, i) => {
         const { name, value } = e.target;
         let updatedValue = {'type': name, 'question': value};
@@ -164,8 +164,13 @@ export default function Newform(){
         }
 
         else{
+            // hopefully save questionnaire id into the values list thingy
+            setValues({
+                ...values,
+                ['questionnaire']: item,
+            });
+            // to display an existing questionnaire 
             return (<Questionnaire id={item} />)
-            // return(<div>hi6</div>)
         }
     }
 

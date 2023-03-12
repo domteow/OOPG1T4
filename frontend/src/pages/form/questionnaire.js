@@ -1,3 +1,4 @@
+// to display an existing questionnaire 
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { ReactDOM } from 'react-dom'
@@ -67,6 +68,7 @@ export default function Questionnaire(props){
                                             <TextField
                                                 required
                                                 disabled
+                                                sx={{width:'100%'}}
                                             />
                                         </div>
                                     </Row>
@@ -87,6 +89,27 @@ export default function Questionnaire(props){
                                         {multiOptions.map((option)=>{
                                             return(
                                                 <FormControlLabel value={option} control={<Radio />} label={option} />
+                                            )
+                                        })}
+                                    </Row>
+                                </>
+                            )
+                        }
+
+                        else if (inputType[0] == 'checkbox'){
+                            const multiOptions = inputType.slice();
+                            multiOptions.splice(0,1);
+                            return(
+                                <>
+                                    <Row>
+                                        <div className='questionnaireQuestion'>
+                                            {key}
+                                        </div>
+                                    </Row>
+                                    <Row>
+                                        {multiOptions.map((option)=>{
+                                            return(
+                                                <FormControlLabel control={<Checkbox />} value = {option} label = {option}/>
                                             )
                                         })}
                                     </Row>
