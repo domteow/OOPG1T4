@@ -31,10 +31,12 @@ const Login = () =>{
             console.error(error)
         }
     }
+
     const handleSubmit = async(e) => {
         e.preventDefault()
 
         const users = await getAllUsers();
+        console.log(users);
         
         const account = Object.values(users).find((user) => user.name.toLowerCase() === username);
         
@@ -45,6 +47,7 @@ const Login = () =>{
             localStorage.setItem('username', username);
             setUser(account.name);
             const role = account.accountType.toLowerCase();
+            localStorage.setItem("role", role);
             if (role == 'vendor'){
                 navigate('/react/vendor/homepage');
             }

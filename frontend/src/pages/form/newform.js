@@ -10,20 +10,12 @@ import Navbar from '../../navbar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
-import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
-import Typography from '@mui/material/Typography';
 import Dialogue from './dialogue';
 import CreateQuestionnaire from './createquestionnaire';
 import Questionnaire from './questionnaire';
 import RadioButton from './radiobutton';
+import Select from './select';
 
 
 
@@ -81,14 +73,11 @@ export default function Newform(){
         const { name, value } = e.target;
         let updatedValue = {'type': name, 'question': value};
 
-        // const list = [...newFormList];
-        // list[value] = name;
         setNewFormList(prevState => ({
             ...prevState, 
             [i]: updatedValue
         }));
 
-        // setValues({ ...values, nickName: 'new Value' })
     };
     console.log(newFormList);
 
@@ -126,51 +115,34 @@ export default function Newform(){
         setInputList(list);
     };
     console.log(inputList);
+
     /* THIS IS TO RENDER THE ADDING OF INPUT FIELDS */
     const renderInputField = (item, i) =>{
-        if(item === 'Text Field'){
+        if(item === 'New Questionnaire'){
             return(
                 <>
-                <div className='newFormQuestion'>
-                    <div className='newFormInput'>
-                        <TextField name='text' placeholder='Question' sx={{width: '100%'}} onChange={e => handleInputChange(e, i)}/>
-                    </div>
-                    <div className='newFormInput'>
-                        <TextField name='answer' placeholder='Answer' sx={{width: '100%'}} disabled={true}/>
-                    </div>
-                </div>
-                <DeleteIcon onClick={()=>handleRemoveInputField(i)} sx={{fontSize: 30, marginLeft:5, marginTop: 2}}/>
+                    <CreateQuestionnaire />
+                    <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveInputField(i)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Questionnaire
+                    </button>
                 </>
             )
         }
 
-        else if(item === 'New Questionnaire'){
-            return(<CreateQuestionnaire />)
-        }
-
-        else if(item === 'Radio Button'){
-            return(
-                <>
-                    <RadioButton />
-                    <DeleteIcon onClick={()=>handleRemoveInputField(i)} sx={{fontSize: 30, marginLeft:5, marginTop: 2}}/>
-                </>
-            )
-        }
-        else if(item === 'Checkbox'){
-            return(<div>hi4</div>)
-        }
-        else if(item === 'Dropdown'){
-            return(<div>hi5</div>)
+        else if (item === 'Cancel'){
+            return (<></>);
         }
 
         else{
-            // hopefully save questionnaire id into the values list thingy
-            setValues({
-                ...values,
-                ['questionnaire']: item,
-            });
             // to display an existing questionnaire 
-            return (<Questionnaire id={item} />)
+            return (
+                <>
+                    <Questionnaire id={item} />
+                    <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveInputField(i)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Questionnaire
+                    </button>
+                </>
+            )
         }
     }
 
@@ -220,6 +192,7 @@ export default function Newform(){
                         </button>
 
                         <Dialogue 
+                            id='newForm'
                             selectedValue={selectedValue}
                             open={open}
                             onClose={handleClose}

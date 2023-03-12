@@ -26,6 +26,10 @@ import Dialogue from './dialogue';
 import TextInput from './textfield';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
+import Checkbox from '@mui/material/Checkbox';
+import Select from '@mui/material/Select';
+import NativeSelect from '@mui/material/NativeSelect';
+import MenuItem from '@mui/material/MenuItem';
 
 const options = ['Text Field', 'Radio Button', 'Checkbox', 'Dropdown'];
 
@@ -36,19 +40,26 @@ export default function Questionnaire(props){
     // use questionnaireId to get the questionnaire from backend 
     // dummy data here 
     const questionnaire = {
-        'questionnaireNo' : '389273', 
+        'questionnaireId' : '389273', 
         'questionnaireName' : 'intro questions',
         'questions':{
             'Name:' : 'text',
             'Age:' : 'text', 
             'Gender:' : ['radio', 'male', 'female'],
             'idk bro:' : ['checkbox', 'cbox1', 'cbox2']
-        }
+        },
+        'roleRequired' : 'vendor'
     }
+    const assigned = questionnaire['roleRequired'];
+
     return(
         <div className='questionnaireContent'>
             <div className='questionnaireName'>
                 {questionnaire['questionnaireName']}
+            </div>
+
+            <div className='questionnaireId'>
+                {questionnaire['questionnaireId']}
             </div>
 
             <FormControl fullWidth>
@@ -88,7 +99,7 @@ export default function Questionnaire(props){
                                     <Row>
                                         {multiOptions.map((option)=>{
                                             return(
-                                                <FormControlLabel value={option} control={<Radio />} label={option} />
+                                                <FormControlLabel value={option} control={<Radio />} label={option}  disabled={true}/>
                                             )
                                         })}
                                     </Row>
@@ -109,7 +120,7 @@ export default function Questionnaire(props){
                                     <Row>
                                         {multiOptions.map((option)=>{
                                             return(
-                                                <FormControlLabel control={<Checkbox />} value = {option} label = {option}/>
+                                                <FormControlLabel control={<Checkbox />} value = {option} label = {option} disabled={true}/>
                                             )
                                         })}
                                     </Row>
@@ -117,6 +128,23 @@ export default function Questionnaire(props){
                             )
                         }
                     })}
+                    <Row>
+                        <Col md={1}>
+                            Assignment:
+                        </Col>
+                        <Col>
+                            <NativeSelect
+                                defaultValue={assigned}
+                                disabled
+                                inputProps={{
+                                    id: 'uncontrolled-native',
+                                  }}>
+                                
+                                <option value='admin'>Admin</option>
+                                <option value='vendor'>Vendor</option>
+                            </NativeSelect>
+                        </Col>
+                    </Row>
                 </Container>
             </FormControl>
             

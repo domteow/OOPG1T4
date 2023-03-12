@@ -25,7 +25,9 @@ import PropTypes from 'prop-types';
 
 
 export default function Dialogue(props){
-    const options = ['New Questionnaire'];
+    const type = props.id;
+    const formOptions = ['New Questionnaire'];
+    const questionnaireOptions = ['Text Field', 'Radio Button', 'Checkbox', 'Select', 'Cancel'];
     // FROM BACKEND GET THE EXISTING QUESTIONNAIRES and add into options 
     const questionnaireList = [
         {
@@ -48,10 +50,11 @@ export default function Dialogue(props){
 
     questionnaireList.map((questionnaire) =>{
         const questionnaireName = questionnaire['name'];
-        if (options.indexOf(questionnaireName) === -1){
-            options.push(questionnaireName);
+        if (formOptions.indexOf(questionnaireName) === -1){
+            formOptions.push(questionnaireName);
         }
     })
+    formOptions.push('Cancel');
 
     const {onClose, selectedValue, open} = props;
 
@@ -63,23 +66,45 @@ export default function Dialogue(props){
         onClose(value);
     }
 
-    return(
-        <Dialog onClose={handleClose} open={open}>
-            <DialogTitle>
-                + Add
-            </DialogTitle>
-            <List className='allOptions'>
-                
-                {options.map((option)=>(
-                    <ListItem disableGutters>
-                        <ListItemButton onClick={()=> handleListItemClick(option)} key={option}>
-                            <ListItemText primary={option} />
-                        </ListItemButton>
-                    </ListItem>           
-                ))}
-            </List>
-        </Dialog>
-    )
+    
+    if (type === 'newForm'){
+        return(
+            <Dialog onClose={handleClose} open={open}>
+                <DialogTitle>
+                    + Add
+                </DialogTitle>
+                <List className='allOptions'>
+                    {formOptions.map((option)=>(
+                        <ListItem disableGutters>
+                            <ListItemButton onClick={()=> handleListItemClick(option)} key={option}>
+                                <ListItemText primary={option} />
+                            </ListItemButton>
+                        </ListItem>           
+                    ))}
+                </List>
+            </Dialog>
+        )
+    }
+    else{
+        return(
+            <Dialog onClose={handleClose} open={open}>
+                <DialogTitle>
+                    + Add
+                </DialogTitle>
+                <List className='allOptions'>
+                    {questionnaireOptions.map((option)=>(
+                        <ListItem disableGutters>
+                            <ListItemButton onClick={()=> handleListItemClick(option)} key={option}>
+                                <ListItemText primary={option} />
+                            </ListItemButton>
+                        </ListItem>           
+                    ))}
+                </List>
+            </Dialog>
+        )
+    }
+    
+    
 }
 
 Dialogue.propTypes = {

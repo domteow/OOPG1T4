@@ -83,16 +83,12 @@ export default function NewVendor(){
         for (let index = 0; index<formFields.length; index++){
             const currentField = formFields[index];
             const currentValue = values[currentField];
-            
-            
         }
 
         setFormValues(newFormValues)
         addVendor();
         
     }
-
-    
 
     // to save the vendor 
     const addVendor = async() => {

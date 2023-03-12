@@ -21,7 +21,7 @@ export default function Navbar(){
     'rhys' : 'admin'
   }
   const user = localStorage.getItem('username');
-  const role = userRole[user];
+  const role = localStorage.getItem('role');
 
   // navigations 
   const navigate = useNavigate();

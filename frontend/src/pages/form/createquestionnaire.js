@@ -9,50 +9,85 @@ import Col from 'react-bootstrap/Col';
 import Navbar from '../../navbar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
-import FormControl from '@mui/material/FormControl';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
-import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
-import Typography from '@mui/material/Typography';
-import PropTypes from 'prop-types';
 import Dialogue from './dialogue';
 import TextInput from './textfield';
+import RadioButton from './radiobutton';
+import Checkbox from './checkbox';
+import Select from './select';
 
-const options = ['Text Field', 'Radio Button', 'Checkbox', 'Dropdown'];
+const options = ['Text Field', 'Radio Button', 'Checkbox', 'Select'];
 
 export default function CreateQuestionnaire(){
     const [open, setOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(options[1]);
+
+    // inputList contains all the input fields that you're adding into the questionnaire 
     const [inputList, setInputList] = useState([]);
 
+    /* DIALOGUE STUFF */
+    // this is for opening the dialogue
     const handleClickOpen = () => {
         setOpen(true);
     };
     
+    // this is for closing the dialogue
     const handleClose = (value) => {
         setOpen(false);
         setSelectedValue(value);
         setInputList([...inputList, value]);
     };
+    /* END OF DIALOGUE STUFF */
 
-    const renderInputField = (item) =>{
+    // this is to delete the input field 
+    const handleRemoveInputField = index => {
+        const list = [...inputList];
+        list.splice(index, 1);
+        setInputList(list);
+    };
+    console.log(inputList);
+
+    const renderInputField = (item, i) =>{
+        
         if(item === 'Text Field'){
-            return(<TextInput/>)
+            return(
+                <>
+                    <TextInput />
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Text Field
+                    </button>
+                </>
+            )
         }
         else if(item === 'Radio Button'){
-            return(<div>hi3</div>)
+            return(
+                <>
+                    <RadioButton />
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Radio
+                    </button>
+                </>
+            )
         }
         else if(item === 'Checkbox'){
-            return(<div>hi4</div>)
+            return(
+                <>
+                    <Checkbox />
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Checkbox
+                    </button>
+                </>
+            )
         }
-        else if(item === 'Dropdown'){
-            return(<div>hi5</div>)
+        else if(item === 'Select'){
+            return(
+                <>
+                    <Select />
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Select
+                    </button>
+                </>
+            )
         }
     }
 
@@ -60,19 +95,34 @@ export default function CreateQuestionnaire(){
         <>
             <div className='questionnaireContent'>
                 <div>
-                    {inputList.map((item, i)=>{
-                        return(
-                            <div>
-                                {renderInputField(item)}
-                            </div>
-                        )
-                    })}
+                    <div className='formQuestion'>
+                        Form Name:
+                    </div>
+                    <div  xs={12} md={10} className='formInput'>
+                        <TextField
+                            required
+                            id="formName"
+                            name="formName"
+                            type='text'
+                            sx={{width: '100%'}}
+                        />
+                    </div>
                 </div>
-                <button onClick={handleClickOpen} className='dialogueButton'>
+                
+                {inputList.map((item, i)=>{
+                    return(
+                        <div>
+                            {renderInputField(item, i)}
+                        </div>
+                    )
+                })}
+
+                <button onClick={handleClickOpen} className='addFieldButton'>
                     <AddIcon/> Add 
                 </button>
 
                 <Dialogue 
+                    id= 'newQuestionnaire'
                     selectedValue={selectedValue}
                     open={open}
                     onClose={handleClose}

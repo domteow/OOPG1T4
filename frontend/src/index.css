@@ -125,6 +125,7 @@
     padding-left: 0%;
     margin-left: auto;
     margin-right: auto;
+    border: 1px solid transparent;
 }
 
 .welcomeText{
@@ -168,8 +169,8 @@
     display: flex;
     position: relative;
     /* Setting the size of the upper layer to 80% of the screen size*/
-    height: 133%;
-    width: 143%;
+    height: 132%;
+    width: 141%;
     top: 43%;
     left: -23.5%;
 
@@ -642,6 +643,18 @@ input{
 }
 
 .dialogueButton{
+    width: 15%;
+    padding: 0.5%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #0e80c6;
+    color: #f9f9f9;
+    border: 1px solid #1073b0;
+    margin-left: 3.5%;
+    margin-top: 5%;
+}
+
+.addFieldButton{
     width: 10%;
     padding: 0.5%;
     border-radius: 5px;
@@ -649,48 +662,123 @@ input{
     background-color: #0e80c6;
     color: #f9f9f9;
     border: 1px solid #1073b0;
-    margin-left: 5%;
+    margin-left: 1%;
     margin-top: 5%;
 }
 /* END OF NEW FORM*/
 
-/* QUESTIONNAIRE COMPONENT */
+/* QUESTIONNAIRE COMPONENT (add existing questionnaire) */
 .questionnaireContent{
     border: 1px solid #c6c6c6;
     box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
-    width: 90%; 
+    width: 93%; 
     margin-left: auto;
     margin-right:auto;
-    margin-top: 5%;
+    margin-top: 3%;
+    padding: 1%;
+    padding: 2%;
+}
+
+.deleteQuestionnaireButton{
+    width: 15%;
+    border: transparent;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #7f7f7f;
+    color: #f9f9f9;
+    padding: 0.5%;
+    margin-left: 3.5%;
+    margin-top: 2%;
+    text-align: center;
+
+}
+
+.deleteInputButton{
+    width: 15%;
+    border: transparent;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #7f7f7f;
+    color: #f9f9f9;
+    padding: 0.5%;
+    margin-top: 1%;
+    text-align: center;
+}
+
+.questionnaireName{
+    font-style: italic;
+    font-weight: 600;
+    font-size: 22px;
+    padding-left: 1%;
+}
+
+.questionnaireId{
+    font-style: italic;
+    font-size: 16px;
+    padding-left: 1%;
 }
 /* END OF QUESTIONNAIRE COMPONENT */
 
 /* TEXTINPUT COMPONENT */
 .newFormQuestion{
     margin-top: 3%;
-    width: 90%;
     margin-left: auto;
     margin-right: auto;
-    border: 0.5px solid #ededed;
-    padding-left:2%;
-    padding-right: 2%;
     padding-bottom: 1%;
 }
 /* END OF TEXTINPUT COMPONENT */
 
 /* RADIO COMPONENT */
 .addRadio{
-    width: 10%;
+    width: 15%;
     padding: 0.5%;
     border-radius: 5px;
     box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
     background-color: #0e80c6;
     color: #f9f9f9;
-    border: 1px solid #1073b0
-
+    border: 1px solid #1073b0;
+    font-size: 16px;
+    margin-top: 1%;
 }
 /* END OF RADIO COMPONENT */
+.addCheckbox{
+    width: 15%;
+    padding: 0.5%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #0e80c6;
+    color: #f9f9f9;
+    border: 1px solid #1073b0;
+    font-size: 16px;
+    margin-top: 1%;
 
+}
 .newFormInput{
     margin-top: 1%;
+    padding-top: 1%;
+}
+
+.radioOption{
+    margin-top: 1%;
+}
+
+.checkboxOption{
+    margin-top: 1%;
+}
+
+.selectOption{
+    margin-top: 1%;
+}
+
+.addSelect{
+    width: 15%;
+    padding: 0.5%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #0e80c6;
+    color: #f9f9f9;
+    border: 1px solid #1073b0;
+    font-size: 16px;
+    margin-top: 1%;
+
 }

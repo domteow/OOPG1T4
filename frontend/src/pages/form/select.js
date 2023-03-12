@@ -23,10 +23,8 @@ import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import { fontSize } from '@mui/system'
 
-export default function RadioButton(){
+export default function Select(){
     const [newFormList, setNewFormList] = useState({});
-
-    // NEED HELP DOM DOMDOMDODMODMDOMDOMD TO SAVE ALL THE QUESTIONS AND WHAT NOT THAT HAVE BEEN ADDED
 
     const handleInputChange = (e, i) => {
         const { name, value, type } = e.target;
@@ -52,39 +50,36 @@ export default function RadioButton(){
             [i]: updatedValue
         }));
     };
+
     console.log(newFormList);
 
-    /* THIS IS TO ADD A VALUE INTO RADIOLIST, WHICH MEANS ON CLICK ON ADD BUTTON, A NEW RADIO OPTION IS ADDED */
-    const [radioList, setRadioList] = useState([]);
-    const addRadioOption = () => {
-        setRadioList([...radioList, radioList.length]); // use length to specify the index of the radio option
+    /* THIS IS TO ADD A VALUE INTO CHECKLIST, WHICH MEANS ON CLICK ON ADD BUTTON, A NEW CHECKBOX OPTION IS ADDED */
+    const [selectList, setSelectList] = useState([]);
+    const addSelectOption = () => {
+        setSelectList([...selectList, selectList.length]); // use length to specify the index of the radio option
     }
 
-    const handleRemoveRadioOption = index => {
-        const list = [...radioList];
+    const handleRemoveSelectOption = index => {
+        const list = [...selectList];
         list.splice(index, 1);
-        setRadioList(list);
+        setSelectList(list);
     };
 
-    const renderRadioOption = (i)=>{
+    const renderSelectOption = (i)=>{
         return (
-            <div className='radioOption'>
-                <TextField name='radioOption' type='radioOption' className='newFormInput' placeholder='Option' sx={{width: '70%'}} onChange={e => handleInputChange(e, i)}/>
+            <div className='selectOption'>
+                <TextField name='selectOption' className='newFormInput' placeholder='Option' sx={{width: '70%'}} onChange={e => handleInputChange(e, i)}/>
                 
-                <DeleteIcon onClick={()=>handleRemoveRadioOption(i)} sx={{fontSize: 30, marginLeft:5, marginTop: 2}}/>
+                <DeleteIcon onClick={()=>handleRemoveSelectOption(i)} sx={{fontSize: 30, marginLeft:5, marginTop: 2}}/>
                 
             </div>
         )
     }
-    /* END OF THE RADIO ADDING PORTION, INCLUDING THE RENDERRADIOOPTION */
 
-    // hi rhys.............
-    // CREATE A FUNCTION TO RENDER THE TEXT FIELD CAUSE I NOT SURE HOW ELSE TO
-    // PASS IN THE INDEX SO THAT IT LOOKS LIKE THE TEXTFIELD IN NEWFORM.JS
     const renderTextField = (i)=>{
         return (
             <>
-                <TextField name='radioQuest' type='radioQuest' className='newFormInput' placeholder='Question' sx={{width: '100%'}} onChange={e => handleInputChange(e, i)}/>
+                <TextField name='text' className='newFormInput' placeholder='Question' sx={{width: '100%'}} onChange={e => handleInputChange(e, i)}/>
             </>
         )
     }
@@ -94,16 +89,16 @@ export default function RadioButton(){
             <div className='newFormQuestion'>
                 {renderTextField(0)}
                 <div>
-                    {radioList.map((item, i)=>{
+                    {selectList.map((item, i)=>{
                             return(
                                 <>
-                                    {renderRadioOption(i)}
+                                    {renderSelectOption(i)}
                                 </>
                             )
                     })}
                 </div>
                 <div>   
-                    <button onClick={addRadioOption} className='addRadio'>
+                    <button onClick={addSelectOption} className='addSelect'>
                         <AddIcon/> Add Option
                     </button>
                 </div>
