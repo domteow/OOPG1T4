@@ -25,88 +25,91 @@ import { fontSize } from '@mui/system'
 
 export default function RadioButton(){
     const [newFormList, setNewFormList] = useState({});
-
+    const [radioQuestion, setRadioQuestion] = useState('');
+    const [radioOptions, setRadioOptions] = useState([]);
+    const [formData, setFormData] = useState({
+        radioQuestions: [{ question: "", options: [] }]
+      });
+      
+  
     // NEED HELP DOM DOMDOMDODMODMDOMDOMD TO SAVE ALL THE QUESTIONS AND WHAT NOT THAT HAVE BEEN ADDED
 
-    const handleInputChange = (e, i) => {
-        const { name, value, type } = e.target;
-        let updatedValue;
-        if (type === 'radio'){
-            updatedValue = {'type': "radio-" + i, 'question': value};
-        }
-
-        else if (type === 'text') {
-            updatedValue = {'type': name, 'question': value};
-        }
-
-        else if (type === 'checkbox') {
-            updatedValue = {'type': "checkbox-" + i, 'question': value};
-        }
-
-        else if (type === 'select') {
-            updatedValue = {'type': "select-" + i, 'question': value};
-        }
-
-        setNewFormList(prevState => ({
-            ...prevState, 
-            [i]: updatedValue
-        }));
+    const handleQuestionChange = (e) => {
+        setRadioQuestion(e.target.value);
+      };
+    
+    const handleOptionChange = (e, index) => {
+        const updatedOptions = [...radioOptions];
+        updatedOptions[index] = e.target.value;
+        setRadioOptions(updatedOptions);
     };
-    console.log(newFormList);
 
+    const handleAddOption = () => {
+        setRadioOptions([...radioOptions, ""]);
+    };
+
+    const handleRemoveOption = (index) => {
+        const updatedOptions = [...radioOptions];
+        updatedOptions.splice(index, 1);
+        setRadioOptions(updatedOptions);
+    };
+    
+    console.log(radioQuestion)
+    console.log(radioOptions)
     /* THIS IS TO ADD A VALUE INTO RADIOLIST, WHICH MEANS ON CLICK ON ADD BUTTON, A NEW RADIO OPTION IS ADDED */
-    const [radioList, setRadioList] = useState([]);
-    const addRadioOption = () => {
-        setRadioList([...radioList, radioList.length]); // use length to specify the index of the radio option
-    }
+    // const [radioList, setRadioList] = useState([]);
+    // const addRadioOption = () => {
+    //     setRadioList([...radioList, radioList.length]); // use length to specify the index of the radio option
+    //     // console.log('hi')
+    // }
+    
 
-    const handleRemoveRadioOption = index => {
-        const list = [...radioList];
-        list.splice(index, 1);
-        setRadioList(list);
-    };
-
-    const renderRadioOption = (i)=>{
-        return (
-            <div className='radioOption'>
-                <TextField name='radioOption' type='radioOption' className='newFormInput' placeholder='Option' sx={{width: '70%'}} onChange={e => handleInputChange(e, i)}/>
+    // const renderRadioOption = (questionIndex, optionIndex) => {
+    //     return (
+    //       <div className="radioOption">
+    //         <TextField
+    //           name="radioOption"
+    //           type="radioOption"
+    //           className="newFormInput"
+    //           placeholder="Option"
+    //           sx={{ width: "70%" }}
+    //           value={this.state.formData.radioQuestions[questionIndex].options[optionIndex]}
+    //           onChange={(e) => this.handleRadioOptionChange(e, questionIndex, optionIndex)}
+    //         />                
+    //             <DeleteIcon onClick={()=> this.handleRemoveRadioOption(questionIndex, optionIndex)} sx={{fontSize: 30, marginLeft:5, marginTop: 2}}/>
                 
-                <DeleteIcon onClick={()=>handleRemoveRadioOption(i)} sx={{fontSize: 30, marginLeft:5, marginTop: 2}}/>
-                
-            </div>
-        )
-    }
+    //         </div>
+    //     )
+    // }
     /* END OF THE RADIO ADDING PORTION, INCLUDING THE RENDERRADIOOPTION */
 
     // hi rhys.............
     // CREATE A FUNCTION TO RENDER THE TEXT FIELD CAUSE I NOT SURE HOW ELSE TO
     // PASS IN THE INDEX SO THAT IT LOOKS LIKE THE TEXTFIELD IN NEWFORM.JS
-    const renderTextField = (i)=>{
-        return (
-            <>
-                <TextField name='radioQuest' type='radioQuest' className='newFormInput' placeholder='Question' sx={{width: '100%'}} onChange={e => handleInputChange(e, i)}/>
-            </>
-        )
-    }
+    // const renderRadioQuestion = (questionIndex) => {
+    //     const question = this.state.formData.radioQuestions[questionIndex];
+    //     const options = question.options.map((option, optionIndex) => {
+    //       return this.renderRadioOption(questionIndex, optionIndex);
+    //     });
 
     return(
         <>
-            <div className='newFormQuestion'>
-                {renderTextField(0)}
-                <div>
-                    {radioList.map((item, i)=>{
-                            return(
-                                <>
-                                    {renderRadioOption(i)}
-                                </>
-                            )
-                    })}
-                </div>
-                <div>   
-                    <button onClick={addRadioOption} className='addRadio'>
-                        <AddIcon/> Add Option
-                    </button>
-                </div>
+            <div>
+                <br></br>
+                <TextField className='newFormInput' value={radioQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} />
+
+                
+
+                
+                {radioOptions.map((option, index) => (
+                    <div key={index} className="radioOption">
+                    <br></br>
+                    <input type="radio" name="radioOption" value={option} />
+                    <TextField className='newFormInput' value={option} sx={{width: '70%'}} onChange={(e) => handleOptionChange(e, index)} />
+                    <DeleteIcon onClick={() => handleRemoveOption(index)}/>
+                    </div>
+                ))}
+                <button onClick={handleAddOption}>Add Option</button>
             </div>
             
         </>
