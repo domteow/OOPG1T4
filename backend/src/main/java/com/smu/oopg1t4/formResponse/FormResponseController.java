@@ -1,4 +1,4 @@
-package com.smu.oopg1t4.formresponse;
+package com.smu.oopg1t4.formResponse;
 
 
 import com.smu.oopg1t4.questionnaire.QuestionnaireService;

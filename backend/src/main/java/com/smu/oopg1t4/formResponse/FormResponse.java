@@ -1,51 +1,69 @@
-package com.smu.oopg1t4.formresponse;
+package com.smu.oopg1t4.formResponse;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.smu.oopg1t4.form.Form;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+
 @Document(collection = "form_response")
-public class FormResponse2 extends Form {
+public class FormResponse {
 
     @Transient
     public static final String SEQUENCE_NAME = "form_response_sequence";
 
-    @JsonProperty("ownerId")
+    @Id
+    private int id;
+    private Form form;
+    private ArrayList<String> formAnswers;
+    // it may be better to keep the answers to each form field here, so that the form does not need to be touched anymore?
     private int ownerId; // Tagged to whoever the form is for. (vendorId)
     private String pendingUserInput;
     private int questionnairesCompleted = 0; // Frontend will block inputs to n-1 questionnairesCompleted (?)
     private boolean submitted; // If submitted by Vendor, for FrontEnd to block actions from vendor
     private boolean approved; // If approved = true, no more actions needed.
 
-
-    public FormResponse2(){
-
-    }
-    public FormResponse2(
+    public FormResponse(
+            Form form,
             int ownerId,
             String pendingUserInput,
             int questionnairesCompleted,
             boolean submitted,
             boolean approved
     ) {
+        this.form = form;
         this.ownerId = ownerId;
         this.pendingUserInput = pendingUserInput;
         this.questionnairesCompleted = questionnairesCompleted;
         this.submitted = submitted;
         this.approved = approved;
     }
-    @Override
-    public int getId() {
-        return super.getId();
+
+    public FormResponse(
+            int id,
+            Form form,
+            int ownerId,
+            String pendingUserInput,
+            int questionnairesCompleted,
+            boolean submitted,
+            boolean approved
+    ) {
+        this.form = form;
+        this.id = id;
+        this.ownerId = ownerId;
+        this.pendingUserInput = pendingUserInput;
+        this.questionnairesCompleted = questionnairesCompleted;
+        this.submitted = submitted;
+        this.approved = approved;
     }
 
-    @Override
+    public int getId() {
+        return id;
+    }
+
     public void setId(int id) {
-        super.setId(id);
+        this.id = id;
     }
 
     public int getOwnerId() {
