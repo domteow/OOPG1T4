@@ -6,6 +6,6 @@ import org.springframework.data.mongodb.repository.Query;
 import java.util.List;
 
 public interface QuestionnaireRepository extends MongoRepository<Questionnaire, Integer> {
-    @Query("{'id':?0}")
-    List<Questionnaire> findByID(int id);
+//    @Query("{'id':?0}")
+//    List<Questionnaire> findByID(int id);
 }
