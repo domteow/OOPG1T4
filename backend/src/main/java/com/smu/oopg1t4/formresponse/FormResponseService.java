@@ -1,4 +1,4 @@
-package com.smu.oopg1t4.formResponse;
+package com.smu.oopg1t4.formresponse;
 
 import com.smu.oopg1t4.questionnaire.QuestionnaireService;
 import com.smu.oopg1t4.response.StatusResponse;
@@ -33,7 +33,7 @@ public class FormResponseService {
 
     //get forms by vendor id
     public ResponseEntity<?> getFormByVendorID(int ownerId) {
-        List<FormResponse2> forms = formResponseRepository.getFormByVendorID(ownerId);
+        List<FormResponse> forms = formResponseRepository.getFormByVendorID(ownerId);
         if (forms.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new StatusResponse("Forms not found.", HttpStatus.NOT_FOUND.value()));
@@ -43,7 +43,7 @@ public class FormResponseService {
     }
 
     public ResponseEntity<?> getFormByFormResponseID(int id) {
-        Optional<FormResponse2> form = formResponseRepository.findById(id);
+        Optional<FormResponse> form = formResponseRepository.findById(id);
         if (form.isPresent()){
             return ResponseEntity.ok().body(
                     new SuccessResponse("Success", HttpStatus.OK.value(), form.get()));
