@@ -1,4 +1,4 @@
-package com.smu.oopg1t4.form;
+package com.smu.oopg1t4.exceptions;
 
 public class FormAlreadyExistsException extends Exception {
     public FormAlreadyExistsException(String message) {
@@ -6,6 +6,6 @@ public class FormAlreadyExistsException extends Exception {
     }
 
     public FormAlreadyExistsException() {
-        this("Form already exists. Please try creating form under a different form code or revision number.");
+        this("Form already exists. Please try a different form code or revision number.");
     }
 }

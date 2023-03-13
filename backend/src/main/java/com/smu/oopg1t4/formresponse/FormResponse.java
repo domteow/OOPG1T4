@@ -23,9 +23,10 @@ public class FormResponse extends Form {
     private boolean approved; // If approved = true, no more actions needed.
 
 
-    public FormResponse(){
+    public FormResponse() {
 
     }
+
     public FormResponse(
             int ownerId,
             String pendingUserInput,
@@ -61,6 +62,7 @@ public class FormResponse extends Form {
         this.submitted = submitted;
         this.approved = approved;
     }
+
     @Override
     public int getId() {
         return super.getId();

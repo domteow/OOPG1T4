@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(path = "api/v1/form")
 public class FormController {
@@ -29,7 +27,18 @@ public class FormController {
 
     @GetMapping("/get/id/{id}")
     public ResponseEntity<?> getFormByID(@PathVariable int id) {
-        return formService.getFormByID(id);
+        return formService.getForm(id);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchForms(
+            @RequestParam(required = false) String formCode,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) String[] formStatus,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate
+    ) {
+        return formService.searchForms(formCode, description, formStatus, startDate, endDate);
     }
 
     @PostMapping("/createForm")
@@ -71,7 +80,8 @@ public class FormController {
         return formService.saveAndPublishForm(id, form);
     }
 
-    // implement searching for forms
-    // need to get forms by status
-    // need to get forms by formcode + description (search)
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteForm(@PathVariable int id) {
+        return formService.deleteForm(id);
+    }
 }

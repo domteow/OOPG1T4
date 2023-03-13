@@ -1,6 +1,5 @@
 package com.smu.oopg1t4.formresponse;
 
-import com.smu.oopg1t4.field.Field;
 import com.smu.oopg1t4.form.Form;
 import com.smu.oopg1t4.form.FormRepository;
 import com.smu.oopg1t4.questionnaire.QuestionnaireService;
@@ -50,7 +49,7 @@ public class FormResponseService {
 
     public ResponseEntity<?> getFormByFormResponseID(int id) {
         Optional<FormResponse> form = formResponseRepository.findById(id);
-        if (form.isPresent()){
+        if (form.isPresent()) {
             return ResponseEntity.ok().body(
                     new SuccessResponse("Success", HttpStatus.OK.value(), form.get()));
         }
@@ -58,9 +57,9 @@ public class FormResponseService {
                 new StatusResponse("Form not found.", HttpStatus.NOT_FOUND.value()));
     }
 
-    public ResponseEntity<StatusResponse> assignFormToVendor(int formId, int vendorId){
+    public ResponseEntity<StatusResponse> assignFormToVendor(int formId, int vendorId) {
         Optional<Form> optionalForm = formRepository.findById(formId);
-        if(optionalForm.isPresent()){
+        if (optionalForm.isPresent()) {
             Form form = optionalForm.get();
             FormResponse formResponse = new FormResponse(
                     sequenceGeneratorService.generateSequence(FormResponse.SEQUENCE_NAME),
@@ -79,10 +78,10 @@ public class FormResponseService {
             formResponseRepository.save(formResponse);
 
             return ResponseEntity.ok().body(
-                    new StatusResponse("Success", HttpStatus.OK.value())) ;
+                    new StatusResponse("Success", HttpStatus.OK.value()));
         } else {
             return ResponseEntity.ok().body(
-                    new StatusResponse("Failure", HttpStatus.OK.value())) ;
+                    new StatusResponse("Failure", HttpStatus.OK.value()));
         }
 
     }
