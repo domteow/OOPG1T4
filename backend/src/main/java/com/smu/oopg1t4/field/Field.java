@@ -4,6 +4,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document(collection = "field")
 public class Field<T> {
     @Transient
@@ -14,26 +16,74 @@ public class Field<T> {
     private String name;
     private T value;
     private String type;
+    //For radio and checkbox
+    private List<String> options;
+    private boolean others;
 
     public Field(){
 
     }
 
+    //For Text
     public Field(String name, String type){
         this.name = name;
         this.type = type;
     }
-
+    //For Text with id
     public Field(int id, String name, String type){
         this.id = id;
         this.name = name;
         this.type = type;
     }
 
+    //For Text with value
     public Field(String name, T value, String type){
         this.name = name;
         this.value = value;
         this.type = type;
+    }
+
+    //For Text with id,value
+    public Field(int id, String name, T value, String type){
+        this.id = id;
+        this.name = name;
+        this.value = value;
+        this.type = type;
+    }
+
+    //For Form Response Radio/Checkbox
+    public Field(String name, String type, List<String> options, boolean others){
+        this.name = name;
+        this.type = type;
+        this.options = options;
+        this.others = others;
+    }
+    //For Form Response Radio/Checkbox with id
+    public Field(int id, String name, String type, List<String> options, boolean others){
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.options = options;
+        this.others = others;
+    }
+
+    //For Form Response Radio/Checkbox with value
+    public Field(String name, T value, String type, List<String> options, boolean others){
+        this.name = name;
+        this.value = value;
+        this.type = type;
+        this.options = options;
+        this.others = others;
+    }
+
+    //For Form Response Radio/Checkbox with id, value
+    public Field(int id, String name, T value, String type, List<String> options, boolean others){
+        this.id = id;
+        this.name = name;
+        this.value = value;
+        this.type = type;
+        this.options = options;
+        this.others = others;
     }
 
     public int getId() {
@@ -66,5 +116,13 @@ public class Field<T> {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public List<?> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<String> options) {
+        this.options = options;
     }
 }

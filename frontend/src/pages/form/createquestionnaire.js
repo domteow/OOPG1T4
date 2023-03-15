@@ -16,8 +16,9 @@ import RadioButton from './radiobutton';
 import Checkbox from './checkbox';
 import Select from './select';
 import NativeSelect from '@mui/material/NativeSelect';
+import Subheader from './subheader';
 
-const options = ['Text Field', 'Radio Button', 'Checkbox', 'Select'];
+const options = ['Sub Header', 'Text Field', 'Radio Button', 'Checkbox', 'Select'];
 
 export default function CreateQuestionnaire(){
     const [open, setOpen] = useState(false);
@@ -25,6 +26,9 @@ export default function CreateQuestionnaire(){
 
     // inputList contains all the input fields that you're adding into the questionnaire 
     const [inputList, setInputList] = useState([]);
+    
+    // details contains all the details of the questionnaire ehehehhe
+    const [details, setDetails] = useState([]);
 
     /* DIALOGUE STUFF */
     // this is for opening the dialogue
@@ -37,6 +41,7 @@ export default function CreateQuestionnaire(){
         setOpen(false);
         setSelectedValue(value);
         setInputList([...inputList, value]);
+        setDetails([...details, value]);
     };
     /* END OF DIALOGUE STUFF */
 
@@ -44,24 +49,73 @@ export default function CreateQuestionnaire(){
     const handleRemoveInputField = index => {
         const list = [...inputList];
         list.splice(index, 1);
+        const qlist = [...details];
+        qlist.splice(index, 1);
+        setDetails(qlist);
         setInputList(list);
     };
-    console.log(inputList);
 
-    // DOM I NEED HELP IN LIKE SAVING THE THING COS NOW IT JUST REPLACES W THE NEW RADIO DATA
-    const [questionnaireDetail, setQuestionnaireDetail] = useState({});
-    const allDetails = (data) => {
-        setQuestionnaireDetail({...questionnaireDetail, data});
+    const allDetails = (data, index) => {
+        const newDetails = details.map((item, i)=>{
+            if (i === index){
+                return data
+            }
+            else{
+                return item
+            }
+        });
+        setDetails(newDetails);
     }
+
+    const handleTextChange = (e, i)=>{
+        const data = {
+            question : e.target.value,
+            type: 'text'
+        }
+        const newDetails = details.map((item, index)=>{
+            if (index === i){
+                return data
+            }
+            else{
+                return item
+            }
+        });
+        setDetails(newDetails);
+    }
+
+    const handleSubTextChange = (e, i)=>{
+        const data = {
+            question : e.target.value,
+            type: 'subheader'
+        }
+        const newDetails = details.map((item, index)=>{
+            if (index === i){
+                return data
+            }
+            else{
+                return item
+            }
+        });
+        setDetails(newDetails);
+    }
+
     console.log("RHYS IS A GENIUS DAMN");
-    console.log(questionnaireDetail);
+    console.log(details);
 
     const renderInputField = (item, i) =>{
-        
         if(item === 'Text Field'){
             return(
                 <>
-                    <TextInput />
+                    <>
+                        <div className='newFormQuestion'>
+                            <div>
+                                <TextField name='text' placeholder='Question' sx={{width: '100%'}} onChange={(e)=>handleTextChange(e, i)}/>
+                            </div>
+                            <div>
+                                <TextField name='answer' placeholder='Answer' sx={{width: '100%'}} disabled={true}/>
+                            </div>
+                        </div>
+                    </>
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Text Field
                     </button>
@@ -71,7 +125,7 @@ export default function CreateQuestionnaire(){
         else if(item === 'Radio Button'){
             return(
                 <>
-                    <RadioButton allDetails={allDetails}/>
+                    <RadioButton id={i} allDetails={allDetails}/>
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Radio
                     </button>
@@ -81,7 +135,7 @@ export default function CreateQuestionnaire(){
         else if(item === 'Checkbox'){
             return(
                 <>
-                    <Checkbox allDetails={allDetails}/>
+                    <Checkbox id={i} allDetails={allDetails}/>
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Checkbox
                     </button>
@@ -91,9 +145,21 @@ export default function CreateQuestionnaire(){
         else if(item === 'Select'){
             return(
                 <>
-                    <Select allDetails={allDetails}/>
+                    <Select id={i} allDetails={allDetails}/>
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Select
+                    </button>
+                </>
+            )
+        }
+        else if (item === 'Sub Header'){
+            return(
+                <>
+                    <div className='radioOption'>
+                        <TextField name='text' placeholder='Subheader' sx={{width: '100%'}}  onChange={(e)=>handleSubTextChange(e, i)}/>
+                    </div>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Subheader
                     </button>
                 </>
             )

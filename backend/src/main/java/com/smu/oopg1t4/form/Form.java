@@ -19,7 +19,7 @@ public class Form {
     private String formCode; // Eg. "QLI-QHSP-10-F01"
     private int revisionNo; // To be used with the formCode, for ADMINs/APPROVERs to edit the form shown to vendors
     private String description; // Form Description, for "QLI-QHSP-10-F01", it would be "New Vendor Assessment Form"
-    private Date effectiveDate; // Effective date of form
+    private String effectiveDate; // Effective date of form
     private ArrayList<Questionnaire> questionnaires = new ArrayList<>(); // FULL questionnaire used in the form.
     private String formStatus = "draft"; // Either "draft" or "published" or "outdated". Drafts are editable, will not be allowed to have form responses. Published forms are not editable, shown to vendors.
 
@@ -35,7 +35,7 @@ public class Form {
             String formCode,
             int revisionNo,
             String description,
-            Date effectiveDate,
+            String effectiveDate,
             ArrayList<Questionnaire> questionnaires,
             String formStatus
     ) {
@@ -52,7 +52,7 @@ public class Form {
             String formCode,
             int revisionNo,
             String description,
-            Date effectiveDate,
+            String effectiveDate,
             ArrayList<Questionnaire> questionnaires,
             String formStatus
     ) {
@@ -97,11 +97,11 @@ public class Form {
         this.description = description;
     }
 
-    public Date getEffectiveDate() {
+    public String getEffectiveDate() {
         return effectiveDate;
     }
 
-    public void setEffectiveDate(Date effectiveDate) {
+    public void setEffectiveDate(String effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
 

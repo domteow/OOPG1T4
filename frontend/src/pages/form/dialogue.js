@@ -21,13 +21,14 @@ import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
-
+import Autocomplete from '@mui/material/Autocomplete';
 
 
 export default function Dialogue(props){
     const type = props.id;
     const formOptions = ['New Questionnaire'];
-    const questionnaireOptions = ['Text Field', 'Radio Button', 'Checkbox', 'Select', 'Cancel'];
+    const questionnaires = [];
+    const questionnaireOptions = ['Sub Header', 'Text Field', 'Radio Button', 'Checkbox', 'Select', 'Cancel'];
     // FROM BACKEND GET THE EXISTING QUESTIONNAIRES and add into options 
     const questionnaireList = [
         {
@@ -52,6 +53,7 @@ export default function Dialogue(props){
         const questionnaireName = questionnaire['name'];
         if (formOptions.indexOf(questionnaireName) === -1){
             formOptions.push(questionnaireName);
+            questionnaires.push(questionnaireName);
         }
     })
     formOptions.push('Cancel');
@@ -66,13 +68,34 @@ export default function Dialogue(props){
         onClose(value);
     }
 
-    
+    const [value, setValue] = React.useState("");
+    const [inputValue, setInputValue] = React.useState('');
+
     if (type === 'newForm'){
         return(
             <Dialog onClose={handleClose} open={open}>
                 <DialogTitle>
                     + Add
                 </DialogTitle>
+                <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    options={questionnaires}
+                    value = {value}
+                    onChange={(event, newValue) => {
+                        setValue(newValue);
+                        handleListItemClick(newValue)
+                    }}
+
+                    onInputChange={(event, newInputValue) => {
+                        console.log(newInputValue);
+                        setInputValue(newInputValue);
+                    }}
+                    
+                    sx={{ width: 450, marginLeft:2 }}
+                    inputValue = {inputValue}
+                    renderInput={(params) => <TextField {...params} label="Search Questionnaire"/>}
+                />
                 <List className='allOptions'>
                     {formOptions.map((option)=>(
                         <ListItem disableGutters>
@@ -85,6 +108,7 @@ export default function Dialogue(props){
             </Dialog>
         )
     }
+
     else{
         return(
             <Dialog onClose={handleClose} open={open}>
