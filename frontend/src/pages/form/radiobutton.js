@@ -34,7 +34,6 @@ const RadioButton = ({allDetails}) => {
     const [prevQuestion, setPrevQuestion] = useState('');      
 
   
-    // NEED HELP DOM DOMDOMDODMODMDOMDOMD TO SAVE ALL THE QUESTIONS AND WHAT NOT THAT HAVE BEEN ADDED
 
     const handleQuestionChange = (e) => {
         setRadioQuestion(e.target.value);
@@ -73,6 +72,7 @@ const RadioButton = ({allDetails}) => {
         setRadioOptions(updatedOptions);
     };
 
+
     const data = {
         question: radioQuestion,
         options: radioOptions
@@ -88,6 +88,7 @@ const RadioButton = ({allDetails}) => {
         }
     })
    
+
     return(
         <>
             <div className='newFormInput'>
@@ -101,6 +102,7 @@ const RadioButton = ({allDetails}) => {
                     </div>
                 ))}
                 <button onClick={handleAddOption} className="addRadio">Add Option</button>
+
             </div>
             
         </>
