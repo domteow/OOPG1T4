@@ -22,7 +22,7 @@ export default function AdminHomepage(){
             
             // console.log([response.data.data]);
             setAllVendors(response.data.data);
-            
+            console.log(response.data.data)
         } catch (error) {
             console.error(error)
         }
@@ -31,24 +31,6 @@ export default function AdminHomepage(){
     useEffect(() => {
         getAllVendors();
     }, []);
-
-    // console.log(allVendors)
-    // const allVendors = {
-    //     'kelvin' : {
-    //         'id': '123',
-    //         'company': 'jien'
-    //     }, 
-    //     'bruno' : {
-    //         'id': '456',
-    //         'company': 'br.no'
-    //     },
-    //     'dom':{
-    //         'id': '789',
-    //         'company': 'dominicteow'
-    //     }
-    // }
-
-    
 
     const navigate = useNavigate();
     const addNewVendor = () =>{
@@ -59,8 +41,18 @@ export default function AdminHomepage(){
         navigate("/react/viewvendor/" + vendorId);
     }
 
-    const deleteVendor = (vendorId)=>{
+    const deleteVendor = async(vendorId)=>{
         // add code to delete the vendor 
+        try {
+            const response = await axios.delete(
+                "/api/v1/vendor/deleteVendor/" + vendorId
+            );
+            console.log(response.data);
+            // refresh the list of vendors
+            getAllVendors();
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return(

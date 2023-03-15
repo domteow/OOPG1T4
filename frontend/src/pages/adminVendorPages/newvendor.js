@@ -48,6 +48,7 @@ export default function NewVendor(){
         faxNumber: '',
         phoneNumber: '',
         vendorCfmPwd: '', 
+        accountType: 'Vendor',
         error: false,
     }
     const [values, setValues] = useState(initialValues);

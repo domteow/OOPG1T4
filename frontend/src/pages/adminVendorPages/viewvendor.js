@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from '../../api/axios'
 import { useState, useEffect } from 'react'
 import { ReactDOM } from 'react-dom'
 import { Link, Router, Route, Routes, BrowserRouter, useNavigate, useParams } from 'react-router-dom'
@@ -18,6 +19,16 @@ export default function Viewvendor(){
     const vendorId = useParams().vendorId; 
     const navigate = useNavigate();
     console.log(vendorId);
+    // const [vendorDetails, setVendorDetails] = useState({});
+
+    // const getVendorById = async() => {
+    //   try {
+    //     const response = await axios.get("/api/v1/vendor/getVendor/" + vendorId)
+    //     setVendorDetails(response.data.data);
+    //   } catch (error) {
+    //     console.error(error)
+    //   }
+    // }
 
     // from backend get all the stuff we need to display.. idek what.......... fuck
     const vendorDetails = {
@@ -26,6 +37,7 @@ export default function Viewvendor(){
         'incompleteForms': {'form3': {'status':'vendor', 'action': 'incomplete', 'id' :3}, 'form4': {'status':'admin', 'action': 'continue draft', 'id':4}},
         'completedForms': {'form5':{'status':'complete', 'id':5}, 'form6':{'status': 'complete', 'id': 6, 'submission': 289}}
     }
+
     const vendorName = vendorDetails['name'];
     const allForms = vendorDetails['allForms'];
     const incompleteForms = vendorDetails['incompleteForms'];
