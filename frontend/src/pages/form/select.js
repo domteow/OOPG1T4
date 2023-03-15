@@ -23,87 +23,72 @@ import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import { fontSize } from '@mui/system'
 
-export default function Select(){
-    const [newFormList, setNewFormList] = useState({});
+const Select = ({allDetails}) => {
+    const [selectQuestion, setSelectQuestion] = useState('');
+    const [selectOptions, setSelectOptions] = useState([]);
+    const [prevOption, setPrevOption] = useState([]);
+    const [prevQuestion, setPrevQuestion] = useState(''); 
 
-    const handleInputChange = (e, i) => {
-        const { name, value, type } = e.target;
-        let updatedValue;
-        if (type === 'radio'){
-            updatedValue = {'type': "radio-" + i, 'question': value};
-        }
-
-        else if (type === 'text') {
-            updatedValue = {'type': name, 'question': value};
-        }
-
-        else if (type === 'checkbox') {
-            updatedValue = {'type': "checkbox-" + i, 'question': value};
-        }
-
-        else if (type === 'select') {
-            updatedValue = {'type': "select-" + i, 'question': value};
-        }
-
-        setNewFormList(prevState => ({
-            ...prevState, 
-            [i]: updatedValue
-        }));
+    const handleQuestionChange = (e) => {
+        setSelectQuestion(e.target.value);
     };
 
-    console.log(newFormList);
-
-    /* THIS IS TO ADD A VALUE INTO CHECKLIST, WHICH MEANS ON CLICK ON ADD BUTTON, A NEW CHECKBOX OPTION IS ADDED */
-    const [selectList, setSelectList] = useState([]);
-    const addSelectOption = () => {
-        setSelectList([...selectList, selectList.length]); // use length to specify the index of the radio option
+    const handleOptionChange = (e, index) => {
+        const updatedOptions = [...selectOptions];
+        updatedOptions[index] = e.target.value;        
+        setSelectOptions(updatedOptions);
     }
 
-    const handleRemoveSelectOption = index => {
-        const list = [...selectList];
-        list.splice(index, 1);
-        setSelectList(list);
+    const handleAddOption = () => {
+        setSelectOptions([...selectOptions, ""]);
     };
 
-    const renderSelectOption = (i)=>{
-        return (
-            <div className='selectOption'>
-                <TextField name='selectOption' className='newFormInput' placeholder='Option' sx={{width: '70%'}} onChange={e => handleInputChange(e, i)}/>
-                
-                <DeleteIcon onClick={()=>handleRemoveSelectOption(i)} sx={{fontSize: 30, marginLeft:5, marginTop: 2}}/>
-                
-            </div>
-        )
+    const handleRemoveOption = (index) => {
+        const updatedOptions = [...selectOptions];
+        updatedOptions.splice(index, 1);
+        setSelectOptions(updatedOptions);
+    };
+
+    console.log(selectQuestion);
+    console.log(selectOptions);
+
+    const data = {
+        question: selectQuestion,
+        options: selectOptions,
+        type: 'select'
     }
 
-    const renderTextField = (i)=>{
-        return (
-            <>
-                <TextField name='text' className='newFormInput' placeholder='Question' sx={{width: '100%'}} onChange={e => handleInputChange(e, i)}/>
-            </>
-        )
-    }
+    useEffect(()=>{
+        if (prevQuestion !== selectQuestion){
+            setPrevQuestion(selectQuestion);
+            allDetails(data);
+        }
+        if(prevOption!== selectOptions){
+            setPrevOption(selectOptions);
+            allDetails(data);
+        }
+    })
 
     return(
         <>
-            <div className='newFormQuestion'>
-                {renderTextField(0)}
-                <div>
-                    {selectList.map((item, i)=>{
-                            return(
-                                <>
-                                    {renderSelectOption(i)}
-                                </>
-                            )
-                    })}
-                </div>
-                <div>   
-                    <button onClick={addSelectOption} className='addSelect'>
-                        <AddIcon/> Add Option
-                    </button>
-                </div>
+            <div className='newFormInput'>
+                <TextField className='newFormInput' value={selectQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Question"/>
+                
+                {selectOptions.map((option, index)=>(
+                    <div key={index} className="selectOption">
+                        <TextField className='newFormInput' value={option} placeholder='Option' sx={{width: '70%'}} onChange={e => handleOptionChange(e, index)}/>
+                        <DeleteIcon onClick={() => handleRemoveOption(index)}/>
+                    </div>
+                ))}
+                
+                <button onClick={handleAddOption} className='addSelect'>
+                    <AddIcon/> Add Option
+                </button>
+            
             </div>
             
         </>
     )
 }
+
+export default Select;

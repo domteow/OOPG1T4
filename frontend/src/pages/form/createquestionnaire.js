@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, createContext, useContext } from 'react'
 import { ReactDOM } from 'react-dom'
 import { Link, Router, Route, Routes, BrowserRouter, useNavigate } from 'react-router-dom'
 import '../../index.css'
@@ -48,6 +48,14 @@ export default function CreateQuestionnaire(){
     };
     console.log(inputList);
 
+    // DOM I NEED HELP IN LIKE SAVING THE THING COS NOW IT JUST REPLACES W THE NEW RADIO DATA
+    const [questionnaireDetail, setQuestionnaireDetail] = useState({});
+    const allDetails = (data) => {
+        setQuestionnaireDetail({...questionnaireDetail, data});
+    }
+    console.log("RHYS IS A GENIUS DAMN");
+    console.log(questionnaireDetail);
+
     const renderInputField = (item, i) =>{
         
         if(item === 'Text Field'){
@@ -63,7 +71,7 @@ export default function CreateQuestionnaire(){
         else if(item === 'Radio Button'){
             return(
                 <>
-                    <RadioButton />
+                    <RadioButton allDetails={allDetails}/>
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Radio
                     </button>
@@ -73,7 +81,7 @@ export default function CreateQuestionnaire(){
         else if(item === 'Checkbox'){
             return(
                 <>
-                    <Checkbox />
+                    <Checkbox allDetails={allDetails}/>
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Checkbox
                     </button>
@@ -83,7 +91,7 @@ export default function CreateQuestionnaire(){
         else if(item === 'Select'){
             return(
                 <>
-                    <Select />
+                    <Select allDetails={allDetails}/>
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Select
                     </button>
@@ -112,7 +120,7 @@ export default function CreateQuestionnaire(){
                 
                 {inputList.map((item, i)=>{
                     return(
-                        <div>
+                        <div key={i} cl>
                             {renderInputField(item, i)}
                         </div>
                     )

@@ -23,19 +23,16 @@ import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import { fontSize } from '@mui/system'
 
-export default function RadioButton(){
-    const [newFormList, setNewFormList] = useState({});
+const RadioButton = ({allDetails}) => {
     const [radioQuestion, setRadioQuestion] = useState('');
     const [radioOptions, setRadioOptions] = useState([]);
-    const [formData, setFormData] = useState({
-        radioQuestions: [{ question: "", options: [] }]
-      });
-      
-  
+    const [prevOption, setPrevOption] = useState([]);
+    const [prevQuestion, setPrevQuestion] = useState('');      
+
 
     const handleQuestionChange = (e) => {
         setRadioQuestion(e.target.value);
-      };
+    };
     
     const handleOptionChange = (e, index) => {
         const updatedOptions = [...radioOptions];
@@ -52,30 +49,46 @@ export default function RadioButton(){
         updatedOptions.splice(index, 1);
         setRadioOptions(updatedOptions);
     };
-    
-    console.log(radioQuestion)
-    console.log(radioOptions)
-    
+
+    const data = {
+        question: radioQuestion,
+        options: radioOptions,
+        type: 'radio'
+    }
+
+    useEffect(()=>{
+        if (prevQuestion !== radioQuestion){
+            setPrevQuestion(radioQuestion);
+            allDetails(data);
+        }
+        if(prevOption!== radioOptions){
+            setPrevOption(radioOptions);
+            allDetails(data);
+        }
+    })
+   
 
     return(
         <>
-            <div>
-                <br></br>
-                <TextField className='newFormInput' value={radioQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} />
+            <div className='newFormInput'>
+                <TextField value={radioQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Question"/>
 
-                
-
-                
                 {radioOptions.map((option, index) => (
                     <div key={index} className="radioOption">
-                    <br></br>
-                    <TextField className='newFormInput' value={option} sx={{width: '70%'}} onChange={(e) => handleOptionChange(e, index)} />
-                    <DeleteIcon onClick={() => handleRemoveOption(index)}/>
+                    
+                        <TextField value={option} sx={{width: '70%'}} onChange={(e) => handleOptionChange(e, index)} placeholder="Option"/>
+                        <DeleteIcon onClick={() => handleRemoveOption(index)}/>
                     </div>
                 ))}
-                <button onClick={handleAddOption}> <AddIcon/>Add Option</button>
+
+                <button onClick={handleAddOption} className="addRadio">
+                    <AddIcon/>Add Option
+                </button>
+
             </div>
             
         </>
     )
 }
+
+export default RadioButton;
