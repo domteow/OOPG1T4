@@ -4,6 +4,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document(collection = "field")
 public class Field<T> {
     @Transient
@@ -14,26 +16,30 @@ public class Field<T> {
     private String name;
     private T value;
     private String type;
+    private List<String> options;
 
     public Field(){
 
     }
 
-    public Field(String name, String type){
+    public Field(String name, String type, List<String> options){
         this.name = name;
         this.type = type;
+        this.options = options;
     }
 
-    public Field(int id, String name, String type){
+    public Field(int id, String name, String type, List<String> options){
         this.id = id;
         this.name = name;
         this.type = type;
+        this.options = options;
     }
 
-    public Field(String name, T value, String type){
+    public Field(String name, T value, String type, List<String> options){
         this.name = name;
         this.value = value;
         this.type = type;
+        this.options = options;
     }
 
     public int getId() {
@@ -66,5 +72,13 @@ public class Field<T> {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public List<?> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<String> options) {
+        this.options = options;
     }
 }
