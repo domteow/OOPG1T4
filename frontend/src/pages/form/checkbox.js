@@ -23,108 +23,71 @@ import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import { fontSize } from '@mui/system'
 
-export default function Checkbox(){
-    const [newFormList, setNewFormList] = useState({});
-    const [question, setQuestion] = useState('');
+const Checkbox = ({allDetails}) => {
+    const [checkboxQuestion, setCheckboxQuestion] = useState('');
+    const [checkboxOptions, setCheckboxOptions] = useState([]);
+    const [prevOption, setPrevOption] = useState([]);
+    const [prevQuestion, setPrevQuestion] = useState(''); 
 
-    const handleInputChange = (e, i) => {
-        const { name, value, type } = e.target;
-        let updatedValue;
-        if (type === 'radio'){
-            updatedValue = {'type': "radio-" + i, 'question': value};
-        }
-
-        else if (type === 'text') {
-            updatedValue = {'type': name, 'question': value};
-        }
-
-        else if (type === 'checkbox') {
-            updatedValue = {'type': "checkbox-" + i, 'question': value};
-        }
-
-        else if (type === 'select') {
-            updatedValue = {'type': "select-" + i, 'question': value};
-        }
-
-        setNewFormList(prevState => ({
-            ...prevState, 
-            [i]: updatedValue
-        }));
+    
+    const handleQuestionChange = (e) => {
+        setCheckboxQuestion(e.target.value);
     };
 
-    console.log(newFormList);
-
-    const handleQuestion = (e) =>{
-        setQuestion(e.target.value);
+    const handleOptionChange = (e, index) => {
+        const updatedOptions = [...checkboxOptions];
+        updatedOptions[index] = e.target.value;        
+        setCheckboxOptions(updatedOptions);
     }
-    console.log(question);
 
-    // HI DOM THIS PART IS THE PART THAT WILL LIKE STORE THE DATA IN LIKE {'Question: question, 'Options':{}} hehe 
-    const [checkbox, setCheckbox] = useState({});
-    const handleCBox = () =>{
-        let cbox= {
-        'Question' :question,
-        'Options' : newFormList
-        }
-        setCheckbox(cbox);
-    }
-    console.log(checkbox);
-
-
-
-    /* THIS IS TO ADD A VALUE INTO CHECKLIST, WHICH MEANS ON CLICK ON ADD BUTTON, A NEW CHECKBOX OPTION IS ADDED */
-    const [checkboxList, setCheckboxList] = useState([]);
-    const addCheckboxOption = () => {
-        setCheckboxList([...checkboxList, checkboxList.length]); // use length to specify the index of the radio option
-    }
-    console.log(checkboxList);
-    const handleRemoveCheckboxOption = index => {
-        // DOM HELP ME PLEASE I NEED TO LIKE ON CLICK DELETE THE CORRECT OPTION COS IDK WHY IT JUST DELETES THE MOST RECENT OPTION :(         
-        const list = [...checkboxList];
-        list.splice(index, 1);
-        setCheckboxList(list);
+    const handleAddOption = () => {
+        setCheckboxOptions([...checkboxOptions, ""]);
     };
-    console.log(checkboxList);
 
-    const renderCheckboxOption = (i)=>{
-        return (
-            <div className='checkboxOption'>
-                <TextField name='checkboxOption' className='newFormInput' placeholder='Option' sx={{width: '70%'}} onChange={e => handleInputChange(e, i)}/>
-                
-                <DeleteIcon onClick={()=>handleRemoveCheckboxOption(i)} sx={{fontSize: 30, marginLeft:5, marginTop: 2}}/>
-                
-            </div>
-        )
+    const handleRemoveOption = (index) => {
+        const updatedOptions = [...checkboxOptions];
+        updatedOptions.splice(index, 1);
+        setCheckboxOptions(updatedOptions);
+    };
+
+    console.log(checkboxQuestion)
+    console.log(checkboxOptions)
+
+    const data = {
+        question: checkboxQuestion,
+        options: checkboxOptions,
+        type: 'checkbox'
     }
 
-    const renderTextField = (i)=>{
-        return (
-            <>
-                <TextField name='checkboxQuestion' className='newFormInput' placeholder='Question' sx={{width: '100%'}} onChange={e => handleQuestion(e, i)} key={i}/>
-            </>
-        )
-    }
+    useEffect(()=>{
+        if (prevQuestion !== checkboxQuestion){
+            setPrevQuestion(checkboxQuestion);
+            allDetails(data);
+        }
+        if(prevOption!== checkboxOptions){
+            setPrevOption(checkboxOptions);
+            allDetails(data);
+        }
+    })
 
     return(
         <>
-            <div className='newFormQuestion' onChange={handleCBox}>
-                {renderTextField(0)}
-                <div>
-                    {checkboxList.map((item, i)=>{
-                            return(
-                                <>
-                                    {renderCheckboxOption(i)}
-                                </>
-                            )
-                    })}
-                </div>
-                <div>   
-                    <button onClick={addCheckboxOption} className='addCheckbox'>
-                        <AddIcon/> Add Option
-                    </button>
-                </div>
-            </div>
+            <div className='newFormInput'>
+                <TextField className='newFormInput' value={checkboxQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Question"/>
+                
+                    {checkboxOptions.map((option, index)=>(
+                        <div key={index} className="checkboxOption">
+                            <TextField className='newFormInput' value={option} placeholder='Option' sx={{width: '70%'}} onChange={e => handleOptionChange(e, index)}/>
+                            <DeleteIcon onClick={() => handleRemoveOption(index)}/>
+                        </div>
+                    ))}
             
+                <button onClick={handleAddOption} className='addCheckbox'>
+                    <AddIcon/> Add Option
+                </button>
+            </div>            
         </>
     )
 }
+
+export default Checkbox;
