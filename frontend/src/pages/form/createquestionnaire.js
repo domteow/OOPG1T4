@@ -53,7 +53,7 @@ export default function CreateQuestionnaire(){
     const allDetails = (data) => {
         setQuestionnaireDetail({...questionnaireDetail, data});
     }
-
+    console.log("RHYS IS A GENIUS DAMN");
     console.log(questionnaireDetail);
 
     const renderInputField = (item, i) =>{
@@ -81,7 +81,7 @@ export default function CreateQuestionnaire(){
         else if(item === 'Checkbox'){
             return(
                 <>
-                    <Checkbox />
+                    <Checkbox allDetails={allDetails}/>
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Checkbox
                     </button>
@@ -91,7 +91,7 @@ export default function CreateQuestionnaire(){
         else if(item === 'Select'){
             return(
                 <>
-                    <Select />
+                    <Select allDetails={allDetails}/>
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Select
                     </button>

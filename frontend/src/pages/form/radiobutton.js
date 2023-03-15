@@ -24,43 +24,21 @@ import PropTypes from 'prop-types';
 import { fontSize } from '@mui/system'
 
 const RadioButton = ({allDetails}) => {
-    const [newFormList, setNewFormList] = useState({});
     const [radioQuestion, setRadioQuestion] = useState('');
     const [radioOptions, setRadioOptions] = useState([]);
-    const [formData, setFormData] = useState({
-        radioQuestions: [{ question: "", options: [] }]
-    });
     const [prevOption, setPrevOption] = useState([]);
     const [prevQuestion, setPrevQuestion] = useState('');      
 
-  
 
     const handleQuestionChange = (e) => {
         setRadioQuestion(e.target.value);
     };
-
-    const handleQuestion = () =>{
-        console.log(radioOptions);
-    }
-
-    useEffect(()=>{
-        handleQuestion();
-    }, [radioOptions]);
-
     
     const handleOptionChange = (e, index) => {
         const updatedOptions = [...radioOptions];
         updatedOptions[index] = e.target.value;
         setRadioOptions(updatedOptions);
     };
-   
-    const handleOptions = () =>{
-        console.log(radioOptions);
-    }
-
-    useEffect(()=>{
-        handleOptions();
-    }, [radioOptions]);
 
     const handleAddOption = () => {
         setRadioOptions([...radioOptions, ""]);
@@ -72,11 +50,12 @@ const RadioButton = ({allDetails}) => {
         setRadioOptions(updatedOptions);
     };
 
-
     const data = {
         question: radioQuestion,
-        options: radioOptions
+        options: radioOptions,
+        type: 'radio'
     }
+
     useEffect(()=>{
         if (prevQuestion !== radioQuestion){
             setPrevQuestion(radioQuestion);
@@ -101,7 +80,10 @@ const RadioButton = ({allDetails}) => {
                         <DeleteIcon onClick={() => handleRemoveOption(index)}/>
                     </div>
                 ))}
-                <button onClick={handleAddOption} className="addRadio">Add Option</button>
+
+                <button onClick={handleAddOption} className="addRadio">
+                    <AddIcon/>Add Option
+                </button>
 
             </div>
             

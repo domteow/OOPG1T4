@@ -23,13 +23,11 @@ import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import { fontSize } from '@mui/system'
 
-export default function Checkbox(){
-    const [newFormList, setNewFormList] = useState({});
+const Checkbox = ({allDetails}) => {
     const [checkboxQuestion, setCheckboxQuestion] = useState('');
     const [checkboxOptions, setCheckboxOptions] = useState([]);
-    const [formData, setFormData] = useState({
-        checkboxQuestions: [{ question: "", options: [] }]
-      });
+    const [prevOption, setPrevOption] = useState([]);
+    const [prevQuestion, setPrevQuestion] = useState(''); 
 
     
     const handleQuestionChange = (e) => {
@@ -38,18 +36,7 @@ export default function Checkbox(){
 
     const handleOptionChange = (e, index) => {
         const updatedOptions = [...checkboxOptions];
-        updatedOptions[index] = e.target.value;
-        // checked: updatedOptions[index] ? updatedOptions[index].checked : false
-        
-        setCheckboxOptions(updatedOptions);
-    }
-
-    const handleCheckboxChange = (e, index) => {
-        const updatedOptions = [...checkboxOptions];
-        updatedOptions[index] = {
-            option: updatedOptions[index.option],
-            checked: e.target.checked
-        };
+        updatedOptions[index] = e.target.value;        
         setCheckboxOptions(updatedOptions);
     }
 
@@ -66,71 +53,41 @@ export default function Checkbox(){
     console.log(checkboxQuestion)
     console.log(checkboxOptions)
 
-    
+    const data = {
+        question: checkboxQuestion,
+        options: checkboxOptions,
+        type: 'checkbox'
+    }
 
-
-
-    // /* THIS IS TO ADD A VALUE INTO CHECKLIST, WHICH MEANS ON CLICK ON ADD BUTTON, A NEW CHECKBOX OPTION IS ADDED */
-    // const [checkboxList, setCheckboxList] = useState([]);
-    // const addCheckboxOption = () => {
-    //     setCheckboxList([...checkboxList, checkboxList.length]); // use length to specify the index of the radio option
-    // }
-    // console.log(checkboxList);
-    // const handleRemoveCheckboxOption = index => {
-    //     // DOM HELP ME PLEASE I NEED TO LIKE ON CLICK DELETE THE CORRECT OPTION COS IDK WHY IT JUST DELETES THE MOST RECENT OPTION :(         
-    //     const list = [...checkboxList];
-    //     list.splice(index, 1);
-    //     setCheckboxList(list);
-    // };
-    // console.log(checkboxList);
-
-    // const renderCheckboxOption = (i)=>{
-    //     return (
-    //         <div className='checkboxOption'>
-    //             <TextField name='checkboxOption' className='newFormInput' placeholder='Option' sx={{width: '70%'}} onChange={e => handleInputChange(e, i)}/>
-                
-    //             <DeleteIcon onClick={()=>handleRemoveCheckboxOption(i)} sx={{fontSize: 30, marginLeft:5, marginTop: 2}}/>
-                
-    //         </div>
-    //     )
-    // }
-
-    // const renderTextField = (i)=>{
-    //     return (
-    //         <>
-    //             <TextField name='checkboxQuestion' className='newFormInput' placeholder='Question' sx={{width: '100%'}} onChange={e => handleQuestion(e, i)} key={i}/>
-    //         </>
-    //     )
-    // }
+    useEffect(()=>{
+        if (prevQuestion !== checkboxQuestion){
+            setPrevQuestion(checkboxQuestion);
+            allDetails(data);
+        }
+        if(prevOption!== checkboxOptions){
+            setPrevOption(checkboxOptions);
+            allDetails(data);
+        }
+    })
 
     return(
         <>
-            <div>
-                <br/>
-                <TextField className='newFormInput' value={checkboxQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} />
-                <div>
+            <div className='newFormInput'>
+                <TextField className='newFormInput' value={checkboxQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Question"/>
+                
                     {checkboxOptions.map((option, index)=>(
                         <div key={index} className="checkboxOption">
-                        <br />
-                        <TextField className='newFormInput' value={option} placeholder='Option' sx={{width: '70%'}} onChange={e => handleOptionChange(e, index)}/>
-                        <DeleteIcon onClick={() => handleRemoveOption(index)}/>
-
-
-
+                            <TextField className='newFormInput' value={option} placeholder='Option' sx={{width: '70%'}} onChange={e => handleOptionChange(e, index)}/>
+                            <DeleteIcon onClick={() => handleRemoveOption(index)}/>
                         </div>
-                        
-                        
-                        
-
                     ))}
-                </div>
-                <div>   
-                    <button onClick={handleAddOption} className='addCheckbox'>
-                        <AddIcon/> Add Option
-                    </button>
-                </div>
-            </div>
             
+                <button onClick={handleAddOption} className='addCheckbox'>
+                    <AddIcon/> Add Option
+                </button>
+            </div>            
         </>
     )
 }
+
+export default Checkbox;
