@@ -23,7 +23,7 @@ import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import { fontSize } from '@mui/system'
 
-const Select = ({allDetails}) => {
+const Select = ({allDetails, id}) => {
     const [selectQuestion, setSelectQuestion] = useState('');
     const [selectOptions, setSelectOptions] = useState([]);
     const [prevOption, setPrevOption] = useState([]);
@@ -61,11 +61,11 @@ const Select = ({allDetails}) => {
     useEffect(()=>{
         if (prevQuestion !== selectQuestion){
             setPrevQuestion(selectQuestion);
-            allDetails(data);
+            allDetails(data, id);
         }
         if(prevOption!== selectOptions){
             setPrevOption(selectOptions);
-            allDetails(data);
+            allDetails(data, id);
         }
     })
 

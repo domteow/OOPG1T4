@@ -1,13 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { ReactDOM } from 'react-dom'
-import { Link, Router, Route, Routes, BrowserRouter, useNavigate } from 'react-router-dom'
+import { Link, Route, Routes, BrowserRouter, useLocation, useParams, useNavigate } from 'react-router-dom'
 import '../../index.css'
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
 
-const RadioButton = ({allDetails}) => {
+const RadioButton = ({allDetails, id}) => {
+    console.log(id);
     const [radioQuestion, setRadioQuestion] = useState('');
     const [radioOptions, setRadioOptions] = useState([]);
     const [prevOption, setPrevOption] = useState([]);
@@ -52,11 +53,11 @@ const RadioButton = ({allDetails}) => {
     useEffect(()=>{
         if (prevQuestion !== radioQuestion){
             setPrevQuestion(radioQuestion);
-            allDetails(data);
+            allDetails(data, id);
         }
         if(prevOption!== radioOptions){
             setPrevOption(radioOptions);
-            allDetails(data);
+            allDetails(data, id);
         }
     })
    

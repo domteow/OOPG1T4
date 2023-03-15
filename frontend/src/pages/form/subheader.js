@@ -23,15 +23,15 @@ import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import Dialogue from './dialogue';
 
-const TextInput = ({allDetails, id})=> {
-    const [testQuestion, setTestQuestion] = useState("");
+const Subheader = ({allDetails, id})=> {
+    const [subheader, setSubheader] = useState("");
 
     const handleTextChange = (e) => {
-        setTestQuestion(e.target.value);
+        setSubheader(e.target.value);
     }
     const data = {
         type: 'text',
-        question: testQuestion
+        question: subheader
     }
 
     allDetails(data, id)
@@ -40,10 +40,7 @@ const TextInput = ({allDetails, id})=> {
         <>
             <div className='newFormQuestion'>
                 <div>
-                    <TextField name='text' placeholder='Question' sx={{width: '100%'}} value={testQuestion} onChange={handleTextChange}/>
-                </div>
-                <div>
-                    <TextField name='answer' placeholder='Answer' sx={{width: '100%'}} disabled={true}/>
+                    <TextField name='text' placeholder='Question' sx={{width: '100%'}} value={subheader} onChange={handleTextChange}/>
                 </div>
             </div>
         </>
@@ -51,4 +48,4 @@ const TextInput = ({allDetails, id})=> {
 
 }
 
-export default TextInput;
+export default Subheader;

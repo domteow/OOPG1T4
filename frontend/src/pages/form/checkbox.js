@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
 
 
-const Checkbox = ({allDetails}) => {
+const Checkbox = ({allDetails, id}) => {
     const [checkboxQuestion, setCheckboxQuestion] = useState('');
     const [checkboxOptions, setCheckboxOptions] = useState([]);
     const [prevOption, setPrevOption] = useState([]);
@@ -57,11 +57,11 @@ const Checkbox = ({allDetails}) => {
     useEffect(()=>{
         if (prevQuestion !== checkboxQuestion){
             setPrevQuestion(checkboxQuestion);
-            allDetails(data);
+            allDetails(data, id);
         }
         if(prevOption!== checkboxOptions){
             setPrevOption(checkboxOptions);
-            allDetails(data);
+            allDetails(data, id);
         }
     })
 
