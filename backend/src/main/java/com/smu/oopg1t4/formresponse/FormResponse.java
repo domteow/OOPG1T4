@@ -46,7 +46,7 @@ public class FormResponse extends Form {
             String formCode,
             int revisionNo,
             String description,
-            Date effectiveDate,
+            String effectiveDate,
             ArrayList<Questionnaire> questionnaires,
             String formStatus,
             int ownerId,

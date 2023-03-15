@@ -16,30 +16,74 @@ public class Field<T> {
     private String name;
     private T value;
     private String type;
+    //For radio and checkbox
     private List<String> options;
+    private boolean others;
 
     public Field(){
 
     }
 
-    public Field(String name, String type, List<String> options){
+    //For Text
+    public Field(String name, String type){
+        this.name = name;
+        this.type = type;
+    }
+    //For Text with id
+    public Field(int id, String name, String type){
+        this.id = id;
+        this.name = name;
+        this.type = type;
+    }
+
+    //For Text with value
+    public Field(String name, T value, String type){
+        this.name = name;
+        this.value = value;
+        this.type = type;
+    }
+
+    //For Text with id,value
+    public Field(int id, String name, T value, String type){
+        this.id = id;
+        this.name = name;
+        this.value = value;
+        this.type = type;
+    }
+
+    //For Form Response Radio/Checkbox
+    public Field(String name, String type, List<String> options, boolean others){
         this.name = name;
         this.type = type;
         this.options = options;
+        this.others = others;
     }
-
-    public Field(int id, String name, String type, List<String> options){
+    //For Form Response Radio/Checkbox with id
+    public Field(int id, String name, String type, List<String> options, boolean others){
         this.id = id;
         this.name = name;
         this.type = type;
         this.options = options;
+        this.others = others;
     }
 
-    public Field(String name, T value, String type, List<String> options){
+    //For Form Response Radio/Checkbox with value
+    public Field(String name, T value, String type, List<String> options, boolean others){
         this.name = name;
         this.value = value;
         this.type = type;
         this.options = options;
+        this.others = others;
+    }
+
+    //For Form Response Radio/Checkbox with id, value
+    public Field(int id, String name, T value, String type, List<String> options, boolean others){
+        this.id = id;
+        this.name = name;
+        this.value = value;
+        this.type = type;
+        this.options = options;
+        this.others = others;
     }
 
     public int getId() {
