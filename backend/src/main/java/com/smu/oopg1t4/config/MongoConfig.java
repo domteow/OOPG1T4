@@ -58,7 +58,7 @@ public class MongoConfig {
             Field f4 = new Field("Office Address", "text");
             Field f5 = new Field("Type of business License / Registration", "radio", List.of("Sole proprietorship", "Limited Company", "Partnership Agreement"), true);
 //            Field f6 = new Field("Type of business License / Registration (Others) (Fill as NIL if not applicable)", "text");
-            Field f7 = new Field("Contact Person", "subheader", null );
+            Field f7 = new Field("Contact Person", "subheader");
             Field f8 = new Field("Name", "text");
             Field f9 = new Field("Tel", "text");
             Field f10 = new Field("Designation", "text");
@@ -107,13 +107,13 @@ public class MongoConfig {
 
             ArrayList<Field> fields2 = new ArrayList<>();
             fields2.addAll(List.of(f14,f15,f16,f17,f18,f19,f20,f21));
-            Questionnaire q2 = new Questionnaire("Vendor Evaluation", fields1, "Admin");
+            Questionnaire q2 = new Questionnaire("Vendor Evaluation", fields2, "Admin");
 
             //Questionnaire 3 for NEW VENDOR ASSESSMENT FORM
 
             ArrayList<Field> fields3 = new ArrayList<>();
             fields3.addAll(List.of(f22,f23,f24,f25,f26));
-            Questionnaire q3 = new Questionnaire("Evaluation Results", fields1, "Admin");
+            Questionnaire q3 = new Questionnaire("Evaluation Results", fields3, "Admin");
 
 
 
@@ -132,8 +132,8 @@ public class MongoConfig {
             // ------------------Forms-----------------------
             ArrayList<Questionnaire> questionnaires1 = new ArrayList<>();
             questionnaires1.addAll(List.of(q1,q2,q3));
-            //QLI-SHSP-10-F01 NEW VENDOR ASSESSMENT FORM
-            Form form1 = new Form(1,"QLI-QHSP-10-F01", 1, "New Vendor Assessment Form", new SimpleDateFormat("yyyy-MM-dd").parse("2022-04-04"), questionnaires1,"published");
+            //QLI-QHSP-10-F01 NEW VENDOR ASSESSMENT FORM
+            Form form1 = new Form(1,"QLI-QHSP-10-F01", 1, "New Vendor Assessment Form","2022-04-04", questionnaires1,"published");
             formRepository.saveAll(
                     List.of(form1)
             );
@@ -144,7 +144,7 @@ public class MongoConfig {
                     "QLI-QHSP-10-F01",
                     1,
                     "New Vendor Assessment Form",
-                    new SimpleDateFormat("yyyy-MM-dd").parse("2022-04-04"),
+                    "2022-04-04",
                     questionnaires1,
                     "published",
                     1,
