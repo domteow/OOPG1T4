@@ -20,21 +20,17 @@ export default function Homepage() {
 
     // forms from backend
     const backendDomain = process.env.REACT_APP_backendDomain;
-    const usersInfos = {
-      'dom' : {
-        'allForms': {'form1': {'status':'Read only', 'id': 1}, 'form2': {'status':'read only', 'id': 2}},
-        'incompleteForms': {'form3': {'status':'Incomplete', 'action': 'incomplete', 'id' :3}, 'form4': {'status':'Incomplete', 'action': 'continue draft', 'id':4}},
-        'completedForms': {'form5':{'status':'complete', 'id':5}, 'form6':{'status': 'complete', 'id': 6}}
-      }, 
-      'rhys': {
-        'allForms': {'form7': {'status':'Read only', 'id': 7}, 'form8': {'status':'read only', 'id': 8}},
-        'incompleteForms': {'form9': {'status':'Incomplete', 'action': 'incomplete', 'id' :9}, 'form10': {'status':'Incomplete', 'action': 'continue draft', 'id':10}, 'form11': {'status':'Incomplete', 'action': 'continue draft', 'id':11}},
-        'completedForms': {'form12':{'status':'complete', 'id':12}}
-      }
-    }
+    
 
+    
     // to authenticate the homepage 
     const [authenticated, setAuthenticated] = useState(null);
+    const [userid, setUserid] = useState('');
+    const [username, setUsername] = useState('');
+    const [allForms, setAllForms] = useState([]);
+    const [incompleteForms, setIncompleteForms] = useState({});
+    const [completedForms, setCompletedForms] = useState({});
+    const [readOnlyForms, setReadOnlyForms] = useState({});
 
     // use effect to check the user, get the data and return 
     useEffect (() =>{
@@ -42,20 +38,53 @@ export default function Homepage() {
       if (loggedInUser){
         setAuthenticated(loggedInUser);
         console.log(loggedInUser);
+      } else {
+        navigate("/react/login/");
       }
     }, []); 
 
-    if (!authenticated){
-      // not logged in, i never check if this works hehe.... 
-      navigate("/react/login/");
-    }
+    useEffect(() => {
+      const userid = localStorage.getItem('userid');
+      const username = localStorage.getItem('username');
+      setUserid(userid);
+      setUsername(username);
+  
 
-    else{
-      // to get the current username (should be id in the actual thing, using name for now)
-      const user = localStorage.getItem('username');
-      const allForms = usersInfos[user]['allForms'];
-      const incompleteForms = usersInfos[user]['incompleteForms'];
-      const completedForms = usersInfos[user]['completedForms'];
+  
+      if (authenticated) {
+        getFormData(userid);
+      }
+    }, [authenticated]);
+
+    
+    const getFormData = async (userid) => {
+      try {
+        const response = await axios.get("/api/v1/formResponse/getFormsByVendorId/" + userid)
+        console.log(response.data.data)
+        // store in state
+        setAllForms(response.data.data)
+        // store locally for the stuff below
+        const allforms = response.data.data
+        allforms.forEach(form => {
+          console.log(form)
+          if(form['formStatus'] === 'published'){
+            setCompletedForms(prevCompletedForms => ({...prevCompletedForms, form}))
+            console.log(completedForms)
+          }
+          else if(form['formStatus'] === 'incomplete'){
+            setIncompleteForms(prevIncompleteForms => ({...prevIncompleteForms, form}))
+            console.log(incompleteForms)
+          }
+          else if(form['formStatus'] === 'read'){
+            setReadOnlyForms(prevReadOnlyForms => ({...prevReadOnlyForms, form}))
+            console.log(readOnlyForms)
+          }
+        });
+        
+      } catch (error) {
+
+      }
+    }
 
       return (
         <> 
@@ -63,7 +92,7 @@ export default function Homepage() {
 
           <div className='mainContent'>
             <div className='welcomeMsg'>
-              Welcome {user}!
+              Welcome {username}!
             </div>
 
             {/* for all forms that are read only */}
@@ -71,7 +100,7 @@ export default function Homepage() {
               All Forms
             </div>
 
-            {Object.keys(allForms).map((formName, index)=>{
+            {Object.keys(readOnlyForms).map((formName, index)=>{
               return(
                 <Container className = 'homepageFormDisplay' key={formName}>
                   <Row className='displayRow' > 
@@ -133,10 +162,10 @@ export default function Homepage() {
                   <Row className='displayRow' > 
                     <Col xs={12} md={8} className='homepageFormDetails'>
                       <div className='homepageFormName'>
-                        {formName}
+                        {completedForms[formName]['description']}
                       </div>
                       <div className='homepageFormStatus'>
-                      Status: {completedForms[formName]['status']}
+                      Status: {completedForms[formName]['formStatus']} on {completedForms[formName]['effectiveDate']}
                       </div>
                     </Col>
                     <Col xs={6} md={4} xl={2}>
@@ -152,4 +181,4 @@ export default function Homepage() {
         </>
       )
     }
-}
+// }

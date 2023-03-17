@@ -44,7 +44,9 @@ const Login = () =>{
             
             setauthenticated(true)
             localStorage.setItem("authenticated", true);
+            localStorage.setItem('userid', account.id);
             localStorage.setItem('username', username);
+
             setUser(account.name);
             const role = account.accountType.toLowerCase();
             localStorage.setItem("role", role);
