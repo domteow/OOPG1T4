@@ -154,8 +154,7 @@ public class MongoConfig {
                     1,
                     "Vendor",
                     0,
-                    false,
-                    false
+                    "incomplete"
             );
 
             // ------------------Database Sequence-----------------------

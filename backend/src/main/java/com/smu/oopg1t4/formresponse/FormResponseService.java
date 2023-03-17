@@ -76,8 +76,7 @@ public class FormResponseService {
                     vendorId,
                     form.getQuestionnaires().get(0).getRoleRequired(),
                     0,
-                    false,
-                    false
+                    "incomplete"
             );
             formResponseRepository.save(formResponse);
 
