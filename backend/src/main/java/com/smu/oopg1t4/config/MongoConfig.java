@@ -11,6 +11,7 @@ import com.smu.oopg1t4.questionnaire.QuestionnaireController;
 import com.smu.oopg1t4.questionnaire.QuestionnaireRepository;
 import com.smu.oopg1t4.user.UserRepository;
 import com.smu.oopg1t4.user.admin.Admin;
+import com.smu.oopg1t4.user.approver.Approver;
 import com.smu.oopg1t4.user.vendor.Vendor;
 import com.smu.oopg1t4.util.DatabaseSequence;
 import com.smu.oopg1t4.util.DatabaseSequenceRepository;
@@ -40,13 +41,16 @@ public class MongoConfig {
             Vendor v2 = new Vendor("Dom", "meow2@gmail.com", "meow5","Vendor", countries1, "99292922", "1231231","Dom's Company");
             v2.setId(2);
 
-            ArrayList<String> countries2 = new ArrayList<>();
-            countries2.addAll(List.of("Singapore", "Malaysia"));
+//            ArrayList<String> countries2 = new ArrayList<>();
+//            countries2.addAll(List.of("Singapore", "Malaysia"));
             Admin a1 = new Admin("Kelvin", "kelvin@gmail.com", "xdxd", "Admin");
             a1.setId(3);
 
+            Approver ap1 = new Approver("Swavek", "swavek@gmail.com", "swavek1", "Approver");
+            ap1.setId(4);
+
             userRepository.saveAll(
-                    List.of(v1,v2,a1)
+                    List.of(v1,v2,a1,ap1)
             );
 
             // ------------------Fields-----------------------
@@ -155,8 +159,8 @@ public class MongoConfig {
             );
 
             // ------------------Database Sequence-----------------------
-            if (!databaseSequenceRepository.findById("user_sequence").isPresent() || databaseSequenceRepository.findById("user_sequence").get().getSeq() < 3){
-                DatabaseSequence userSequence = new DatabaseSequence("user_sequence",3);
+            if (!databaseSequenceRepository.findById("user_sequence").isPresent() || databaseSequenceRepository.findById("user_sequence").get().getSeq() < 4){
+                DatabaseSequence userSequence = new DatabaseSequence("user_sequence",4);
                 databaseSequenceRepository.save(userSequence);
             }
             if (!databaseSequenceRepository.findById("field_sequence").isPresent() || databaseSequenceRepository.findById("field_sequence").get().getSeq() < 24){
