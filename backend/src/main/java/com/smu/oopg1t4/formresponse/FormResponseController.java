@@ -3,6 +3,7 @@ package com.smu.oopg1t4.formresponse;
 
 import com.smu.oopg1t4.questionnaire.QuestionnaireService;
 import com.smu.oopg1t4.response.StatusResponse;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,11 @@ public class FormResponseController {
     @GetMapping("/assignFormToVendor/{formId}/{vendorId}")
     public ResponseEntity<StatusResponse> assignFormToVendor(@PathVariable int formId, @PathVariable int vendorId){
         return formResponseService.assignFormToVendor(formId, vendorId);
+    }
+
+    @PutMapping("/updateFormResponse/{formId}")
+    public ResponseEntity<StatusResponse> updateFormResponseWithId(@PathVariable int formId, @RequestBody FormResponse updatedFormResponse){
+        return formResponseService.updateFormResponse(formId, updatedFormResponse);
     }
 
 

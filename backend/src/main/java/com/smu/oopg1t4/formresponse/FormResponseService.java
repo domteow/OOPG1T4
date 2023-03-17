@@ -1,7 +1,10 @@
 package com.smu.oopg1t4.formresponse;
 
+import com.smu.oopg1t4.exceptions.FormNotEditableException;
+import com.smu.oopg1t4.exceptions.FormResponseNotFoundException;
 import com.smu.oopg1t4.form.Form;
 import com.smu.oopg1t4.form.FormRepository;
+import com.smu.oopg1t4.questionnaire.Questionnaire;
 import com.smu.oopg1t4.questionnaire.QuestionnaireService;
 import com.smu.oopg1t4.response.StatusResponse;
 import com.smu.oopg1t4.response.SuccessResponse;
@@ -11,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,4 +89,50 @@ public class FormResponseService {
         }
 
     }
+
+    public ResponseEntity<StatusResponse> updateFormResponse(int formId, FormResponse updatedFormResponse) {
+        try{
+            Optional<FormResponse> formResponseToUpdate = formResponseRepository.findById(formId);
+            if (formResponseToUpdate.isPresent()){
+                updateFormResponse(formResponseToUpdate.get(), updatedFormResponse);
+
+
+                StatusResponse successResponse = new StatusResponse("Success!", HttpStatus.OK.value());
+                return ResponseEntity.status(HttpStatus.OK).body(successResponse);
+            }else{
+                throw new FormResponseNotFoundException();
+            }
+        }catch(FormResponseNotFoundException e){
+            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
+        }
+    }
+
+    private void updateFormResponse(FormResponse formResponseToUpdate, FormResponse updatedFormResponse){
+
+//        // get which questionnaire is currently being submitted
+//        int submittedQuestionnaireIndex = formResponseToUpdate.getQuestionnairesCompleted();
+//        ArrayList<Questionnaire> questionnaires = formResponseToUpdate.getQuestionnaires();
+//
+//        //update
+//        if (submittedQuestionnaireIndex == questionnaires.size() - 1){
+//            formResponseToUpdate.set
+//        }
+//
+//        Questionnaire NextQuestionnaire = questionnaires.get(submittedQuestionnaireIndex + 1);
+//        String NextQuestionnaireRoleRequired = NextQuestionnaire.getRoleRequired();
+//
+//        //Update pending user input based on which questionnaires has been completed.
+//        formResponseToUpdate.setPendingUserInput(NextQuestionnaireRoleRequired);
+//
+//        //update questionnairesCompleted
+//        formResponseToUpdate.setQuestionnairesCompleted(updatedFormResponse.getQuestionnairesCompleted() + 1);
+//
+//        //set questionnaires
+//        formResponseToUpdate.setQuestionnaires(updatedFormResponse.getQuestionnaires());
+
+
+        formResponseRepository.save(formResponseToUpdate);
+    }
+
 }
