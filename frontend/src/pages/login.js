@@ -48,12 +48,12 @@ const Login = () =>{
             localStorage.setItem('username', username);
 
             setUser(account.name);
-            const role = account.accountType.toLowerCase();
+            const role = account.accountType;
             localStorage.setItem("role", role);
-            if (role == 'vendor'){
+            if (role == 'Vendor'){
                 navigate('/react/vendor/homepage');
             }
-            else if (role == 'admin'){
+            else if (role == 'Admin'){
                 navigate('/react/admin/homepage');
             }
         }

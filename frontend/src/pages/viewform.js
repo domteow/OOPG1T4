@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from '../api/axios'
 import { useState, useEffect } from 'react'
 import { ReactDOM } from 'react-dom'
 import { Link, Route, Routes, BrowserRouter, useLocation, useParams, useNavigate } from 'react-router-dom'
@@ -25,60 +26,97 @@ import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 
 
+
 export default function Formpage(props) {
-    // add code to get the form from backend using form id 
-    const formID  = useParams();
-    const myForm = {
-        'formNo' : 143253, 
-        'formName' : 'intro questions',
-        'questions':{
-            'Name:' : 'text',
-            'Age:' : 'number', 
-            'Gender:' : ['radio', 'male', 'female'],
-            'idk bro:' : ['checkbox', 'cbox1', 'cbox2']
-        }
-    }
-    const questions = myForm['questions'];
+    
+    
+    const formID  = useParams()['formId'];
+    
+    const [questionnaires, setQuestionnaires] = useState({});
 
-    // to create useState values
-    const initialValues = {};
-    for (let key in questions){
-        if (questions[key][0] == 'checkbox'){
-            console.log(key);
-            initialValues[key] = [];
-        }
-        else{
-            initialValues[key] = '';
-        }
-    }
-    console.log(initialValues);
-    const [values, setValues] = useState(initialValues);
+    
+    const [formToSend, setFormToSend] = useState({}); 
+    const [form, setForm] = useState({});
+    const [role, setRole] = useState(localStorage.getItem('role'));
+    const [formStatus, setFormStatus] = useState('');
+    const [selectedOption, setSelectedOption] = useState('');
+    
+    // TODO: add POST request to backend to update form response
+    
+    useEffect(() => {
+        console.log("Effect called");
+        const getFormByFormId = async () => {
+          try {
+            const response = await axios.get(
+              "/api/v1/formResponse/getFormByFormResponseID/" + formID
+            );
+            setForm(response.data.data)
+            const localform = response.data.data;
+            console.log("API response:", response.data.data);
+            setQuestionnaires(localform.questionnaires);
+            setFormStatus(localform.status);
+          } catch (error) {
+            console.log("Error fetching form data:", error);
+          }
+        };
+        getFormByFormId();
+      }, [formID]);
 
-    // to save use state values 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        if (e.target.type == 'checkbox'){
-            const isChecked = e.target.checked;
-            setValues({
-                ...values,
-                [name]: isChecked ? [...values[name], value] : values[name].filter((item) => item !== value),
-            });
-        }
-        else{
-            setValues({
-                ...values,
-                [name]: value,
-            });
-        }
-                
-    };
+    
+    
+    const handleChange = (qnIndex, dIndex) => (e) => {
+        const value = e.target.value;
+        setQuestionnaires((prevState) => {
+            const updatedQuestionnaires = { ...prevState };
+            updatedQuestionnaires[qnIndex]['fields'][dIndex]['value'] = value;
+            return updatedQuestionnaires;
+    })};
+
+    const handleCheckboxChange = (qnIndex, dIndex) => (e) => {
+        const value = e.target.value;
+        const isChecked = e.target.checked;
+
+        setQuestionnaires((prevState) => {
+            const updatedQuestionnaires = { ...prevState };
+            const fields = updatedQuestionnaires[qnIndex]['fields'];
+
+            if (isChecked){
+                if(fields[dIndex]['value'] === null){
+                    fields[dIndex]['value'] = [value];
+                } else {
+                fields[dIndex]['value'].push(value);
+                }
+            } else{
+                fields[dIndex]['value'] = fields[dIndex]['value'].filter((item) => item !== value);
+            }
+
+            return updatedQuestionnaires;
+        })
+
+        
+    }
+
+    const handleSelectChange = (qnIndex, dIndex) => (e) => {
+
+    }
+
+
+
+    console.log(questionnaires)
 
     // to submit the form 
     const submit = () => {
-        console.log(values);
-        alert(JSON.stringify(values));
+        
+        console.log(questionnaires);
+        // alert(JSON.stringify(values));
     }
-    console.log(values);
+    const test = () => {
+        
+        console.log(questionnaires)
+        setFormToSend({"questionnaires" : questionnaires})
+        console.log(formToSend)
+    }
+    // console.log(values);
 
     // to navigate
     const navigate = useNavigate();
@@ -93,40 +131,59 @@ export default function Formpage(props) {
             <Container className='formPage'>
                 <Row className='formDetailsRow'>
                     <Col className='formName'>
-                        {myForm['formName']}
+                        {form['description']}
                     </Col>
 
                     <Col className='formDeets'>
                         <div>
-                            {myForm['formNo']}
+                            {form['formCode']}
                         </div>
                         <div>
-                            Date
+                            {form['effectiveDate']}
                         </div>
                     </Col>
                 </Row>
             
 
                 <form>
-                    {Object.keys(questions).map((question, qnIndex)=>{
-                        const inputType = questions[question];
+                    {Object.values(questionnaires).map((question, qnIndex)=>{
+                        console.log(question)
+                        const roleRequired = question['roleRequired'];
+                        console.log(role)
+                        var disabled = false;
+                        if (formStatus == 'readonly' || formStatus == 'completed') {
+                            disabled = true
+                        }
+                        else if (role != roleRequired){
+                            disabled = true;
+                        }
+                        return (
+                            <>
+                        {Object.values(question['fields']).map((detail, dIndex)=>{
+                            // console.log(detail)
+                            
+                        
+                        const inputType = detail['type'];
 
-                        if (typeof(inputType) == 'string'){
+                        if (inputType == 'text'){
+                            // console.log(detail)
                             // for input type string, number, text all 
                             return(
                                 <fieldset>
                                     <Row className='formRow'>
                                         <Col xs={6} md={2} xl={2} className='formQuestion'>
-                                            {question}
+                                            {detail.name}
                                         </Col>
                                         <Col xs={12} md={10} className='formInput'> 
                                             <FormControl fullWidth>
                                                 <TextField
                                                     required
-                                                    id={question}
-                                                    name={question}
-                                                    onChange={handleChange}
+                                                    id={detail.id}
+                                                    name={detail.name}
+                                                    onChange={handleChange(qnIndex, dIndex)}
                                                     type={inputType}
+                                                    value={detail.value}
+                                                    disabled={disabled}
                                                 />
                                             </FormControl>
                                         </Col>
@@ -135,9 +192,9 @@ export default function Formpage(props) {
                             )
                         }
                         else{
-                            const typeMultiSelect = inputType[0];
-                            const multiOptions = inputType.slice();
-                            multiOptions.splice(0,1);
+                            const typeMultiSelect = inputType;
+                            // const multiOptions = inputType.slice();
+                            // multiOptions.splice(0,1);
 
                             if (typeMultiSelect == 'radio'){
                                 // for input type radio 
@@ -145,15 +202,15 @@ export default function Formpage(props) {
                                     <fieldset>
                                         <Row className='formRow'>
                                             <Col xs={6} md={2} xl={2} className='formQuestion'>
-                                                {question}
+                                            {detail.name}
                                             </Col>
                                             <Col xs={12} md={10} className='formInput'>
                                                 <RadioGroup
                                                     aria-labelledby="demo-controlled-radio-buttons-group"
-                                                    name={question}
-                                                    onChange={handleChange}
+                                                    name={detail.name}
+                                                    onChange={handleChange(qnIndex, dIndex)}
                                                 >
-                                                    {multiOptions.map(option =>{
+                                                    {detail['options'].map(option =>{
                                                         return(
                                                             <FormControlLabel value={option} control={<Radio />} label={option} />
                                                             )
@@ -172,14 +229,14 @@ export default function Formpage(props) {
                                     <fieldset>
                                         <Row className='formRow'>
                                             <Col xs={6} md={2} xl={2} className='formQuestion'>
-                                                {question}
+                                            {detail.name}
                                             </Col>
                                             <Col xs={12} md={10} className='formInput'>
                                                 <FormGroup>
-                                                {multiOptions.map(option =>{
+                                                {detail['options'].map(option =>{
                                                     return(
                                                         <div>
-                                                            <FormControlLabel control={<Checkbox />} type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange} label = {option}/>
+                                                            <FormControlLabel control={<Checkbox />} type={typeMultiSelect} id={option} name={detail.name} value = {option} onChange={handleCheckboxChange(qnIndex, dIndex)} label = {option}/>
                                                             {/* <input type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/>  */}
                                                         </div>
                                                     )
@@ -190,22 +247,59 @@ export default function Formpage(props) {
                                     </fieldset>
                                 )
                             }
+                            else if (typeMultiSelect == 'select') {
+                                // for input type select
+                                return (
+                                    <fieldset>
+                                        <Row className='formRow'>
+                                            <Col xs={6} md={2} xl={2} className='formQuestion'>
+                                            {detail.name}
+                                            </Col>
+                                            <Col xs={12} md={10} className='formInput'>
+                                                <FormGroup>
+                                                
+                                                    
+                                                        <div>
+                                                            <select id={detail.name} name={detail.name} value = {selectedOption} onChange={handleSelectChange}>
+                                                            {detail['options'].map(selection =>{
+                                                                return (
+                                                                <option key={selection.value} value={selection.value}>
+                                                                    {selection.label}
+                                                                </option>
+                                                                )
+                                                            })}
+                                                            </select>
+                                                            {/* <input type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/>  */}
+                                                        </div>
+                                                    
+                                                
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                    </fieldset>
+                                )
+                            }
                         }
-                    }
-                    )}
+                    })
+                        }</>)})}
+                    
                     <Row className='buttonRow'>
                         <Col className='formCancelRow'>
                             <button className='cancelButt' onClick={cancel}>Cancel</button>                           
                         </Col>
+
                         <Col className='formSubmitRow'>
                             <button className='saveDraft' onClick={submit}>Save Draft</button>
                             <button className='submitButt' onClick={submit}>Submit</button>
                         </Col>
+
                     </Row>
                     {/* <button type="reset" onClick={reset}>Reset</button> */}
                 </form>
-            </Container>
-        </>)
-}
+                <button onClick={test}>test submit</button>
 
+            </Container>
+        </>
+)}
+                   
 
