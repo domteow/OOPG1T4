@@ -44,10 +44,8 @@ export default function Questionnaire(props){
         try{
             const response = await axios.get("/api/v1/questionnaire/getQuestionnaireByID/" + questionnaireId)
             setQuestionnaire(response.data.data)
-            console.log(response.data.data);
             const allFields = response.data.data['fields'];
-            setFields(allFields);
-            console.log(allFields);            
+            setFields(allFields);          
         }
         catch(error){
             console.log(error);
@@ -59,7 +57,6 @@ export default function Questionnaire(props){
     }, []);
 
     const assigned = questionnaire['roleRequired'];
-    console.log(fields);
 
     return(
         <div className='questionnaireContent'>

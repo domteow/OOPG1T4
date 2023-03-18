@@ -41,14 +41,10 @@ const Checkbox = ({allDetails, id}) => {
     const handleAddOthers = () =>{
         setOthers(true);
     }
-    console.log(others);
 
     const handleRemoveOthers = () =>{
         setOthers(false);
     }
-
-    console.log(checkboxQuestion)
-    console.log(checkboxOptions)
 
     const data = {
         name: checkboxQuestion,

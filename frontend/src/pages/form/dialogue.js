@@ -35,7 +35,6 @@ export default function Dialogue(props){
     const getAllQuestionnaires = async() =>{
         try{
             const response = await axios.get("/api/v1/questionnaire/getAllQuestionnaires")
-            // console.log([response.data.data]);
             setQuestionnaireList(response.data.data);
         }
         catch(error){
@@ -46,7 +45,6 @@ export default function Dialogue(props){
     useEffect(() => {
         getAllQuestionnaires();
     }, []);
-    console.log(questionnaireList);
 
     questionnaireList.map((questionnaire) =>{
         const questionnaireName = questionnaire.name;

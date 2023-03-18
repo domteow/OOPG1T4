@@ -49,9 +49,6 @@ const Select = ({allDetails, id}) => {
         setSelectOptions(updatedOptions);
     };
 
-    console.log(selectQuestion);
-    console.log(selectOptions);
-
     const data = {
         name: selectQuestion,
         options: selectOptions,

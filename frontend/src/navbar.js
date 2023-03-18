@@ -16,12 +16,9 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
 export default function Navbar(){
-  const userRole = {
-    'dom' : 'vendor', 
-    'rhys' : 'admin'
-  }
   const user = localStorage.getItem('username');
   const role = localStorage.getItem('role');
+  const authenticate = localStorage.getItem('authenticated');
 
   // navigations 
   const navigate = useNavigate();
@@ -41,7 +38,7 @@ export default function Navbar(){
   }
 
   // to log out 
-  const [authenticated, setAuthenticated] = useState(null); 
+  const [authenticated, setAuthenticated] = useState(authenticate); 
   const navigateLogout = () =>{
     localStorage.setItem('username', '');
     localStorage.setItem("authenticated", false);
@@ -58,6 +55,9 @@ export default function Navbar(){
     setAnchorElUser(event.currentTarget);
   };
 
+  const navigateLogin = () => {
+    navigate ('/react/login')
+  }
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -170,6 +170,6 @@ export default function Navbar(){
           </Menu>
         </Box> 
       </header>
-  )
+    )
   }
 }

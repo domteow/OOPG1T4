@@ -59,12 +59,10 @@ export default function Newform(){
         setOpen(false);
         setSelectedValue(value);
         if (value !== 'New Questionnaire'){
-            console.log(value);
             questionnaireList.map((questionnaire) => {
                 const name = questionnaire.name;
                 const id = questionnaire.id;
                 if (name === value){
-                    console.log(questionnaire.id);
                     setInputList([...inputList, id]);
                     setFormData([...formData, questionnaire]);
                 }
@@ -131,7 +129,7 @@ export default function Newform(){
 
     // DOM LOOK HERE PLEASE YOU NEED CONNECT THE BACKEND HERE JUST NEED CONNECT AND PASS submitForm TO THE BACKEND TYVM
     const handleCreateForm = () => {
-        console.log(submitForm);
+        console.log("DOM DOM DO THIS");
     }
 
     const handleCancelForm = () => {
@@ -140,7 +138,6 @@ export default function Newform(){
 
     /* THIS IS TO RENDER THE ADDING OF INPUT FIELDS */
     const renderInputField = (item, i) =>{
-        console.log(item);
         if(item === 'New Questionnaire'){
             return(
                 <>

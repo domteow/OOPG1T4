@@ -1,7 +1,7 @@
 import "./index.css";
 // ========================= general components =========================
 // ======== routing ========
-import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Link, useNavigate } from "react-router-dom";
 import React from "react";
 // ======== nav bar ========
 import Nav from "react-bootstrap/Nav";
@@ -30,6 +30,7 @@ import Viewvendor from "./pages/adminVendorPages/viewvendor"
 import Newvendor from "./pages/adminVendorPages/newvendor"
 
 export default function App(){
+    
     return (
         <BrowserRouter>
             <div className="body">
