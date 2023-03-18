@@ -117,6 +117,14 @@ public class FormResponseService {
         //Pop first index of workflow and get the removed element
         int numQuestionnairesSubmitted = formResponseToUpdate.getWorkflow().remove(0);
 
+        //set status (incomplete/complete/approved)
+        if (formResponseToUpdate.getWorkflow().size() == 1){
+            formResponseToUpdate.setStatus("complete");
+        }
+        if (formResponseToUpdate.getWorkflow().size() == 0){
+            formResponseToUpdate.setStatus("approved");
+        }
+
         //Add to questionnaires completed
         formResponseToUpdate.setQuestionnairesCompleted(formResponseToUpdate.getQuestionnairesCompleted() + numQuestionnairesSubmitted);
 
@@ -129,6 +137,7 @@ public class FormResponseService {
 
         //update questionnaires
         formResponseToUpdate.setQuestionnaires(updatedFormResponse.getQuestionnaires());
+
 
 
         formResponseRepository.save(formResponseToUpdate);
