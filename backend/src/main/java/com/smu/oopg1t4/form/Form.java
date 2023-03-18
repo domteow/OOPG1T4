@@ -24,7 +24,7 @@ public class Form {
     private String effectiveDate; // Effective date of form
     private ArrayList<Questionnaire> questionnaires = new ArrayList<>(); // FULL questionnaire used in the form.
     private String formStatus = "draft"; // Either "draft" or "published" or "outdated". Drafts are editable, will not be allowed to have form responses. Published forms are not editable, shown to vendors.
-    private List<Integer> workflow;
+    private ArrayList<Integer> workflow;
     private int upTo; //for FE to know how many questionnaires can be completed
 
     public Form() {
@@ -133,11 +133,11 @@ public class Form {
         this.formStatus = formStatus;
     }
 
-    public List<Integer> getWorkflow() {
+    public ArrayList<Integer> getWorkflow() {
         return workflow;
     }
 
-    public void setWorkflow(List<Integer> workflow) {
+    public void setWorkflow(ArrayList<Integer> workflow) {
         this.workflow = workflow;
     }
 

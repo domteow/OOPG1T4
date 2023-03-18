@@ -42,7 +42,7 @@ public class FormService {
             List<Questionnaire> questionnaires = form.getQuestionnaires();
             String current = null;
             int count = 0;
-            List<Integer> workflow = new ArrayList<>();
+            ArrayList<Integer> workflow = new ArrayList<>();
 
             for (Questionnaire questionnaire: questionnaires){
                 if (current == null){
