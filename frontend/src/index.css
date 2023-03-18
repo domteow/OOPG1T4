@@ -818,6 +818,7 @@ input{
 .buttonFormRow{
     text-align: right;
     margin-top: 1%;
+    margin-bottom: 5%;
 }
 
 .createFormButton{

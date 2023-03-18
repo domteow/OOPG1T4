@@ -6,6 +6,7 @@ import '../../index.css'
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
+import Radio from '@mui/material/Radio';
 
 const RadioButton = ({allDetails, id}) => {
     const [radioQuestion, setRadioQuestion] = useState('');
@@ -69,6 +70,7 @@ const RadioButton = ({allDetails, id}) => {
         if (others){
             return(
                 <div className="othersOption">
+                        <Radio disabled={true} />
                         <TextField sx={{width: '70%'}} className="othersOption" placeholder="Others" disabled={true}/>
                         <DeleteIcon onClick={() => handleRemoveOthers()}/>
                 </div>
@@ -79,12 +81,12 @@ const RadioButton = ({allDetails, id}) => {
     return(
         <>
             <div className='newFormInput'>
-                <TextField value={radioQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Question"/>
+                <TextField value={radioQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Radio Question"/>
 
                 {radioOptions.map((option, index) => (
                     <div key={index} className="radioOption">
-                    
-                        <TextField value={option} sx={{width: '70%'}} onChange={(e) => handleOptionChange(e, index)} placeholder="Option"/>
+                        <Radio disabled={true} />
+                        <TextField value={option} sx={{width: '70%'}} onChange={(e) => handleOptionChange(e, index)} placeholder="Radio Option"/>
                         <DeleteIcon onClick={() => handleRemoveOption(index)}/>
                     </div>
                 ))}

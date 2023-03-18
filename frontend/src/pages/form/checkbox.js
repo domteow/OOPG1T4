@@ -6,6 +6,7 @@ import '../../index.css'
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
+import CheckboxBox from '@mui/material/Checkbox';
 
 
 const Checkbox = ({allDetails, id}) => {
@@ -75,6 +76,7 @@ const Checkbox = ({allDetails, id}) => {
         if (others){
             return(
                 <div className="othersOption">
+                        <CheckboxBox disabled={true}/>
                         <TextField sx={{width: '70%'}} className="othersOption" placeholder="Others" disabled={true}/>
                         <DeleteIcon onClick={() => handleRemoveOthers()}/>
                 </div>
@@ -85,11 +87,12 @@ const Checkbox = ({allDetails, id}) => {
     return(
         <>
             <div className='newFormInput'>
-                <TextField className='newFormInput' value={checkboxQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Question"/>
+                <TextField className='newFormInput' value={checkboxQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Checkbox Question"/>
                 
                 {checkboxOptions.map((option, index)=>(
                     <div key={index} className="checkboxOption">
-                        <TextField className='newFormInput' value={option} placeholder='Option' sx={{width: '70%'}} onChange={e => handleOptionChange(e, index)}/>
+                        <CheckboxBox disabled={true}/>
+                        <TextField className='newFormInput' value={option} placeholder='Checkbox Option' sx={{width: '70%'}} onChange={e => handleOptionChange(e, index)}/>
                         <DeleteIcon onClick={() => handleRemoveOption(index)}/>
                     </div>
                 ))}

@@ -72,11 +72,11 @@ const Select = ({allDetails, id}) => {
     return(
         <>
             <div className='newFormInput'>
-                <TextField className='newFormInput' value={selectQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Question"/>
+                <TextField className='newFormInput' value={selectQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Select Question"/>
                 
                 {selectOptions.map((option, index)=>(
                     <div key={index} className="selectOption">
-                        <TextField className='newFormInput' value={option} placeholder='Option' sx={{width: '70%'}} onChange={e => handleOptionChange(e, index)}/>
+                        <TextField className='newFormInput' value={option} placeholder='Select Option' sx={{width: '70%'}} onChange={e => handleOptionChange(e, index)}/>
                         <DeleteIcon onClick={() => handleRemoveOption(index)}/>
                     </div>
                 ))}
