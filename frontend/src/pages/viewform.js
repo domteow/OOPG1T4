@@ -95,7 +95,12 @@ export default function Formpage(props) {
     }
 
     const handleSelectChange = (qnIndex, dIndex) => (e) => {
-
+        const value = e.target.value;
+        setQuestionnaires((prevState) => {
+            const updatedQuestionnaires = { ...prevState };
+            updatedQuestionnaires[qnIndex]['fields'][dIndex]['value'] = value;
+            return updatedQuestionnaires
+        })
     }
 
 
@@ -113,6 +118,12 @@ export default function Formpage(props) {
         console.log(questionnaires)
         setFormToSend({"questionnaires" : questionnaires})
         console.log(formToSend)
+        try {
+            const response = axios.put("/api/v1/formResponse/updateFormResponse/" + formID, formToSend);
+            console.log(response);
+        } catch (error) {
+            console.log(error)
+        }
     }
     // console.log(values);
 
@@ -258,14 +269,13 @@ export default function Formpage(props) {
                                                 
                                                     
                                                         <div>
-                                                            <select id={detail.name} name={detail.name} value = {selectedOption} onChange={handleSelectChange}>
-                                                            {detail['options'].map(selection =>{
-                                                                return (
-                                                                <option key={selection.value} value={selection.value}>
-                                                                    {selection.label}
+                                                            <select id={detail.name} name={detail.name} value = {questionnaires[qnIndex]['fields'][dIndex]['value']} onChange={handleSelectChange(qnIndex, dIndex)}>
+                                                            {detail['options'].map((selection, idx) => (
+                                                                <option key={idx} value={selection}>
+                                                                    {selection}
                                                                 </option>
-                                                                )
-                                                            })}
+                                                                ))}
+
                                                             </select>
                                                             {/* <input type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/>  */}
                                                         </div>

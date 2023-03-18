@@ -36,7 +36,11 @@ const Select = ({allDetails, id}) => {
     const handleOptionChange = (e, index) => {
         const updatedOptions = [...selectOptions];
         updatedOptions[index] = e.target.value;        
-        setSelectOptions(updatedOptions);
+        // setSelectOptions(updatedOptions);
+        setSelectOptions(updatedOptions.map((option, idx) => {
+            if (idx !== index) return option;
+            return e.target.value;
+          }));
     }
 
     const handleAddOption = () => {
