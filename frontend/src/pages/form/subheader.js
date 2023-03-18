@@ -30,8 +30,8 @@ const Subheader = ({allDetails, id})=> {
         setSubheader(e.target.value);
     }
     const data = {
-        type: 'text',
-        question: subheader
+        type: 'subheader',
+        name: subheader
     }
 
     allDetails(data, id)

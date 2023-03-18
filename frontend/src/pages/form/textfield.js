@@ -31,7 +31,7 @@ const TextInput = ({allDetails, id})=> {
     }
     const data = {
         type: 'text',
-        question: testQuestion
+        name: testQuestion
     }
 
     allDetails(data, id)

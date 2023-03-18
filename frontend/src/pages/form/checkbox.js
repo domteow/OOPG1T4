@@ -50,7 +50,7 @@ const Checkbox = ({allDetails, id}) => {
     console.log(checkboxOptions)
 
     const data = {
-        question: checkboxQuestion,
+        name: checkboxQuestion,
         options: checkboxOptions,
         type: 'checkbox',
         others: others

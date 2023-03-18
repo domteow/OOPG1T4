@@ -44,7 +44,7 @@ const RadioButton = ({allDetails, id}) => {
     }
 
     const data = {
-        question: radioQuestion,
+        name: radioQuestion,
         options: radioOptions,
         type: 'radio',
         others: others

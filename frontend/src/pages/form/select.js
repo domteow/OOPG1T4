@@ -53,7 +53,7 @@ const Select = ({allDetails, id}) => {
     console.log(selectOptions);
 
     const data = {
-        question: selectQuestion,
+        name: selectQuestion,
         options: selectOptions,
         type: 'select'
     }
