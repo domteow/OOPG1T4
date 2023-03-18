@@ -810,3 +810,38 @@ input{
 .othersOption{
     margin-top: 1%;
 }
+
+.newFormRow{
+    padding-top: 1%;
+}
+
+.buttonFormRow{
+    text-align: right;
+    margin-top: 1%;
+}
+
+.createFormButton{
+    width: 15%;
+    padding: 0.5%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #0e80c6;
+    color: #f9f9f9;
+    border: 1px solid #1073b0;
+    font-size: 16px;
+    margin-top: 1%;
+    margin-left: 2%;
+}
+
+.cancelFormButton{
+    width: 15%;
+    padding: 0.5%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #AF0505;
+    color: #ffeded;
+    border: 1px solid #c01313;
+    font-size: 16px;
+    margin-top: 1%;
+    margin-left: 2%;
+}

@@ -8,12 +8,12 @@ import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
 
 const RadioButton = ({allDetails, id}) => {
-    console.log(id);
     const [radioQuestion, setRadioQuestion] = useState('');
     const [radioOptions, setRadioOptions] = useState([]);
     const [prevOption, setPrevOption] = useState([]);
     const [prevQuestion, setPrevQuestion] = useState('');      
     const [others, setOthers] = useState(false);
+    const [prevOthers, setPrevOthers] = useState(false);
 
     const handleQuestionChange = (e) => {
         setRadioQuestion(e.target.value);
@@ -49,7 +49,7 @@ const RadioButton = ({allDetails, id}) => {
         type: 'radio',
         others: others
     }
-    console.log(data);
+
     useEffect(()=>{
         if (prevQuestion !== radioQuestion){
             setPrevQuestion(radioQuestion);
@@ -57,6 +57,10 @@ const RadioButton = ({allDetails, id}) => {
         }
         if(prevOption!== radioOptions){
             setPrevOption(radioOptions);
+            allDetails(data, id);
+        }
+        if (others !== prevOthers){
+            setPrevOthers(others);
             allDetails(data, id);
         }
     })

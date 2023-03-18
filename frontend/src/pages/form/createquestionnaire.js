@@ -20,16 +20,19 @@ import Subheader from './subheader';
 
 const options = ['Sub Header', 'Text Field', 'Radio Button', 'Checkbox', 'Select'];
 
-export default function CreateQuestionnaire(){
+// export default function CreateQuestionnaire(){
+const CreateQuestionnaire = ({formDetails, id, value}) => {
     const [open, setOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(options[1]);
-
+    const [questionnaireName, setQuestionnaireName] = useState("");
+    const [assigned, setAssigned] = useState("admin");
     // inputList contains all the input fields that you're adding into the questionnaire 
     const [inputList, setInputList] = useState([]);
-    
     // details contains all the details of the questionnaire ehehehhe
     const [details, setDetails] = useState([]);
-
+    const [prevFields, setPreviousFields] = useState({});
+    const [prevAssign, setPreviousAssign] = useState("");
+    const [prevName, setPreviousName] = useState("");
     /* DIALOGUE STUFF */
     // this is for opening the dialogue
     const handleClickOpen = () => {
@@ -55,7 +58,9 @@ export default function CreateQuestionnaire(){
         setInputList(list);
     };
 
+
     const allDetails = (data, index) => {
+        console.log(data);
         const newDetails = details.map((item, i)=>{
             if (i === index){
                 return data
@@ -99,9 +104,44 @@ export default function CreateQuestionnaire(){
         setDetails(newDetails);
     }
 
-    console.log("RHYS IS A GENIUS DAMN");
-    console.log(details);
+    const handleSelectChange = (e) => { 
+        setAssigned(e.target.value);
+    }
 
+    const handleQuestionnaireTitleChange = (e) =>{
+        setQuestionnaireName(e.target.value);
+    }
+
+    console.log("RHYS IS A GENIUS DAMN");
+    // console.log(questionnaireName);
+    // console.log(assigned);
+    // console.log(details);
+
+    const data = { 
+        name: questionnaireName, 
+        roleRequired: assigned,
+        fields: details 
+    }
+    console.log(data);
+
+    useEffect(() => {
+        if (details !== prevFields){
+            setPreviousFields(details);
+            formDetails(data, id);
+        }
+        if (assigned !== prevAssign){
+            setPreviousAssign(assigned);
+            formDetails(data, id);
+        }
+        if (questionnaireName !== prevName){
+            setPreviousName(questionnaireName);
+            formDetails(data, id);
+        }
+    })
+
+
+
+    // rendering input fields
     const renderInputField = (item, i) =>{
         if(item === 'Text Field'){
             return(
@@ -173,6 +213,7 @@ export default function CreateQuestionnaire(){
                     <div className='formQuestion'>
                         Form Name:
                     </div>
+                    {/* title of questionnaire */}
                     <div  xs={12} md={10} className='formInput'>
                         <TextField
                             required
@@ -180,13 +221,14 @@ export default function CreateQuestionnaire(){
                             name="formName"
                             type='text'
                             sx={{width: '100%'}}
+                            onChange={handleQuestionnaireTitleChange}
                         />
                     </div>
                 </div>
                 
                 {inputList.map((item, i)=>{
                     return(
-                        <div key={i} cl>
+                        <div key={i}>
                             {renderInputField(item, i)}
                         </div>
                     )
@@ -199,6 +241,7 @@ export default function CreateQuestionnaire(){
                         </Col>
                         <Col>
                             <NativeSelect
+                                onChange={handleSelectChange}
                                 inputProps={{
                                     id: 'uncontrolled-native',
                                     name:'Assigned',
@@ -226,3 +269,5 @@ export default function CreateQuestionnaire(){
         </>
     )
 }
+
+export default CreateQuestionnaire;

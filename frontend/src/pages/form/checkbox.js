@@ -14,6 +14,7 @@ const Checkbox = ({allDetails, id}) => {
     const [prevOption, setPrevOption] = useState([]);
     const [prevQuestion, setPrevQuestion] = useState(''); 
     const [others, setOthers] = useState(false);
+    const [prevOthers, setPrevOthers] = useState(false);
 
     
     const handleQuestionChange = (e) => {
@@ -39,6 +40,7 @@ const Checkbox = ({allDetails, id}) => {
     const handleAddOthers = () =>{
         setOthers(true);
     }
+    console.log(others);
 
     const handleRemoveOthers = () =>{
         setOthers(false);
@@ -61,6 +63,10 @@ const Checkbox = ({allDetails, id}) => {
         }
         if(prevOption!== checkboxOptions){
             setPrevOption(checkboxOptions);
+            allDetails(data, id);
+        }
+        if (others !== prevOthers){
+            setPrevOthers(others);
             allDetails(data, id);
         }
     })
