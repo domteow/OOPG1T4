@@ -134,5 +134,29 @@ public class FormResponseService {
         formResponseRepository.save(formResponseToUpdate);
     }
 
+    public ResponseEntity<StatusResponse> saveFormResponseAsDraft(int formId, FormResponse formResponseDraft) {
 
+        try{
+            Optional<FormResponse> formResponseToUpdate = formResponseRepository.findById(formId);
+            if (formResponseToUpdate.isPresent()){
+                updateFormResponseDraft(formResponseToUpdate.get(), formResponseDraft);
+                StatusResponse successResponse = new StatusResponse("Success!", HttpStatus.OK.value());
+                return ResponseEntity.status(HttpStatus.OK).body(successResponse);
+            }else{
+                throw new FormResponseNotFoundException();
+            }
+        }catch(FormResponseNotFoundException e){
+            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
+        }catch(Exception e){
+            StatusResponse statusResponse = new StatusResponse("Error saving form response draft: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+        }
+    }
+
+    private void updateFormResponseDraft(FormResponse formResponseToUpdate, FormResponse formResponseDraft) {
+        //update questionnaires
+        formResponseToUpdate.setQuestionnaires(formResponseDraft.getQuestionnaires());
+        formResponseRepository.save(formResponseToUpdate);
+    }
 }
