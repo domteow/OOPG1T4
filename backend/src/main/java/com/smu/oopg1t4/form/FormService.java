@@ -3,6 +3,8 @@ package com.smu.oopg1t4.form;
 import com.smu.oopg1t4.exceptions.FormAlreadyExistsException;
 import com.smu.oopg1t4.exceptions.FormNotEditableException;
 import com.smu.oopg1t4.exceptions.FormNotFoundException;
+import com.smu.oopg1t4.field.Field;
+import com.smu.oopg1t4.field.FieldService;
 import com.smu.oopg1t4.questionnaire.Questionnaire;
 import com.smu.oopg1t4.questionnaire.QuestionnaireService;
 import com.smu.oopg1t4.response.StatusResponse;
@@ -22,16 +24,20 @@ public class FormService {
     private final FormRepository formRepository;
     private final SequenceGeneratorService sequenceGeneratorService;
     private final QuestionnaireService questionnaireService;
+    private final FieldService fieldService;
 
     @Autowired
     public FormService(
             FormRepository formRepository,
             SequenceGeneratorService sequenceGeneratorService,
-            QuestionnaireService questionnaireService
+            QuestionnaireService questionnaireService,
+            FieldService fieldService
     ) {
         this.formRepository = formRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
         this.questionnaireService = questionnaireService;
+        this.fieldService = fieldService;
+
     }
 
     // Returns response of created form
@@ -43,7 +49,7 @@ public class FormService {
             String current = null;
             int count = 0;
             ArrayList<Integer> workflow = new ArrayList<>();
-
+            List<Questionnaire> questionnaireToAdd = new ArrayList<>();
             for (Questionnaire questionnaire: questionnaires){
                 if (current == null){
                     current = questionnaire.getRoleRequired();
@@ -55,6 +61,14 @@ public class FormService {
                     count = 1;
                     current = questionnaire.getRoleRequired();
                 }
+
+                if(questionnaire.getId() == 0){
+                    questionnaireToAdd.add(questionnaire);
+                }
+            }
+
+            if (questionnaireToAdd.size() != 0) {
+                questionnaireService.createQuestionnaires(questionnaireToAdd);
             }
 
             workflow.add(count);
