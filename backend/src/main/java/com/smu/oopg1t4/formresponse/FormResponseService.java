@@ -135,7 +135,7 @@ public class FormResponseService {
     }
 
     public ResponseEntity<StatusResponse> saveFormResponseAsDraft(int formId, FormResponse formResponseDraft) {
-
+        // Only updating questionnaire. pendingUserInput, workflow, upTo all remains same. (since current user still working on it)
         try{
             Optional<FormResponse> formResponseToUpdate = formResponseRepository.findById(formId);
             if (formResponseToUpdate.isPresent()){
