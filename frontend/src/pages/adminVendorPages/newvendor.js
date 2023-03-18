@@ -54,6 +54,7 @@ export default function NewVendor(){
                 [name]: value
             })
         }
+    }
 
     const handlePassword = (e) =>{
         setStorePwd(e.target.value);
