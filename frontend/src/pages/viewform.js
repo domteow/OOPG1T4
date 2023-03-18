@@ -157,7 +157,7 @@ export default function Formpage(props) {
                         }
                         return (
                             <>
-                        {Object.values(question['fields']).map((detail, dIndex)=>{
+                            {Object.values(question['fields']).map((detail, dIndex)=>{
                             // console.log(detail)
                             
                         

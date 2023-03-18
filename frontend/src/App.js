@@ -21,6 +21,8 @@ import Homepage from "./pages/homepage"
 import Form from "./pages/viewform"
 import AllForms from "./pages/form/allforms"
 import Newform from "./pages/form/newform"
+import ViewForm from './pages/form/viewonlyform'
+import EditForm from './pages/form/editform'
 
 // ======== vendors ========
 // all vendors page 
@@ -44,6 +46,8 @@ export default function App(){
                 <Route exact path="/react/viewvendor/:vendorId" element={<Viewvendor/>}/>
                 <Route exact path="/react/allforms" element={<AllForms/>}/>
                 <Route exact path="/react/newform" element={<Newform/>}/>
+                <Route exact path="/react/allforms/viewform/:formId" element={<ViewForm/>}/>
+                <Route exact path="/react/allforms/editform/:formId" element={<EditForm/>}/>
             </Routes>
             </div>
         </BrowserRouter>

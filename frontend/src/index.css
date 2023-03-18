@@ -854,3 +854,8 @@ input{
     font-weight: 600;
     text-align: left;
 }
+
+.subheader{
+    font-size: 18px;
+    font-weight: 600;
+}
