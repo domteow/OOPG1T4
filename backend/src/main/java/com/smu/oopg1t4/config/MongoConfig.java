@@ -180,8 +180,8 @@ public class MongoConfig {
                 DatabaseSequence fieldSequence = new DatabaseSequence("field_sequence",24);
                 databaseSequenceRepository.save(fieldSequence);
             }
-            if (!databaseSequenceRepository.findById("questionnaire_sequence").isPresent() || databaseSequenceRepository.findById("questionnaire_sequence").get().getSeq() < 3){
-                DatabaseSequence questionnaireSequence = new DatabaseSequence("questionnaire_sequence",3);
+            if (!databaseSequenceRepository.findById("questionnaire_sequence").isPresent() || databaseSequenceRepository.findById("questionnaire_sequence").get().getSeq() < 4){
+                DatabaseSequence questionnaireSequence = new DatabaseSequence("questionnaire_sequence",4);
                 databaseSequenceRepository.save(questionnaireSequence);
             }
             if (!databaseSequenceRepository.findById("form_sequence").isPresent() || databaseSequenceRepository.findById("form_sequence").get().getSeq() < 1){
