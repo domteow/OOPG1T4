@@ -8,7 +8,8 @@ import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
 import Radio from '@mui/material/Radio';
 
-const RadioButton = ({allDetails, id}) => {
+const RadioButton = ({allDetails, id, value, options}) => {
+
     const [radioQuestion, setRadioQuestion] = useState('');
     const [radioOptions, setRadioOptions] = useState([]);
     const [prevOption, setPrevOption] = useState([]);
@@ -65,9 +66,11 @@ const RadioButton = ({allDetails, id}) => {
             allDetails(data, id);
         }
     })
+
+    const [newOthers , setNewOthers] =useState(options.others);
    
     const Others = () =>{
-        if (others){
+        if (others || newOthers){
             return(
                 <div className="othersOption">
                         <Radio disabled={true} />
@@ -78,34 +81,68 @@ const RadioButton = ({allDetails, id}) => {
         }
     }
 
-    return(
-        <>
-            <div className='newFormInput'>
-                <TextField value={radioQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Radio Question"/>
 
-                {radioOptions.map((option, index) => (
-                    <div key={index} className="radioOption">
-                        <Radio disabled={true} />
-                        <TextField value={option} sx={{width: '70%'}} onChange={(e) => handleOptionChange(e, index)} placeholder="Radio Option"/>
-                        <DeleteIcon onClick={() => handleRemoveOption(index)}/>
+    if (value === undefined && options === undefined){
+        return(
+            <>
+                <div className='newFormInput'>
+                    <TextField value={radioQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Radio Question"/>
+
+                    {radioOptions.map((option, index) => (
+                        <div key={index} className="radioOption">
+                            <Radio disabled={true} />
+                            <TextField value={option} sx={{width: '70%'}} onChange={(e) => handleOptionChange(e, index)} placeholder="Radio Option"/>
+                            <DeleteIcon onClick={() => handleRemoveOption(index)}/>
+                        </div>
+                    ))}
+
+                    <Others />
+
+                    <div>
+                        <button onClick={handleAddOption} className="addRadio">
+                            <AddIcon/>Add Option
+                        </button>
+
+                        <button disabled={others} onClick={handleAddOthers} className="addOthers">
+                            <AddIcon/>Add Others
+                        </button>
                     </div>
-                ))}
-
-                <Others />
-
-                <div>
-                    <button onClick={handleAddOption} className="addRadio">
-                        <AddIcon/>Add Option
-                    </button>
-
-                    <button disabled={others} onClick={handleAddOthers} className="addOthers">
-                        <AddIcon/>Add Others
-                    </button>
                 </div>
-            </div>
-            
-        </>
-    )
+                
+            </>
+        )   
+    }
+
+    else{
+        return(
+            <>
+                <div className='newFormInput'>
+                    <TextField defaultValue={value} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Radio Question"/>
+
+                    {options.map((option, index) => (
+                        <div key={index} className="radioOption">
+                            <Radio/>
+                            <TextField defaultValue={option} sx={{width: '70%'}} onChange={(e) => handleOptionChange(e, index)} placeholder="Radio Option"/>
+                            <DeleteIcon onClick={() => handleRemoveOption(index)}/>
+                        </div>
+                    ))}
+
+                    <Others />
+
+                    <div>
+                        <button onClick={handleAddOption} className="addRadio">
+                            <AddIcon/>Add Option
+                        </button>
+
+                        <button disabled={others} onClick={handleAddOthers} className="addOthers">
+                            <AddIcon/>Add Others
+                        </button>
+                    </div>
+                </div>
+                
+            </>
+        )   
+    }
 }
 
 export default RadioButton;
