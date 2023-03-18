@@ -6,6 +6,7 @@ import com.smu.oopg1t4.field.FieldService;
 import com.smu.oopg1t4.form.Form;
 import com.smu.oopg1t4.form.FormRepository;
 import com.smu.oopg1t4.formresponse.FormResponse;
+import com.smu.oopg1t4.formresponse.FormResponseRepository;
 import com.smu.oopg1t4.questionnaire.Questionnaire;
 import com.smu.oopg1t4.questionnaire.QuestionnaireController;
 import com.smu.oopg1t4.questionnaire.QuestionnaireRepository;
@@ -30,7 +31,7 @@ import java.util.Date;
 public class MongoConfig {
 
     @Bean
-    CommandLineRunner commandLineRunner(FieldRepository fieldRepository, DatabaseSequenceRepository databaseSequenceRepository, QuestionnaireRepository questionnaireRepository, UserRepository userRepository, FormRepository formRepository){
+    CommandLineRunner commandLineRunner(FieldRepository fieldRepository, DatabaseSequenceRepository databaseSequenceRepository, QuestionnaireRepository questionnaireRepository, UserRepository userRepository, FormRepository formRepository, FormResponseRepository formResponseRepository){
         return args -> {
             // ------------------Users-----------------------
 
@@ -116,14 +117,18 @@ public class MongoConfig {
             //Questionnaire 3 for NEW VENDOR ASSESSMENT FORM
 
             ArrayList<Field> fields3 = new ArrayList<>();
-            fields3.addAll(List.of(f22,f23,f24,f25,f26));
+            fields3.addAll(List.of(f22,f23,f24));
             Questionnaire q3 = new Questionnaire("Evaluation Results", fields3, "Admin");
 
+            //Questionnaire 4 for NEW VENDOR ASSESSMENT FORM
+            ArrayList<Field> fields4 = new ArrayList<>();
+            fields4.addAll(List.of(f25,f24,f26));
+            Questionnaire q4 = new Questionnaire("Approver input", fields4, "Approver");
 
 
 
 
-            List<Questionnaire> questionnaires = List.of(q1,q2,q3);
+            List<Questionnaire> questionnaires = List.of(q1,q2,q3,q4);
             int questionnaireId = 1;
             for (Questionnaire questionnaire: questionnaires){
                 questionnaire.setId(questionnaireId);
@@ -135,9 +140,9 @@ public class MongoConfig {
 
             // ------------------Forms-----------------------
             ArrayList<Questionnaire> questionnaires1 = new ArrayList<>();
-            questionnaires1.addAll(List.of(q1,q2,q3));
+            questionnaires1.addAll(List.of(q1,q2,q3,q4));
             //QLI-QHSP-10-F01 NEW VENDOR ASSESSMENT FORM
-            Form form1 = new Form(1,"QLI-QHSP-10-F01", 1, "New Vendor Assessment Form","2022-04-04", questionnaires1,"published");
+            Form form1 = new Form(1,"QLI-QHSP-10-F01", 1, "New Vendor Assessment Form","2022-04-04", questionnaires1,"published",List.of(1,2,1), 1);
             formRepository.saveAll(
                     List.of(form1)
             );
@@ -151,12 +156,17 @@ public class MongoConfig {
                     "2022-04-04",
                     questionnaires1,
                     "published",
+                    List.of(1,2,1),
+                    1,
                     1,
                     "Vendor",
                     0,
                     "incomplete"
             );
 
+            formResponseRepository.saveAll(
+                    List.of(formResponse)
+            );
             // ------------------Database Sequence-----------------------
             if (!databaseSequenceRepository.findById("user_sequence").isPresent() || databaseSequenceRepository.findById("user_sequence").get().getSeq() < 4){
                 DatabaseSequence userSequence = new DatabaseSequence("user_sequence",4);

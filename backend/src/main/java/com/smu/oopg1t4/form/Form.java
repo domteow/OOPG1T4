@@ -1,14 +1,16 @@
 package com.smu.oopg1t4.form;
 
 import com.smu.oopg1t4.questionnaire.Questionnaire;
+import lombok.AllArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-
+@AllArgsConstructor
 @Document(collection = "form")
 public class Form {
 
@@ -22,6 +24,8 @@ public class Form {
     private String effectiveDate; // Effective date of form
     private ArrayList<Questionnaire> questionnaires = new ArrayList<>(); // FULL questionnaire used in the form.
     private String formStatus = "draft"; // Either "draft" or "published" or "outdated". Drafts are editable, will not be allowed to have form responses. Published forms are not editable, shown to vendors.
+    private List<Integer> workflow;
+    private int upTo; //for FE to know how many questionnaires can be completed
 
     public Form() {
     }
@@ -127,6 +131,22 @@ public class Form {
 
     public void setFormStatus(String formStatus) {
         this.formStatus = formStatus;
+    }
+
+    public List<Integer> getWorkflow() {
+        return workflow;
+    }
+
+    public void setWorkflow(List<Integer> workflow) {
+        this.workflow = workflow;
+    }
+
+    public int getUpTo() {
+        return upTo;
+    }
+
+    public void setUpTo(int upTo) {
+        this.upTo = upTo;
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Document(collection = "form_response")
 public class FormResponse extends Form {
@@ -46,12 +47,14 @@ public class FormResponse extends Form {
             String effectiveDate,
             ArrayList<Questionnaire> questionnaires,
             String formStatus,
+            List<Integer> workflow,
+            int upTo,
             int ownerId,
             String pendingUserInput,
             int questionnairesCompleted,
             String status
     ) {
-        super(formId, formCode, revisionNo, description, effectiveDate, questionnaires, formStatus);
+        super(formId, formCode, revisionNo, description, effectiveDate, questionnaires, formStatus, workflow, upTo);
         this.ownerId = ownerId;
         this.pendingUserInput = pendingUserInput;
         this.questionnairesCompleted = questionnairesCompleted;
