@@ -48,6 +48,10 @@ public class FormResponseController {
         return formResponseService.saveFormResponseAsDraft(formId, formResponseDraft);
     }
 
+    @PutMapping("/rejectFormResponse/{formId}")
+    public ResponseEntity<StatusResponse> rejectFormResponse(@PathVariable int formId){
+        return formResponseService.rejectFormResponse(formId);
+    }
 
 
 }
