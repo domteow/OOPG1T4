@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Document(collection = "form_response")
 public class FormResponse extends Form {
@@ -19,8 +20,7 @@ public class FormResponse extends Form {
     private int ownerId; // Tagged to whoever the form is for. (vendorId)
     private String pendingUserInput;
     private int questionnairesCompleted = 0; // Frontend will block inputs to n-1 questionnairesCompleted (?)
-    private boolean submitted; // If submitted by Vendor, for FrontEnd to block actions from vendor
-    private boolean approved; // If approved = true, no more actions needed.
+    private String status; // incomplete, complete, approved, rejected
 
 
     public FormResponse() {
@@ -31,14 +31,12 @@ public class FormResponse extends Form {
             int ownerId,
             String pendingUserInput,
             int questionnairesCompleted,
-            boolean submitted,
-            boolean approved
+            String status
     ) {
         this.ownerId = ownerId;
         this.pendingUserInput = pendingUserInput;
         this.questionnairesCompleted = questionnairesCompleted;
-        this.submitted = submitted;
-        this.approved = approved;
+        this.status = status;
     }
 
     public FormResponse(
@@ -49,18 +47,18 @@ public class FormResponse extends Form {
             String effectiveDate,
             ArrayList<Questionnaire> questionnaires,
             String formStatus,
+            List<Integer> workflow,
+            int upTo,
             int ownerId,
             String pendingUserInput,
             int questionnairesCompleted,
-            boolean submitted,
-            boolean approved
+            String status
     ) {
-        super(formId, formCode, revisionNo, description, effectiveDate, questionnaires, formStatus);
+        super(formId, formCode, revisionNo, description, effectiveDate, questionnaires, formStatus, workflow, upTo);
         this.ownerId = ownerId;
         this.pendingUserInput = pendingUserInput;
         this.questionnairesCompleted = questionnairesCompleted;
-        this.submitted = submitted;
-        this.approved = approved;
+        this.status = status;
     }
 
     @Override
@@ -97,19 +95,11 @@ public class FormResponse extends Form {
         this.questionnairesCompleted = questionnairesCompleted;
     }
 
-    public boolean isSubmitted() {
-        return submitted;
+    public String getStatus() {
+        return status;
     }
 
-    public void setSubmitted(boolean submitted) {
-        this.submitted = submitted;
-    }
-
-    public boolean isApproved() {
-        return approved;
-    }
-
-    public void setApproved(boolean approved) {
-        this.approved = approved;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

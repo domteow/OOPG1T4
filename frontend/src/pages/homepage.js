@@ -67,15 +67,15 @@ export default function Homepage() {
         const allforms = response.data.data
         allforms.forEach(form => {
           console.log(form)
-          if(form['formStatus'] === 'published'){
+          if(form['status'] === 'completed'){
             setCompletedForms(prevCompletedForms => ({...prevCompletedForms, form}))
             console.log(completedForms)
           }
-          else if(form['formStatus'] === 'incomplete'){
+          else if(form['status'] === 'incomplete'){
             setIncompleteForms(prevIncompleteForms => ({...prevIncompleteForms, form}))
             console.log(incompleteForms)
           }
-          else if(form['formStatus'] === 'read'){
+          else if(form['status'] === 'readonly'){
             setReadOnlyForms(prevReadOnlyForms => ({...prevReadOnlyForms, form}))
             console.log(readOnlyForms)
           }
@@ -97,7 +97,7 @@ export default function Homepage() {
 
             {/* for all forms that are read only */}
             <div className='subDivider'>
-              All Forms
+              Notices
             </div>
 
             {Object.keys(readOnlyForms).map((formName, index)=>{
@@ -109,11 +109,11 @@ export default function Homepage() {
                         {formName}
                       </div>
                       <div className='homepageFormStatus'>
-                      Status: {allForms[formName]['status']}
+                      Status: {readOnlyForms[formName]['status']}
                       </div>
                     </Col>
                     <Col xs={6} md={4} xl={2}>
-                      <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(allForms[formName]['id'])}>
+                      <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(readOnlyForms[formName]['id'])}>
                         View Form
                       </button>
                     </Col>
@@ -129,12 +129,13 @@ export default function Homepage() {
             </div>
 
             {Object.keys(incompleteForms).map((formName, index)=>{
+              
               return(
                 <Container className = 'homepageFormDisplay' key={formName}>
                   <Row className='displayRow' > 
                     <Col xs={12} md={8} className='homepageFormDetails'>
                       <div className='homepageFormName'>
-                        {formName}
+                        {incompleteForms[formName]['description']}
                       </div>
                       <div className='homepageFormStatus'>
                       Status: {incompleteForms[formName]['status']}
@@ -142,7 +143,9 @@ export default function Homepage() {
                     </Col>
                     <Col xs={6} md={4} xl={2}>
                       <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(incompleteForms[formName]['id'])}>
-                        {incompleteForms[formName]['action']}
+                        {/* {incompleteForms[formName]['action']} */} 
+                        Continue Form
+
                       </button>
                     </Col>
                   </Row>

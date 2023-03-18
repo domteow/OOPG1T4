@@ -39,6 +39,29 @@ public class FormService {
         try {
             checkDuplicateForm(form.getFormCode(), form.getRevisionNo());
             form.setId(sequenceGeneratorService.generateSequence(Form.SEQUENCE_NAME));
+            List<Questionnaire> questionnaires = form.getQuestionnaires();
+            String current = null;
+            int count = 0;
+            List<Integer> workflow = new ArrayList<>();
+
+            for (Questionnaire questionnaire: questionnaires){
+                if (current == null){
+                    current = questionnaire.getRoleRequired();
+                    count = 1;
+                } else if (questionnaire.getRoleRequired().equals(current)){
+                    count++;
+                } else if (!questionnaire.getRoleRequired().equals(current)){
+                    workflow.add(count);
+                    count = 1;
+                    current = questionnaire.getRoleRequired();
+                }
+            }
+
+            workflow.add(count);
+            int upTo = workflow.get(0);
+
+            form.setWorkflow(workflow);
+            form.setUpTo(upTo);
 
             Form createdForm = formRepository.save(form);
             SuccessResponse successResponse = new SuccessResponse("Successfully created form.", HttpStatus.CREATED.value(), createdForm);
@@ -170,7 +193,9 @@ public class FormService {
                     form.getDescription(),
                     form.getEffectiveDate(),
                     form.getQuestionnaires(),
-                    "draft"
+                    "draft",
+                    form.getWorkflow(),
+                    form.getUpTo()
             );
 
             checkDuplicateForm(newForm.getFormCode(), newForm.getRevisionNo());
