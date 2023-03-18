@@ -121,15 +121,28 @@ export default function Newform(){
         description: formName, 
         formCode: formCode,
         effectiveDate: effectiveDate,
-        questionnaires : formData
+        questionnaires : formData,
+        revisionNo: 1,
+        formStatus: "published"
     }
 
     console.log("LOOK HERE FOR FORM DATA")
     console.log(submitForm)
 
     // DOM LOOK HERE PLEASE YOU NEED CONNECT THE BACKEND HERE JUST NEED CONNECT AND PASS submitForm TO THE BACKEND TYVM
-    const handleCreateForm = () => {
+    const handleCreateForm = async() => {
         console.log("DOM DOM DO THIS");
+
+        try {
+            const response = await axios.post('/api/v1/form/createForm', submitForm);
+            console.log(response);
+            if (response.data.status == 201) {
+                navigate('../react/allforms')
+                alert('Form template added successfully')
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const handleCancelForm = () => {
