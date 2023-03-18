@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import axios from '../../api/axios'
 import { ReactDOM } from 'react-dom'
 import { Link, Router, Route, Routes, BrowserRouter, useNavigate } from 'react-router-dom'
 import '../../index.css'
@@ -30,26 +31,22 @@ export default function Newform(){
     const [formCode, setFormCode] = useState("");
     const [effectiveDate, setEffectiveDate] = useState("");
     const navigate = useNavigate();
+    const [questionnaireList, setQuestionnaireList] = useState([]);
 
-    // FROM BACKEND GET THE EXISTING QUESTIONNAIRES and add into options 
-    const questionnaireList = [
-        {
-            'name' : 'Questionnaire 1',
-            'id': 'q1' 
-        },
-        {
-            'name' : 'Questionnaire 2',
-            'id': 'q2'
-        },
-        {
-            'name' : 'Questionnaire 3',
-            'id': 'q3' 
-        },
-        {
-            'name' : 'Questionnaire 4',
-            'id': 'q4' 
+    const getAllQuestionnaires = async() =>{
+        try{
+            const response = await axios.get("/api/v1/questionnaire/getAllQuestionnaires")
+            // console.log([response.data.data]);
+            setQuestionnaireList(response.data.data);
         }
-    ];
+        catch(error){
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getAllQuestionnaires();
+    }, []);
 
     /* THIS IS TO OPEN THE DIALOGUE TO CHOOSE WHAT TO ADD */
     const handleClickOpen = () => {
@@ -69,7 +66,7 @@ export default function Newform(){
                 if (name === value){
                     console.log(questionnaire.id);
                     setInputList([...inputList, id]);
-                    setFormData([...formData, id]);
+                    setFormData([...formData, questionnaire]);
                 }
             })
         }
@@ -96,8 +93,6 @@ export default function Newform(){
         }); 
         setInputList(newDat);
     };
-
-    console.log(inputList);
 
     const formDetails = (data, index) => {
         const newFormDetails = formData.map((item, i) => {
@@ -130,9 +125,11 @@ export default function Newform(){
         effectiveDate: effectiveDate,
         questionnaires : formData
     }
+
     console.log("LOOK HERE FOR FORM DATA")
     console.log(submitForm)
 
+    // DOM LOOK HERE PLEASE YOU NEED CONNECT THE BACKEND HERE JUST NEED CONNECT AND PASS submitForm TO THE BACKEND TYVM
     const handleCreateForm = () => {
         console.log(submitForm);
     }

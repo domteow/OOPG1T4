@@ -63,8 +63,8 @@ export default function Navbar(){
     setAnchorElUser(null);
   };
 
-  
-  if (role == 'vendor'){
+  console.log(role);
+  if (role == 'Vendor'){
     return(
         <header className='navbar'>
 
@@ -116,7 +116,7 @@ export default function Navbar(){
     )
   }
 
-  else if (role == 'admin'){
+  else if (role == 'Admin'){
     return(
       <header className='navbar'>
 

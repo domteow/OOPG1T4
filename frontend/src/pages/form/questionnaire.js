@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { ReactDOM } from 'react-dom'
 import { Link, Router, Route, Routes, BrowserRouter, useNavigate } from 'react-router-dom'
 import '../../index.css'
+import axios from '../../api/axios'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -35,43 +36,54 @@ const options = ['Text Field', 'Radio Button', 'Checkbox', 'Dropdown'];
 
 export default function Questionnaire(props){
     // props is the id of the questionnaire
-    const questionnaireId = props.id; 
-    console.log(questionnaireId);
-    // use questionnaireId to get the questionnaire from backend 
-    // dummy data here 
-    const questionnaire = {
-        'questionnaireId' : '389273', 
-        'questionnaireName' : 'intro questions',
-        'questions':{
-            'Name:' : 'text',
-            'Age:' : 'text', 
-            'Gender:' : ['radio', 'male', 'female'],
-            'idk bro:' : ['checkbox', 'cbox1', 'cbox2']
-        },
-        'roleRequired' : 'vendor'
+    const questionnaireId = props.id; ;
+    const [fields, setFields] = useState([]);
+    const [questionnaire, setQuestionnaire] = useState({});
+
+    const getQuestionnaire = async() => {
+        try{
+            const response = await axios.get("/api/v1/questionnaire/getQuestionnaireByID/" + questionnaireId)
+            setQuestionnaire(response.data.data)
+            console.log(response.data.data);
+            const allFields = response.data.data['fields'];
+            setFields(allFields);
+            console.log(allFields);            
+        }
+        catch(error){
+            console.log(error);
+        }
     }
+
+    useEffect(() => {
+        getQuestionnaire();
+    }, []);
+
     const assigned = questionnaire['roleRequired'];
+    console.log(fields);
 
     return(
         <div className='questionnaireContent'>
             <div className='questionnaireName'>
-                {questionnaire['questionnaireName']}
+                {questionnaire['name']}
             </div>
 
             <div className='questionnaireId'>
-                {questionnaire['questionnaireId']}
+                {questionnaire['id']}
             </div>
 
             <FormControl fullWidth>
                 <Container>
-                    {Object.keys(questionnaire['questions']).map((key, index)=>{
-                        const inputType = questionnaire['questions'][key];
-                        if (inputType == 'text'){
+                    {fields.map((field) => {
+                        const inputType = field.type; 
+                        const question = field.name;
+                        const options = field.options;
+
+                        if (inputType === 'text'){
                             return(
                                 <>
                                     <Row>
                                         <div className='questionnaireQuestion'>
-                                            {key}
+                                            {question}
                                         </div>
                                     </Row>
                                     <Row>                                    
@@ -86,18 +98,17 @@ export default function Questionnaire(props){
                                 </>
                             )
                         }
-                        else if (inputType[0] == 'radio'){
-                            const multiOptions = inputType.slice();
-                            multiOptions.splice(0,1);
+
+                        else if (inputType === 'radio'){
                             return(
                                 <>
                                     <Row>
                                         <div className='questionnaireQuestion'>
-                                            {key}
+                                            {question}
                                         </div>
                                     </Row>
                                     <Row>
-                                        {multiOptions.map((option)=>{
+                                        {options.map((option)=>{
                                             return(
                                                 <FormControlLabel value={option} control={<Radio />} label={option}  disabled={true}/>
                                             )
@@ -107,27 +118,58 @@ export default function Questionnaire(props){
                             )
                         }
 
-                        else if (inputType[0] == 'checkbox'){
-                            const multiOptions = inputType.slice();
-                            multiOptions.splice(0,1);
+                        else if (inputType === 'checkbox'){
                             return(
                                 <>
                                     <Row>
                                         <div className='questionnaireQuestion'>
-                                            {key}
+                                            {question}
                                         </div>
                                     </Row>
                                     <Row>
-                                        {multiOptions.map((option)=>{
+                                        {options.map((option)=>{
                                             return(
-                                                <FormControlLabel control={<Checkbox />} value = {option} label = {option} disabled={true}/>
+                                                <TextField value={option} label={option}  disabled={true}/>
                                             )
                                         })}
                                     </Row>
                                 </>
                             )
                         }
+
+                        else if (inputType === 'select'){
+                            return(
+                                <>
+                                    <Row>
+                                        <div className='questionnaireQuestion'>
+                                            {question}
+                                        </div>
+                                    </Row>
+                                    <Row>
+                                        {options.map((option)=>{
+                                            return(
+                                                <FormControlLabel value={option} control={<Checkbox />} label={option}  disabled={true}/>
+                                            )
+                                        })}
+                                    </Row>
+                                </>
+                            )
+                        }
+
+                        else if (inputType === 'subheader'){
+                            return(
+                                <>
+                                    <Row>
+                                        <div className='questionnaireQuestion'>
+                                            {question}
+                                        </div>
+                                    </Row>
+                                </>
+                            )
+                        }
+
                     })}
+                    
                     <Row>
                         <Col md={1}>
                             Assignment:
@@ -146,9 +188,7 @@ export default function Questionnaire(props){
                         </Col>
                     </Row>
                 </Container>
-            </FormControl>
-            
+            </FormControl>   
         </div>
     )
-
 }

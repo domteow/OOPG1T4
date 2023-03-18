@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { ReactDOM } from 'react-dom'
 import { Link, Router, Route, Routes, BrowserRouter, useNavigate } from 'react-router-dom'
 import '../../index.css'
+import axios from '../../api/axios'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -29,28 +30,26 @@ export default function Dialogue(props){
     const formOptions = ['New Questionnaire'];
     const questionnaires = [];
     const questionnaireOptions = ['Sub Header', 'Text Field', 'Radio Button', 'Checkbox', 'Select', 'Cancel'];
-    // FROM BACKEND GET THE EXISTING QUESTIONNAIRES and add into options 
-    const questionnaireList = [
-        {
-            'name' : 'Questionnaire 1',
-            'id': 'q1' 
-        },
-        {
-            'name' : 'Questionnaire 2',
-            'id': 'q2'
-        },
-        {
-            'name' : 'Questionnaire 3',
-            'id': 'q3' 
-        },
-        {
-            'name' : 'Questionnaire 4',
-            'id': 'q4' 
+    const [questionnaireList, setQuestionnaireList] = useState([]);
+
+    const getAllQuestionnaires = async() =>{
+        try{
+            const response = await axios.get("/api/v1/questionnaire/getAllQuestionnaires")
+            // console.log([response.data.data]);
+            setQuestionnaireList(response.data.data);
         }
-    ];
+        catch(error){
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getAllQuestionnaires();
+    }, []);
+    console.log(questionnaireList);
 
     questionnaireList.map((questionnaire) =>{
-        const questionnaireName = questionnaire['name'];
+        const questionnaireName = questionnaire.name;
         if (formOptions.indexOf(questionnaireName) === -1){
             formOptions.push(questionnaireName);
             questionnaires.push(questionnaireName);
