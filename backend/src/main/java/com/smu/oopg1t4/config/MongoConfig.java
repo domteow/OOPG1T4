@@ -141,13 +141,17 @@ public class MongoConfig {
             // ------------------Forms-----------------------
             ArrayList<Questionnaire> questionnaires1 = new ArrayList<>();
             questionnaires1.addAll(List.of(q1,q2,q3,q4));
+            ArrayList<Integer> workflow1 = new ArrayList<>();
+            workflow1.addAll(List.of(1,2,1));
             //QLI-QHSP-10-F01 NEW VENDOR ASSESSMENT FORM
-            Form form1 = new Form(1,"QLI-QHSP-10-F01", 1, "New Vendor Assessment Form","2022-04-04", questionnaires1,"published",List.of(1,2,1), 1);
+            Form form1 = new Form(1,"QLI-QHSP-10-F01", 1, "New Vendor Assessment Form","2022-04-04", questionnaires1,"published", workflow1, 1);
             formRepository.saveAll(
                     List.of(form1)
             );
 
             // ------------------Form Responses-----------------------
+
+
             FormResponse formResponse = new FormResponse(
                     1,
                     "QLI-QHSP-10-F01",
@@ -156,7 +160,7 @@ public class MongoConfig {
                     "2022-04-04",
                     questionnaires1,
                     "published",
-                    List.of(1,2,1),
+                    workflow1,
                     1,
                     1,
                     "Vendor",
