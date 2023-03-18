@@ -43,6 +43,10 @@ public class FormResponseController {
         return formResponseService.updateFormResponse(formId, updatedFormResponse);
     }
 
+    @PutMapping("/saveFormResponseAsDraft/{formId}")
+    public ResponseEntity<StatusResponse> saveFormResponseAsDraft(@PathVariable int formId, @RequestBody FormResponse formResponseDraft){
+        return formResponseService.saveFormResponseAsDraft(formId, formResponseDraft);
+    }
 
 
 

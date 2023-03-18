@@ -47,7 +47,7 @@ public class FormResponse extends Form {
             String effectiveDate,
             ArrayList<Questionnaire> questionnaires,
             String formStatus,
-            List<Integer> workflow,
+            ArrayList<Integer> workflow,
             int upTo,
             int ownerId,
             String pendingUserInput,

@@ -106,34 +106,57 @@ public class FormResponseService {
         }catch(FormResponseNotFoundException e){
             StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
+        }catch(Exception e){
+            StatusResponse statusResponse = new StatusResponse("Error updating form response: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
         }
     }
 
     private void updateFormResponse(FormResponse formResponseToUpdate, FormResponse updatedFormResponse){
 
-//        // get which questionnaire is currently being submitted
-//        int submittedQuestionnaireIndex = formResponseToUpdate.getQuestionnairesCompleted();
-//        ArrayList<Questionnaire> questionnaires = formResponseToUpdate.getQuestionnaires();
-//
-//        //update
-//        if (submittedQuestionnaireIndex == questionnaires.size() - 1){
-//            formResponseToUpdate.set
-//        }
-//
-//        Questionnaire NextQuestionnaire = questionnaires.get(submittedQuestionnaireIndex + 1);
-//        String NextQuestionnaireRoleRequired = NextQuestionnaire.getRoleRequired();
-//
-//        //Update pending user input based on which questionnaires has been completed.
-//        formResponseToUpdate.setPendingUserInput(NextQuestionnaireRoleRequired);
-//
-//        //update questionnairesCompleted
-//        formResponseToUpdate.setQuestionnairesCompleted(updatedFormResponse.getQuestionnairesCompleted() + 1);
-//
-//        //set questionnaires
-//        formResponseToUpdate.setQuestionnaires(updatedFormResponse.getQuestionnaires());
+        //Pop first index of workflow and get the removed element
+        int numQuestionnairesSubmitted = formResponseToUpdate.getWorkflow().remove(0);
+
+        //Add to questionnaires completed
+        formResponseToUpdate.setQuestionnairesCompleted(formResponseToUpdate.getQuestionnairesCompleted() + numQuestionnairesSubmitted);
+
+        //Add to upTo (for frontend use)
+        formResponseToUpdate.setUpTo(formResponseToUpdate.getUpTo() + numQuestionnairesSubmitted);
+
+        //Update pendingUserInput
+        String nextRoleRequired = updatedFormResponse.getQuestionnaires().get(formResponseToUpdate.getQuestionnairesCompleted()).getRoleRequired();
+        formResponseToUpdate.setPendingUserInput(nextRoleRequired);
+
+        //update questionnaires
+        formResponseToUpdate.setQuestionnaires(updatedFormResponse.getQuestionnaires());
 
 
         formResponseRepository.save(formResponseToUpdate);
     }
 
+    public ResponseEntity<StatusResponse> saveFormResponseAsDraft(int formId, FormResponse formResponseDraft) {
+        // Only updating questionnaire. pendingUserInput, workflow, upTo all remains same. (since current user still working on it)
+        try{
+            Optional<FormResponse> formResponseToUpdate = formResponseRepository.findById(formId);
+            if (formResponseToUpdate.isPresent()){
+                updateFormResponseDraft(formResponseToUpdate.get(), formResponseDraft);
+                StatusResponse successResponse = new StatusResponse("Success!", HttpStatus.OK.value());
+                return ResponseEntity.status(HttpStatus.OK).body(successResponse);
+            }else{
+                throw new FormResponseNotFoundException();
+            }
+        }catch(FormResponseNotFoundException e){
+            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
+        }catch(Exception e){
+            StatusResponse statusResponse = new StatusResponse("Error saving form response draft: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+        }
+    }
+
+    private void updateFormResponseDraft(FormResponse formResponseToUpdate, FormResponse formResponseDraft) {
+        //update questionnaires
+        formResponseToUpdate.setQuestionnaires(formResponseDraft.getQuestionnaires());
+        formResponseRepository.save(formResponseToUpdate);
+    }
 }
