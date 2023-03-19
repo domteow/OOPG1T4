@@ -47,10 +47,13 @@ public class FormController {
     }
 
     @PostMapping("/revise/{id}")
-    public ResponseEntity<?> reviseForm(
-            @PathVariable int id
-    ) {
+    public ResponseEntity<?> reviseForm(@PathVariable int id) {
         return formService.reviseForm(id);
+    }
+
+    @PostMapping("/reviseFormById/{id}")
+    public ResponseEntity<?> reviseForm(@PathVariable int id, @RequestBody Form form) {
+        return formService.reviseFormById(id, form);
     }
 
     // Only updates description, effectiveDate, questionnaires.

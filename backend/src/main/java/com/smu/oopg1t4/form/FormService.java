@@ -197,6 +197,7 @@ public class FormService {
         }
     }
 
+    //deprecated
     public ResponseEntity<?> reviseForm(int id) {
         try {
             Form form = getFormById(id);
@@ -230,6 +231,7 @@ public class FormService {
         }
     }
 
+    //deprecated
     public ResponseEntity<?> saveAndPublishForm(int id, Form form) {
         try {
             Form formToPublish = getFormById(id);
@@ -268,6 +270,7 @@ public class FormService {
         return formOptional.get();
     }
 
+    //deprecated
     private void updateForm(Form formToUpdate, Form form) throws FormNotEditableException {
         if (!formToUpdate.getFormStatus().equals("draft")) {
             throw new FormNotEditableException("Form has previously been published.");
@@ -304,6 +307,29 @@ public class FormService {
         boolean duplicateFormExists = formRepository.existsByFormCodeAndRevisionNumber(formCode, revisionNo);
         if (duplicateFormExists) {
             throw new FormAlreadyExistsException("A form with the proposed Form Code and Revision Number already exists.");
+        }
+    }
+
+    public ResponseEntity<?> reviseFormById(int id, Form form) {
+        try {
+            Form oldForm = getFormById(form.getId());
+            oldForm.setFormStatus("outdated");
+            form.setRevisionNo(form.getRevisionNo() + 1);
+            checkDuplicateForm(form.getFormCode(), form.getRevisionNo());
+            setPreviousRevisionStatus(oldForm.getFormCode(),oldForm.getRevisionNo());
+            createForm(form);
+
+            SuccessResponse successResponse = new SuccessResponse("New revision created.", HttpStatus.CREATED.value(), form);
+            return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
+        } catch (FormNotFoundException e) {
+            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
+        } catch (FormAlreadyExistsException e) {
+            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+        } catch (Exception e) {
+            StatusResponse statusResponse = new StatusResponse("Error creating new revision of form. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
         }
     }
 }
