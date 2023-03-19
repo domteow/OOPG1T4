@@ -139,10 +139,10 @@ public class FormResponseService {
         formResponseToUpdate.setUpTo(formResponseToUpdate.getUpTo() + numQuestionnairesSubmitted);
 
         //Update pendingUserInput
-        String nextRoleRequired = updatedFormResponse.getQuestionnaires().get(formResponseToUpdate.getQuestionnairesCompleted()).getRoleRequired();
+        if (formResponseToUpdate.getWorkflow().size()!= 0) {
+            String nextRoleRequired = updatedFormResponse.getQuestionnaires().get(formResponseToUpdate.getQuestionnairesCompleted()).getRoleRequired();
             formResponseToUpdate.setPendingUserInput(nextRoleRequired);
-
-
+        }
 
         //update questionnaires
         formResponseToUpdate.setQuestionnaires(updatedFormResponse.getQuestionnaires());
