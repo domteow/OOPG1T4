@@ -122,8 +122,7 @@ export default function Newform(){
         formCode: formCode,
         effectiveDate: effectiveDate,
         questionnaires : formData,
-        revisionNo: 1,
-        formStatus: "published"
+        revisionNo: 1
     }
 
     console.log("LOOK HERE FOR FORM DATA")

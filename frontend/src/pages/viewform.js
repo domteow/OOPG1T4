@@ -38,6 +38,8 @@ export default function Formpage(props) {
     const [role, setRole] = useState(localStorage.getItem('role'));
     const [formStatus, setFormStatus] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
+    const [revisionNo, setRevisionNo] = useState('');
+
     
     // TODO: add POST request to backend to update form response
     
@@ -53,6 +55,7 @@ export default function Formpage(props) {
             console.log("API response:", response.data.data);
             setQuestionnaires(localform.questionnaires);
             setFormStatus(localform.status);
+            setRevisionNo(localform.revisionNo);
           } catch (error) {
             console.log("Error fetching form data:", error);
           }
@@ -103,33 +106,91 @@ export default function Formpage(props) {
         })
     }
 
+    const isFormValid = (questionnaires) => {
+        for (let qnIndex in questionnaires) {
+          const fields = questionnaires[qnIndex].fields;
+          for (let fieldIndex in fields) {
+            const field = fields[fieldIndex];
+            if (field.required && !field.value) {
+              return false;
+            }
+          }
+        }
+        return true;
+      }
 
 
     console.log(questionnaires)
 
     // to submit the form 
-    const submit = () => {
-        
-        console.log(questionnaires);
-        // alert(JSON.stringify(values));
-    }
-    const test = () => {
-        
+    const submit = async() => {
         console.log(questionnaires)
-        // might need to add every variable according to BE
-        // also later separate save draft and submit
-        // 
-        setFormToSend({
-            "questionnaires" : questionnaires
+        console.log(revisionNo)
+        const updatedRevisionNo = revisionNo + 1;
+        setRevisionNo(updatedRevisionNo);
+        console.log(updatedRevisionNo)
         
-        })
-        console.log(formToSend)
-        try {
-            const response = axios.put("/api/v1/formResponse/updateFormResponse/" + formID, formToSend);
+        const updatedFormToSend = ({ ...form, "revisionNo": updatedRevisionNo, "questionnaires": Object.values(questionnaires) })
+
+
+          try {
+            const response = await axios.put("/api/v1/formResponse/updateFormResponse/" + formID, updatedFormToSend)
             console.log(response);
+            if(response.data.status >= 200) {
+                alert("Form submitted successfully");
+                navigate("../react/vendor/homepage")
+            }
+            
         } catch (error) {
             console.log(error)
         }
+        
+    }
+    const submitDraft = async() => {
+        console.log(questionnaires)
+        console.log(revisionNo)
+        const updatedRevisionNo = revisionNo + 1;
+        setRevisionNo(updatedRevisionNo);
+        console.log(updatedRevisionNo)
+        
+        const updatedFormToSend = ({ ...form, "revisionNo": updatedRevisionNo, "questionnaires": Object.values(questionnaires) })
+
+
+          try {
+            const response = await axios.put("/api/v1/formResponse/saveFormResponseAsDraft/" + formID, updatedFormToSend)
+            console.log(response);
+            if(response.data.status >= 200) {
+                alert("Form draft saved successfully");
+                // navigate("../react/vendor/homepage")
+            }
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    const test = async() => {
+        
+        console.log(questionnaires)
+        console.log(revisionNo)
+        const updatedRevisionNo = revisionNo + 1;
+        setRevisionNo(updatedRevisionNo);
+        console.log(updatedRevisionNo)
+        
+        setFormToSend({ ...form, "revisionNo": updatedRevisionNo, "questionnaires": Object.values(questionnaires) })
+
+
+          try {
+            const response = await axios.put("/api/v1/formResponse/updateFormResponse/" + formID, formToSend)
+            console.log(response);
+            if(response.data.status >= 200) {
+                alert("Form submitted successfully");
+                navigate("../react/vendor/homepage")
+            }
+            
+        } catch (error) {
+            console.log(error)
+        }
+        
     }
     // console.log(values);
 
@@ -162,9 +223,9 @@ export default function Formpage(props) {
 
                 <form>
                     {Object.values(questionnaires).map((question, qnIndex)=>{
-                        console.log(question)
+                        
                         const roleRequired = question['roleRequired'];
-                        console.log(role)
+                        
                         var disabled = false;
                         if (formStatus == 'readonly' || formStatus == 'completed') {
                             disabled = true
@@ -227,7 +288,7 @@ export default function Formpage(props) {
                                                 >
                                                     {detail['options'].map(option =>{
                                                         return(
-                                                            <FormControlLabel value={option} control={<Radio />} label={option} />
+                                                            <FormControlLabel value={option} control={<Radio checked={option === detail['value']}/>} label={option} />
                                                             )
                                                     })}
                                                 </RadioGroup>
@@ -249,9 +310,10 @@ export default function Formpage(props) {
                                             <Col xs={12} md={10} className='formInput'>
                                                 <FormGroup>
                                                 {detail['options'].map(option =>{
+                                                    const isChecked = detail['value'].includes(option);
                                                     return(
                                                         <div>
-                                                            <FormControlLabel control={<Checkbox />} type={typeMultiSelect} id={option} name={detail.name} value = {option} onChange={handleCheckboxChange(qnIndex, dIndex)} label = {option}/>
+                                                            <FormControlLabel control={<Checkbox checked={isChecked} />} type={typeMultiSelect} id={option} name={detail.name} value = {option} onChange={handleCheckboxChange(qnIndex, dIndex)} label = {option}/>
                                                             {/* <input type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/>  */}
                                                         </div>
                                                     )
@@ -277,7 +339,7 @@ export default function Formpage(props) {
                                                         <div>
                                                             <select id={detail.name} name={detail.name} value = {questionnaires[qnIndex]['fields'][dIndex]['value']} onChange={handleSelectChange(qnIndex, dIndex)}>
                                                             {detail['options'].map((selection, idx) => (
-                                                                <option key={idx} value={selection}>
+                                                                <option key={idx} value={selection} selected={selection === questionnaires[qnIndex]['fields'][dIndex]['value']}>
                                                                     {selection}
                                                                 </option>
                                                                 ))}
@@ -303,7 +365,7 @@ export default function Formpage(props) {
                         </Col>
 
                         <Col className='formSubmitRow'>
-                            <button className='saveDraft' onClick={submit}>Save Draft</button>
+                            <button className='saveDraft' onClick={submitDraft}>Save Draft</button>
                             <button className='submitButt' onClick={submit}>Submit</button>
                         </Col>
 

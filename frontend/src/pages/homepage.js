@@ -31,6 +31,7 @@ export default function Homepage() {
     const [incompleteForms, setIncompleteForms] = useState({});
     const [completedForms, setCompletedForms] = useState({});
     const [readOnlyForms, setReadOnlyForms] = useState({});
+    const [role, setRole] = useState(localStorage.getItem('role'));
 
     // use effect to check the user, get the data and return 
     useEffect (() =>{
@@ -129,7 +130,8 @@ export default function Homepage() {
             </div>
 
             {Object.keys(incompleteForms).map((formName, index)=>{
-              
+              if(incompleteForms[formName]['pendingUserInput'] == role) {
+    
               return(
                 <Container className = 'homepageFormDisplay' key={formName}>
                   <Row className='displayRow' > 
@@ -152,7 +154,7 @@ export default function Homepage() {
                 </Container>
                 
               )
-            })}
+            }})}
 
             {/* for all forms that are completed */}
             <div className='subDivider'>
@@ -160,6 +162,9 @@ export default function Homepage() {
             </div>
 
             {Object.keys(completedForms).map((formName, index)=>{
+
+              if(incompleteForms[formName]['pendingUserInput'] == role) {
+
               return(
                 <Container className = 'homepageFormDisplay' key={formName}>
                   <Row className='displayRow' > 
@@ -179,7 +184,7 @@ export default function Homepage() {
                   </Row>
                 </Container>
               )
-            })}
+            }})}
           </div>
         </>
       )
