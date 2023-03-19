@@ -117,6 +117,14 @@ public class FormResponseService {
         //Pop first index of workflow and get the removed element
         int numQuestionnairesSubmitted = formResponseToUpdate.getWorkflow().remove(0);
 
+        //set status (incomplete/complete/approved)
+        if (formResponseToUpdate.getWorkflow().size() == 1){
+            formResponseToUpdate.setStatus("complete");
+        }
+        if (formResponseToUpdate.getWorkflow().size() == 0){
+            formResponseToUpdate.setStatus("approved");
+        }
+
         //Add to questionnaires completed
         formResponseToUpdate.setQuestionnairesCompleted(formResponseToUpdate.getQuestionnairesCompleted() + numQuestionnairesSubmitted);
 
@@ -129,6 +137,7 @@ public class FormResponseService {
 
         //update questionnaires
         formResponseToUpdate.setQuestionnaires(updatedFormResponse.getQuestionnaires());
+
 
 
         formResponseRepository.save(formResponseToUpdate);
@@ -159,4 +168,32 @@ public class FormResponseService {
         formResponseToUpdate.setQuestionnaires(formResponseDraft.getQuestionnaires());
         formResponseRepository.save(formResponseToUpdate);
     }
+
+//    public ResponseEntity<StatusResponse> rejectFormResponse(int formId) {
+//        //reset entire form response to default (restart form response from the beginning)
+//        try{
+//            Optional<FormResponse> formResponseToReject = formResponseRepository.findById(formId);
+//            if (formResponseToReject.isPresent()){
+//                rejectFormResponse(formResponseToReject.get());
+//                StatusResponse successResponse = new StatusResponse("Success!", HttpStatus.OK.value());
+//                return ResponseEntity.status(HttpStatus.OK).body(successResponse);
+//            }else{
+//                throw new FormResponseNotFoundException();
+//            }
+//        }catch(FormResponseNotFoundException e){
+//            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
+//        }catch(Exception e){
+//            StatusResponse statusResponse = new StatusResponse("Error rejecting form response: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+//        }
+//    }
+//
+//    private void rejectFormResponse(FormResponse formResponseToReject) {
+//        //update questionnaires
+//        formResponseToReject.setQuestionnaires(formResponseDraft.getQuestionnaires());
+//
+//        formResponseRepository.save(formResponseToReject);
+//    }
+
 }

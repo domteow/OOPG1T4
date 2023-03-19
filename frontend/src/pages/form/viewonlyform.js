@@ -79,13 +79,15 @@ export default function ViewForm(props){
                 </Row>
 
                 <form>
-                    {questionnaires.map((questionnaire) => {
+                    {Object.values(questionnaires).map((questionnaire) => {
+                        console.log(questionnaire)
                         const fields = questionnaire.fields; 
-                        fields.map((field)=>{
+                        return fields.map((field)=>{
                             const fieldType = field.type; 
                             console.log(fieldType);
                             const fieldOptions = field.options;
                             if (fieldType === 'text'){
+                                
                                 return(
                                     <fieldset>
                                         <Row className='formRow'>

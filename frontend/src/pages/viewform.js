@@ -116,7 +116,13 @@ export default function Formpage(props) {
     const test = () => {
         
         console.log(questionnaires)
-        setFormToSend({"questionnaires" : questionnaires})
+        // might need to add every variable according to BE
+        // also later separate save draft and submit
+        // 
+        setFormToSend({
+            "questionnaires" : questionnaires
+        
+        })
         console.log(formToSend)
         try {
             const response = axios.put("/api/v1/formResponse/updateFormResponse/" + formID, formToSend);
