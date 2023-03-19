@@ -107,4 +107,6 @@ public class FormResponse extends Form {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public int getTemplateId(){return this.templateId;}
 }

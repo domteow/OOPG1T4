@@ -37,6 +37,7 @@ export default function Newform(){
     const [questionnaireList, setQuestionnaireList] = useState([]);
     // store all new data for questionnaries
     const [edittedData, setEdittedData] = useState([]);
+    const navigate = useNavigate();
 
     const getAllQuestionnaires = async() =>{
         try{
@@ -170,6 +171,26 @@ export default function Newform(){
         formStatus: "published",
         revisionNo: form.revisionNo+1
     }
+
+    const handleUpdateForm = async() => {
+        console.log("DOM DOM DO THIS");
+
+        // try {
+        //     const response = await axios.post('/api/v1/form/createForm', submitForm);
+        //     console.log(response);
+        //     if (response.data.status == 201) {
+        //         navigate('../react/allforms')
+        //         alert('Form template added successfully')
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        // }
+    }
+
+    const handleCancelForm = () => {
+        navigate(-1);
+    }
+
     console.log('rhystan');
     console.log(submitForm);
     console.log('rhystan');
@@ -231,9 +252,7 @@ export default function Newform(){
                                         type='text'
                                         value={formName}
                                         sx={{width: '100%'}}
-                                    >
-                                        {formName}
-                                    </TextField>
+                                    />
                                 </Col>
                             </Row>
 
@@ -250,9 +269,7 @@ export default function Newform(){
                                         type='text'
                                         value={formCode}
                                         sx={{width: '100%'}}
-                                    >
-                                        {formCode}
-                                    </TextField>
+                                    />
                                 </Col>
                                 <Col xs={6} md={2} xl={2} className='formQuestion'>
                                     Effective Date:
@@ -304,6 +321,16 @@ export default function Newform(){
                         open={open}
                         onClose={handleClose}
                     />
+
+                    <div className='buttonFormRow'>
+                        <button onClick={handleCancelForm} className='cancelFormButton'>
+                            Cancel
+                        </button>
+
+                        <button onClick={handleUpdateForm} className='createFormButton'>
+                            Update Form
+                        </button>
+                    </div>
 
 
                 </div>

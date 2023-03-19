@@ -23,21 +23,11 @@ import { get } from 'react-hook-form'
 export default function ViewForm(props){
     const formId  = useParams()['formId'];
     console.log(formId);
+    const navigate = useNavigate();
 
     const [form, setForm] = useState({});
     const [questionnaires, setQuestionnaires] = useState([]);
 
-    // const getAllForms = async() =>{
-    //     try{
-    //         const response = await axios.get("/api/v1/form/get/id/" + formId)
-    //         console.log([response.data.data]);
-    //         setForm(response.data.data);
-    //         return (response.data.data);
-    //     }
-    //     catch(error){
-    //         console.log(error);
-    //     }
-    // }
     console.log(form);
 
     useEffect(() => {
@@ -57,6 +47,11 @@ export default function ViewForm(props){
 
     console.log(form);
     console.log(questionnaires);
+
+    const handleCancelForm = () => {
+        navigate(-1);
+    }
+
     
     return(
         <>
@@ -161,6 +156,7 @@ export default function ViewForm(props){
                                                 <RadioGroup
                                                     aria-labelledby="demo-controlled-radio-buttons-group"
                                                     name={field.name}
+                                                    disabled={true}
                                                 >
                                                     {fieldOptions.map(option =>{
                                                         return(
@@ -201,6 +197,13 @@ export default function ViewForm(props){
                         })
                     })}
                 </form>
+
+                <div className='buttonFormRow'>
+                    <button onClick={handleCancelForm} className='cancelFormButton'>
+                        Cancel
+                    </button>
+                </div>
+
             </Container>
         </>
     )

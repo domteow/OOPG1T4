@@ -1,9 +1,11 @@
 package com.smu.oopg1t4.formresponse;
 
 import com.smu.oopg1t4.exceptions.FormNotEditableException;
+import com.smu.oopg1t4.exceptions.FormNotFoundException;
 import com.smu.oopg1t4.exceptions.FormResponseNotFoundException;
 import com.smu.oopg1t4.form.Form;
 import com.smu.oopg1t4.form.FormRepository;
+import com.smu.oopg1t4.form.FormService;
 import com.smu.oopg1t4.questionnaire.Questionnaire;
 import com.smu.oopg1t4.questionnaire.QuestionnaireService;
 import com.smu.oopg1t4.response.StatusResponse;
@@ -25,18 +27,21 @@ public class FormResponseService {
     private final FormResponseRepository formResponseRepository;
     private final SequenceGeneratorService sequenceGeneratorService;
     private final QuestionnaireService questionnaireService;
+    private final FormService formService;
 
     @Autowired
     public FormResponseService(
             FormResponseRepository formResponseRepository,
             SequenceGeneratorService sequenceGeneratorService,
             QuestionnaireService questionnaireService,
-            FormRepository formRepository
+            FormRepository formRepository,
+            FormService formService
     ) {
         this.formResponseRepository = formResponseRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
         this.questionnaireService = questionnaireService;
         this.formRepository = formRepository;
+        this.formService = formService;
     }
 
 
@@ -109,6 +114,7 @@ public class FormResponseService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
         }catch(Exception e){
             StatusResponse statusResponse = new StatusResponse("Error updating form response: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
         }
     }
@@ -133,8 +139,10 @@ public class FormResponseService {
         formResponseToUpdate.setUpTo(formResponseToUpdate.getUpTo() + numQuestionnairesSubmitted);
 
         //Update pendingUserInput
-        String nextRoleRequired = updatedFormResponse.getQuestionnaires().get(formResponseToUpdate.getQuestionnairesCompleted()).getRoleRequired();
-        formResponseToUpdate.setPendingUserInput(nextRoleRequired);
+        if (formResponseToUpdate.getWorkflow().size()!= 0) {
+            String nextRoleRequired = updatedFormResponse.getQuestionnaires().get(formResponseToUpdate.getQuestionnairesCompleted()).getRoleRequired();
+            formResponseToUpdate.setPendingUserInput(nextRoleRequired);
+        }
 
         //update questionnaires
         formResponseToUpdate.setQuestionnaires(updatedFormResponse.getQuestionnaires());
@@ -170,31 +178,73 @@ public class FormResponseService {
         formResponseRepository.save(formResponseToUpdate);
     }
 
-//    public ResponseEntity<StatusResponse> rejectFormResponse(int formId) {
-//        //reset entire form response to default (restart form response from the beginning)
-//        try{
-//            Optional<FormResponse> formResponseToReject = formResponseRepository.findById(formId);
-//            if (formResponseToReject.isPresent()){
-//                rejectFormResponse(formResponseToReject.get());
-//                StatusResponse successResponse = new StatusResponse("Success!", HttpStatus.OK.value());
-//                return ResponseEntity.status(HttpStatus.OK).body(successResponse);
-//            }else{
-//                throw new FormResponseNotFoundException();
-//            }
-//        }catch(FormResponseNotFoundException e){
-//            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
-//        }catch(Exception e){
-//            StatusResponse statusResponse = new StatusResponse("Error rejecting form response: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
-//        }
-//    }
-//
-//    private void rejectFormResponse(FormResponse formResponseToReject) {
-//        //update questionnaires
-//        formResponseToReject.setQuestionnaires(formResponseDraft.getQuestionnaires());
-//
-//        formResponseRepository.save(formResponseToReject);
-//    }
+    public ResponseEntity<StatusResponse> rejectFormResponse(int formId) {
+        //reset entire form response to default (restart form response from the beginning)
+        try{
+            Optional<FormResponse> formResponseToReject = formResponseRepository.findById(formId);
+            if (formResponseToReject.isPresent()){
+                rejectFormResponse(formResponseToReject.get());
+                StatusResponse successResponse = new StatusResponse("Success!", HttpStatus.OK.value());
+                return ResponseEntity.status(HttpStatus.OK).body(successResponse);
+            }else{
+                throw new FormResponseNotFoundException();
+            }
+        }catch(FormResponseNotFoundException e){
+            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
+        }catch (FormNotFoundException e) {
+            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
+        } catch(Exception e){
+            StatusResponse statusResponse = new StatusResponse("Error rejecting form response: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+        }
+    }
+
+    private void rejectFormResponse(FormResponse formResponseToReject) throws FormNotFoundException {
+        //Get template questionnaires
+        ArrayList<Questionnaire> templateQuestionnaires = formService.getFormById(formResponseToReject.getTemplateId()).getQuestionnaires();
+
+        //reset questionnaires
+        formResponseToReject.setQuestionnaires(templateQuestionnaires);
+
+        //reset questionnaires completed
+        formResponseToReject.setQuestionnairesCompleted(0);
+
+        //reset status
+        formResponseToReject.setStatus("incomplete");
+
+        //reset workflow and upTo
+        String current = null;
+        int count = 0;
+        ArrayList<Integer> newWorkflow = new ArrayList<>();
+
+        for (Questionnaire questionnaire: templateQuestionnaires){
+            if (current == null){
+                current = questionnaire.getRoleRequired();
+                count = 1;
+            } else if (questionnaire.getRoleRequired().equals(current)){
+                count++;
+            } else if (!questionnaire.getRoleRequired().equals(current)){
+                newWorkflow.add(count);
+                count = 1;
+                current = questionnaire.getRoleRequired();
+            }
+
+        }
+        newWorkflow.add(count);
+        int newUpTo = newWorkflow.get(0);
+
+        //setting new workflow and upTo
+        formResponseToReject.setWorkflow(newWorkflow);
+        formResponseToReject.setUpTo(newUpTo);
+
+        //reset pending user input
+        String firstPendingUser = formResponseToReject.getQuestionnaires().get(0).getRoleRequired();
+        formResponseToReject.setPendingUserInput(firstPendingUser);
+
+        //updating
+        formResponseRepository.save(formResponseToReject);
+    }
 
 }

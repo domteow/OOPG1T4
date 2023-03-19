@@ -262,7 +262,7 @@ public class FormService {
         return ResponseEntity.status(HttpStatus.OK).body(statusResponse);
     }
 
-    private Form getFormById(int formId) throws FormNotFoundException {
+    public Form getFormById(int formId) throws FormNotFoundException {
         Optional<Form> formOptional = formRepository.findById(formId);
         if (formOptional.isEmpty()) {
             throw new FormNotFoundException("Form with id " + formId + " was not found.");
