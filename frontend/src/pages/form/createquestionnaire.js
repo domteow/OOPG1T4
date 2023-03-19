@@ -84,7 +84,7 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
 
     const handleTextChange = (e, i)=>{
         const data = {
-            question : e.target.value,
+            name : e.target.value,
             type: 'text'
         }
         const newDetails = details.map((item, index)=>{
@@ -100,7 +100,7 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
 
     const handleSubTextChange = (e, i)=>{
         const data = {
-            question : e.target.value,
+            name : e.target.value,
             type: 'subheader'
         }
         const newDetails = details.map((item, index)=>{
