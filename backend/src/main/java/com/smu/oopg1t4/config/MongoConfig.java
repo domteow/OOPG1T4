@@ -165,7 +165,8 @@ public class MongoConfig {
                     1,
                     "Vendor",
                     0,
-                    "incomplete"
+                    "incomplete",
+                    1
             );
 
             formResponseRepository.saveAll(

@@ -21,6 +21,7 @@ public class FormResponse extends Form {
     private String pendingUserInput;
     private int questionnairesCompleted = 0; // Frontend will block inputs to n-1 questionnairesCompleted (?)
     private String status; // incomplete, complete, approved, rejected
+    private int templateId;
 
 
     public FormResponse() {
@@ -31,12 +32,14 @@ public class FormResponse extends Form {
             int ownerId,
             String pendingUserInput,
             int questionnairesCompleted,
-            String status
+            String status,
+            int templateId
     ) {
         this.ownerId = ownerId;
         this.pendingUserInput = pendingUserInput;
         this.questionnairesCompleted = questionnairesCompleted;
         this.status = status;
+        this.templateId = templateId;
     }
 
     public FormResponse(
@@ -52,13 +55,15 @@ public class FormResponse extends Form {
             int ownerId,
             String pendingUserInput,
             int questionnairesCompleted,
-            String status
+            String status,
+            int templateId
     ) {
         super(formId, formCode, revisionNo, description, effectiveDate, questionnaires, formStatus, workflow, upTo);
         this.ownerId = ownerId;
         this.pendingUserInput = pendingUserInput;
         this.questionnairesCompleted = questionnairesCompleted;
         this.status = status;
+        this.templateId = templateId;
     }
 
     @Override
