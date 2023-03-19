@@ -9,13 +9,13 @@ import AddIcon from '@mui/icons-material/Add';
 import CheckboxBox from '@mui/material/Checkbox';
 
 
-const Checkbox = ({allDetails, id}) => {
-    const [checkboxQuestion, setCheckboxQuestion] = useState('');
-    const [checkboxOptions, setCheckboxOptions] = useState([]);
-    const [prevOption, setPrevOption] = useState([]);
-    const [prevQuestion, setPrevQuestion] = useState(''); 
-    const [others, setOthers] = useState(false);
-    const [prevOthers, setPrevOthers] = useState(false);
+const Checkbox = ({allDetails, id, value, options, other, edit}) => {
+    const [checkboxQuestion, setCheckboxQuestion] = useState(value);
+    const [checkboxOptions, setCheckboxOptions] = useState(options);
+    const [prevOption, setPrevOption] = useState(options);
+    const [prevQuestion, setPrevQuestion] = useState(value); 
+    const [others, setOthers] = useState(other);
+    const [prevOthers, setPrevOthers] = useState(other);
 
     
     const handleQuestionChange = (e) => {
@@ -80,33 +80,65 @@ const Checkbox = ({allDetails, id}) => {
         }
     }
 
-    return(
-        <>
-            <div className='newFormInput'>
-                <TextField className='newFormInput' value={checkboxQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Checkbox Question"/>
+    if (!edit){
+        return(
+            <>
+                <div className='newFormInput'>
+                    <TextField className='newFormInput' value={checkboxQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Checkbox Question"/>
+                    
+                    {checkboxOptions.map((option, index)=>(
+                        <div key={index} className="checkboxOption">
+                            <CheckboxBox disabled={true}/>
+                            <TextField className='newFormInput' value={option} placeholder='Checkbox Option' sx={{width: '70%'}} onChange={e => handleOptionChange(e, index)}/>
+                            <DeleteIcon onClick={() => handleRemoveOption(index)}/>
+                        </div>
+                    ))}
+
+                    <Others />
                 
-                {checkboxOptions.map((option, index)=>(
-                    <div key={index} className="checkboxOption">
-                        <CheckboxBox disabled={true}/>
-                        <TextField className='newFormInput' value={option} placeholder='Checkbox Option' sx={{width: '70%'}} onChange={e => handleOptionChange(e, index)}/>
-                        <DeleteIcon onClick={() => handleRemoveOption(index)}/>
+                    <div>
+                        <button onClick={handleAddOption} className='addCheckbox'>
+                            <AddIcon/> Add Option
+                        </button>
+
+                        <button disabled={others} onClick={handleAddOthers} className="addOthers">
+                            <AddIcon/>Add Others
+                        </button>
                     </div>
-                ))}
+                </div>            
+            </>
+        )
+    }
 
-                <Others />
-            
-                <div>
-                    <button onClick={handleAddOption} className='addCheckbox'>
-                        <AddIcon/> Add Option
-                    </button>
+    else{
+        return(
+            <>
+                <div className='newFormInput'>
+                    <TextField className='newFormInput' value={checkboxQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Checkbox Question"/>
+                    
+                    {checkboxOptions.map((option, index)=>(
+                        <div key={index} className="checkboxOption">
+                            <CheckboxBox disabled={true}/>
+                            <TextField className='newFormInput' value={option} placeholder='Checkbox Option' sx={{width: '70%'}} onChange={e => handleOptionChange(e, index)}/>
+                            <DeleteIcon onClick={() => handleRemoveOption(index)}/>
+                        </div>
+                    ))}
 
-                    <button disabled={others} onClick={handleAddOthers} className="addOthers">
-                        <AddIcon/>Add Others
-                    </button>
-                </div>
-            </div>            
-        </>
-    )
+                    <Others />
+                
+                    <div>
+                        <button onClick={handleAddOption} className='addCheckbox'>
+                            <AddIcon/> Add Option
+                        </button>
+
+                        <button disabled={others} onClick={handleAddOthers} className="addOthers">
+                            <AddIcon/>Add Others
+                        </button>
+                    </div>
+                </div>            
+            </>
+        )
+    }
 }
 
 export default Checkbox;

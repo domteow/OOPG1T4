@@ -23,11 +23,11 @@ import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import { fontSize } from '@mui/system'
 
-const Select = ({allDetails, id}) => {
-    const [selectQuestion, setSelectQuestion] = useState('');
-    const [selectOptions, setSelectOptions] = useState([]);
-    const [prevOption, setPrevOption] = useState([]);
-    const [prevQuestion, setPrevQuestion] = useState(''); 
+const Select = ({allDetails, id, value, options, edit}) => {
+    const [selectQuestion, setSelectQuestion] = useState(value);
+    const [selectOptions, setSelectOptions] = useState(options);
+    const [prevOption, setPrevOption] = useState(options);
+    const [prevQuestion, setPrevQuestion] = useState(value); 
 
     const handleQuestionChange = (e) => {
         setSelectQuestion(e.target.value);

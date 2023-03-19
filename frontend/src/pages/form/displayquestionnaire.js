@@ -22,14 +22,16 @@ const options = ['Sub Header', 'Text Field', 'Radio Button', 'Checkbox', 'Select
 
 const DisplayQuestionnaire = ({formDetails, id, value}) => {
     const fields = value.fields; 
-
     const [open, setOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(options[1]);
     const [inputList, setInputList] = useState(fields);
     const [questionnaireName, setQuestionnaireName] = useState(value.name);
-    const [details, setDetails] = useState([]);
-    
-
+    const [details, setDetails] = useState(fields);
+    const assign = value.roleRequired.toLowerCase();
+    const [assigned, setAssigned] = useState(assign);
+    const [prevFields, setPreviousFields] = useState(fields);
+    const [prevAssign, setPreviousAssign] = useState(assign);
+    const [prevName, setPreviousName] = useState(value.name);
 
     /* DIALOGUE STUFF */
     // this is for opening the dialogue
@@ -63,11 +65,39 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
     }
 
     const handleTextChange = (e, i)=>{
-        
+        const data = {
+            question : e.target.value,
+            type: 'text'
+        }
+        const newDetails = details.map((item, index)=>{
+            if (index === i){
+                return data
+            }
+            else{
+                return item
+            }
+        });
+        setDetails(newDetails);
     }
 
     const handleSubTextChange = (e, i)=>{
-        
+        const data = {
+            question : e.target.value,
+            type: 'subheader'
+        }
+        const newDetails = details.map((item, index)=>{
+            if (index === i){
+                return data
+            }
+            else{
+                return item
+            }
+        });
+        setDetails(newDetails);        
+    }
+
+    const handleSelectChange = (e) => { 
+        setAssigned(e.target.value);
     }
 
     const allDetails = (data, index) => {
@@ -82,14 +112,41 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
         });
         setDetails(newDetails);
     }
+    // console.log("RHYS SEE IF IT CHANGE PLEASE");
+    // console.log(details);
+
+    const newData = {
+        name: questionnaireName,
+        roleRequired: assigned,
+        fields: details
+    }
+    console.log(newData);
+
+    useEffect(() => {
+        if (details !== prevFields){
+            setPreviousFields(details);
+            formDetails(newData, id);
+        }
+        if (assigned !== prevAssign){
+            setPreviousAssign(assigned);
+            formDetails(newData, id);
+        }
+        if (questionnaireName !== prevName){
+            setPreviousName(questionnaireName);
+            formDetails(newData, id);
+        }
+    })
+
+
+
+
 
     const renderInputField = (item, i) =>{
         const itemType = item.type;
         const itemName = item.name;
         const itemOptions = item.options;
-        console.log(item);
 
-        if(itemType === 'text'){
+        if(itemType === 'text' || item === 'Text Field'){
             return(
                 <>
                     <>
@@ -111,7 +168,7 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
         else if(itemType === 'radio'){
             return(
                 <>
-                    <RadioButton id={i} allDetails={allDetails} value={itemName} options = {itemOptions}/>
+                    <RadioButton id={i} allDetails={allDetails} value={itemName} options = {itemOptions} other={item.others} edit={true}/>
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Radio
                     </button>
@@ -121,7 +178,7 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
         else if(itemType === 'checkbox'){
             return(
                 <>
-                    <Checkbox id={i} allDetails={allDetails} value={itemName} options = {itemOptions}/>
+                    <Checkbox id={i} allDetails={allDetails} value={itemName} options = {itemOptions} other={item.others} edit={true} />
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Checkbox
                     </button>
@@ -131,14 +188,14 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
         else if(itemType === 'select'){
             return(
                 <>
-                    <Select id={i} allDetails={allDetails} value={itemName} options = {itemOptions}/>
+                    <Select id={i} allDetails={allDetails} value={itemName} options = {itemOptions} edit = {true} />
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Select
                     </button>
                 </>
             )
         }
-        else if (itemType === 'subheader'){
+        else if (itemType === 'subheader' || item === 'Sub Header'){
             return(
                 <>
                     <div className='radioOption'>
@@ -146,6 +203,36 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
                     </div>
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Subheader
+                    </button>
+                </>
+            )
+        }
+        else if(item === 'Radio Button'){
+            return(
+                <>
+                    <RadioButton id={i} allDetails={allDetails} value={''} options={[]} other={false} edit={false}/>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Radio
+                    </button>
+                </>
+            )
+        }
+        else if(item === 'Checkbox'){
+            return(
+                <>
+                    <Checkbox id={i} allDetails={allDetails} value={''} options={[]} other={false} edit={false} />
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Checkbox
+                    </button>
+                </>
+            )
+        }
+        else if(item === 'Select'){
+            return(
+                <>
+                    <Select id={i} allDetails={allDetails} value={''} options={[]} edit={false} />
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Select
                     </button>
                 </>
             )
@@ -181,25 +268,42 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
                     )
                 })}
 
+                <Container>
+                    <Row>
+                        <Col md={1}>
+                            Assignment:
+                        </Col>
+                        <Col>
+                            <NativeSelect
+                                defaultValue={assigned}
+                                onChange={handleSelectChange}
+                                inputProps={{
+                                    id: 'uncontrolled-native',
+                                    name:'Assigned',
+                                }}>
+                                
+                                <option value='admin' >Admin</option>
+                                <option value='approver' >Approver</option>
+                                <option value='vendor' >Vendor</option>
+                            </NativeSelect>
+                        </Col>
+                    </Row>
+                </Container>
+
+                <button onClick={handleClickOpen} className='addFieldButton'>
+                    <AddIcon/> Add 
+                </button>
+
+                <Dialogue 
+                    id= 'newQuestionnaire'
+                    selectedValue={selectedValue}
+                    open={open}
+                    onClose={handleClose}
+                />
+
             </div>
-
-
-
-            <button onClick={handleClickOpen} className='addFieldButton'>
-                <AddIcon/> Add 
-            </button>
-
-            <Dialogue 
-                id= 'newQuestionnaire'
-                selectedValue={selectedValue}
-                open={open}
-                onClose={handleClose}
-            />
         </>
     )
-
-
-
 }
 
 

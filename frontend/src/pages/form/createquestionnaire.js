@@ -175,7 +175,7 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
         else if(item === 'Radio Button'){
             return(
                 <>
-                    <RadioButton id={i} allDetails={allDetails}/>
+                    <RadioButton id={i} allDetails={allDetails} value={''} options={[]} other={false} edit={false}/>
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Radio
                     </button>
@@ -185,7 +185,7 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
         else if(item === 'Checkbox'){
             return(
                 <>
-                    <Checkbox id={i} allDetails={allDetails}/>
+                    <Checkbox id={i} allDetails={allDetails} value={''} options={[]} other={false} edit={false} />
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Checkbox
                     </button>
@@ -195,7 +195,7 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
         else if(item === 'Select'){
             return(
                 <>
-                    <Select id={i} allDetails={allDetails}/>
+                    <Select id={i} allDetails={allDetails} value={''} options={[]} edit={false} />
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Select
                     </button>
@@ -258,6 +258,7 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
                                 }}>
                                 
                                 <option value='admin'>Admin</option>
+                                <option value='approver'>Approver</option>
                                 <option value='vendor'>Vendor</option>
                             </NativeSelect>
                         </Col>

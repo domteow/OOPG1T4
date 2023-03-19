@@ -8,15 +8,15 @@ import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
 import Radio from '@mui/material/Radio';
 
-const RadioButton = ({allDetails, id, value, options}) => {
+const RadioButton = ({allDetails, id, value, options, other, edit}) => {
 
-    const [radioQuestion, setRadioQuestion] = useState('');
-    const [radioOptions, setRadioOptions] = useState([]);
-    const [prevOption, setPrevOption] = useState([]);
-    const [prevQuestion, setPrevQuestion] = useState('');      
-    const [others, setOthers] = useState(false);
-    const [prevOthers, setPrevOthers] = useState(false);
-
+    const [radioQuestion, setRadioQuestion] = useState(value);
+    const [radioOptions, setRadioOptions] = useState(options);
+    const [prevOption, setPrevOption] = useState(options);
+    const [prevQuestion, setPrevQuestion] = useState(value);      
+    const [others, setOthers] = useState(other);
+    const [prevOthers, setPrevOthers] = useState(other);
+    
     const handleQuestionChange = (e) => {
         setRadioQuestion(e.target.value);
     };
@@ -67,10 +67,9 @@ const RadioButton = ({allDetails, id, value, options}) => {
         }
     })
 
-    const [newOthers , setNewOthers] =useState(options.others);
    
     const Others = () =>{
-        if (others || newOthers){
+        if (others){
             return(
                 <div className="othersOption">
                         <Radio disabled={true} />
@@ -80,9 +79,12 @@ const RadioButton = ({allDetails, id, value, options}) => {
             )
         }
     }
+    // console.log("rhys");
+    // console.log(options);
+    // console.log(radioQuestion);
+    // console.log(radioOptions);
 
-
-    if (value === undefined && options === undefined){
+    if (!edit){
         return(
             <>
                 <div className='newFormInput'>
@@ -113,15 +115,16 @@ const RadioButton = ({allDetails, id, value, options}) => {
         )   
     }
 
+    
     else{
         return(
             <>
                 <div className='newFormInput'>
                     <TextField defaultValue={value} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Radio Question"/>
 
-                    {options.map((option, index) => (
+                    {radioOptions.map((option, index) => (
                         <div key={index} className="radioOption">
-                            <Radio/>
+                            <Radio disabled={true}/>
                             <TextField defaultValue={option} sx={{width: '70%'}} onChange={(e) => handleOptionChange(e, index)} placeholder="Radio Option"/>
                             <DeleteIcon onClick={() => handleRemoveOption(index)}/>
                         </div>
