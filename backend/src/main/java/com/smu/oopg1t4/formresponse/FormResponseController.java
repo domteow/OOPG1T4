@@ -53,5 +53,10 @@ public class FormResponseController {
         return formResponseService.rejectFormResponse(formId);
     }
 
+    @DeleteMapping("deleteFormFromVendor/{formId}")
+    public ResponseEntity<StatusResponse> deleteFormFromVendor(@PathVariable int formId){
+        return formResponseService.deleteFormFromVendor(formId);
+    }
+
 
 }

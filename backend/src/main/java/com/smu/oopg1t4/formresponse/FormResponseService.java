@@ -247,4 +247,17 @@ public class FormResponseService {
         formResponseRepository.save(formResponseToReject);
     }
 
+    public ResponseEntity<StatusResponse> deleteFormFromVendor(int formId) {
+        try{
+            Optional<FormResponse> optionalForm = formResponseRepository.findById(formId);
+            if (optionalForm.isPresent()){
+                formResponseRepository.deleteById(formId);
+            }
+            return ResponseEntity.ok().body(
+                    new StatusResponse("Success", HttpStatus.OK.value()));
+        } catch (Exception e) {
+            return ResponseEntity.ok().body(
+                    new StatusResponse("Error deleting form response: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        }
+    }
 }
