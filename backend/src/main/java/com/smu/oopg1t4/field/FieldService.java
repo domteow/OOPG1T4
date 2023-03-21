@@ -36,7 +36,6 @@ public class FieldService {
 
     }
 
-    ;
 
     //get field by id
     public ResponseEntity<?> getFieldByID(int id) {

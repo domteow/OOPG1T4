@@ -30,11 +30,9 @@ public class UserService {
             List<User> users = userRepository.findAll();
             SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), users);
             return ResponseEntity.ok().body(successResponse);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             StatusResponse statusResponse = new StatusResponse("Error retrieving users", HttpStatus.INTERNAL_SERVER_ERROR.value());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
-
         }
     }
 }
