@@ -88,10 +88,6 @@ export default function AdminHomepage(){
                         {/* to display all vendors */}
 
                         {Object.values(allVendors).map((vendorDetails, index)=>{
-                            
-                            
-                            
-                            
                             const vendorId = vendorDetails['id'];
                             
                             return(
