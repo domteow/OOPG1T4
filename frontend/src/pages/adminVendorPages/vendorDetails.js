@@ -36,15 +36,16 @@ export default function VendorDetails(){
     const [isDisabled, setIsDisabled] = useState(true);
     const navigate = useNavigate();
     const [values, setValues] = useState({});
+    const [storePwd, setStorePwd] = useState();
+
     useEffect(() => { 
         setTimeout(() => { 
         axios.get("/api/v1/vendor/getVendor/" + vendorId)
         .then((response) => {
-            // Get pokemon data
             setVendor(response.data.data);
             // setVendorCountry(response.data.data.countries)
             setLoading(false); //set loading state
-            console.log(response.data.data.countries);
+            console.log(response.data.data);
             for(let country in response.data.data.countries){
                 console.log(response.data.data.countries[country]);
                 setAllCountry (prev => ([...prev, {label: response.data.data.countries[country]}]));
@@ -58,8 +59,12 @@ export default function VendorDetails(){
                 phoneNumber: response.data.data.phoneNumber,
                 faxNumber: response.data.data.faxNumber,
                 emailAddress: response.data.data.emailAddress,
+                password: response.data.data.password,
+                id: parseInt(vendorId)
         
             });
+
+            setStorePwd(response.data.data.password)
 
           });
          }, 1000);
@@ -77,7 +82,7 @@ export default function VendorDetails(){
 
     const [pwdError, setPwdError] = useState(null);
     const [cfmPwdError, setCfmPwdError] = useState(null);
-    const [storePwd, setStorePwd] = useState(null);
+    
     const [emailError, setEmailError] = useState(null);
     const [phoneError, setPhoneError] = useState(null);
     const [faxError, setFaxError] = useState(null);
@@ -190,23 +195,24 @@ export default function VendorDetails(){
         const isFax = validateFax(values.faxNumber);
         
         if (isPwdValid && isEmail && isPhone && isFax) {
-            addVendor();            
+            updateVendor();            
         }
     }
 
-    
+    console.log(vendorId)
     console.log(values);
-    const addVendor = async() => {
+    const updateVendor = async() => {
         console.log(values);
         
         try {
             console.log(values);
-            // const response = await axios.post('/api/v1/vendor/createVendor', values);
-            // console.log(response.data);
-            // if (response.data.status == 201) {
-            //     navigate('../react/admin/homepage')
-            //     alert('Vendor added successfully')
-            // }
+            console.log(vendorId);
+            const response = await axios.put('/api/v1/vendor/editVendor/' + vendorId, values);
+            console.log(response.data);
+            if (response.data.status == 200) {
+                navigate('/react/viewvendor/' + vendorId)
+                alert('Vendor updated successfully')
+            }
         }
         catch (error){
             console.log(error);
