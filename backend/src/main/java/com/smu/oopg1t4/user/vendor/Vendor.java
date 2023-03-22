@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 @AllArgsConstructor
@@ -17,7 +18,7 @@ public class Vendor extends User {
     private String faxNumber;
     private String company;
 
-    public Vendor(String name, String emailAddress, String password, String accountType, ArrayList<String> countries, String phoneNumber, String faxNumber, String company) {
+    public Vendor(String name, String emailAddress, String password, String accountType, ArrayList<String> countries, String phoneNumber, String faxNumber, String company) throws NoSuchAlgorithmException {
         super(name, emailAddress, password, accountType);
         this.countries = countries;
         this.phoneNumber = phoneNumber;
@@ -25,7 +26,7 @@ public class Vendor extends User {
         this.company = company;
     }
 
-    public Vendor(int id, String name, String emailAddress, String password, String accountType, ArrayList<String> countries, String phoneNumber, String faxNumber, String company) {
+    public Vendor(int id, String name, String emailAddress, String password, String accountType, ArrayList<String> countries, String phoneNumber, String faxNumber, String company) throws NoSuchAlgorithmException {
         super(id, name, emailAddress, password, accountType);
         this.countries = countries;
         this.phoneNumber = phoneNumber;

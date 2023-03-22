@@ -4,16 +4,17 @@ import com.smu.oopg1t4.user.User;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 @AllArgsConstructor
 public class Admin extends User {
 
-    public Admin(String name, String emailAddress, String password, String accountType) {
+    public Admin(String name, String emailAddress, String password, String accountType) throws NoSuchAlgorithmException {
         super(name, emailAddress, password, accountType);
     }
 
-    public Admin(int id, String name, String emailAddress, String password, String accountType) {
+    public Admin(int id, String name, String emailAddress, String password, String accountType) throws NoSuchAlgorithmException {
         super(id, name, emailAddress, password, accountType);
     }
 

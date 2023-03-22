@@ -1,5 +1,7 @@
 package com.smu.oopg1t4.user.approver;
 
+import java.security.NoSuchAlgorithmException;
+
 import com.smu.oopg1t4.user.admin.Admin;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -7,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Approver extends Admin {
 
-    public Approver(String name, String emailAddress, String password, String accountType) {
+    public Approver(String name, String emailAddress, String password, String accountType) throws NoSuchAlgorithmException {
         super(name, emailAddress, password, accountType);
     }
 
