@@ -25,6 +25,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import CircularProgress from '@mui/material/CircularProgress';
+import { get } from 'react-hook-form'
 
 export default function Formpage(props) {
     const formID  = useParams()['formId'];    
@@ -39,6 +40,7 @@ export default function Formpage(props) {
     const [questionnaireIds, setQuestionnaireIds] = useState([]);
     // const [isLoading, setLoading] = useState(true); 
     const [upTo, setUpTo] = useState();
+    const navigate = useNavigate();
     
     // TODO: add POST request to backend to update form response
     
@@ -68,24 +70,53 @@ export default function Formpage(props) {
 
 
     
-    const getFormByFormId = async () => {
-        try {
-            const response = await axios.get(
-            "/api/v1/formResponse/getFormByFormResponseID/" + formID
-            );
+    // const getFormByFormId = async () => {
+    //     try {
+    //         const response = await axios.get(
+    //         "/api/v1/formResponse/getFormByFormResponseID/" + formID
+    //         );
+    //         setForm(response.data.data)
+    //         const localform = response.data.data;
+    //         setQuestionnaires(localform.questionnaires);
+    //         setFormStatus(localform.status);
+    //         setRevisionNo(localform.revisionNo);
+    //         setUpTo(localform.upTo);
+    //         // setLoading(false);
+    //     } catch (error) {
+    //         console.log("Error fetching form data:", error);
+    //     }
+    // };    
+    // useEffect(()=>{
+    //     getFormByFormId();
+    // }, [])
+
+    // console.log(form);
+    const [isLoading, setLoading] = useState(true);
+    useEffect(() => {
+        setTimeout(() => {
+        axios.get("/api/v1/formResponse/getFormByFormResponseID/" + formID).then(response => {
             setForm(response.data.data)
             const localform = response.data.data;
             setQuestionnaires(localform.questionnaires);
             setFormStatus(localform.status);
             setRevisionNo(localform.revisionNo);
-                // setUpTo(form.upTo);
-            // setLoading(false);
-        } catch (error) {
-            console.log("Error fetching form data:", error);
-        }
-    };    
+            setUpTo(localform.upTo);
+            setLoading(false);
+        });
+        }, 800);
+    }, []);
     
-    getFormByFormId();
+    if (isLoading) {
+        return (
+            <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+            }}> <CircularProgress /> Form loading in progress... {console.log("loading state")}</div>
+        );
+    }
     console.log(form);
       
     
@@ -229,25 +260,18 @@ export default function Formpage(props) {
         
     }
 
-    const navigate = useNavigate();
+  
     const cancel = () =>{
+        localStorage.getItem('role')
+        // if (role === 'Vendor'){
+        //     navigate('/react/vendor/homepage')
+        // }
+        // else if (role === 'Admin'){
+        //     navigate('/react/admin/homepage')
+        // }
         navigate(-1);
     }
 
-
-    // if(isLoading) {
-    //     return (
-    //         <div style={{
-    //         display: "flex",
-    //         flexDirection: "column",
-    //         alignItems: "center",
-    //         justifyContent: "center",
-    //         height: "100vh",
-    //         }}> <CircularProgress /> Loading the Vendor details {console.log("loading state")}</div>
-    //     );
-    // }
-
-    // else{
         return (
             <>
                 <Navbar />
@@ -273,8 +297,11 @@ export default function Formpage(props) {
                             // compare the questionnaire index qnIndex to the upTo number upTo
                             // questionnaire index must be < upTo number 
                             const roleRequired = question.roleRequired;
+                            // console.log(question);
+                            // console.log(upTo);
                             var disabled = false;
                             if (qnIndex < upTo){
+                                console.log(qnIndex);
                                 // check if questionnaire (question) is completed or read only or if rolerequired is not the person role
                                 if (formStatus === 'readonly' || formStatus === 'completed' || roleRequired != role){
                                     disabled = true;
@@ -282,138 +309,147 @@ export default function Formpage(props) {
                                 // else if (question.isComplete === true){
                                 //    disabled = true;
                                 // }
-                                
-                                return(
-                                    <>
-                                        {Object.values(question['fields']).map((detail, dIndex)=>{
-                                        
-                                            const inputType = detail['type'];
+                                else{
+                                    disabled = false;
+                                    // setQnInds((prev) => [...prev, qnIndex]);
 
-                                            if (inputType == 'text'){
-                                                // console.log(detail)
-                                                // for input type string, number, text all 
-                                                return(
+                                }
+                            }
+                            else{
+                                // if questionnaire index is more than or equal to upTo
+                                disabled = true;
+                            }
+                            
+                            return(
+                                <>
+                                    {Object.values(question['fields']).map((detail, dIndex)=>{
+                                    
+                                        const inputType = detail['type'];
+
+                                        if (inputType == 'text'){
+                                            // console.log(detail)
+                                            // for input type string, number, text all 
+                                            return(
+                                                <fieldset>
+                                                    <Row className='formRow'>
+                                                        <Col xs={6} md={2} xl={2} className='formQuestion'>
+                                                            {detail.name}
+                                                        </Col>
+                                                        <Col xs={12} md={10} className='formInput'> 
+                                                            <FormControl fullWidth>
+                                                                <TextField
+                                                                    required
+                                                                    label="Required"
+                                                                    id={detail.id}
+                                                                    name={detail.name}
+                                                                    onChange={handleChange(qnIndex, dIndex)}
+                                                                    type={inputType}
+                                                                    value={detail.value}
+                                                                    disabled={disabled}
+                                                                />
+                                                            </FormControl>
+                                                        </Col>
+                                                    </Row>
+                                                </fieldset>
+                                            )
+                                        }
+                                        else{
+                                            const typeMultiSelect = inputType;
+                                            // const multiOptions = inputType.slice();
+                                            // multiOptions.splice(0,1);
+
+                                            if (typeMultiSelect == 'radio'){
+                                                // for input type radio 
+                                                return (
                                                     <fieldset>
                                                         <Row className='formRow'>
                                                             <Col xs={6} md={2} xl={2} className='formQuestion'>
-                                                                {detail.name}
+                                                            {detail.name}
                                                             </Col>
-                                                            <Col xs={12} md={10} className='formInput'> 
-                                                                <FormControl fullWidth>
-                                                                    <TextField
-                                                                        required
-                                                                        label="Required"
-                                                                        id={detail.id}
-                                                                        name={detail.name}
-                                                                        onChange={handleChange(qnIndex, dIndex)}
-                                                                        type={inputType}
-                                                                        value={detail.value}
-                                                                        disabled={disabled}
-                                                                    />
-                                                                </FormControl>
+                                                            <Col xs={12} md={10} className='formInput'>
+                                                                <RadioGroup
+                                                                    aria-labelledby="demo-controlled-radio-buttons-group"
+                                                                    name={detail.name}
+                                                                    onChange={handleChange(qnIndex, dIndex)}
+                                                                    required
+                                                                    
+                                                                >
+                                                                    {detail['options'].map(option =>{
+                                                                        console.log(detail['options'][0])
+                                                                        return(
+                                                                            <FormControlLabel disabled={disabled} required value={option} control={<Radio checked={option === detail['value']}/>} label={option} />
+                                                                            )
+                                                                    })}
+                                                                </RadioGroup>
+                                                                
+                                                                
                                                             </Col>
                                                         </Row>
                                                     </fieldset>
                                                 )
                                             }
-                                            else{
-                                                const typeMultiSelect = inputType;
-                                                // const multiOptions = inputType.slice();
-                                                // multiOptions.splice(0,1);
-
-                                                if (typeMultiSelect == 'radio'){
-                                                    // for input type radio 
-                                                    return (
-                                                        <fieldset>
-                                                            <Row className='formRow'>
-                                                                <Col xs={6} md={2} xl={2} className='formQuestion'>
-                                                                {detail.name}
-                                                                </Col>
-                                                                <Col xs={12} md={10} className='formInput'>
-                                                                    <RadioGroup
-                                                                        aria-labelledby="demo-controlled-radio-buttons-group"
-                                                                        name={detail.name}
-                                                                        onChange={handleChange(qnIndex, dIndex)}
-                                                                        
-                                                                        
-                                                                    >
-                                                                        {detail['options'].map(option =>{
-                                                                            console.log(detail['options'][0])
-                                                                            return(
-                                                                                <FormControlLabel disabled={disabled} value={option} control={<Radio checked={option === detail['value']}/>} label={option} />
-                                                                                )
-                                                                        })}
-                                                                    </RadioGroup>
-                                                                    
-                                                                    
-                                                                </Col>
-                                                            </Row>
-                                                        </fieldset>
-                                                    )
-                                                }
-                                                else if (typeMultiSelect == 'checkbox') {
-                                                    // for input type checkbox 
-                                                    return (
-                                                        <fieldset>
-                                                            <Row className='formRow'>
-                                                                <Col xs={6} md={2} xl={2} className='formQuestion'>
-                                                                {detail.name}
-                                                                </Col>
-                                                                <Col xs={12} md={10} className='formInput'>
-                                                                    <FormGroup>
-                                                                    {detail['options'].map(option =>{
-                                                                        const isChecked = detail['value'].includes(option);
-                                                                        return(
-                                                                            <div>
-                                                                                <FormControlLabel disabled={disabled} control={<Checkbox checked={isChecked} />} type={typeMultiSelect} id={option} name={detail.name} required value = {option} onChange={handleCheckboxChange(qnIndex, dIndex)} label = {option}/>
-                                                                                {/* <input type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/>  */}
-                                                                            </div>
-                                                                        )
-                                                                    })}
-                                                                    </FormGroup>
-                                                                </Col>
-                                                            </Row>
-                                                        </fieldset>
-                                                    )
-                                                }
-                                                else if (typeMultiSelect == 'select') {
-                                                    // for input type select
-                                                    return (
-                                                        <fieldset>
-                                                            <Row className='formRow'>
-                                                                <Col xs={6} md={2} xl={2} className='formQuestion'>
-                                                                {detail.name}
-                                                                </Col>
-                                                                <Col xs={12} md={10} className='formInput'>
-                                                                    <FormGroup>
-                                                                    
-                                                                        
-                                                                            <div>
-                                                                                <select required id={detail.name} name={detail.name} disabled={disabled} value = {questionnaires[qnIndex]['fields'][dIndex]['value']} onChange={handleSelectChange(qnIndex, dIndex)}>
-                                                                                {detail['options'].map((selection, idx) => (
-                                                                                    <option key={idx} value={selection} selected={selection === questionnaires[qnIndex]['fields'][dIndex]['value']}>
-                                                                                        {selection}
-                                                                                    </option>
-                                                                                    ))}
-
-                                                                                </select>
-                                                                                {/* <input type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/>  */}
-                                                                            </div>
-                                                                        
-                                                                    
-                                                                    </FormGroup>
-                                                                </Col>
-                                                            </Row>
-                                                        </fieldset>
-                                                    )
-                                                }
+                                            else if (typeMultiSelect == 'checkbox') {
+                                                // for input type checkbox 
+                                                return (
+                                                    <fieldset>
+                                                        <Row className='formRow'>
+                                                            <Col xs={6} md={2} xl={2} className='formQuestion'>
+                                                            {detail.name}
+                                                            </Col>
+                                                            <Col xs={12} md={10} className='formInput'>
+                                                                <FormGroup>
+                                                                {detail['options'].map(option =>{
+                                                                    const isChecked = detail['value'].includes(option);
+                                                                    return(
+                                                                        <div>
+                                                                            <FormControlLabel disabled={disabled} control={<Checkbox checked={isChecked} />} type={typeMultiSelect} id={option} name={detail.name} required value = {option} onChange={handleCheckboxChange(qnIndex, dIndex)} label = {option}/>
+                                                                            {/* <input type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/>  */}
+                                                                        </div>
+                                                                    )
+                                                                })}
+                                                                </FormGroup>
+                                                            </Col>
+                                                        </Row>
+                                                    </fieldset>
+                                                )
                                             }
-                                        })}
-                                    </>
-                                )
-                                
-                            }
+                                            else if (typeMultiSelect == 'select') {
+                                                // for input type select
+                                                return (
+                                                    <fieldset>
+                                                        <Row className='formRow'>
+                                                            <Col xs={6} md={2} xl={2} className='formQuestion'>
+                                                            {detail.name}
+                                                            </Col>
+                                                            <Col xs={12} md={10} className='formInput'>
+                                                                <FormGroup>
+                                                                
+                                                                    
+                                                                        <div>
+                                                                            <select required id={detail.name} name={detail.name} disabled={disabled} value = {questionnaires[qnIndex]['fields'][dIndex]['value']} onChange={handleSelectChange(qnIndex, dIndex)}>
+                                                                            {detail['options'].map((selection, idx) => (
+                                                                                <option key={idx} value={selection} selected={selection === questionnaires[qnIndex]['fields'][dIndex]['value']}>
+                                                                                    {selection}
+                                                                                </option>
+                                                                                ))}
+
+                                                                            </select>
+                                                                            {/* <input type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/>  */}
+                                                                        </div>
+                                                                    
+                                                                
+                                                                </FormGroup>
+                                                            </Col>
+                                                        </Row>
+                                                    </fieldset>
+                                                )
+                                            }
+                                        }
+                                    })}
+                                </>
+                            )
                         })}
+                    
                         <Row className='buttonRow'>
                             <Col className='formCancelRow'>
                                 <button className='cancelButt' onClick={cancel}>Cancel</button>                           
@@ -434,7 +470,7 @@ export default function Formpage(props) {
             </>
         )
     }
-// }
+
 
 
 
