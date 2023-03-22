@@ -136,8 +136,9 @@ export default function Newform(){
             const response = await axios.post('/api/v1/form/createForm', submitForm);
             console.log(response);
             if (response.data.status == 201) {
+                localStorage.setItem('message', 'Form template added successfully')
                 navigate('../react/allforms')
-                alert('Form template added successfully')
+                // alert('Form template added successfully')
             }
         } catch (error) {
             console.log(error);
@@ -271,7 +272,7 @@ export default function Newform(){
                     Cancel
                 </button>
 
-                <button onClick={handleCreateForm} className='createFormButton'>
+                <button onClick={handleCreateForm} disabled={inputList.length === 0} className='createFormButton anyButton'>
                     Create Form
                 </button>
             </div>

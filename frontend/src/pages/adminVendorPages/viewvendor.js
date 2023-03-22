@@ -22,6 +22,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import InfoIcon from '@mui/icons-material/Info';
 
 
 export default function Viewvendor(){
@@ -33,12 +34,10 @@ export default function Viewvendor(){
     const [approvedForms, setApprovedForms] = useState([]);
     const [allForms, setAllForms] = useState([]);
     const [name, setName] = useState('');
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
-    console.log(vendorId);
-    console.log(incompleteForms);
     const getVendor = async() =>{
-      console.log(vendorId);
+      
       try{
         const response = await axios.get("/api/v1/vendor/getVendor/" + vendorId)
         // console.log(response.data.data);
@@ -50,31 +49,37 @@ export default function Viewvendor(){
     }
 
     const getFormData = async () => {
+      setApprovedForms([])
+      setCompletedForms([])
+      setIncompleteForms([])
+      setReadOnlyForms([])
+      setAllForms([])
       try {
         const response = await axios.get("/api/v1/formResponse/getFormsByVendorId/" + vendorId)
-        console.log(response.data.data)
+        
         // store in state
         setAllForms(response.data.data)
         // store locally for the stuff below
+        
         const allforms = response.data.data
         console.log(allforms);
         allforms.forEach(form => {
           console.log(form)
           if(form.status === 'completed'){
             setCompletedForms(prevCompletedForms => ([...prevCompletedForms, form]))
-            console.log(completedForms)
+           
           }
           else if(form.status === 'incomplete'){
             setIncompleteForms(prevIncompleteForms => ([...prevIncompleteForms, form]))
-            console.log(incompleteForms)
+          
           }
           else if(form.status === 'readonly'){
             setReadOnlyForms(prevReadOnlyForms => ([...prevReadOnlyForms, form]))
-            console.log(readOnlyForms)
+           
           }
           else if (form.status === 'approved'){
             setApprovedForms(prevApprovedForms => ([...prevApprovedForms, form]))
-            console.log(readOnlyForms)
+          
           }
         });
         
@@ -87,7 +92,6 @@ export default function Viewvendor(){
       getFormData();
       getVendor();
     }, []);
-    console.log(name);
 
     // console.log(readOnlyForms);
      console.log(incompleteForms);
@@ -104,10 +108,24 @@ export default function Viewvendor(){
       setOpen(false);
       setRejId(null);
     };
+
+    const [openDelete, setOpenDelete] = useState(false)
+    const [delId, setDelId] = useState('')
+
+    const openDel = (formId) => {
+      setOpenDelete(true);
+      setDelId(formId);      
+    }
+
+    const handleCloseDel = () => {
+      setOpenDelete(false);
+      setDelId('');
+    }
+
   
 
     const back = () =>{
-        navigate(-1);
+        navigate('/react/admin/homepage');
     }
 
     const goToForm = (formId) =>{
@@ -125,12 +143,13 @@ export default function Viewvendor(){
       navigate("/react/assignform/" + vendorId);
     }
 
-    // DOM HELP IDK WHY ITS NOT DELETING >:(
-    const deleteForm = async(formId) => {
-      console.log(formId);
+    
+    const deleteForm = async() => {
+      setOpenDelete(false);
+      console.log(delId);
       try{
         const response = await axios.delete(
-          "/api/v1/formResponse/deleteFormFromVendor/" + formId
+          "/api/v1/formResponse/deleteFormFromVendor/" + delId
         );
         console.log(response.data);
         getFormData();
@@ -140,11 +159,30 @@ export default function Viewvendor(){
       }
     }
 
-    const handleReject = () => {
-      console.log(rejId);
-      handleClose();
+    const [rejectMsg, setRejectMsg] = useState('')
+    const handleRejection = (e) => {
+      setRejectMsg(e.target.value);
     }
 
+    console.log(rejectMsg);
+
+    const handleReject = async() => {
+      console.log(rejId);
+      console.log(rejectMsg);
+      handleClose();
+      try{
+        const response = await axios.put("/api/v1/formResponse/rejectFormResponse/" + rejId, rejectMsg)
+        getFormData();
+      }
+      catch (error){
+        console.log(error);
+      }
+    }
+    
+
+    const handleDetails = () =>{
+      navigate('/react/vendordetails/' + vendorId );
+    }
   
 
     return(
@@ -160,11 +198,16 @@ export default function Viewvendor(){
             <div className='formContent'>
               <div className='vendorName'>
                   {name}
+                  <span className='vendorDeets' onClick={handleDetails}>
+                    <InfoIcon sx={{paddingBottom:'1%', fontSize:'40px'}}/>Vendor Details
+                  </span>
               </div>
 
-              <button className='assignForm' onClick={assignform}>
-                  + Assign Form
-              </button>
+              <div className='assignFormButtRow'>
+                <button className='assignForm' onClick={assignform}>
+                    + Assign Form
+                </button>
+              </div>
 
             <div className='formHeader'>
               Approved
@@ -188,7 +231,7 @@ export default function Viewvendor(){
                       </button>
                     </Col>
                     <Col xs={6} md={1} xl={1} className='companyHeader' >
-                      <DeleteIcon onClick={() => deleteForm(form.id)} />
+                      <DeleteIcon onClick={() => openDel(form.id)} />
                     </Col>
                   </Row>                
                 ) 
@@ -218,12 +261,12 @@ export default function Viewvendor(){
                       </button>
                     </Col>
                     <Col xs={6} md={2} xl={2}>
-                      <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
+                      <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => handleClickOpen(form.id)}>
                         Reject Form
                       </button>
                     </Col>
                     <Col xs={6} md={1} xl={1} className='companyHeader' >
-                      <DeleteIcon onClick={() => deleteForm(form.id)} />
+                      <DeleteIcon onClick={() => openDel(form.id)} />
                     </Col>
                   </Row>
                   )
@@ -248,7 +291,6 @@ export default function Viewvendor(){
                     <AccordionDetails>
                       <Container >
                       {incompleteForms.map((form, i) => {
-                        console.log(form.id);
                         const formStatus = form.pendingUserInput;
                         if (formStatus === 'Admin'){
                           return (
@@ -272,7 +314,7 @@ export default function Viewvendor(){
                                 </button>
                               </Col>
                               <Col xs={6} md={1} xl={1} className='companyHeader' >
-                                <DeleteIcon onClick={() => deleteForm(form.id)} />
+                                <DeleteIcon onClick={() => openDel(form.id)} />
                               </Col>
                             </Row>
                           )
@@ -318,7 +360,7 @@ export default function Viewvendor(){
                                 </button>
                               </Col>
                               <Col xs={6} md={1} xl={1} className='companyHeader' >
-                                <DeleteIcon onClick={() => deleteForm(form.id)}  />
+                                <DeleteIcon onClick={() => openDel(form.id)}  />
                               </Col>
                             </Row>
                           )
@@ -346,7 +388,7 @@ export default function Viewvendor(){
                           </div>
                         </Col>
                         <Col xs={6} md={1} xl={1} className='companyHeader' >
-                          <DeleteIcon onClick={() => deleteForm(form.id)} />
+                          <DeleteIcon onClick={() => openDel(form.id)} />
                         </Col>
                       </Row>
                   )
@@ -354,7 +396,7 @@ export default function Viewvendor(){
               </Container>
           </div>
 
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={open} onClose={handleClose} fullWidth='90%'>
           <DialogTitle>Reject</DialogTitle>
           <DialogContent>
             <DialogContentText>
@@ -368,14 +410,30 @@ export default function Viewvendor(){
               type="text"
               fullWidth
               variant="standard"
+              onChange = {handleRejection}
             />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
             <Button onClick={handleReject}>Reject</Button>
           </DialogActions>
-      </Dialog>
+        </Dialog>
 
+        <Dialog open={openDelete} onClose={handleCloseDel} fullWidth='90%'>
+          <DialogTitle>Delete Form</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Confirm deletion of form for vendor? 
+            </DialogContentText>
+          </DialogContent>
+
+          <DialogActions>
+            <Button onClick={handleCloseDel}>Cancel</Button>
+            <Button onClick={deleteForm} autoFocus>
+              Confirm
+            </Button>
+          </DialogActions>
+        </Dialog>
         </>
     )
 }

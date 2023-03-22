@@ -28,6 +28,7 @@ import AssignForm from './pages/form/assignform'
 // ======== vendors ========
 // all vendors page 
 import AdminHomepage from "./pages/adminVendorPages/adminHomepage"
+import VendorDetails from './pages/adminVendorPages/vendorDetails'
 // home page for admin ^
 import Viewvendor from "./pages/adminVendorPages/viewvendor"
 import Newvendor from "./pages/adminVendorPages/newvendor"
@@ -50,6 +51,7 @@ export default function App(){
                 <Route exact path="/react/allforms/viewform/:formId" element={<ViewForm/>}/>
                 <Route exact path="/react/allforms/editform/:formId" element={<EditForm/>}/>
                 <Route exact path="/react/assignform/:vendorId" element={<AssignForm/>}/>
+                <Route exact path="/react/vendordetails/:vendorId" element={<VendorDetails/>}/>
             </Routes>
             </div>
         </BrowserRouter>

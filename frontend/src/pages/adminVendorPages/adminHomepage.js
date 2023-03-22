@@ -10,6 +10,14 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Navbar from '../../navbar'
 import DeleteIcon from '@mui/icons-material/Delete';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import InfoIcon from '@mui/icons-material/Info';
 
 // this is the main page for admin !!!!!!!!!!!!!
 export default function AdminHomepage(){
@@ -41,11 +49,25 @@ export default function AdminHomepage(){
         navigate("/react/viewvendor/" + vendorId);
     }
 
-    const deleteVendor = async(vendorId)=>{
+    const [openDelete, setOpenDelete] = useState(false)
+    const [delId, setDelId] = useState('')
+
+    const openDel = (vendorId) => {
+      setOpenDelete(true);
+      setDelId(vendorId);      
+    }
+
+    const handleCloseDel = () => {
+      setOpenDelete(false);
+      setDelId('');
+    }
+
+
+    const deleteVendor = async()=>{
         // add code to delete the vendor 
         try {
             const response = await axios.delete(
-                "/api/v1/vendor/deleteVendor/" + vendorId
+                "/api/v1/vendor/deleteVendor/" + delId
             );
             console.log(response.data);
             // refresh the list of vendors
@@ -109,7 +131,7 @@ export default function AdminHomepage(){
                                         </button>
                                     </Col>
                                     <Col xs={4} md={1} className='companyHeader' >
-                                        <DeleteIcon onClick={()=>deleteVendor(vendorId)}/>
+                                        <DeleteIcon onClick={()=>openDel(vendorId)}/>
                                     </Col>
                                 </Row>
                             )
@@ -118,6 +140,22 @@ export default function AdminHomepage(){
                     </Container>
                 </div>
             </div>
+
+            <Dialog open={openDelete} onClose={handleCloseDel} fullWidth='90%'>
+                <DialogTitle>Delete Vendor</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Confirm deletion of vendor? 
+                    </DialogContentText>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={handleCloseDel}>Cancel</Button>
+                    <Button onClick={deleteVendor} autoFocus>
+                        Confirm
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     )
 }

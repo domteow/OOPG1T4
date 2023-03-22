@@ -107,6 +107,8 @@ export default function AssignForm(){
         formId: selectedValue
     }
     const handleAssign = async() => {
+        console.log(vendorId);
+        console.log(selectedValue);
 
         try{
             const response = await axios.get('api/v1/formResponse/assignFormToVendor/' + selectedValue + '/' + vendorId);

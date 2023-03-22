@@ -9,6 +9,13 @@ import Col from 'react-bootstrap/Col';
 import Navbar from '../../navbar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from '../../api/axios'
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 export default function Allforms(){
     // get all forms from backend
@@ -43,6 +50,11 @@ export default function Allforms(){
     const editForm = (id) => {
         navigate('/react/allforms/editform/' + id);
     }
+
+    const message = localStorage.getItem('message');
+    console.log(message);
+
+
 
     return(
         <>
@@ -121,8 +133,10 @@ export default function Allforms(){
 
                     </Container>
                 </div>
-
             </div>
+
+  
+
         </>
     )
 }
