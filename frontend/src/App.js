@@ -18,7 +18,7 @@ import Login from './pages/login'
 import Homepage from "./pages/homepage"
 
 // ======== form ========
-import Form from "./pages/viewform"
+import Form from "./pages/completeform"
 import AllForms from "./pages/form/allforms"
 import Newform from "./pages/form/newform"
 import ViewForm from './pages/form/viewonlyform'
@@ -41,8 +41,7 @@ export default function App(){
             <Routes>
                 <Route exact path='/react/login' element={<Login />} />
                 <Route exact path="/react/vendor/homepage" element={<Homepage />} />
-                {/* <Route exact path="/" element={<Homepage/>}/> */}
-                <Route exact path="/react/viewform/:formId" element={<Form/>}/>
+                <Route exact path="/react/viewform/:formId/:vendorId" element={<Form/>}/>
                 <Route exact path="/react/admin/homepage" element={<AdminHomepage/>}/>
                 <Route exact path="/react/newvendor" element={<Newvendor/>}/>
                 <Route exact path="/react/viewvendor/:vendorId" element={<Viewvendor/>}/>

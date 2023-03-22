@@ -31,6 +31,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Select from '@mui/material/Select';
 import NativeSelect from '@mui/material/NativeSelect';
 import MenuItem from '@mui/material/MenuItem';
+import { styled } from '@mui/material/styles';
 
 const options = ['Text Field', 'Radio Button', 'Checkbox', 'Dropdown'];
 
@@ -55,8 +56,9 @@ export default function Questionnaire(props){
     useEffect(() => {
         getQuestionnaire();
     }, []);
-
+    console.log(questionnaire)
     const assigned = questionnaire['roleRequired'];
+    console.log(assigned);
 
     return(
         <div className='questionnaireContent'>
@@ -87,8 +89,10 @@ export default function Questionnaire(props){
                                         <div>
                                             <TextField
                                                 required
+                                                className='displayQText'
                                                 disabled
-                                                sx={{width:'100%'}}
+                                                sx={{width:'100%', 
+                                                }}
                                             />
                                         </div>
                                     </Row>
@@ -107,7 +111,7 @@ export default function Questionnaire(props){
                                     <Row>
                                         {options.map((option)=>{
                                             return(
-                                                <FormControlLabel value={option} control={<Radio />} label={option}  disabled={true}/>
+                                                <FormControlLabel value={option} control={<Radio className='displayQRadio' disabled={true}/>} label={option}  disabled={true}/>
                                             )
                                         })}
                                     </Row>
@@ -179,8 +183,7 @@ export default function Questionnaire(props){
                                     id: 'uncontrolled-native',
                                   }}>
                                 
-                                <option value='admin'>Admin</option>
-                                <option value='vendor'>Vendor</option>
+                                <option value={assigned}>{assigned}</option>
                             </NativeSelect>
                         </Col>
                     </Row>

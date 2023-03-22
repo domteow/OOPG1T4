@@ -71,6 +71,7 @@ export default function AdminHomepage(){
             );
             console.log(response.data);
             // refresh the list of vendors
+            setOpenDelete(false)
             getAllVendors();
         } catch (error) {
             console.error(error);

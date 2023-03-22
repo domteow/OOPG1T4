@@ -18,7 +18,7 @@ export default function Homepage() {
     // navigate to forms page with formId
     const navigate = useNavigate();
     const goToForm = (formId) =>{
-      navigate("/react/viewform/" + formId)
+      navigate("/react/viewform/" + formId + '/' + userid)
     };
 
     // forms from backend

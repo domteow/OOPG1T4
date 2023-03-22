@@ -67,7 +67,7 @@ export default function VendorDetails(){
             setStorePwd(response.data.data.password)
 
           });
-         }, 1000);
+         }, 800);
     }, []);
     console.log(allCountry);
 

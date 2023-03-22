@@ -129,7 +129,7 @@ export default function Viewvendor(){
     }
 
     const goToForm = (formId) =>{
-      navigate("/react/viewform/" + formId)
+      navigate("/react/viewform/" + formId + "/" + vendorId)
     };
 
     // for accordion 

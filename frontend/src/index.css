@@ -899,15 +899,15 @@ input{
 }
 
 
-.Mui-disabled{
+/* TextField.Mui-disabled{
     background-color: #dfdfdf;
+    border:1px solid red;
     color: white
-}
+} */
 
-.anyButton:disabled{
-    background-color: #afafaf;
+.displayQText.Mui-disabled{
+    background-color: #e1e1e1;
     color:rgba(232, 236, 255, 0.18);
-    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
 }
 
 .editVendorRow{
@@ -925,4 +925,13 @@ input{
     color: #f9f9f9;
     border: 1px solid #1073b0;
     font-size: 16px;
+}
+
+/* .displayQRadio.Mui-disabled{
+    background-color: pink;
+} */
+
+.displayQText:disabled{
+    background-color: #afafaf;
+    color:rgba(232, 236, 255, 0.18);
 }
