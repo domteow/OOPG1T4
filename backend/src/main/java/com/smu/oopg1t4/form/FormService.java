@@ -76,6 +76,8 @@ public class FormService {
 
             form.setWorkflow(workflow);
             form.setUpTo(upTo);
+            form.setFormStatus("published");
+
 
             Form createdForm = formRepository.save(form);
             SuccessResponse successResponse = new SuccessResponse("Successfully created form.", HttpStatus.CREATED.value(), createdForm);
