@@ -72,7 +72,7 @@ public abstract class User {
         this.accountType = accountType;
     }
 
-    public String getHashedPassword(){
+    public String getPassword(){
         return this.password;
     }
 }

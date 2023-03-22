@@ -1,6 +1,7 @@
 package com.smu.oopg1t4.user;
 
 import com.smu.oopg1t4.response.StatusResponse;
+import org.json.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,5 +22,10 @@ public class UserController {
     @GetMapping("/getAllUsers")
     public ResponseEntity<?> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody String user){
+        return userService.login(user);
     }
 }
