@@ -43,9 +43,14 @@ public class VendorController {
     public ResponseEntity<StatusResponse> createNewVendors(@RequestBody List<Vendor> vendors){
         return vendorService.createNewVendors(vendors);
     }
+
     @DeleteMapping("/deleteVendor/{id}")
     public ResponseEntity<StatusResponse> deleteVendor(@PathVariable int id){
         return vendorService.deleteVendor(id);
     }
 
+    @PutMapping("/editVendor/{id}")
+    public ResponseEntity<StatusResponse> editVendor(@PathVariable int id, @RequestBody Vendor vendor){
+        return vendorService.editVendor(id, vendor);
+    }
 }

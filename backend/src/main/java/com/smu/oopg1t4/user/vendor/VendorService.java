@@ -94,8 +94,8 @@ public class VendorService {
         Optional<User> optionalVendor = userRepository.findById(id);
         if (optionalVendor.isPresent()) {
             userRepository.deleteById(id);
-            StatusResponse successResponse = new StatusResponse("Vendor with id " + id + " deleted successfully", HttpStatus.NO_CONTENT.value());
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(successResponse);
+            StatusResponse successResponse = new StatusResponse("Vendor with id " + id + " deleted successfully", HttpStatus.OK.value());
+            return ResponseEntity.status(HttpStatus.OK).body(successResponse);
 
         } else {
             StatusResponse statusResponse = new StatusResponse("Vendor not found for id: " + id, HttpStatus.NOT_FOUND.value());
@@ -105,4 +105,18 @@ public class VendorService {
     }
 
 
+    public ResponseEntity<StatusResponse> editVendor(int id, Vendor vendor) {
+        try{
+            Optional<User> optionalVendor = userRepository.findById(id);
+            if (optionalVendor.isPresent()){
+                userRepository.save(vendor);
+            }
+            StatusResponse successResponse = new StatusResponse("Vendor with id " + id + " edited successfully", HttpStatus.OK.value());
+            return ResponseEntity.status(HttpStatus.OK).body(successResponse);
+        } catch (Exception e){
+            StatusResponse statusResponse = new StatusResponse("Error editing vendor for id: " + id, HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
+        }
+
+    }
 }
