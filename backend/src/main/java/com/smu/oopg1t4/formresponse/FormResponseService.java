@@ -205,6 +205,7 @@ public class FormResponseService {
         //Get template questionnaires
         ArrayList<Questionnaire> templateQuestionnaires = formService.getFormById(formResponseToReject.getTemplateId()).getQuestionnaires();
 
+        //testing github connection
         //reset questionnaires
         formResponseToReject.setQuestionnaires(templateQuestionnaires);
 
