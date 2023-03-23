@@ -124,6 +124,11 @@ public class FormResponseService {
         //Pop first index of workflow and get the removed element
         int numQuestionnairesSubmitted = formResponseToUpdate.getWorkflow().remove(0);
 
+//        //update complete field in Questionnaire
+//        for(int i = 0; i< numQuestionnairesSubmitted; i++){
+//            formResponseToUpdate.getQuestionnaires().get(i).setComplete(true);
+//        }
+
         //set status (incomplete/complete/approved)
         if (formResponseToUpdate.getWorkflow().size() == 1){
             formResponseToUpdate.setStatus("complete");
@@ -205,7 +210,7 @@ public class FormResponseService {
         //Get template questionnaires
         ArrayList<Questionnaire> templateQuestionnaires = formService.getFormById(formResponseToReject.getTemplateId()).getQuestionnaires();
 
-        //testing github connection
+
         //reset questionnaires
         formResponseToReject.setQuestionnaires(templateQuestionnaires);
 
