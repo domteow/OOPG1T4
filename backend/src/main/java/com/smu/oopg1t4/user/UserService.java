@@ -47,8 +47,7 @@ public class UserService {
             List<User> optionalUser = userRepository.findByEmailOnly(emailAddress);
             if (optionalUser != null) {
                 User userInDB = optionalUser.get(0);
-                Encryptor e = new Encryptor();
-                if (userInDB.getPassword().equals(e.hash(password))) {
+                if (userInDB.getPassword().equals(Encryptor.hash(password))) {
                     SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), userInDB);
                     return ResponseEntity.ok().body(successResponse);
                 }
