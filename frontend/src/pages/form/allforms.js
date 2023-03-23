@@ -238,22 +238,6 @@ export default function Allforms(){
                 message={msg}
                 action={action}
             />
-            <Dialog open={openDelete} onClose={handleCloseDel} fullWidth='90%'>
-                <DialogTitle>Delete Form</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Confirm deletion of form? 
-                    </DialogContentText>
-                </DialogContent>
-
-                <DialogActions>
-                    <Button onClick={handleCloseDel}>Cancel</Button>
-                    <Button onClick={deleteForm} autoFocus>
-                        Confirm
-                    </Button>
-                </DialogActions>
-            </Dialog>
-
         </>
     )
 }
