@@ -449,29 +449,26 @@ export default function Formpage(props) {
                                 </>
                             )
                         })}
-                    
-                        <Row className='buttonRow'>
-                            <Col className='formCancelRow'>
-                                <button className='cancelButt' onClick={cancel}>Cancel</button>                           
-                            </Col>
-
-                            <Col className='formSubmitRow'>
-                                <button className='saveDraft' onClick={submitDraft}>Save Draft</button>
-                                <button className='submitButt' onClick={submit}>Submit</button>
-                            </Col>
-
-                        </Row>
-
                     </form>
-
-
                 </Container>
+                <div className="buttonFormRow">
+                    <span className='formCancelRow'>
+                        <button className='cancelButt' onClick={cancel}>Cancel</button>                           
+                    </span>
+
+                    <span className='formSubmitRow'>
+                        <button className='saveDraft' onClick={submitDraft}>Save Draft</button>
+                        <button className='submitButt' onClick={submit}>Submit</button>
+                    </span>
+
+                </div>
             </>
         )
     }
 
 
-
+  
+    
 
 
 

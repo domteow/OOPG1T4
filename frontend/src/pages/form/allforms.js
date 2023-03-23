@@ -15,11 +15,19 @@ import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
-
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import NativeSelect from '@mui/material/NativeSelect';
+import Switch from '@mui/material/Switch';
+import IconButton from '@mui/material/IconButton';
 
 export default function Allforms(){
     // get all forms from backend
+        // snackbar
+    const [open, setOpen] = React.useState(false);
     const [forms, setForms] = useState([])
+    const [checked, setChecked] = React.useState();
+    const [msg, setMsg] = useState();
     const getAllForms = async() =>{
         try{
             const response = await axios.get("/api/v1/form/get")
@@ -33,7 +41,29 @@ export default function Allforms(){
 
     useEffect(() => {
         getAllForms();
+        const message = localStorage.getItem('message');
+        console.log(message);
+        setMsg(message);
+
+        if (message != null){
+            setOpen(true);        
+        }
+
     }, []);
+
+
+    
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+        return;
+        }
+
+        setOpen(false);
+        localStorage.clear('message');
+    };
+
+
     
     // navigate 
     const navigate = useNavigate();
@@ -51,10 +81,39 @@ export default function Allforms(){
         navigate('/react/allforms/editform/' + id);
     }
 
-    const message = localStorage.getItem('message');
-    console.log(message);
+
+    // only can use after isactive is created
+    /*
+    const [isActive, setIsActive] = useState({});
+    const act = {};
+    forms.map((form) => {
+        const id = form.formId;
+        const isAct = form.isActive; 
+        act[id] = isAct;
+    })
+    setIsActive(act);
 
 
+    const handleActive = (formId) => {
+        const curr = isActive[formId];
+        setIsActive(prev => ({...prev, [formId]: !curr}));
+        // call backend 
+
+    }
+    */
+
+    const action = (
+        <React.Fragment>
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleClose}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </React.Fragment>
+      );
 
     return(
         <>
@@ -74,10 +133,10 @@ export default function Allforms(){
                 <div className='allFormsContainer'>
                     <Container>
                         <Row className='formHeaderRow'>
-                            <Col xs={12} md={3}>
+                            <Col xs={12} md={3} className='headerCenter'>
                                 Name
                             </Col>
-                            <Col xs={12} md={2}>
+                            <Col xs={12} md={2} className='headerCenter'>
                                 Form Code
                             </Col>
                             <Col xs={12} md={1} className='headerCenter'>
@@ -92,8 +151,8 @@ export default function Allforms(){
                             <Col xs={12} md={2} className='headerCenter'>
                                 Edit
                             </Col>
-                            <Col xs={12} md={1}>
-                                
+                            <Col xs={12} md={1} className='headerCenter'>
+                                Status
                             </Col>
                         </Row>
 
@@ -124,19 +183,26 @@ export default function Allforms(){
                                         </button>
                                     </Col>
                                     <Col xs={12} md={1} className='headerCenter'>
-                                        <DeleteIcon />
+                                        <Switch
+                                            //checked = {isActive[formId]}
+                                            //onChange={() => handleActive(formId)}
+                                            inputProps={{ 'aria-label': 'controlled' }}
+                                        />
                                     </Col>
                                 </Row>
                             )
                         })}
-
-
                     </Container>
                 </div>
             </div>
 
-  
-
+            <Snackbar
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                message={msg}
+                action={action}
+            />
         </>
     )
 }
