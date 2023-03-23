@@ -78,7 +78,7 @@ const Login = () =>{
                                     onChange={(e)=> setUsername(e.target.value)}
                                     required
                                     id="outlined-required"
-                                    label="Username"
+                                    label="Email"
                                     className='loginInputField'
                                 />
                             </div>

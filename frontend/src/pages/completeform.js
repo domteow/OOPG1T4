@@ -27,9 +27,12 @@ import FormGroup from '@mui/material/FormGroup';
 import CircularProgress from '@mui/material/CircularProgress';
 import { get } from 'react-hook-form'
 
-export default function Formpage(props) {
-    const formID  = useParams()['formId'];    
-    const vendorId = useParams()['vendorId'];
+
+export default function Formpage() {
+    const formids  = useParams()['formId'];    
+    // const vendorids = useParams()['vendorId'];
+    const [formID, setFormID] = useState(formids);
+    // const [vendorId, setVendorId] = useState(vendorids);
     const [questionnaires, setQuestionnaires] = useState({});
     const [formToSend, setFormToSend] = useState({}); 
     const [form, setForm] = useState({});
@@ -41,71 +44,29 @@ export default function Formpage(props) {
     // const [isLoading, setLoading] = useState(true); 
     const [upTo, setUpTo] = useState();
     const navigate = useNavigate();
+    const [qnInds, setQnInds] = useState([]);
+    const [load, setLoad] = useState(true);
     
     // TODO: add POST request to backend to update form response
-    
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         axios.get("/api/v1/formResponse/getFormByFormResponseID/" + formID)
-    //         .then((response) => {
-    //             setLoading(false);
-    //             setForm(response.data.data)
-    //         });
-    //         // setLoading(false);
-    //         // getFormByFormId();
-            
-    //         console.log(isLoading)
-    //     }, 1000)
-    // } ,[]);
 
-    
-
-    // console.log(isLoading)
-
-    // const localform = response.data.data;
-    // console.log("API response:", response.data.data);
-    // setQuestionnaires(form.questionnaires);
-    // setFormStatus(form.status);
-    // setRevisionNo(form.revisionNo);
-
-
-    
-    // const getFormByFormId = async () => {
-    //     try {
-    //         const response = await axios.get(
-    //         "/api/v1/formResponse/getFormByFormResponseID/" + formID
-    //         );
-    //         setForm(response.data.data)
-    //         const localform = response.data.data;
-    //         setQuestionnaires(localform.questionnaires);
-    //         setFormStatus(localform.status);
-    //         setRevisionNo(localform.revisionNo);
-    //         setUpTo(localform.upTo);
-    //         // setLoading(false);
-    //     } catch (error) {
-    //         console.log("Error fetching form data:", error);
-    //     }
-    // };    
-    // useEffect(()=>{
-    //     getFormByFormId();
-    // }, [])
-
-    // console.log(form);
     const [isLoading, setLoading] = useState(true);
+
     useEffect(() => {
         setTimeout(() => {
-        axios.get("/api/v1/formResponse/getFormByFormResponseID/" + formID).then(response => {
-            setForm(response.data.data)
-            const localform = response.data.data;
-            setQuestionnaires(localform.questionnaires);
-            setFormStatus(localform.status);
-            setRevisionNo(localform.revisionNo);
-            setUpTo(localform.upTo);
-            setLoading(false);
-        });
+            const getData = async() => {
+                const response = await axios.get("/api/v1/formResponse/getFormByFormResponseID/" + formID);
+                setForm(response.data.data)
+                    const localform = response.data.data;
+                    setQuestionnaires(localform.questionnaires);
+                    setFormStatus(localform.status);
+                    setRevisionNo(localform.revisionNo);
+                    setUpTo(localform.upTo);
+                    setLoading(false);
+            };
+            getData();
         }, 800);
-    }, []);
-    
+    }, [formID]);
+
     if (isLoading) {
         return (
             <div style={{
@@ -118,6 +79,7 @@ export default function Formpage(props) {
         );
     }
     console.log(form);
+
       
     
     const handleChange = (qnIndex, dIndex) => (e) => {
@@ -162,20 +124,42 @@ export default function Formpage(props) {
     }
 
     const isFormValid = (questionnaires) => {
-        for (let qnIndex in questionnaires) {
-          const fields = questionnaires[qnIndex].fields;
-          for (let fieldIndex in fields) {
-            const field = fields[fieldIndex];
-            if (field.required && !field.value) {
-              return false;
+        let count = 0;
+        console.log(questionnaires);
+        Object.keys(questionnaires).map((key, i) => {
+            if (i < upTo){
+                const questionnaire = questionnaires[key];
+                console.log(questionnaire);
+                const fields = questionnaire.fields; 
+                fields.map((field, i) => {
+                    const val = field.value;
+                    if (val == null){
+                        count = count + 1;
+                    }
+                })
             }
-          }
+        })
+        if (count == 0) {
+            return true;
         }
-        return true;
+
+        else{
+            return false;
+        }
     }
 
 
     console.log(questionnaires)
+    const handleSubmit = () => {
+        const canSubmit = isFormValid(questionnaires);
+        if (canSubmit){
+            // submit();
+            console.log("okie")
+        }
+        else{
+            alert("Please complete the necessary fields");
+        }
+    }
 
     // to submit the form 
     const submit = async() => {
@@ -199,7 +183,7 @@ export default function Formpage(props) {
                     navigate('/react/vendor/homepage')
                 }
                 else if (role === 'Admin'){
-                    navigate('/react/viewvendor/' + vendorId)
+                    navigate('/react/admin/homepage')
                 }
             }
             
@@ -293,31 +277,26 @@ export default function Formpage(props) {
                     </Row>
 
                     <form>
-                        {Object.values(questionnaires).map((question, qnIndex)=>{
+                        {
+                        Object.values(questionnaires).map((question, qnIndex)=>{
                             // compare the questionnaire index qnIndex to the upTo number upTo
                             // questionnaire index must be < upTo number 
+
                             const roleRequired = question.roleRequired;
+                            console.log(roleRequired);
                             // console.log(question);
                             // console.log(upTo);
-                            var disabled = false;
+                            console.log(role);
+                            var disabled = true;
+
+                            // check those that could be edited then 
                             if (qnIndex < upTo){
-                                console.log(qnIndex);
-                                // check if questionnaire (question) is completed or read only or if rolerequired is not the person role
-                                if (formStatus === 'readonly' || formStatus === 'completed' || roleRequired != role){
+                                disabled = false;
+
+                                if (form.pendingUserInput != role || formStatus == 'readonly' || formStatus == 'completed' || roleRequired != role || question.complete){
                                     disabled = true;
                                 }
-                                // else if (question.isComplete === true){
-                                //    disabled = true;
-                                // }
-                                else{
-                                    disabled = false;
-                                    // setQnInds((prev) => [...prev, qnIndex]);
 
-                                }
-                            }
-                            else{
-                                // if questionnaire index is more than or equal to upTo
-                                disabled = true;
                             }
                             
                             return(
@@ -458,7 +437,7 @@ export default function Formpage(props) {
 
                     <span className='formSubmitRow'>
                         <button className='saveDraft' onClick={submitDraft}>Save Draft</button>
-                        <button className='submitButt' onClick={submit}>Submit</button>
+                        <button className='submitButt' onClick={handleSubmit}>Submit</button>
                     </span>
 
                 </div>

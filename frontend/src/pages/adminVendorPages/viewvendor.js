@@ -129,8 +129,10 @@ export default function Viewvendor(){
     }
 
     const goToForm = (formId) =>{
-      navigate("/react/viewform/" + formId + "/" + vendorId)
+      navigate("/react/viewform/" + formId )
     };
+
+    // ^ admin
 
     // for accordion 
     const [expanded, setExpanded] = useState(false);
@@ -226,7 +228,7 @@ export default function Viewvendor(){
                       </div>
                     </Col>
                     <Col xs={6} md={4} xl={2}>
-                      <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
+                      <button className='formButton' onClick={() => goToForm(form.id)} size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}}>
                         View Form
                       </button>
                     </Col>

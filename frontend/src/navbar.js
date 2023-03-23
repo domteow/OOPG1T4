@@ -40,8 +40,9 @@ export default function Navbar(){
   // to log out 
   const [authenticated, setAuthenticated] = useState(authenticate); 
   const navigateLogout = () =>{
-    localStorage.setItem('username', '');
+    localStorage.clear('username');
     localStorage.setItem("authenticated", false);
+    localStorage.clear('role');
     setAuthenticated(false);
     navigate ('/react/login')
   }

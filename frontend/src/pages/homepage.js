@@ -17,9 +17,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 export default function Homepage() {
     // navigate to forms page with formId
     const navigate = useNavigate();
-    const goToForm = (formId) =>{
-      navigate("/react/viewform/" + formId + '/' + userid)
-    };
 
     // forms from backend
     const backendDomain = process.env.REACT_APP_backendDomain;
@@ -34,6 +31,7 @@ export default function Homepage() {
     const [completedForms, setCompletedForms] = useState([]);
     const [readOnlyForms, setReadOnlyForms] = useState([]);
     const [approvedForms, setApprovedForms] = useState([]);
+    const [vendorId, setVendorId] = useState();
 
     // use effect to check the user, get the data and return 
     useEffect (() =>{
@@ -47,15 +45,25 @@ export default function Homepage() {
     }, []); 
 
     useEffect(() => {
-      const userid = localStorage.getItem('userid');
+      const id = localStorage.getItem('userid');
       const username = localStorage.getItem('username');
-      setUserid(userid);
+      setUserid(id);
+      console.log(id);
+      setVendorId(id);
+
       setUsername(username);  
       if (authenticated) {
         getFormData(userid);
       }
     }, [authenticated]);
 
+    const goToForm = (formId) =>{
+      console.log(formId);
+      navigate("/react/viewform/" + formId )
+    };
+
+    // ^ vendor
+   
     
     const getFormData = async (userid) => {
       try {
@@ -192,7 +200,7 @@ export default function Homepage() {
                             </div>
                           </Col>
                           <Col xs={6} md={4} xl={2}>
-                            <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
+                            <button className='formButton' onClick={() => goToForm(form.id)} size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} >
                               View Form
                             </button>
                           </Col>
