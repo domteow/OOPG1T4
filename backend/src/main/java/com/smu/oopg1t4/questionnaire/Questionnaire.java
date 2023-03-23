@@ -20,6 +20,7 @@ public class Questionnaire {
     private ArrayList<Field> fields;
     private String roleRequired;
 
+    private boolean isComplete;
     public Questionnaire() {
     }
 
@@ -28,6 +29,14 @@ public class Questionnaire {
         this.fields = fields;
         this.roleRequired = roleRequired;
     }
+
+    public Questionnaire(String name, ArrayList<Field> fields, String roleRequired, boolean isComplete) {
+        this.name = name;
+        this.fields = fields;
+        this.roleRequired = roleRequired;
+        this.isComplete = isComplete;
+    }
+
 
     public int getId() {
         return this.id;

@@ -106,24 +106,24 @@ public class MongoConfig {
             //Questionnaire 1 for NEW VENDOR ASSESSMENT FORM
             ArrayList<Field> fields1 = new ArrayList<>();
             fields1.addAll(List.of(f1,f2,f3,f4,f5,f7,f8,f9,f10,f11,f13));
-            Questionnaire q1 = new Questionnaire("Vendor Information", fields1, "Vendor");
+            Questionnaire q1 = new Questionnaire("Vendor Information", fields1, "Vendor", false);
 
             //Questionnaire 2 for NEW VENDOR ASSESSMENT FORM
 
             ArrayList<Field> fields2 = new ArrayList<>();
             fields2.addAll(List.of(f14,f15,f16,f17,f18,f19,f20,f21));
-            Questionnaire q2 = new Questionnaire("Vendor Evaluation", fields2, "Admin");
+            Questionnaire q2 = new Questionnaire("Vendor Evaluation", fields2, "Admin", false);
 
             //Questionnaire 3 for NEW VENDOR ASSESSMENT FORM
 
             ArrayList<Field> fields3 = new ArrayList<>();
             fields3.addAll(List.of(f22,f23,f24));
-            Questionnaire q3 = new Questionnaire("Evaluation Results", fields3, "Admin");
+            Questionnaire q3 = new Questionnaire("Evaluation Results", fields3, "Admin", false);
 
             //Questionnaire 4 for NEW VENDOR ASSESSMENT FORM
             ArrayList<Field> fields4 = new ArrayList<>();
             fields4.addAll(List.of(f25,f24,f26));
-            Questionnaire q4 = new Questionnaire("Approver input", fields4, "Approver");
+            Questionnaire q4 = new Questionnaire("Approver input", fields4, "Approver", false);
 
 
 
