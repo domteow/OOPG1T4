@@ -20,7 +20,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.xml.crypto.Data;
+
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,18 +36,20 @@ public class MongoConfig {
             // ------------------Users-----------------------
 
             ArrayList<String> countries1 = new ArrayList<>();
-            countries1.addAll(List.of("doggydogworld","spca"));
-            Vendor v1 = new Vendor("Bruno", "doggydog@gmail.com", "woof3", "Vendor", countries1, "999", "9843037", "Bruno's Company");
+            countries1.addAll(List.of("Singapore", "Portugal"));
+
+            ArrayList<String> countries2 = new ArrayList<>();
+            countries2.addAll(List.of("Singapore", "United States of America"));
+            Vendor v1 = new Vendor("Bruno", "bruno.goh.2020@scis.smu.edu.sg", "brunogoh", "Vendor", countries1, "999", "9843037", "Bruno's Company");
             v1.setId(1);
-            Vendor v2 = new Vendor("Dom", "meow2@gmail.com", "meow5","Vendor", countries1, "99292922", "1231231","Dom's Company");
+            Vendor v2 = new Vendor("Dominic", "dominic.teow.2020@scis.smu.edu.sg", "domteow","Vendor", countries2, "99292922", "1231231","Dom's Company");
             v2.setId(2);
 
-//            ArrayList<String> countries2 = new ArrayList<>();
-//            countries2.addAll(List.of("Singapore", "Malaysia"));
-            Admin a1 = new Admin("Kelvin", "kelvin@gmail.com", "xdxd", "Admin");
+
+            Admin a1 = new Admin("Kelvin", "kelvin.yap.2020@scis.smu.edu.sg", "kelvinyap", "Admin");
             a1.setId(3);
 
-            Approver ap1 = new Approver("Swavek", "swavek@gmail.com", "swavek1", "Approver");
+            Approver ap1 = new Approver("Rhys", "rhys.tan.2020@scis.smu.edu.sg", "rhystan", "Approver");
             ap1.setId(4);
 
             userRepository.saveAll(
