@@ -14,6 +14,11 @@ import MuiAlert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import CloseIcon from '@mui/icons-material/Close';
 
 
@@ -50,6 +55,34 @@ export default function Allforms(){
     const editForm = (id) => {
         navigate('/react/allforms/editform/' + id);
     }
+
+    const [openDelete, setOpenDelete] = useState(false)
+    const [delId, setDelId] = useState('')
+
+    const openDel = (formId) => {
+      setOpenDelete(true);
+      setDelId(formId);      
+    }
+
+    const handleCloseDel = () => {
+      setOpenDelete(false);
+      setDelId('');
+    }
+
+    const deleteForm = async() => {
+        
+        console.log(delId)
+        try{
+            const response = await axios.delete("/api/v1/form/delete/" + delId)
+            console.log(response.data);
+            setOpenDelete(false);
+            getAllForms();
+        }
+        catch(error){
+            console.log(error);
+        }
+    }
+
 
     const message = localStorage.getItem('message');
     console.log(message);
@@ -124,7 +157,7 @@ export default function Allforms(){
                                         </button>
                                     </Col>
                                     <Col xs={12} md={1} className='headerCenter'>
-                                        <DeleteIcon />
+                                        <DeleteIcon onClick={() => openDel(form.id)} />
                                     </Col>
                                 </Row>
                             )
@@ -135,7 +168,21 @@ export default function Allforms(){
                 </div>
             </div>
 
-  
+            <Dialog open={openDelete} onClose={handleCloseDel} fullWidth='90%'>
+                <DialogTitle>Delete Form</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Confirm deletion of form? 
+                    </DialogContentText>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={handleCloseDel}>Cancel</Button>
+                    <Button onClick={deleteForm} autoFocus>
+                        Confirm
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
         </>
     )
