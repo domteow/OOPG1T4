@@ -34,8 +34,7 @@ public abstract class User {
     public User(String name, String emailAddress, String password, String accountType) throws NoSuchAlgorithmException {
         this.name = name;
         this.emailAddress = emailAddress;
-        Encryptor e = new Encryptor();
-        this.password = e.hash(password);
+        this.password = Encryptor.hash(password);
         this.accountType = accountType;
     }
 
@@ -43,8 +42,7 @@ public abstract class User {
         this.id = id;
         this.name = name;
         this.emailAddress = emailAddress;
-        Encryptor e = new Encryptor();
-        this.password = e.hash(password);
+        this.password = Encryptor.hash(password);
         this.accountType = accountType;
 
     }
