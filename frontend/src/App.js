@@ -29,7 +29,6 @@ import AssignForm from './pages/form/assignform'
 // all vendors page 
 import AdminHomepage from "./pages/adminVendorPages/adminHomepage"
 import VendorDetails from './pages/adminVendorPages/vendorDetails'
-import DoForm from './pages/doform'
 
 // home page for admin ^
 import Viewvendor from "./pages/adminVendorPages/viewvendor"
@@ -42,7 +41,6 @@ export default function App(){
             <div className="body">
             <Routes>
                 <Route exact path='/react/login' element={<Login />} />
-                <Route exact path='/react/doform' element={<DoForm/>}/>
                 <Route exact path="/react/viewform/:formId" element={<Form/>}/>
                 <Route exact path="/react/vendor/homepage" element={<Homepage />} />
                 <Route exact path="/react/admin/homepage" element={<AdminHomepage/>}/>
