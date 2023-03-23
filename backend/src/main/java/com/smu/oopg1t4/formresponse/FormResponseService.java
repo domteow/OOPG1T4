@@ -147,6 +147,11 @@ public class FormResponseService {
         //update questionnaires
         formResponseToUpdate.setQuestionnaires(updatedFormResponse.getQuestionnaires());
 
+        //update complete field in Questionnaire
+        for(int i = 0; i< numQuestionnairesSubmitted; i++){
+            formResponseToUpdate.getQuestionnaires().get(i).setComplete(true);
+        }
+
 
 
         formResponseRepository.save(formResponseToUpdate);
@@ -205,7 +210,7 @@ public class FormResponseService {
         //Get template questionnaires
         ArrayList<Questionnaire> templateQuestionnaires = formService.getFormById(formResponseToReject.getTemplateId()).getQuestionnaires();
 
-        //testing github connection
+
         //reset questionnaires
         formResponseToReject.setQuestionnaires(templateQuestionnaires);
 

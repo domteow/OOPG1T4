@@ -19,47 +19,42 @@ const Login = () =>{
     const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated")|| false));
     
 
-    // RETRIEVE ALL USERS FROM API
-    const getAllUsers = async() => {
-        try {
-            const response = await axios.get("/api/v1/user/getAllUsers")
-            
-            console.log([response.data.data]);
-            return response.data.data;
-            
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
     const handleSubmit = async(e) => {
         e.preventDefault()
-
-        const users = await getAllUsers();
-        console.log(users);
         
-        const account = Object.values(users).find((user) => user.name.toLowerCase() === username);
-        
-        if (account && account.password === password) {
+        const loginDetails = {
+            "emailAddress": username,
+            "password": password
+        }
+        try {
+            const response = await axios.post("/api/v1/user/login", loginDetails)
+            const userID = response.data.data.id;
+            const Name = response.data.data.name;
+            const role = response.data.data.accountType;
+            const statusCode = response.data.status;
+            if (statusCode == 200) {
             
-            setauthenticated(true)
-            localStorage.setItem("authenticated", true);
-            localStorage.setItem('userid', account.id);
-            localStorage.setItem('username', username);
-
-            setUser(account.name);
-            const role = account.accountType;
-            localStorage.setItem("role", role);
-            if (role == 'Vendor'){
-                navigate('/react/vendor/homepage');
+                setauthenticated(true)
+                localStorage.setItem("authenticated", true);
+                localStorage.setItem('userid', userID);
+                localStorage.setItem('username', Name);
+    
+                setUser(Name);
+                localStorage.setItem("role", role);
+                if (role == 'Vendor'){
+                    navigate('/react/vendor/homepage');
+                }
+                else if (role == 'Admin'){
+                    navigate('/react/admin/homepage');
+                }
             }
-            else if (role == 'Admin'){
-                navigate('/react/admin/homepage');
+            else {
+                alert("Incorrect username or password")
             }
+        } catch (error) {
+            console.log(error)
         }
-        else {
-            alert("Incorrect username or password")
-        }
+        
     };
     return(
         <div className='loginBody'>

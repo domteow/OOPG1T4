@@ -1,5 +1,6 @@
 package com.smu.oopg1t4.questionnaire;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.smu.oopg1t4.field.Field;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
@@ -20,7 +21,9 @@ public class Questionnaire {
     private ArrayList<Field> fields;
     private String roleRequired;
 
-    private boolean isComplete;
+    private boolean complete;
+
+
     public Questionnaire() {
     }
 
@@ -30,11 +33,11 @@ public class Questionnaire {
         this.roleRequired = roleRequired;
     }
 
-    public Questionnaire(String name, ArrayList<Field> fields, String roleRequired, boolean isComplete) {
+    public Questionnaire(String name, ArrayList<Field> fields, String roleRequired, boolean complete) {
         this.name = name;
         this.fields = fields;
         this.roleRequired = roleRequired;
-        this.isComplete = isComplete;
+        this.complete = complete;
     }
 
 
@@ -74,6 +77,16 @@ public class Questionnaire {
         this.roleRequired = roleRequired;
     }
 
+    public boolean getComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
+    }
+
+
+
     @Override
     public String toString() {
         return "Questionnaire{" +
@@ -81,6 +94,7 @@ public class Questionnaire {
                 ", name='" + name + '\'' +
                 ", fields=" + fields +
                 ", roleRequired='" + roleRequired + '\'' +
+                ", complete='" + complete + '\'' +
                 '}';
     }
 }
