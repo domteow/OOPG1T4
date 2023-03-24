@@ -24,6 +24,7 @@ public abstract class User {
     @JsonProperty("password") // IF YOU WANT TO FORCE A RETURN OF PASSWORD
     protected String password;
     protected String accountType;
+    protected boolean active;
 
 
     public User() {
@@ -31,20 +32,21 @@ public abstract class User {
     }
     
     
-    public User(String name, String emailAddress, String password, String accountType) throws NoSuchAlgorithmException {
+    public User(String name, String emailAddress, String password, String accountType, boolean active) throws NoSuchAlgorithmException {
         this.name = name;
         this.emailAddress = emailAddress;
         this.password = Encryptor.hash(password);
         this.accountType = accountType;
+        this.active = active;
     }
 
-    public User(int id, String name, String emailAddress, String password, String accountType) throws NoSuchAlgorithmException {
+    public User(int id, String name, String emailAddress, String password, String accountType, boolean active) throws NoSuchAlgorithmException {
         this.id = id;
         this.name = name;
         this.emailAddress = emailAddress;
         this.password = Encryptor.hash(password);
         this.accountType = accountType;
-
+        this.active = active;
     }
 
 
@@ -72,5 +74,13 @@ public abstract class User {
 
     public String getPassword(){
         return this.password;
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

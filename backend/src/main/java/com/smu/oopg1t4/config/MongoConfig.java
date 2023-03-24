@@ -40,16 +40,16 @@ public class MongoConfig {
 
             ArrayList<String> countries2 = new ArrayList<>();
             countries2.addAll(List.of("Singapore", "United States of America"));
-            Vendor v1 = new Vendor("Bruno", "bruno.goh.2020@scis.smu.edu.sg", "brunogoh", "Vendor", countries1, "999", "9843037", "Bruno's Company");
+            Vendor v1 = new Vendor("Bruno", "bruno.goh.2020@scis.smu.edu.sg", "brunogoh", "Vendor", true, countries1, "999", "9843037", "Bruno's Company");
             v1.setId(1);
-            Vendor v2 = new Vendor("Dominic", "dominicteow.2020@scis.smu.edu.sg", "domteow","Vendor", countries2, "99292922", "1231231","Dom's Company");
+            Vendor v2 = new Vendor("Dominic", "dominicteow.2020@scis.smu.edu.sg", "domteow","Vendor", true, countries2, "99292922", "1231231","Dom's Company");
             v2.setId(2);
 
 
-            Admin a1 = new Admin("Kelvin", "kelvin.yap.2020@scis.smu.edu.sg", "kelvinyap", "Admin");
+            Admin a1 = new Admin("Kelvin", "kelvin.yap.2020@scis.smu.edu.sg", "kelvinyap", "Admin", true);
             a1.setId(3);
 
-            Approver ap1 = new Approver("Rhys", "rhys.tan.2020@scis.smu.edu.sg", "rhystan", "Approver");
+            Approver ap1 = new Approver("Rhys", "rhys.tan.2020@scis.smu.edu.sg", "rhystan", "Approver", true);
             ap1.setId(4);
 
             userRepository.saveAll(

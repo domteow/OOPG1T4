@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Approver extends Admin {
 
-    public Approver(String name, String emailAddress, String password, String accountType) throws NoSuchAlgorithmException {
-        super(name, emailAddress, password, accountType);
+    public Approver(String name, String emailAddress, String password, String accountType, boolean active) throws NoSuchAlgorithmException {
+        super(name, emailAddress, password, accountType, active);
     }
 
     @Override

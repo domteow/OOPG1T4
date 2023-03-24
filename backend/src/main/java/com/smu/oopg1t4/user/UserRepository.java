@@ -12,6 +12,9 @@ public interface UserRepository extends MongoRepository<User, Integer> {
     @Query("{'accountType':?0}")
     List<User> findByAccountType(String accountType);
 
+    @Query("{'accountType':?0, 'active':true}")
+    List<User> findByAccountTypeActive(String accountType);
+
     @Query("{'_id':?0, 'accountType': ?1}")
     List<User> findById(int id, String accountType);
 

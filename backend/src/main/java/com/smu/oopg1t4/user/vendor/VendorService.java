@@ -1,5 +1,6 @@
 package com.smu.oopg1t4.user.vendor;
 
+import com.smu.oopg1t4.form.Form;
 import com.smu.oopg1t4.response.StatusResponse;
 import com.smu.oopg1t4.response.SuccessResponse;
 import com.smu.oopg1t4.user.UserRepository;
@@ -42,7 +43,7 @@ public class VendorService {
 
     public ResponseEntity<?> getAllVendors() {
         try {
-            List<User> vendors = userRepository.findByAccountType("Vendor");
+            List<User> vendors = userRepository.findByAccountTypeActive("Vendor");
             SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), vendors);
             return ResponseEntity.ok().body(successResponse);
         } catch (Exception e) {
@@ -93,7 +94,14 @@ public class VendorService {
     public ResponseEntity<StatusResponse> deleteVendor(int id) {
         Optional<User> optionalVendor = userRepository.findById(id);
         if (optionalVendor.isPresent()) {
-            userRepository.deleteById(id);
+            User vendor = optionalVendor.get();
+            boolean check = vendor.getActive();
+            if (check){
+                vendor.setActive(false);
+            } else {
+                vendor.setActive(true);
+            }
+            userRepository.save(vendor);
             StatusResponse successResponse = new StatusResponse("Vendor with id " + id + " deleted successfully", HttpStatus.OK.value());
             return ResponseEntity.status(HttpStatus.OK).body(successResponse);
 

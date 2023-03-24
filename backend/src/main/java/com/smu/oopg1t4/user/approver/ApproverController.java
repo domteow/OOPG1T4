@@ -41,6 +41,7 @@ public class ApproverController {
     public ResponseEntity<StatusResponse> createNewAdmins(@RequestBody List<Approver> approver){
         return approverService.createNewApprovers(approver);
     }
+
     @DeleteMapping("/deleteApprover/{id}")
     public ResponseEntity<StatusResponse> deleteApprover(@PathVariable int id){
         return approverService.deleteApprover(id);

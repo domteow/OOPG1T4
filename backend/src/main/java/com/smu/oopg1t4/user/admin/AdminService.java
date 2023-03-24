@@ -41,7 +41,7 @@ public class AdminService {
 
     public ResponseEntity<?> getAllAdmins() {
         try {
-            List<User> admins = userRepository.findByAccountType("Admin");
+            List<User> admins = userRepository.findByAccountTypeActive("Admin");
 
             SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), admins);
             return ResponseEntity.ok().body(successResponse);
@@ -94,7 +94,14 @@ public class AdminService {
     public ResponseEntity<StatusResponse> deleteAdmin(int id) {
         Optional<User> optionalAdmin = userRepository.findById(id);
         if (optionalAdmin.isPresent()) {
-            userRepository.deleteById(id);
+            User admin = optionalAdmin.get();
+            boolean check = admin.getActive();
+            if (check){
+                admin.setActive(false);
+            } else {
+                admin.setActive(true);
+            }
+            userRepository.save(admin);
             StatusResponse successResponse = new StatusResponse("Admin with id " + id + " deleted successfully", HttpStatus.NO_CONTENT.value());
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(successResponse);
 
