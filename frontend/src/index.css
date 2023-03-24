@@ -609,6 +609,13 @@ input{
     border: 1px solid #1073b0
 }
 
+input:disabled {
+    background: url("./assets/disabledinput.JPG") repeat;
+    background-size: cover;
+    cursor: not-allowed;
+    /* opacity: 0.5; */
+}
+
 .buttonFormRow{
     text-align: right;
     width:95%;
