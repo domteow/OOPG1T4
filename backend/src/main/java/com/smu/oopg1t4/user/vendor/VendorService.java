@@ -119,6 +119,8 @@ public class VendorService {
         try{
             Optional<User> optionalVendor = userRepository.findById(id);
             if (optionalVendor.isPresent()){
+                User oldVendor = optionalVendor.get();
+                vendor.setPassword(oldVendor.getPassword());
                 userRepository.save(vendor);
             }
             StatusResponse successResponse = new StatusResponse("Vendor with id " + id + " edited successfully", HttpStatus.OK.value());
