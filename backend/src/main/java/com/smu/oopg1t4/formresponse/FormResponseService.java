@@ -72,6 +72,10 @@ public class FormResponseService {
         Optional<Form> optionalForm = formRepository.findById(formId);
         if (optionalForm.isPresent()) {
             Form form = optionalForm.get();
+            String status = "incomplete";
+            if (form.getQuestionnaires().get(0).getRoleRequired().equals("Approver")){
+                status = "complete";
+            }
             FormResponse formResponse = new FormResponse(
                     sequenceGeneratorService.generateSequence(FormResponse.SEQUENCE_NAME),
                     form.getFormCode(),
@@ -86,7 +90,7 @@ public class FormResponseService {
                     vendorId,
                     form.getQuestionnaires().get(0).getRoleRequired(),
                     0,
-                    "incomplete",
+                    status,
                     formId
             );
             formResponseRepository.save(formResponse);
