@@ -1,5 +1,6 @@
 package com.smu.oopg1t4.formresponse;
 
+import com.smu.oopg1t4.email.Email;
 import com.smu.oopg1t4.exceptions.FormNotEditableException;
 import com.smu.oopg1t4.exceptions.FormNotFoundException;
 import com.smu.oopg1t4.exceptions.FormResponseNotFoundException;
@@ -8,13 +9,14 @@ import com.smu.oopg1t4.form.FormRepository;
 import com.smu.oopg1t4.form.FormService;
 import com.smu.oopg1t4.questionnaire.Questionnaire;
 import com.smu.oopg1t4.questionnaire.QuestionnaireService;
+import com.smu.oopg1t4.response.RejectionResponse;
 import com.smu.oopg1t4.response.StatusResponse;
 import com.smu.oopg1t4.response.SuccessResponse;
 import com.smu.oopg1t4.util.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -183,12 +185,12 @@ public class FormResponseService {
         formResponseRepository.save(formResponseToUpdate);
     }
 
-    public ResponseEntity<StatusResponse> rejectFormResponse(int formId) {
+    public ResponseEntity<StatusResponse> rejectFormResponse(int formId, RejectionResponse rejectionResponse) {
         //reset entire form response to default (restart form response from the beginning)
         try{
             Optional<FormResponse> formResponseToReject = formResponseRepository.findById(formId);
             if (formResponseToReject.isPresent()){
-                rejectFormResponse(formResponseToReject.get());
+                rejectFormResponse(formResponseToReject.get(), rejectionResponse);
                 StatusResponse successResponse = new StatusResponse("Success!", HttpStatus.OK.value());
                 return ResponseEntity.status(HttpStatus.OK).body(successResponse);
             }else{
@@ -201,12 +203,13 @@ public class FormResponseService {
             StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
         } catch(Exception e){
+            e.printStackTrace();
             StatusResponse statusResponse = new StatusResponse("Error rejecting form response: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
         }
     }
 
-    private void rejectFormResponse(FormResponse formResponseToReject) throws FormNotFoundException {
+    private void rejectFormResponse(FormResponse formResponseToReject, RejectionResponse rejectionResponse) throws FormNotFoundException,Exception {
         //Get template questionnaires
         ArrayList<Questionnaire> templateQuestionnaires = formService.getFormById(formResponseToReject.getTemplateId()).getQuestionnaires();
 
@@ -251,6 +254,27 @@ public class FormResponseService {
 
         //updating
         formResponseRepository.save(formResponseToReject);
+
+        //email rejection response
+        //1. Craft the subject line
+        String rejectionSubject = "The form " + formResponseToReject.getFormCode() + " has been rejected.";
+
+        //2. Craft Message Body
+        String rejectionBody = "Dear vendor,<br/><br/>The approver has rejected the form <b>(" + formResponseToReject.getFormCode() + ")</b> that you have submitted.<br/><br/><b>Reason for rejection:</b>"+ rejectionResponse.getMessage() + "<br/><br/>Please visit our website again to re-submit the form.<br/><br/>Thank you.<br/><br/>Bestest of Regards,<br/>Fuck you.";
+
+        //3. Create Email object
+        Email rejectionEmail = new Email("oopg1t4@gmail.com", rejectionSubject, rejectionBody);
+        //4. Send the Email
+        
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:8080/api/v1/email/sendMail";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Email> request = new HttpEntity<>(rejectionEmail, headers);
+        ResponseEntity<?> response = restTemplate.postForEntity(url, request, Object.class);
+        if (response.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR){
+            throw new Exception("Error sending email");
+        }
     }
 
     public ResponseEntity<StatusResponse> deleteFormFromVendor(int formId) {

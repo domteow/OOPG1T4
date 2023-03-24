@@ -2,13 +2,14 @@ package com.smu.oopg1t4.questionnaire;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.smu.oopg1t4.field.Field;
+import lombok.AllArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 
-
+@AllArgsConstructor
 @Document(collection = "questionnaire")
 public class Questionnaire {
 
@@ -39,6 +40,7 @@ public class Questionnaire {
         this.roleRequired = roleRequired;
         this.complete = complete;
     }
+
 
 
     public int getId() {

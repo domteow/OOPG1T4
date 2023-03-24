@@ -7,6 +7,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.smu.oopg1t4.response.RejectionResponse;
 
 @RestController
 @RequestMapping(path = "api/v1/formResponse")
@@ -49,8 +50,8 @@ public class FormResponseController {
     }
 
     @PutMapping("/rejectFormResponse/{formId}")
-    public ResponseEntity<StatusResponse> rejectFormResponse(@PathVariable int formId){
-        return formResponseService.rejectFormResponse(formId);
+    public ResponseEntity<StatusResponse> rejectFormResponse(@PathVariable int formId, @RequestBody RejectionResponse rejectionResponse){
+        return formResponseService.rejectFormResponse(formId, rejectionResponse);
     }
 
     @DeleteMapping("deleteFormFromVendor/{formId}")
