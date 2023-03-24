@@ -57,7 +57,7 @@ public class VendorService {
         try{
             List<User> vendorList = userRepository.findById(id, "Vendor");
             User vendor = vendorList.get(0);
-            vendor.setPassword("");
+            vendor.setPassword("************");
             SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), vendor);
             return ResponseEntity.ok().body(successResponse);
 
