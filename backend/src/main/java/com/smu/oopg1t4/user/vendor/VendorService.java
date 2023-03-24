@@ -1,5 +1,6 @@
 package com.smu.oopg1t4.user.vendor;
 
+import com.smu.oopg1t4.encryptor.Encryptor;
 import com.smu.oopg1t4.form.Form;
 import com.smu.oopg1t4.response.StatusResponse;
 import com.smu.oopg1t4.response.SuccessResponse;
@@ -31,6 +32,7 @@ public class VendorService {
     public ResponseEntity<StatusResponse> createNewVendor(Vendor vendor) {
         try {
             vendor.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
+            vendor.setPassword(Encryptor.hash(vendor.getPassword()));
             userRepository.save(vendor);
             StatusResponse successResponse = new StatusResponse("Vendor added successfully", HttpStatus.CREATED.value());
             return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
