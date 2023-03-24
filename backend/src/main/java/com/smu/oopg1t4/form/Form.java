@@ -26,6 +26,7 @@ public class Form {
     private String formStatus = "draft"; // Either "draft" or "published" or "outdated". Drafts are editable, will not be allowed to have form responses. Published forms are not editable, shown to vendors.
     private ArrayList<Integer> workflow;
     private int upTo; //for FE to know how many questionnaires can be completed
+    private boolean active;
 
     public Form() {
     }
@@ -41,7 +42,8 @@ public class Form {
             String description,
             String effectiveDate,
             ArrayList<Questionnaire> questionnaires,
-            String formStatus
+            String formStatus,
+            boolean active
     ) {
         this.formCode = formCode;
         this.revisionNo = revisionNo;
@@ -49,6 +51,7 @@ public class Form {
         this.effectiveDate = effectiveDate;
         this.questionnaires = questionnaires;
         this.formStatus = formStatus;
+        this.active = active;
     }
 
     public Form(
@@ -58,7 +61,8 @@ public class Form {
             String description,
             String effectiveDate,
             ArrayList<Questionnaire> questionnaires,
-            String formStatus
+            String formStatus,
+            boolean active
     ) {
         this.id = formId;
         this.formCode = formCode;
@@ -67,6 +71,7 @@ public class Form {
         this.effectiveDate = effectiveDate;
         this.questionnaires = questionnaires;
         this.formStatus = formStatus;
+        this.active = active;
     }
 
     public int getId() {
@@ -147,6 +152,14 @@ public class Form {
 
     public void setUpTo(int upTo) {
         this.upTo = upTo;
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override

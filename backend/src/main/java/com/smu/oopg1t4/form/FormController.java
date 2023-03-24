@@ -83,7 +83,7 @@ public class FormController {
         return formService.saveAndPublishForm(id, form);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @PutMapping("/delete/{id}")
     public ResponseEntity<?> deleteForm(@PathVariable int id) {
         return formService.deleteForm(id);
     }

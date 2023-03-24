@@ -82,6 +82,7 @@ public class FormResponseService {
                     form.getFormStatus(),
                     form.getWorkflow(),
                     form.getUpTo(),
+                    form.getActive(),
                     vendorId,
                     form.getQuestionnaires().get(0).getRoleRequired(),
                     0,

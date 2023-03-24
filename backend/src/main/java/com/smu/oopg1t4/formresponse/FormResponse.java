@@ -52,13 +52,14 @@ public class FormResponse extends Form {
             String formStatus,
             ArrayList<Integer> workflow,
             int upTo,
+            boolean active,
             int ownerId,
             String pendingUserInput,
             int questionnairesCompleted,
             String status,
             int templateId
     ) {
-        super(formId, formCode, revisionNo, description, effectiveDate, questionnaires, formStatus, workflow, upTo);
+        super(formId, formCode, revisionNo, description, effectiveDate, questionnaires, formStatus, workflow, upTo, active);
         this.ownerId = ownerId;
         this.pendingUserInput = pendingUserInput;
         this.questionnairesCompleted = questionnairesCompleted;

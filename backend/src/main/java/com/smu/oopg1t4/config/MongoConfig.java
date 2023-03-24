@@ -146,7 +146,7 @@ public class MongoConfig {
             ArrayList<Integer> workflow1 = new ArrayList<>();
             workflow1.addAll(List.of(1,2,1));
             //QLI-QHSP-10-F01 NEW VENDOR ASSESSMENT FORM
-            Form form1 = new Form(1,"QLI-QHSP-10-F01", 1, "New Vendor Assessment Form","2022-04-04", questionnaires1,"published", workflow1, 1);
+            Form form1 = new Form(1,"QLI-QHSP-10-F01", 1, "New Vendor Assessment Form","2022-04-04", questionnaires1,"published", workflow1, 1, true);
             formRepository.saveAll(
                     List.of(form1)
             );
@@ -164,6 +164,7 @@ public class MongoConfig {
                     "published",
                     workflow1,
                     1,
+                    true,
                     1,
                     "Vendor",
                     0,

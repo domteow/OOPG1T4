@@ -212,7 +212,8 @@ public class FormService {
                     form.getQuestionnaires(),
                     "draft",
                     form.getWorkflow(),
-                    form.getUpTo()
+                    form.getUpTo(),
+                    form.getActive()
             );
 
             checkDuplicateForm(newForm.getFormCode(), newForm.getRevisionNo());
@@ -259,9 +260,33 @@ public class FormService {
     }
 
     public ResponseEntity<?> deleteForm(int id) {
-        formRepository.deleteById(id);
-        StatusResponse statusResponse = new StatusResponse("Success", HttpStatus.OK.value());
-        return ResponseEntity.status(HttpStatus.OK).body(statusResponse);
+        try{
+            Optional<Form> optionalForm = formRepository.findById(id);
+            String message = "";
+            if (optionalForm.isPresent()) {
+                Form form = optionalForm.get();
+                boolean check = form.getActive();
+                if (check){
+                    form.setActive(false);
+                    message = "in";
+                } else {
+                    form.setActive(true);
+                }
+                formRepository.save(form);
+                StatusResponse statusResponse = new StatusResponse("Form active status has been toggled to " + message +"active", HttpStatus.OK.value());
+                return ResponseEntity.status(HttpStatus.OK).body(statusResponse);
+            }
+
+            StatusResponse statusResponse = new StatusResponse("Form not found", HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+
+        } catch (Exception e) {
+            StatusResponse statusResponse = new StatusResponse("Error when toggling form active status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+        }
+
+
+
     }
 
     public Form getFormById(int formId) throws FormNotFoundException {
