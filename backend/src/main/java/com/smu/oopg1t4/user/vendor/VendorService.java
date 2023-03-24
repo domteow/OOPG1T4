@@ -55,8 +55,10 @@ public class VendorService {
 
     public ResponseEntity<?> getVendor(int id) {
         try{
-            List<User> vendor = userRepository.findById(id, "Vendor");
-            SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), vendor.get(0));
+            List<User> vendorList = userRepository.findById(id, "Vendor");
+            User vendor = vendorList.get(0);
+            vendor.setPassword("");
+            SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), vendor);
             return ResponseEntity.ok().body(successResponse);
 
         } catch (Exception e) {
