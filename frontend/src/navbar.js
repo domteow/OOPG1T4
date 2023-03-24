@@ -64,6 +64,21 @@ export default function Navbar(){
     setAnchorElUser(null);
   };
 
+  const navigateAdmins = () => {
+
+  }
+
+  const navigateVendors = () => {
+
+  }
+
+  const navigateApproverHome = () => {
+    navigate('/react/approver/homepage');
+  }
+  console.log("HELLO");
+
+
+
   console.log(role);
   if (role == 'Vendor'){
     return(
@@ -133,6 +148,64 @@ export default function Navbar(){
             Home
           </Button>
         </Box>
+        <Box sx={{ display: { xs: 'none', sm: 'block' }, marginRight: '3%' }}>
+          <Button sx={{color: '#2c2626', marginRight: '1%'}} onClick={navigateForm}>
+            Forms
+          </Button>
+        </Box>
+
+        <Box sx={{ flexGrow: 0 }}>
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 2, marginRight: 5}}>
+              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            sx={{ mt: '45px' }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center">Account</Typography>
+              </MenuItem>
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center" onClick={navigateLogout}>Logout</Typography>
+              </MenuItem>
+          </Menu>
+        </Box> 
+      </header>
+    )
+  }
+
+  else if (role == 'Approver'){
+    return(
+      <header className='navbar'>
+
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+        >
+          <img src={logo2}/>
+        </Typography>
+        <Box sx={{ display: { xs: 'none', sm: 'block' }, marginRight: '3%' }}>
+          <Button sx={{color: '#2c2626', marginRight: '1%'}} onClick={navigateApproverHome}>
+            Home
+          </Button>
+        </Box>
+
         <Box sx={{ display: { xs: 'none', sm: 'block' }, marginRight: '3%' }}>
           <Button sx={{color: '#2c2626', marginRight: '1%'}} onClick={navigateForm}>
             Forms

@@ -10,7 +10,7 @@
 
 /* FOR THE TITLE PORTION W THE GREY LINE BELOW IT */
 .mainContent{
-    width: 95%;
+    width: 93%;
     margin-left: auto;
     margin-right: auto;
     padding-bottom: 3%;
@@ -34,14 +34,14 @@
 
 .formQuestion{
     font-weight: 500;
-    font-size: 18px;
+    font-size: 16px;
     text-align: left;
     padding-top: 0;
 }
 
 .formInput{
     text-align: left;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .inputtext{
@@ -255,7 +255,6 @@ img {
     font-weight: 600;
     font-style: italic;
     color: #2c2626;
-    margin-left: 5%;
 }
 
 .homepageFormDisplay{
@@ -313,7 +312,7 @@ img {
 
 .formName{
     font-weight: bold;
-    font-size: 22px;
+    font-size: 26px;
     text-align: left;
 }
 
@@ -340,7 +339,6 @@ input{
     font-weight: 600;
     font-style: italic;
     color: #2c2626;
-    margin-left: 3%;
 }
 
 .addVendorButton{
@@ -356,6 +354,22 @@ input{
     padding: 0.5%;
     margin-top: 3%;
     border: 1px solid #67a7cf;
+    margin-left: 5%;
+}
+
+.addAdminButton{
+    width: 15%;
+    font-size: 18px;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #288ccb;
+    color: #EDFFFE;
+    text-align: center;
+    font-family: 500;
+    font-style: italic;
+    padding: 0.5%;
+    margin-top: 3%;
+    border: 1px solid #8abfe0;
     margin-left: 5%;
 }
 
@@ -613,7 +627,7 @@ input:disabled {
     background: url("./assets/disabledinput.JPG") repeat;
     background-size: cover;
     cursor: not-allowed;
-    /* opacity: 0.5; */
+    opacity: 0.5;
 }
 
 .buttonFormRow{
@@ -952,3 +966,32 @@ input:disabled {
     background-color: #afafaf;
     color:rgba(232, 236, 255, 0.18);
 }
+
+.createFormButton:disabled{
+    background-color: #979797;
+    color: #3f3f3f;
+    border-color: transparent;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    pointer-events: all;
+}
+
+.displaySubheader{
+    text-align: left;
+    font-weight: 600;
+    font-size: 18px;
+    margin-top: 2%;
+    font-style: italic;
+}
+
+.headertext{
+    text-align: left;
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.subtext{
+    text-align: left;
+    font-size: 14px;
+}
+
+

@@ -23,7 +23,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import InfoIcon from '@mui/icons-material/Info';
-
+import Switch from '@mui/material/Switch';
+import IconButton from '@mui/material/IconButton';
+import Snackbar from '@mui/material/Snackbar';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function Viewvendor(){
     const vendorId = useParams().vendorId; 
@@ -35,9 +38,12 @@ export default function Viewvendor(){
     const [allForms, setAllForms] = useState([]);
     const [name, setName] = useState('');
     const [open, setOpen] = useState(false);
+    const [openMsg, setOpenMsg] = useState(false);
+    const [msg, setMsg] = useState();
+    const [rejId, setRejId] =useState('');
+
 
     const getVendor = async() =>{
-      
       try{
         const response = await axios.get("/api/v1/vendor/getVendor/" + vendorId)
         // console.log(response.data.data);
@@ -65,7 +71,7 @@ export default function Viewvendor(){
         console.log(allforms);
         allforms.forEach(form => {
           console.log(form)
-          if(form.status === 'completed'){
+          if(form.status === 'complete'){
             setCompletedForms(prevCompletedForms => ([...prevCompletedForms, form]))
            
           }
@@ -91,14 +97,64 @@ export default function Viewvendor(){
     useEffect(() => {
       getFormData();
       getVendor();
+      const message = localStorage.getItem('message');
+      console.log(message);
+      console.log(message === 'null')
+
+      if (message !== 'null' || message !== null){
+          setMsg(message);
+          // setOpen(true);  
+          displayMessage();      
+      }
     }, []);
 
-    // console.log(readOnlyForms);
-     console.log(incompleteForms);
-    // console.log(incompleteForms);
+    // to display the success message
+    const displayMessage = () => {
+      setOpenMsg(true);
+      setTimeout(()=>{
+          setOpenMsg(false);
+          localStorage.setItem('message', null);
+      }, 3000)
+    }
 
-    const [rejId, setRejId] =useState('');
+    const handleCloseMsg = (event, reason) => {
+      if (reason === 'clickaway') {
+      return;
+      }
+      setOpenMsg(false);
+      localStorage.setItem('message', null);
+      setMsg(null);
+    };
+    // end of success message 
 
+    // navigates
+    const back = () =>{
+        navigate('/react/admin/homepage');
+    }
+
+    const goToForm = (formId) =>{
+      navigate("/react/viewform/" + formId )
+    };
+
+    const assignform = () => {
+      navigate("/react/assignform/" + vendorId);
+    }
+
+    const handleDetails = () =>{
+      navigate('/react/vendordetails/' + vendorId );
+    }
+    // end of navigates 
+
+    // for accordion 
+    const [expanded, setExpanded] = useState(false);
+
+    const handleAccordionChange = (panel) => (event, isExpanded) =>{
+      setExpanded(isExpanded? panel : false);
+    }
+    // end of accordion
+
+    
+    // start of rejection 
     const handleClickOpen = (formId) => {
       setOpen(true);
       setRejId(formId);
@@ -108,58 +164,6 @@ export default function Viewvendor(){
       setOpen(false);
       setRejId(null);
     };
-
-    const [openDelete, setOpenDelete] = useState(false)
-    const [delId, setDelId] = useState('')
-
-    const openDel = (formId) => {
-      setOpenDelete(true);
-      setDelId(formId);      
-    }
-
-    const handleCloseDel = () => {
-      setOpenDelete(false);
-      setDelId('');
-    }
-
-  
-
-    const back = () =>{
-        navigate('/react/admin/homepage');
-    }
-
-    const goToForm = (formId) =>{
-      navigate("/react/viewform/" + formId )
-    };
-
-    // ^ admin
-
-    // for accordion 
-    const [expanded, setExpanded] = useState(false);
-
-    const handleAccordionChange = (panel) => (event, isExpanded) =>{
-      setExpanded(isExpanded? panel : false);
-    }
-
-    const assignform = () => {
-      navigate("/react/assignform/" + vendorId);
-    }
-
-    
-    const deleteForm = async() => {
-      setOpenDelete(false);
-      console.log(delId);
-      try{
-        const response = await axios.delete(
-          "/api/v1/formResponse/deleteFormFromVendor/" + delId
-        );
-        console.log(response.data);
-        getFormData();
-      }
-      catch (error) {
-        console.error(error);
-      }
-    }
 
     const [rejectMsg, setRejectMsg] = useState('')
     const handleRejection = (e) => {
@@ -175,17 +179,59 @@ export default function Viewvendor(){
       try{
         const response = await axios.put("/api/v1/formResponse/rejectFormResponse/" + rejId, rejectMsg)
         getFormData();
+        setMsg('Form rejected successfully');
+        displayMessage();
       }
       catch (error){
         console.log(error);
       }
     }
-    
+    // end of reject
 
-    const handleDetails = () =>{
-      navigate('/react/vendordetails/' + vendorId );
+    // start of delete
+    const [openDelete, setOpenDelete] = useState(false)
+    const [delId, setDelId] = useState('')
+
+    const openDel = (formId) => {
+      setOpenDelete(true);
+      setDelId(formId);      
     }
-  
+
+    const handleCloseDel = () => {
+      setOpenDelete(false);
+      setDelId('');
+    }
+    
+    const deleteForm = async() => {
+      setOpenDelete(false);
+      console.log(delId);
+      try{
+        const response = await axios.delete(
+          "/api/v1/formResponse/deleteFormFromVendor/" + delId
+        );
+        console.log(response.data);
+        getFormData();
+        setMsg('Form deleted successfully!');
+        displayMessage();
+      }
+      catch (error) {
+        console.error(error);
+      }
+    }
+    // end of delete 
+
+    const action = (
+      <React.Fragment>
+        <IconButton
+          size="small"
+          aria-label="close"
+          color="inherit"
+          onClick={handleCloseMsg}
+        >
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      </React.Fragment>
+    );
 
     return(
         <>
@@ -227,9 +273,14 @@ export default function Viewvendor(){
                       Status: {form.status}
                       </div>
                     </Col>
-                    <Col xs={6} md={4} xl={2}>
+                    <Col xs={6} md={2} xl={2}>
                       <button className='formButton' onClick={() => goToForm(form.id)} size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}}>
                         View Form
+                      </button>
+                    </Col>
+                    <Col xs={6} md={2} xl={2}>
+                      <button className='formButton' onClick={() => goToForm(form.id)} size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}}>
+                        Generate PDF
                       </button>
                     </Col>
                     <Col xs={6} md={1} xl={1} className='companyHeader' >
@@ -381,13 +432,18 @@ export default function Viewvendor(){
                 {completedForms.map((form, index)=>{
                   return(
                       <Row className='displayRow' key={form}> 
-                        <Col xs={12} md={8} className='homepageFormDetails'>
+                        <Col xs={12} md={9} className='homepageFormDetails'>
                           <div className='homepageFormName'>
                             {form.description}
                           </div>
                           <div className='homepageFormStatus'>
                           Status: {form.status} 
                           </div>
+                        </Col>
+                        <Col xs={6} md={2} xl={2}>
+                          <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
+                            View Form
+                          </button>
                         </Col>
                         <Col xs={6} md={1} xl={1} className='companyHeader' >
                           <DeleteIcon onClick={() => openDel(form.id)} />
@@ -436,6 +492,14 @@ export default function Viewvendor(){
             </Button>
           </DialogActions>
         </Dialog>
-        </>
+
+        <Snackbar
+                open={openMsg}
+                autoHideDuration={6000}
+                onClose={handleCloseMsg}
+                message={msg}
+                action={action}
+            />
+      </>
     )
 }

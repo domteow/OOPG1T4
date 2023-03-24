@@ -26,18 +26,27 @@ import NativeSelect from '@mui/material/NativeSelect';
 import Switch from '@mui/material/Switch';
 import IconButton from '@mui/material/IconButton';
 
+
 export default function Allforms(){
     // get all forms from backend
         // snackbar
     const [open, setOpen] = React.useState(false);
     const [forms, setForms] = useState([])
-    const [checked, setChecked] = React.useState();
     const [msg, setMsg] = useState();
+    const [isActive, setIsActive] = useState({});
+
     const getAllForms = async() =>{
         try{
             const response = await axios.get("/api/v1/form/get")
             // console.log([response.data.data]);
             setForms(response.data.data);
+            const act = {};
+            response.data.data.map((form) => {
+                const id = form.id;
+                const isAct = form.active; 
+                act[id] = isAct;
+            })
+            setIsActive(act);
         }
         catch(error){
             console.log(error);
@@ -48,16 +57,23 @@ export default function Allforms(){
         getAllForms();
         const message = localStorage.getItem('message');
         console.log(message);
-        setMsg(message);
 
-        if (message != null){
-            setOpen(true);        
+        if (message !== 'null' && message !== null){
+            setMsg(message);
+            displayMessage();      
         }
 
     }, []);
 
+    console.log(isActive);
 
-    
+    const displayMessage = () => {
+        setOpen(true);
+        setTimeout(()=>{
+            setOpen(false);
+            localStorage.setItem('message', null);
+        }, 3000)
+    }
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -65,11 +81,10 @@ export default function Allforms(){
         }
 
         setOpen(false);
-        localStorage.clear('message');
+        localStorage.setItem('message', null);
+        setMsg(null);
     };
 
-
-    
     // navigate 
     const navigate = useNavigate();
 
@@ -86,56 +101,35 @@ export default function Allforms(){
         navigate('/react/allforms/editform/' + id);
     }
 
+    console.log(forms);
 
-    // only can use after isactive is created
-    /*
-    const [isActive, setIsActive] = useState({});
-    const act = {};
-    forms.map((form) => {
-        const id = form.formId;
-        const isAct = form.isActive; 
-        act[id] = isAct;
-    })
-    setIsActive(act);
-    const [openDelete, setOpenDelete] = useState(false)
-    const [delId, setDelId] = useState('')
+    const handleActive = (formId) => {
 
-    const openDel = (formId) => {
-      setOpenDelete(true);
-      setDelId(formId);      
+        const active = isActive[formId];
+        console.log(active);
+        setIsActive(prev => ({
+            ...prev, 
+            [formId]: !active
+        }))
+        console.log(isActive);
+        deleteForm(formId);
     }
 
-    const handleCloseDel = () => {
-      setOpenDelete(false);
-      setDelId('');
-    }
-
-    const deleteForm = async() => {
+    const deleteForm = async(formId) => {
         
-        console.log(delId)
+        console.log(formId)
         try{
-            const response = await axios.delete("/api/v1/form/delete/" + delId)
+            const response = await axios.put("/api/v1/form/delete/" + formId)
             console.log(response.data);
-            setOpenDelete(false);
-            getAllForms();
+            setMsg("Form status updated!");
+            // setOpen(true);
+            displayMessage();
+            // getAllForms();
         }
         catch(error){
             console.log(error);
         }
     }
-
-
-    const message = localStorage.getItem('message');
-    console.log(message);
-
-
-    const handleActive = (formId) => {
-        const curr = isActive[formId];
-        setIsActive(prev => ({...prev, [formId]: !curr}));
-        // call backend 
-
-    }
-    */
 
     const action = (
         <React.Fragment>
@@ -148,7 +142,7 @@ export default function Allforms(){
             <CloseIcon fontSize="small" />
           </IconButton>
         </React.Fragment>
-      );
+    );
 
     return(
         <>
@@ -219,8 +213,9 @@ export default function Allforms(){
                                     </Col>
                                     <Col xs={12} md={1} className='headerCenter'>
                                         <Switch
-                                            //checked = {isActive[formId]}
-                                            //onChange={() => handleActive(formId)}
+                                            checked = {isActive[formId]}
+                                            name = {form}
+                                            onChange={() => handleActive(formId)}
                                             inputProps={{ 'aria-label': 'controlled' }}
                                         />
                                     </Col>

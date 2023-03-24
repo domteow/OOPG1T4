@@ -147,9 +147,9 @@ export default function NewVendor(){
             const response = await axios.post('/api/v1/vendor/createVendor', values);
             console.log(response.data);
             if (response.data.status == 201) {
-              
-                navigate('../react/admin/homepage')
-                alert('Vendor added successfully')
+              localStorage.setItem('message', 'Vendor added successfully!')
+              navigate('../react/admin/homepage')
+                
             }
         }
         catch (error){

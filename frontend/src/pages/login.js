@@ -38,7 +38,7 @@ const Login = () =>{
                 localStorage.setItem("authenticated", true);
                 localStorage.setItem('userid', userID);
                 localStorage.setItem('username', Name);
-    
+                console.log(role);
                 setUser(Name);
                 localStorage.setItem("role", role);
                 if (role == 'Vendor'){
@@ -46,6 +46,9 @@ const Login = () =>{
                 }
                 else if (role == 'Admin'){
                     navigate('/react/admin/homepage');
+                }
+                else if (role == 'Approver'){
+                    navigate('/react/approver/homepage');
                 }
             }
             else {

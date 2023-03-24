@@ -22,8 +22,7 @@ import IconButton from '@mui/material/IconButton';
 import Snackbar from '@mui/material/Snackbar';
 import CloseIcon from '@mui/icons-material/Close';
 
-// this is the main page for admin !!!!!!!!!!!!!
-export default function AdminHomepage(){
+export default function ApproverHomepage(){
     const [openMsg, setOpenMsg] = useState(false);
     const [msg, setMsg] = useState();
     // for backend to get list of all vendors from database
@@ -77,8 +76,12 @@ export default function AdminHomepage(){
         navigate('/react/newvendor');
     }
 
+    const addNewAdmin = () => {
+        navigate('/react/newadmin');
+    }
+
     const viewVendor = (vendorId) =>{
-        navigate("/react/viewvendor/" + vendorId);
+        navigate("/react/approver/viewvendor/" + vendorId);
     }
 
     const [openDelete, setOpenDelete] = useState(false)
@@ -135,8 +138,10 @@ export default function AdminHomepage(){
 
                 {/* button to add a new vendor */}
                 <div className='addVendorDiv'>
+                    <button className='addAdminButton' onClick={addNewAdmin}>+ New Admin</button>
                     <button className='addVendorButton' onClick={addNewVendor}>+ New Vendor</button>
                 </div>
+                
 
                 <div className='vendorContainer'>
                     <Container>

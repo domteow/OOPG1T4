@@ -137,9 +137,33 @@ export default function ViewForm(props){
                                 return(
                                     <>
                                         <Row className='formRow'>
-                                        <div>
-                                            <TextField name='text' placeholder='Question' className='subheader' sx={{width: '100%'}} value={field.name} />
-                                        </div>
+                                            <div className='displaySubheader'>
+                                                {field.name}
+                                            </div>
+                                        </Row>
+                                    </>
+                                )
+                            }
+
+                            else if (fieldType == 'subtext'){
+                                return(
+                                    <>
+                                        <Row className='formRow'>
+                                            <div className='subtext'>
+                                                {field.name}
+                                            </div>
+                                        </Row>
+                                    </>
+                                )
+                            }
+
+                            else if (fieldType == 'header'){
+                                return (
+                                    <>
+                                        <Row className='formRow'>
+                                            <div className='headertext'>
+                                                {field.name}
+                                            </div>
                                         </Row>
                                     </>
                                 )
