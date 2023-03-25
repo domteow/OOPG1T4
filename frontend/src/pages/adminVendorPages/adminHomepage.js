@@ -25,6 +25,10 @@ import CloseIcon from '@mui/icons-material/Close';
 // this is the main page for admin !!!!!!!!!!!!!
 export default function AdminHomepage(){
     const [openMsg, setOpenMsg] = useState(false);
+    const name = localStorage.getItem('username');
+    const email = localStorage.getItem('email');
+    console.log(name);
+    console.log(email);
     const [msg, setMsg] = useState();
     // for backend to get list of all vendors from database
     const [allVendors, setAllVendors] = useState({});

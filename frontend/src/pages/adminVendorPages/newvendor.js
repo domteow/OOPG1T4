@@ -63,8 +63,8 @@ export default function NewVendor(){
         setStorePwd(e.target.value);
     }
 
-    const [county, setCounty] = useState([countries[196]])
-    const [prevCounty, setPrevCounty] = useState([countries[196]])
+    const [county, setCounty] = useState([])
+    const [prevCounty, setPrevCounty] = useState([])
     console.log(county);
     const handleCounty = (newValue) => {
         setCounty([]);
@@ -148,7 +148,13 @@ export default function NewVendor(){
             console.log(response.data);
             if (response.data.status == 201) {
               localStorage.setItem('message', 'Vendor added successfully!')
-              navigate('../react/admin/homepage')
+              const role = localStorage.getItem('role');
+              if (role == 'Admin'){
+                navigate('../react/admin/homepage')
+              }
+              else if (role == 'Approver'){
+                navigate('/react/approver/homepage')
+              }
                 
             }
         }
@@ -159,6 +165,8 @@ export default function NewVendor(){
 
     const cancel = () =>{
         navigate(-1);
+        
+        
     }
 
     

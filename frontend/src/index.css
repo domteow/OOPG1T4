@@ -37,6 +37,21 @@
     font-size: 16px;
     text-align: left;
     padding-top: 0;
+    width:100%;
+}
+
+.radioQuestion{
+    padding-top: 1%;
+    font-weight: 500;
+    font-size: 18px;
+    text-align: left;
+    width:100%;
+    padding-left: 3%;
+}
+
+.radioFormInput{
+    padding-left: 3%;
+    padding-top: 0.5%;
 }
 
 .formInput{
@@ -139,6 +154,7 @@
     border: 1px solid transparent;
 }
 
+
 .welcomeText{
     padding-top:15%;
     font-weight: bold;
@@ -152,6 +168,21 @@
     margin-left: 3%;
     color: #867f7f;
 }
+
+.loginwelcomeText{
+    padding-top:15%;
+    font-weight: bold;
+    font-size: 28px;
+    margin-left: 3%;
+    color: #2c2626;
+}
+
+.loginwelcomeSubText{
+    font-size: 18px;
+    margin-left: 3%;
+    color: #867f7f;
+}
+
 
 .formPortion{
     height: 100%;
@@ -190,8 +221,8 @@
     background: rgba( 255, 255, 255, 0.3 );
     
     /* This controls the blurring effect*/
-    backdrop-filter: blur( 5px );
-    -webkit-backdrop-filter: blur( 7.5px );
+    backdrop-filter: blur( 2px );
+    -webkit-backdrop-filter: blur( 5px );
     
     /*Adding the shadow*/
     /* box-shadow: 0 8px 32px 0 rgba( 0, 0, 0, 0.18 ); */
@@ -307,7 +338,7 @@ img {
 }
 
 .formDetailsRow{
-    padding:1%;
+    padding:1.5%;
 }
 
 .formName{
@@ -331,6 +362,16 @@ input{
     font-size: 18px;
 }
 /* END OF FORM PAGE */
+
+.newformheader{
+    font-size: 28px;
+    margin-top: 3%;
+    font-weight: 600;
+    font-style: italic;
+    color: #2c2626;
+    margin-left: 4.5%;
+}
+
 
 /* ADMIN HOME PAGE */
 .welcomeAdmin{
@@ -866,6 +907,30 @@ input:disabled {
     margin-left: 2%;
 }
 
+.editDetailsButton{
+    width: 25%;
+    padding: 1%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #0e80c6;
+    color: #f9f9f9;
+    border: 1px solid #1073b0;
+    font-size: 16px;
+    margin-top: 1%;
+    margin-left: 2%;
+
+}
+
+.editDetailsButton:disabled{
+    background-color: #979797;
+    color: #3f3f3f;
+    border-color: transparent;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    pointer-events: all;
+}
+
+
+
 .cancelFormButton{
     width: 15%;
     padding: 0.5%;
@@ -991,7 +1056,62 @@ input:disabled {
 
 .subtext{
     text-align: left;
-    font-size: 14px;
+    font-size: 16px;
 }
 
+.editDetailsDiv{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #bbbbbb;
+    border-radius: 5px;
+    padding-left: 2%;
+    padding-right: 2%;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+}
 
+.editDetailsContainer{
+    margin-top: 0%;
+}
+
+.accountText{
+    text-align: right;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.accountInput{
+    text-align: center;
+    font-size: 16px;
+}
+
+.editProfile{
+    border: 1px solid #aeaeae;
+    border-radius: 5px;
+}
+
+.editDetialsHeader{
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 4%;
+}
+
+.editDetialsName{
+    margin-top: 0.5%;
+}
+
+.editDetailsButtonRow{
+    text-align: right;
+    margin-top: 2%;
+}
+
+.saveEditChanges{
+    width: 30%;
+    background-color: #0e80c6;
+    color: #f9f9f9;
+    border: 1px solid #1073b0;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    font-size:16px;
+    padding: 1%;
+    border-radius: 5px;
+}

@@ -236,32 +236,7 @@ export default function Formpage() {
             console.log(error)
         }
     }
-    const test = async() => {
-        
-        console.log(questionnaires)
-        console.log(revisionNo)
-        const updatedRevisionNo = revisionNo + 1;
-        setRevisionNo(updatedRevisionNo);
-        console.log(updatedRevisionNo)
-        
-        setFormToSend({ ...form, "revisionNo": updatedRevisionNo, "questionnaires": Object.values(questionnaires) })
-
-
-          try {
-            const response = await axios.put("/api/v1/formResponse/updateFormResponse/" + formID, formToSend)
-            console.log(response);
-            if(response.data.status >= 200) {
-                alert("Form submitted successfully");
-                navigate("../react/vendor/homepage")
-            }
-            
-        } catch (error) {
-            console.log(error)
-        }
-        
-    }
-
-  
+   
     const cancel = () =>{
         localStorage.getItem('role')
         // if (role === 'Vendor'){
@@ -350,11 +325,13 @@ export default function Formpage() {
                                             // for input type string, number, text all 
                                             return(
                                                 <fieldset>
-                                                    <Row className='formRow'>
-                                                        <Col xs={6} md={2} xl={2} className='formQuestion'>
+                                                    <Row className='radioQuestion'>
+                                                        {/* <Col xs={6} md={2} xl={2} className='formQuestion'> */}
                                                             {detail.name}
-                                                        </Col>
-                                                        <Col xs={12} md={10} className='formInput'> 
+                                                        {/* </Col> */}
+                                                    </Row>
+                                                    <Row className='radioFormInput'>
+                                                        {/* <Col xs={12} md={10} className='formInput'>  */}
                                                             <FormControl fullWidth>
                                                                 <TextField
                                                                     required
@@ -367,30 +344,36 @@ export default function Formpage() {
                                                                     disabled={disabled}
                                                                 />
                                                             </FormControl>
-                                                        </Col>
+                                                        {/* </Col> */}
                                                     </Row>
                                                 </fieldset>
                                             )
                                         }
                                         else if (inputType == 'subheader'){
                                             return(
-                                                <div className='displaySubheader'>
-                                                    {detail.name}
-                                                </div>
+                                                <Row className='formRow'>
+                                                    <div className='displaySubheader'>
+                                                        {detail.name}
+                                                    </div>
+                                                </Row>
                                             )
                                         }
                                         else if (inputType == 'subtext'){
                                             return(
-                                                <div className='subtext'>
-                                                    {detail.name}
-                                                </div>
+                                                <Row className='formRow'>
+                                                    <div className='subtext'>
+                                                        {detail.name}
+                                                    </div>
+                                                </Row>
                                             )
                                         }
                                         else if (inputType == 'header'){
                                             return (
-                                                <div className='headertext'>
-                                                    {detail.name}
-                                                </div>
+                                                <Row className='formRow'>
+                                                    <div className='headertext'>
+                                                        {detail.name}
+                                                    </div>
+                                                </Row>
                                             )
                                         }
                                         else{
@@ -402,11 +385,13 @@ export default function Formpage() {
                                                 // for input type radio 
                                                 return (
                                                     <fieldset>
-                                                        <Row className='formRow'>
-                                                            <Col xs={6} md={2} xl={2} className='formQuestion'>
+                                                        <Row className='radioQuestion'>
+                                                            {/* <Col xs={6} md={2} xl={2} className='formQuestion'> */}
                                                             {detail.name}
-                                                            </Col>
-                                                            <Col xs={12} md={10} className='formInput'>
+                                                            {/* </Col> */}
+                                                        </Row>
+                                                        <Row className='radioFormInput'>
+                                                            {/* <Col xs={12} md={10} className='formInput'> */}
                                                                 <RadioGroup
                                                                     aria-labelledby="demo-controlled-radio-buttons-group"
                                                                     name={detail.name}
@@ -423,7 +408,7 @@ export default function Formpage() {
                                                                 </RadioGroup>
                                                                 
                                                                 
-                                                            </Col>
+                                                            {/* </Col> */}
                                                         </Row>
                                                     </fieldset>
                                                 )
@@ -432,11 +417,13 @@ export default function Formpage() {
                                                 // for input type checkbox 
                                                 return (
                                                     <fieldset>
-                                                        <Row className='formRow'>
-                                                            <Col xs={6} md={2} xl={2} className='formQuestion'>
+                                                        <Row className='radioQuestion'>
+                                                            {/* <Col xs={6} md={2} xl={2} className='formQuestion'> */}
                                                             {detail.name}
-                                                            </Col>
-                                                            <Col xs={12} md={10} className='formInput'>
+                                                            {/* </Col> */}
+                                                        </Row>
+                                                        <Row className='radioFormInput'>
+                                                            {/* <Col xs={12} md={10} className='formInput'> */}
                                                                 <FormGroup>
                                                                 {detail['options'].map(option =>{
                                                                     const isChecked = detail['value'].includes(option);
@@ -448,7 +435,7 @@ export default function Formpage() {
                                                                     )
                                                                 })}
                                                                 </FormGroup>
-                                                            </Col>
+                                                            {/* </Col> */}
                                                         </Row>
                                                     </fieldset>
                                                 )
@@ -457,11 +444,13 @@ export default function Formpage() {
                                                 // for input type select
                                                 return (
                                                     <fieldset>
-                                                        <Row className='formRow'>
-                                                            <Col xs={6} md={2} xl={2} className='formQuestion'>
+                                                        <Row className='radioQuestion'>
+                                                            {/* <Col xs={6} md={2} xl={2} className='formQuestion'> */}
                                                             {detail.name}
-                                                            </Col>
-                                                            <Col xs={12} md={10} className='formInput'>
+                                                            {/* </Col> */}
+                                                        </Row>
+                                                        <Row className='radioFormInput'>
+                                                            {/* <Col xs={12} md={10} className='formInput'> */}
                                                                 <FormGroup>
                                                                 
                                                                     
@@ -479,7 +468,7 @@ export default function Formpage() {
                                                                     
                                                                 
                                                                 </FormGroup>
-                                                            </Col>
+                                                            {/* </Col> */}
                                                         </Row>
                                                     </fieldset>
                                                 )

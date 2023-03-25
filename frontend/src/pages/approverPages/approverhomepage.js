@@ -28,6 +28,19 @@ export default function ApproverHomepage(){
     // for backend to get list of all vendors from database
     const [allVendors, setAllVendors] = useState({});
     const user = localStorage.getItem('username');
+    const [allAdmins, setAllAdmins] = useState({});
+
+    const getAllAdmins = async() => {
+        try{
+            console.log('running ad')
+            const response = await axios.get('/api/v1/admin/getAllAdmins')
+            setAllAdmins(response.data.data);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
     const getAllVendors = async() => {
         try {
             const response = await axios.get("/api/v1/vendor/getAllVendors")
@@ -35,12 +48,14 @@ export default function ApproverHomepage(){
             // console.log([response.data.data]);
             setAllVendors(response.data.data);
             console.log(response.data.data)
+            getAllAdmins();
         } catch (error) {
             console.error(error)
         }
     }
     
     useEffect(() => {
+        // getAllAdmins();
         getAllVendors();
         const message = localStorage.getItem('message');
         console.log(message);
@@ -84,8 +99,8 @@ export default function ApproverHomepage(){
         navigate("/react/approver/viewvendor/" + vendorId);
     }
 
-    const [openDelete, setOpenDelete] = useState(false)
-    const [delId, setDelId] = useState('')
+    const [openDelete, setOpenDelete] = useState(false);
+    const [delId, setDelId] = useState('');
 
     const openDel = (vendorId) => {
       setOpenDelete(true);
@@ -97,6 +112,17 @@ export default function ApproverHomepage(){
       setDelId('');
     }
 
+    const [openDeleteAd, setOpenDeleteAd] = useState(false);
+    const [delAdId, setDelAdId] = useState('');
+    const openDelAd = (adminId) => {
+        setDelAdId(adminId);
+        setOpenDeleteAd(true);
+    }
+
+    const handleCloseDelAd = () => {
+        setOpenDeleteAd(false);
+        setDelAdId('');
+      }
 
     const deleteVendor = async()=>{
         // add code to delete the vendor 
@@ -106,8 +132,29 @@ export default function ApproverHomepage(){
             );
             console.log(response.data);
             // refresh the list of vendors
+            setMsg('Vendor deleted successfully.')
             setOpenDelete(false)
             getAllVendors();
+            getAllAdmins();
+            displayMessage();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const deleteAdmin = async()=>{
+        // add code to delete the vendor 
+        try {
+            const response = await axios.put(
+                "/api/v1/admin/deleteAdmin/" + delAdId
+            );
+            console.log(response.data);
+            // refresh the list of vendors
+            setMsg('Admin deleted successfully.')
+            setOpenDeleteAd(false)
+            getAllVendors();
+            getAllAdmins();
+            displayMessage();
         } catch (error) {
             console.error(error);
         }
@@ -147,7 +194,7 @@ export default function ApproverHomepage(){
                     <Container>
                         <Row className='containerHeaders'>
                             <Col xs={12} md={6} >
-                                Name
+                                Vendor Name
                             </Col>
                             <Col xs={12} md={3} className='companyHeader'>
                                 Company
@@ -190,6 +237,46 @@ export default function ApproverHomepage(){
 
                     </Container>
                 </div>
+
+                <div className='vendorContainer'>
+                    <Container>
+                        <Row className='containerHeaders'>
+                            <Col xs={12} md={5} >
+                                Admin Name
+                            </Col>
+                            <Col xs={12} md={6} className='companyHeader'>
+                                Email Address
+                            </Col>
+                            <Col xs={4} md={1} ></Col>
+                        </Row>
+                    
+                        {/* to display all vendors */}
+
+                        {Object.values(allAdmins).map((adminDetails, index)=>{
+                            const adminId = adminDetails['id'];
+                            
+                            return(
+                                <Row className='vendorDisplayRows'>
+                                    <Col xs={12} md={5} className='vendorDetailsCol'>
+                                        <div className='vendorDisplayName'>
+                                            {adminDetails.name}
+                                        </div>
+                                    </Col>
+                                    <Col xs={12} md={6}>
+                                        <div className='vendorCompany'>
+                                            {adminDetails.emailAddress}
+                                            
+                                        </div>
+                                    </Col>
+                                    <Col xs={4} md={1} className='companyHeader' >
+                                        <DeleteIcon onClick={()=>openDelAd(adminId)}/>
+                                    </Col>
+                                </Row>
+                            )
+                        })}
+
+                    </Container>
+                </div>
             </div>
 
             <Dialog open={openDelete} onClose={handleCloseDel} fullWidth='90%'>
@@ -203,6 +290,22 @@ export default function ApproverHomepage(){
                 <DialogActions>
                     <Button onClick={handleCloseDel}>Cancel</Button>
                     <Button onClick={deleteVendor} autoFocus>
+                        Confirm
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={openDeleteAd} onClose={handleCloseDel} fullWidth='90%'>
+                <DialogTitle>Delete Admin</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Confirm deletion of admin? 
+                    </DialogContentText>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={handleCloseDelAd}>Cancel</Button>
+                    <Button onClick={deleteAdmin} autoFocus>
                         Confirm
                     </Button>
                 </DialogActions>

@@ -10,6 +10,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import loginLogo from '../assets/loginLogo.png';
 import TextField from '@mui/material/TextField';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 const Login = () =>{
     const navigate = useNavigate();
@@ -17,7 +19,11 @@ const Login = () =>{
     const [password, setPassword] = useState("");
     const [user, setUser] = useState();
     const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated")|| false));
-    
+    const [showPwd, setShowPwd] = useState(false);
+
+    const togglePwd = () => {
+        setShowPwd(!showPwd);
+    }
 
     const handleSubmit = async(e) => {
         e.preventDefault()
@@ -32,13 +38,17 @@ const Login = () =>{
             const Name = response.data.data.name;
             const role = response.data.data.accountType;
             const statusCode = response.data.status;
+            const email = response.data.data.emailAddress;
+            console.log(response.data.data);
             if (statusCode == 200) {
             
                 setauthenticated(true)
                 localStorage.setItem("authenticated", true);
                 localStorage.setItem('userid', userID);
+                console.log(userID);
                 localStorage.setItem('username', Name);
                 console.log(role);
+                localStorage.setItem('email', email)
                 setUser(Name);
                 localStorage.setItem("role", role);
                 if (role == 'Vendor'){
@@ -63,12 +73,12 @@ const Login = () =>{
         <div className='loginBody'>
             <Container >
                 <Row>
-                    <Col>
-                        <div className='welcomeText'>
+                    <Col className='ehhe'>
+                        <div className='loginwelcomeText'>
                             Welcome!
                         </div>
-                        <div className='welcomeSubText'>
-                            Enter your username and password to login.
+                        <div className='loginwelcomeSubText'>
+                            Enter your email and password to login.
                         </div>
                     </Col>
                 </Row>
@@ -91,11 +101,15 @@ const Login = () =>{
                                     required
                                     id="outlined-password-input"
                                     label="Password"
-                                    type="password"
+                                    type={showPwd ? "text" : "password"}
                                     autoComplete="current-password"
                                     className='loginInputField'
                                 />
+                                <span>
+                                    <VisibilityOffIcon onClick={togglePwd} sx={{fontSize:'25px', marginLeft:'2%', marginTop:'2%'}}/>
+                                </span>
                             </div>
+
                             <div className='loginInput'>
                                 <input className='submitButton' type="submit" value="Login" />
                             </div>

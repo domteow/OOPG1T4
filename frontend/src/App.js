@@ -13,6 +13,7 @@ import Container from "react-bootstrap/Container";
 
 // ========================= pages/entities =========================
 import Login from './pages/login'
+import Account from './pages/account'
 
 // ======== homepage for vendor ========
 import Homepage from "./pages/homepage"
@@ -40,7 +41,6 @@ import ApproverViewVendor from './pages/approverPages/approverviewvendor'
 import ApproveForm from './pages/approverPages/approveform'
 import Newadmin from './pages/approverPages/newadmin'
 
-
 export default function App(){
     
     return (
@@ -63,6 +63,7 @@ export default function App(){
                 <Route exact path="/react/approver/viewvendor/:vendorId" element={<ApproverViewVendor/>}/>
                 <Route exact path='./react/approver/approveform/:formId' element={<ApproveForm/>}/>
                 <Route exact path="/react/newadmin" element={<Newadmin/>}/>
+                <Route exact path='/react/account/:userId' element={<Account />}/>
             </Routes>
             </div>
         </BrowserRouter>

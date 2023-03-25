@@ -101,7 +101,7 @@ export default function Viewvendor(){
       console.log(message);
       console.log(message === 'null')
 
-      if (message !== 'null' || message !== null){
+      if (message !== 'null' && message !== null){
           setMsg(message);
           // setOpen(true);  
           displayMessage();      

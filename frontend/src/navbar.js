@@ -19,7 +19,8 @@ export default function Navbar(){
   const user = localStorage.getItem('username');
   const role = localStorage.getItem('role');
   const authenticate = localStorage.getItem('authenticated');
-
+  const userId = localStorage.getItem('userid');
+  console.log(userId);
   // navigations 
   const navigate = useNavigate();
 
@@ -46,6 +47,7 @@ export default function Navbar(){
     setAuthenticated(false);
     navigate ('/react/login')
   }
+
 
   const settings = ['Account', 'Logout'];
 
@@ -76,6 +78,10 @@ export default function Navbar(){
     navigate('/react/approver/homepage');
   }
   console.log("HELLO");
+
+  const navigateAccount = () => {
+    navigate('/react/account/' + userId);
+  }
 
 
 
@@ -121,7 +127,7 @@ export default function Navbar(){
             >
               
                 <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">Account</Typography>
+                  <Typography textAlign="center" onClick={navigateAccount}>Account</Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography textAlign="center" onClick={navigateLogout}>Logout</Typography>
@@ -178,7 +184,7 @@ export default function Navbar(){
           >
             
               <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">Account</Typography>
+                <Typography textAlign="center" onClick={navigateAccount}>Account</Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center" onClick={navigateLogout}>Logout</Typography>
@@ -236,7 +242,7 @@ export default function Navbar(){
           >
             
               <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">Account</Typography>
+                <Typography textAlign="center" onClick={navigateAccount}>Account</Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center" onClick={navigateLogout}>Logout</Typography>
