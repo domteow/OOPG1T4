@@ -14,6 +14,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export default function Navbar(){
   const user = localStorage.getItem('username');
@@ -106,7 +107,7 @@ export default function Navbar(){
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 2, marginRight: 5}}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <AccountCircleIcon sx={{fontSize: '40px', p:0}}/>
               </IconButton>
             </Tooltip>
             <Menu
@@ -163,7 +164,7 @@ export default function Navbar(){
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 2, marginRight: 5}}>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <AccountCircleIcon sx={{fontSize: '40px', p:0}}/>
             </IconButton>
           </Tooltip>
           <Menu
@@ -221,7 +222,7 @@ export default function Navbar(){
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 2, marginRight: 5}}>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <AccountCircleIcon sx={{fontSize: '40px', p:0}}/>
             </IconButton>
           </Tooltip>
           <Menu
