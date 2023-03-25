@@ -33,6 +33,7 @@ public class VendorService {
         try {
             vendor.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
             vendor.setPassword(Encryptor.hash(vendor.getPassword()));
+            vendor.setActive(true);
             userRepository.save(vendor);
             StatusResponse successResponse = new StatusResponse("Vendor added successfully", HttpStatus.CREATED.value());
             return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);

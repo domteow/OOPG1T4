@@ -31,6 +31,7 @@ public class ApproverService {
         try {
             approver.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
             approver.setPassword(Encryptor.hash(approver.getPassword()));
+            approver.setActive(true);
             userRepository.save(approver);
             StatusResponse successResponse = new StatusResponse("Approver added successfully", HttpStatus.CREATED.value());
             return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);

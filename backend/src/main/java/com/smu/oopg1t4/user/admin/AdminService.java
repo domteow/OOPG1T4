@@ -31,6 +31,7 @@ public class AdminService {
         try {
             admin.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
             admin.setPassword(Encryptor.hash(admin.getPassword()));
+            admin.setActive(true);
             userRepository.save(admin);
             StatusResponse successResponse = new StatusResponse("Admin added successfully", HttpStatus.CREATED.value());
             return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
