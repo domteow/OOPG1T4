@@ -277,7 +277,7 @@ public class MongoConfig {
             questionnaires2.addAll(List.of(q5,q6,q7,q8,q9,q10,q11,q12,q13,q4));
             ArrayList<Integer> workflow2 = new ArrayList<>();
             workflow2.addAll(List.of(9,1));
-            Form form2 = new Form(1,"QLI-QHSP-10-F04", 1, "SUBCONTRACTOR’S SAFETY & HEALTH PRE-EVALUATION","2022-04-04", questionnaires2,"published", workflow2, 9, true);
+            Form form2 = new Form(2,"QLI-QHSP-10-F04", 1, "SUBCONTRACTOR’S SAFETY & HEALTH PRE-EVALUATION","2022-04-04", questionnaires2,"published", workflow2, 9, true);
 
 
             ArrayList<Form> forms = new ArrayList<>();
@@ -288,11 +288,11 @@ public class MongoConfig {
             //For Form 2
             forms.add(form2);
 
-            int formId = 1;
-            for (Form form: forms){
-                form.setId(formId);
-                formId++;
-            }
+//            int formId = 1;
+//            for (Form form: forms){
+//                form.setId(formId);
+//                formId++;
+//            }
 
             formRepository.saveAll(
                     List.of(form1,form2)
