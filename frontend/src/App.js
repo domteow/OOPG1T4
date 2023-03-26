@@ -41,12 +41,15 @@ import ApproverViewVendor from './pages/approverPages/approverviewvendor'
 import ApproveForm from './pages/approverPages/approveform'
 import Newadmin from './pages/approverPages/newadmin'
 
+import Pdf from "./pages/pdf/pdf";
+
 export default function App(){
     
     return (
         <BrowserRouter>
             <div className="body">
             <Routes>
+                <Route exact path = '/react/pdf' element = {<Pdf/>}/>
                 <Route exact path='/react/login' element={<Login />} />
                 <Route exact path="/react/viewform/:formId" element={<Form/>}/>
                 <Route exact path="/react/vendor/homepage" element={<Homepage />} />
