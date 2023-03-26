@@ -238,6 +238,10 @@ export default function ApproverViewVendor(){
       </React.Fragment>
     );
 
+    const seeForm = (formId) => {
+      navigate('/react/viewcompletedform/' + formId);
+    }
+
     // PDF
     
     
@@ -308,7 +312,7 @@ export default function ApproverViewVendor(){
                             </div>
                             </Col>
                             <Col xs={6} md={2} xl={2}>
-                              <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
+                              <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
                                   View Form
                               </button>
                             </Col>
@@ -318,7 +322,7 @@ export default function ApproverViewVendor(){
                               </button>
                             </Col>
                             <Col xs={6} md={1} xl={1} className='companyHeader' >
-                            <DeleteIcon onClick={() => openDel(form.id)} />
+                              <DeleteIcon onClick={() => openDel(form.id)} />
                             </Col>
                         </Row>
                     )
@@ -334,7 +338,7 @@ export default function ApproverViewVendor(){
                     {readOnlyForms.map((form, index) => {
                     return(
                     <Row className='formRow'>
-                        <Col xs={12} md={7} className='homepageFormDetails'>
+                        <Col xs={12} md={9} className='homepageFormDetails'>
                         <div className='homepageFormName'>
                             {form.description}
                         </div>
@@ -343,15 +347,15 @@ export default function ApproverViewVendor(){
                         </div>
                         </Col>
                         <Col xs={6} md={2} xl={2}>
-                        <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
+                        <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => seeForm(form.id)}>
                             View Form
                         </button>
                         </Col>
-                        <Col xs={6} md={2} xl={2}>
+                        {/* <Col xs={6} md={2} xl={2}>
                         <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => handleClickOpen(form.id)}>
                             Reject Form
                         </button>
-                        </Col>
+                        </Col> */}
                         <Col xs={6} md={1} xl={1} className='companyHeader' >
                         <DeleteIcon onClick={() => openDel(form.id)} />
                         </Col>
@@ -382,7 +386,7 @@ export default function ApproverViewVendor(){
                             if (formStatus === 'Admin'){
                             return (
                                 <Row className='formRow'>
-                                <Col xs={12} md={10} className='homepageFormDetails'>
+                                <Col xs={12} md={9} className='homepageFormDetails'>
                                     <div className='homepageFormName'>
                                     {form.description}
                                     </div>
@@ -391,7 +395,7 @@ export default function ApproverViewVendor(){
                                     </div>
                                 </Col>
                                 <Col xs={6} md={2} xl={2}>
-                                    <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
+                                    <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
                                     View Form
                                     </button>
                                 </Col>
@@ -400,9 +404,9 @@ export default function ApproverViewVendor(){
                                     Reject Form
                                     </button>
                                 </Col> */}
-                                {/* <Col xs={6} md={1} xl={1} className='companyHeader' >
-                                    <DeleteIcon onClick={() => openDel(form.id)} />
-                                </Col> */}
+                                  <Col xs={6} md={1} xl={1} className='companyHeader' >
+                                      <DeleteIcon onClick={() => openDel(form.id)} />
+                                  </Col>
                                 </Row>
                             )
                             }
@@ -428,7 +432,7 @@ export default function ApproverViewVendor(){
                                     if (formStatus === 'Vendor'){
                                         return (
                                             <Row className='formRow'>
-                                            <Col xs={12} md={10} className='homepageFormDetails'>
+                                            <Col xs={12} md={9} className='homepageFormDetails'>
                                                 <div className='homepageFormName'>
                                                 {form.description}
                                                 </div>
@@ -437,7 +441,7 @@ export default function ApproverViewVendor(){
                                                 </div>
                                             </Col>
                                             <Col xs={6} md={2} xl={2}>
-                                                <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
+                                                <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
                                                 View Form
                                                 </button>
                                             </Col>
@@ -446,9 +450,10 @@ export default function ApproverViewVendor(){
                                                 Reject Form
                                                 </button>
                                             </Col>
+                                            */}
                                             <Col xs={6} md={1} xl={1} className='companyHeader' >
                                                 <DeleteIcon onClick={() => openDel(form.id)}  />
-                                            </Col> */}
+                                            </Col> 
                                             </Row>
                                         )
                                     }
@@ -475,7 +480,7 @@ export default function ApproverViewVendor(){
                         </div>
                         </Col>
                         <Col xs={6} md={2} xl={2}>
-                        <button className='formButton' onClick={() => goToForm(form.id)} size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}}>
+                        <button className='formButton' onClick={() => seeForm(form.id)} size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}}>
                             View Form
                         </button>
                         </Col>
@@ -485,8 +490,6 @@ export default function ApproverViewVendor(){
                                   Generate PDF
                               </button>
                             
-                          
-                      
                         </Col>
                         <Col xs={6} md={1} xl={1} className='companyHeader' >
                         <DeleteIcon onClick={() => openDel(form.id)} />

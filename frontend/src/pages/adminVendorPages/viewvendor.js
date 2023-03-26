@@ -172,6 +172,10 @@ export default function Viewvendor(){
 
     console.log(rejectMsg);
 
+    const seeForm = (formId) => {
+      navigate('/react/viewcompletedform/' + formId);
+    }
+
     const handleReject = async() => {
       console.log(rejId);
       console.log(rejectMsg);
@@ -274,12 +278,12 @@ export default function Viewvendor(){
                       </div>
                     </Col>
                     <Col xs={6} md={2} xl={2}>
-                      <button className='formButton' onClick={() => goToForm(form.id)} size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}}>
+                      <button className='formButton' onClick={() => seeForm(form.id)} size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}}>
                         View Form
                       </button>
                     </Col>
                     <Col xs={6} md={2} xl={2}>
-                      <button className='formButton' onClick={() => goToForm(form.id)} size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}}>
+                      <button className='formButton' onClick={() => goToForm(form.id)} size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}}>
                         Generate PDF
                       </button>
                     </Col>
@@ -300,7 +304,7 @@ export default function Viewvendor(){
                 {readOnlyForms.map((form, index) => {
                   return(
                   <Row className='formRow'>
-                    <Col xs={12} md={7} className='homepageFormDetails'>
+                    <Col xs={12} md={9} className='homepageFormDetails'>
                       <div className='homepageFormName'>
                         {form.description}
                       </div>
@@ -309,13 +313,8 @@ export default function Viewvendor(){
                       </div>
                     </Col>
                     <Col xs={6} md={2} xl={2}>
-                      <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
+                      <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => seeForm(form.id)}>
                         View Form
-                      </button>
-                    </Col>
-                    <Col xs={6} md={2} xl={2}>
-                      <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => handleClickOpen(form.id)}>
-                        Reject Form
                       </button>
                     </Col>
                     <Col xs={6} md={1} xl={1} className='companyHeader' >
@@ -357,7 +356,7 @@ export default function Viewvendor(){
                                 </div>
                               </Col>
                               <Col xs={6} md={2} xl={2}>
-                                <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
+                                <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
                                   View Form
                                 </button>
                               </Col>
@@ -404,12 +403,12 @@ export default function Viewvendor(){
                               </Col>
                               <Col xs={6} md={2} xl={2}>
                                 <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
-                                  View Form
+                                  Remind Vendor
                                 </button>
                               </Col>
                               <Col xs={6} md={2} xl={2}>
-                                <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => handleClickOpen(form.id)}>
-                                  Reject Form
+                                <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
+                                  View Form
                                 </button>
                               </Col>
                               <Col xs={6} md={1} xl={1} className='companyHeader' >
@@ -441,7 +440,7 @@ export default function Viewvendor(){
                           </div>
                         </Col>
                         <Col xs={6} md={2} xl={2}>
-                          <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
+                          <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
                             View Form
                           </button>
                         </Col>

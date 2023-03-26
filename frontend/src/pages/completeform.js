@@ -192,7 +192,7 @@ export default function Formpage() {
             console.log(response);
             if(response.data.status >= 200) {
                 localStorage.getItem('role')
-                localStorage.setItem('message', 'Form completed!')
+                localStorage.setItem('message', 'Form submitted successfully.')
                 if (role === 'Vendor'){
                     navigate('/react/vendor/homepage')
                 }
@@ -222,7 +222,7 @@ export default function Formpage() {
             const response = await axios.put("/api/v1/formResponse/saveFormResponseAsDraft/" + formID, updatedFormToSend)
             console.log(response);
             if(response.data.status >= 200) {
-                alert("Form draft saved successfully");
+                localStorage.setItem('message', "Form draft saved successfully")
                 localStorage.getItem('role')
                 if (role === 'Vendor'){
                     navigate('/react/vendor/homepage')
@@ -247,6 +247,10 @@ export default function Formpage() {
         // }
         navigate(-1);
     }
+
+    console.log(role);
+    console.log(form.pendingUserInput);
+    console.log(form.pendingUserInput !== role)
 
         return (
             <>
@@ -486,8 +490,8 @@ export default function Formpage() {
                     </span>
 
                     <span className='formSubmitRow'>
-                        <button className='saveDraft' onClick={submitDraft}>Save Draft</button>
-                        <button className='submitButt' onClick={handleSubmit}>Submit</button>
+                        <button className='saveDraft' disabled = {form.pendingUserInput !== role}  onClick={submitDraft}>Save Draft</button>
+                        <button className='submitButt' disabled = {form.pendingUserInput !== role} onClick={handleSubmit}>Submit</button>
                     </span>
 
                 </div>

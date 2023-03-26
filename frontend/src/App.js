@@ -40,7 +40,7 @@ import ApproverHomepage from './pages/approverPages/approverhomepage'
 import ApproverViewVendor from './pages/approverPages/approverviewvendor'
 import ApproveForm from './pages/approverPages/approveform'
 import Newadmin from './pages/approverPages/newadmin'
-
+import CompletedForm from "./pages/form/completedForm";
 import Pdf from "./pages/pdf/pdf";
 
 export default function App(){
@@ -67,6 +67,7 @@ export default function App(){
                 <Route exact path='./react/approver/approveform/:formId' element={<ApproveForm/>}/>
                 <Route exact path="/react/newadmin" element={<Newadmin/>}/>
                 <Route exact path='/react/account/:userId' element={<Account />}/>
+                <Route exact path='/react/viewcompletedform/:formId' element={<CompletedForm/>}/>
             </Routes>
             </div>
         </BrowserRouter>
