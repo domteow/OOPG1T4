@@ -1,5 +1,6 @@
 package com.smu.oopg1t4.user.admin;
 
+import com.smu.oopg1t4.encryptor.Encryptor;
 import com.smu.oopg1t4.response.StatusResponse;
 import com.smu.oopg1t4.response.SuccessResponse;
 import com.smu.oopg1t4.user.User;
@@ -29,6 +30,8 @@ public class AdminService {
     public ResponseEntity<StatusResponse> createNewAdmin(Admin admin) {
         try {
             admin.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
+            admin.setPassword(Encryptor.hash(admin.getPassword()));
+            admin.setActive(true);
             userRepository.save(admin);
             StatusResponse successResponse = new StatusResponse("Admin added successfully", HttpStatus.CREATED.value());
             return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
@@ -41,7 +44,7 @@ public class AdminService {
 
     public ResponseEntity<?> getAllAdmins() {
         try {
-            List<User> admins = userRepository.findByAccountType("Admin");
+            List<User> admins = userRepository.findByAccountTypeActive("Admin");
 
             SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), admins);
             return ResponseEntity.ok().body(successResponse);
@@ -94,7 +97,14 @@ public class AdminService {
     public ResponseEntity<StatusResponse> deleteAdmin(int id) {
         Optional<User> optionalAdmin = userRepository.findById(id);
         if (optionalAdmin.isPresent()) {
-            userRepository.deleteById(id);
+            User admin = optionalAdmin.get();
+            boolean check = admin.getActive();
+            if (check){
+                admin.setActive(false);
+            } else {
+                admin.setActive(true);
+            }
+            userRepository.save(admin);
             StatusResponse successResponse = new StatusResponse("Admin with id " + id + " deleted successfully", HttpStatus.NO_CONTENT.value());
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(successResponse);
 

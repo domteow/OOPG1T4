@@ -10,12 +10,12 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public class Admin extends User {
 
-    public Admin(String name, String emailAddress, String password, String accountType) throws NoSuchAlgorithmException {
-        super(name, emailAddress, password, accountType);
+    public Admin(String name, String emailAddress, String password, String accountType, boolean active) throws NoSuchAlgorithmException {
+        super(name, emailAddress, password, accountType, active);
     }
 
-    public Admin(int id, String name, String emailAddress, String password, String accountType) throws NoSuchAlgorithmException {
-        super(id, name, emailAddress, password, accountType);
+    public Admin(int id, String name, String emailAddress, String password, String accountType, boolean active) throws NoSuchAlgorithmException {
+        super(id, name, emailAddress, password, accountType, active);
     }
 
     @Override

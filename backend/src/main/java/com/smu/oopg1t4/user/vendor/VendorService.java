@@ -1,5 +1,7 @@
 package com.smu.oopg1t4.user.vendor;
 
+import com.smu.oopg1t4.encryptor.Encryptor;
+import com.smu.oopg1t4.form.Form;
 import com.smu.oopg1t4.response.StatusResponse;
 import com.smu.oopg1t4.response.SuccessResponse;
 import com.smu.oopg1t4.user.UserRepository;
@@ -30,6 +32,8 @@ public class VendorService {
     public ResponseEntity<StatusResponse> createNewVendor(Vendor vendor) {
         try {
             vendor.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
+            vendor.setPassword(Encryptor.hash(vendor.getPassword()));
+            vendor.setActive(true);
             userRepository.save(vendor);
             StatusResponse successResponse = new StatusResponse("Vendor added successfully", HttpStatus.CREATED.value());
             return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
@@ -42,7 +46,7 @@ public class VendorService {
 
     public ResponseEntity<?> getAllVendors() {
         try {
-            List<User> vendors = userRepository.findByAccountType("Vendor");
+            List<User> vendors = userRepository.findByAccountTypeActive("Vendor");
             SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), vendors);
             return ResponseEntity.ok().body(successResponse);
         } catch (Exception e) {
@@ -54,8 +58,10 @@ public class VendorService {
 
     public ResponseEntity<?> getVendor(int id) {
         try{
-            List<User> vendor = userRepository.findById(id, "Vendor");
-            SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), vendor.get(0));
+            List<User> vendorList = userRepository.findById(id, "Vendor");
+            User vendor = vendorList.get(0);
+            vendor.setPassword("************");
+            SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), vendor);
             return ResponseEntity.ok().body(successResponse);
 
         } catch (Exception e) {
@@ -93,7 +99,14 @@ public class VendorService {
     public ResponseEntity<StatusResponse> deleteVendor(int id) {
         Optional<User> optionalVendor = userRepository.findById(id);
         if (optionalVendor.isPresent()) {
-            userRepository.deleteById(id);
+            User vendor = optionalVendor.get();
+            boolean check = vendor.getActive();
+            if (check){
+                vendor.setActive(false);
+            } else {
+                vendor.setActive(true);
+            }
+            userRepository.save(vendor);
             StatusResponse successResponse = new StatusResponse("Vendor with id " + id + " deleted successfully", HttpStatus.OK.value());
             return ResponseEntity.status(HttpStatus.OK).body(successResponse);
 
@@ -109,6 +122,8 @@ public class VendorService {
         try{
             Optional<User> optionalVendor = userRepository.findById(id);
             if (optionalVendor.isPresent()){
+                User oldVendor = optionalVendor.get();
+                vendor.setPassword(oldVendor.getPassword());
                 userRepository.save(vendor);
             }
             StatusResponse successResponse = new StatusResponse("Vendor with id " + id + " edited successfully", HttpStatus.OK.value());

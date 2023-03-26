@@ -13,6 +13,7 @@ import Container from "react-bootstrap/Container";
 
 // ========================= pages/entities =========================
 import Login from './pages/login'
+import Account from './pages/account'
 
 // ======== homepage for vendor ========
 import Homepage from "./pages/homepage"
@@ -34,6 +35,12 @@ import VendorDetails from './pages/adminVendorPages/vendorDetails'
 import Viewvendor from "./pages/adminVendorPages/viewvendor"
 import Newvendor from "./pages/adminVendorPages/newvendor"
 
+// ======== approver ========
+import ApproverHomepage from './pages/approverPages/approverhomepage'
+import ApproverViewVendor from './pages/approverPages/approverviewvendor'
+import ApproveForm from './pages/approverPages/approveform'
+import Newadmin from './pages/approverPages/newadmin'
+
 export default function App(){
     
     return (
@@ -52,6 +59,11 @@ export default function App(){
                 <Route exact path="/react/allforms/editform/:formId" element={<EditForm/>}/>
                 <Route exact path="/react/assignform/:vendorId" element={<AssignForm/>}/>
                 <Route exact path="/react/vendordetails/:vendorId" element={<VendorDetails/>}/>
+                <Route exact path="/react/approver/homepage" element={<ApproverHomepage/>}/>
+                <Route exact path="/react/approver/viewvendor/:vendorId" element={<ApproverViewVendor/>}/>
+                <Route exact path='./react/approver/approveform/:formId' element={<ApproveForm/>}/>
+                <Route exact path="/react/newadmin" element={<Newadmin/>}/>
+                <Route exact path='/react/account/:userId' element={<Account />}/>
             </Routes>
             </div>
         </BrowserRouter>

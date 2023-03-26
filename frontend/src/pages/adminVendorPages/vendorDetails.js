@@ -60,7 +60,8 @@ export default function VendorDetails(){
                 faxNumber: response.data.data.faxNumber,
                 emailAddress: response.data.data.emailAddress,
                 password: response.data.data.password,
-                id: parseInt(vendorId)
+                id: parseInt(vendorId),
+                active: response.data.data.active
         
             });
 
@@ -189,12 +190,16 @@ export default function VendorDetails(){
         setPwdError(null);
         setEmailError(null);
         setCfmPwdError(null);
-        const isPwdValid = validatePwd(values.password, storePwd);
+        // const isPwdValid = validatePwd(values.password, storePwd);
         const isEmail = validateEmail(values.emailAddress);
         const isPhone = validatePhone(values.phoneNumber);
         const isFax = validateFax(values.faxNumber);
-        
-        if (isPwdValid && isEmail && isPhone && isFax) {
+        console.log(isPhone);
+        console.log(isFax);
+        console.log(values.phoneNumber);
+        console.log(values.faxNumber);
+        if (isEmail && isPhone && isFax) {
+          console.log('bo');
             updateVendor();            
         }
     }
@@ -210,8 +215,9 @@ export default function VendorDetails(){
             const response = await axios.put('/api/v1/vendor/editVendor/' + vendorId, values);
             console.log(response.data);
             if (response.data.status == 200) {
+              localStorage.setItem('message', 'Vendor details updated successfully!')
                 navigate('/react/viewvendor/' + vendorId)
-                alert('Vendor updated successfully')
+                
             }
         }
         catch (error){
@@ -277,7 +283,7 @@ export default function VendorDetails(){
                             {emailError && <div className='errorMsg' >{emailError}</div>}
                         </Row>
 
-                        <Row className='formRow'>
+                        {/* <Row className='formRow'>
                             <Col xs={6} md={4} xl={2} className='formQuestion'>
                                 Password:
                             </Col>
@@ -295,7 +301,7 @@ export default function VendorDetails(){
                                 <TextField required name='cfmPassword' disabled={isDisabled} className='inputtext' type='text' defaultValue={vendor.password} onChange={handleChange} />
                             </Col>
                             {cfmPwdError && <div className='errorMsg'>{cfmPwdError}</div>}
-                        </Row>
+                        </Row> */}
 
                         <Row className='formRow'>
                             <Col xs={6} md={4} xl={2} className='formQuestion'>
@@ -312,7 +318,7 @@ export default function VendorDetails(){
                                 Fax Number:
                             </Col>
                             <Col xs={12} md={8} className='formInput'>
-                                <TextField required name='faxNumber' disabled={isDisabled} className='inputtext' type='text' defaultValue={vendor.faxNumber} />
+                                <TextField required name='faxNumber' disabled={isDisabled} className='inputtext' type='text' defaultValue={vendor.faxNumber} onChange={handleChange}/>
                             </Col>
                             {faxError && <div className='errorMsg' >{faxError}</div>}
                         </Row>

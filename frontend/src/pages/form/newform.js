@@ -189,7 +189,7 @@ export default function Newform(){
             <Navbar />
 
             <div className='newFormContent'>
-                <div className='welcomeAdmin'>
+                <div className='newformheader'>
                     New Form
                 </div>
 

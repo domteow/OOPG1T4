@@ -14,12 +14,14 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export default function Navbar(){
   const user = localStorage.getItem('username');
   const role = localStorage.getItem('role');
   const authenticate = localStorage.getItem('authenticated');
-
+  const userId = localStorage.getItem('userid');
+  console.log(userId);
   // navigations 
   const navigate = useNavigate();
 
@@ -47,6 +49,7 @@ export default function Navbar(){
     navigate ('/react/login')
   }
 
+
   const settings = ['Account', 'Logout'];
 
   /* to handle the nav menu */
@@ -63,6 +66,25 @@ export default function Navbar(){
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const navigateAdmins = () => {
+
+  }
+
+  const navigateVendors = () => {
+
+  }
+
+  const navigateApproverHome = () => {
+    navigate('/react/approver/homepage');
+  }
+  console.log("HELLO");
+
+  const navigateAccount = () => {
+    navigate('/react/account/' + userId);
+  }
+
+
 
   console.log(role);
   if (role == 'Vendor'){
@@ -85,7 +107,7 @@ export default function Navbar(){
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 2, marginRight: 5}}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <AccountCircleIcon sx={{fontSize: '40px', p:0}}/>
               </IconButton>
             </Tooltip>
             <Menu
@@ -106,7 +128,7 @@ export default function Navbar(){
             >
               
                 <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">Account</Typography>
+                  <Typography textAlign="center" onClick={navigateAccount}>Account</Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography textAlign="center" onClick={navigateLogout}>Logout</Typography>
@@ -142,7 +164,7 @@ export default function Navbar(){
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 2, marginRight: 5}}>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <AccountCircleIcon sx={{fontSize: '40px', p:0}}/>
             </IconButton>
           </Tooltip>
           <Menu
@@ -163,7 +185,65 @@ export default function Navbar(){
           >
             
               <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">Account</Typography>
+                <Typography textAlign="center" onClick={navigateAccount}>Account</Typography>
+              </MenuItem>
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center" onClick={navigateLogout}>Logout</Typography>
+              </MenuItem>
+          </Menu>
+        </Box> 
+      </header>
+    )
+  }
+
+  else if (role == 'Approver'){
+    return(
+      <header className='navbar'>
+
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+        >
+          <img src={logo2}/>
+        </Typography>
+        <Box sx={{ display: { xs: 'none', sm: 'block' }, marginRight: '3%' }}>
+          <Button sx={{color: '#2c2626', marginRight: '1%'}} onClick={navigateApproverHome}>
+            Home
+          </Button>
+        </Box>
+
+        <Box sx={{ display: { xs: 'none', sm: 'block' }, marginRight: '3%' }}>
+          <Button sx={{color: '#2c2626', marginRight: '1%'}} onClick={navigateForm}>
+            Forms
+          </Button>
+        </Box>
+
+        <Box sx={{ flexGrow: 0 }}>
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 2, marginRight: 5}}>
+              <AccountCircleIcon sx={{fontSize: '40px', p:0}}/>
+            </IconButton>
+          </Tooltip>
+          <Menu
+            sx={{ mt: '45px' }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center" onClick={navigateAccount}>Account</Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center" onClick={navigateLogout}>Logout</Typography>

@@ -1,5 +1,6 @@
 package com.smu.oopg1t4.user.approver;
 
+import com.smu.oopg1t4.encryptor.Encryptor;
 import com.smu.oopg1t4.response.StatusResponse;
 import com.smu.oopg1t4.response.SuccessResponse;
 import com.smu.oopg1t4.user.User;
@@ -29,6 +30,8 @@ public class ApproverService {
     public ResponseEntity<StatusResponse> createNewApprover(Approver approver) {
         try {
             approver.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
+            approver.setPassword(Encryptor.hash(approver.getPassword()));
+            approver.setActive(true);
             userRepository.save(approver);
             StatusResponse successResponse = new StatusResponse("Approver added successfully", HttpStatus.CREATED.value());
             return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
@@ -41,7 +44,7 @@ public class ApproverService {
 
     public ResponseEntity<?> getAllApprovers() {
         try {
-            List<User> admins = userRepository.findByAccountType("Approver");
+            List<User> admins = userRepository.findByAccountTypeActive("Approver");
 
             SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), admins);
             return ResponseEntity.ok().body(successResponse);
@@ -92,9 +95,16 @@ public class ApproverService {
     }
 
     public ResponseEntity<StatusResponse> deleteApprover(int id) {
-        Optional<User> optionalAdmin = userRepository.findById(id);
-        if (optionalAdmin.isPresent()) {
-            userRepository.deleteById(id);
+        Optional<User> optionalApprover = userRepository.findById(id);
+        if (optionalApprover.isPresent()) {
+            User approver = optionalApprover.get();
+            boolean check = approver.getActive();
+            if (check){
+                approver.setActive(false);
+            } else {
+                approver.setActive(true);
+            }
+            userRepository.save(approver);
             StatusResponse successResponse = new StatusResponse("Approver with id " + id + " deleted successfully", HttpStatus.NO_CONTENT.value());
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(successResponse);
 

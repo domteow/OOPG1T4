@@ -43,7 +43,8 @@ public class AdminController {
     public ResponseEntity<StatusResponse> createNewAdmins(@RequestBody List<Admin> admin){
         return adminService.createNewAdmins(admin);
     }
-    @DeleteMapping("/deleteAdmin/{id}")
+
+    @PutMapping("/deleteAdmin/{id}")
     public ResponseEntity<StatusResponse> deleteAdmin(@PathVariable int id){
         return adminService.deleteAdmin(id);
     }

@@ -85,11 +85,13 @@ export default function ViewForm(props){
                                 
                                 return(
                                     <fieldset>
-                                        <Row className='formRow'>
-                                            <Col xs={6} md={2} xl={2} className='formQuestion'>
+                                        <Row className='radioQuestion'>
+                                            {/* <Col xs={6} md={2} xl={2} className='formQuestion'> */}
                                                 {field.name}
-                                            </Col>
-                                            <Col xs={12} md={10} className='formInput'> 
+                                            {/* </Col> */}
+                                        </Row>
+                                        <Row className='radioFormInput'>
+                                            {/* <Col xs={12} md={10} className='formInput'>  */}
                                                 <FormControl fullWidth>
                                                     <TextField
                                                         required
@@ -100,7 +102,7 @@ export default function ViewForm(props){
                                                         disabled={true}
                                                     />
                                                 </FormControl>
-                                            </Col>
+                                            {/* </Col> */}
                                         </Row>
                                     </fieldset>
                                 )
@@ -109,11 +111,13 @@ export default function ViewForm(props){
                             else if (fieldType === 'select'){
                                 return (
                                     <fieldset>
-                                        <Row className='formRow'>
-                                            <Col xs={6} md={2} xl={2} className='formQuestion'>
+                                        <Row className='radioQuestion'>
+                                            {/* <Col xs={6} md={2} xl={2} className='formQuestion'> */}
                                             {field.name}
-                                            </Col>
-                                            <Col xs={12} md={10} className='formInput'>
+                                            {/* </Col> */}
+                                        </Row>
+                                        <Row className='radioFormInput'>
+                                            {/* <Col xs={12} md={10} className='formInput'> */}
                                                 <FormGroup>
                                                     <div>
                                                         <select id={field.name} name={field.name} >
@@ -127,7 +131,7 @@ export default function ViewForm(props){
                                                         </select>
                                                     </div>
                                                 </FormGroup>
-                                            </Col>
+                                            {/* </Col> */}
                                         </Row>
                                     </fieldset>
                                 )
@@ -137,9 +141,33 @@ export default function ViewForm(props){
                                 return(
                                     <>
                                         <Row className='formRow'>
-                                        <div>
-                                            <TextField name='text' placeholder='Question' className='subheader' sx={{width: '100%'}} value={field.name} />
-                                        </div>
+                                            <div className='displaySubheader'>
+                                                {field.name}
+                                            </div>
+                                        </Row>
+                                    </>
+                                )
+                            }
+
+                            else if (fieldType == 'subtext'){
+                                return(
+                                    <>
+                                        <Row className='formRow'>
+                                            <div className='subtext'>
+                                                {field.name}
+                                            </div>
+                                        </Row>
+                                    </>
+                                )
+                            }
+
+                            else if (fieldType == 'header'){
+                                return (
+                                    <>
+                                        <Row className='formRow'>
+                                            <div className='headertext'>
+                                                {field.name}
+                                            </div>
                                         </Row>
                                     </>
                                 )
@@ -148,11 +176,13 @@ export default function ViewForm(props){
                             else if (fieldType === 'radio'){
                                 return(
                                     <fieldset>
-                                        <Row className='formRow'>
-                                            <Col xs={6} md={2} xl={2} className='formQuestion'>
+                                        <Row className='radioQuestion'>
+                                            {/* <Col xs={6} md={7} xl={2} className='formQuestion'> */}
                                             {field.name}
-                                            </Col>
-                                            <Col xs={12} md={10} className='formInput'>
+                                            {/* </Col> */}
+                                        </Row>
+                                        <Row className='radioFormInput'>
+                                            {/* <Col xs={12} md={5} className='formInput'> */}
                                                 <RadioGroup
                                                     aria-labelledby="demo-controlled-radio-buttons-group"
                                                     name={field.name}
@@ -164,9 +194,7 @@ export default function ViewForm(props){
                                                         )
                                                     })}
                                                 </RadioGroup>
-                                                
-                                                
-                                            </Col>
+                                            {/* </Col> */}
                                         </Row>
                                     </fieldset>
                                 )
@@ -175,11 +203,13 @@ export default function ViewForm(props){
                             else if (fieldType === 'checkbox'){
                                 return(
                                     <fieldset>
-                                        <Row className='formRow'>
-                                            <Col xs={6} md={2} xl={2} className='formQuestion'>
+                                        <Row className='radioQuestion'>
+                                            {/* <Col xs={6} md={2} xl={2} className='formQuestion'> */}
                                             {field.name}
-                                            </Col>
-                                            <Col xs={12} md={10} className='formInput'>
+                                            {/* </Col> */}
+                                        </Row>
+                                        <Row className='radioFormInput'>
+                                            <Col xs={12} md={5} className='formInput'>
                                                 <FormGroup>
                                                 {fieldOptions.map(option =>{
                                                     return(

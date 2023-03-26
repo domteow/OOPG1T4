@@ -18,16 +18,16 @@ public class Vendor extends User {
     private String faxNumber;
     private String company;
 
-    public Vendor(String name, String emailAddress, String password, String accountType, ArrayList<String> countries, String phoneNumber, String faxNumber, String company) throws NoSuchAlgorithmException {
-        super(name, emailAddress, password, accountType);
+    public Vendor(String name, String emailAddress, String password, String accountType, boolean active, ArrayList<String> countries, String phoneNumber, String faxNumber, String company) throws NoSuchAlgorithmException {
+        super(name, emailAddress, password, accountType, active);
         this.countries = countries;
         this.phoneNumber = phoneNumber;
         this.faxNumber = faxNumber;
         this.company = company;
     }
 
-    public Vendor(int id, String name, String emailAddress, String password, String accountType, ArrayList<String> countries, String phoneNumber, String faxNumber, String company) throws NoSuchAlgorithmException {
-        super(id, name, emailAddress, password, accountType);
+    public Vendor(int id, String name, String emailAddress, String password, String accountType, boolean active, ArrayList<String> countries, String phoneNumber, String faxNumber, String company) throws NoSuchAlgorithmException {
+        super(id, name, emailAddress, password, accountType, active);
         this.countries = countries;
         this.phoneNumber = phoneNumber;
         this.faxNumber = faxNumber;

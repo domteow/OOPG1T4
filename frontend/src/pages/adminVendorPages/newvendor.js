@@ -63,8 +63,8 @@ export default function NewVendor(){
         setStorePwd(e.target.value);
     }
 
-    const [county, setCounty] = useState([countries[196]])
-    const [prevCounty, setPrevCounty] = useState([countries[196]])
+    const [county, setCounty] = useState([])
+    const [prevCounty, setPrevCounty] = useState([])
     console.log(county);
     const handleCounty = (newValue) => {
         setCounty([]);
@@ -147,9 +147,15 @@ export default function NewVendor(){
             const response = await axios.post('/api/v1/vendor/createVendor', values);
             console.log(response.data);
             if (response.data.status == 201) {
-              
+              localStorage.setItem('message', 'Vendor added successfully!')
+              const role = localStorage.getItem('role');
+              if (role == 'Admin'){
                 navigate('../react/admin/homepage')
-                alert('Vendor added successfully')
+              }
+              else if (role == 'Approver'){
+                navigate('/react/approver/homepage')
+              }
+                
             }
         }
         catch (error){
@@ -159,6 +165,8 @@ export default function NewVendor(){
 
     const cancel = () =>{
         navigate(-1);
+        
+        
     }
 
     

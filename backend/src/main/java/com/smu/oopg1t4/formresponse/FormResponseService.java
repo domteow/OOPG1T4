@@ -12,11 +12,14 @@ import com.smu.oopg1t4.questionnaire.QuestionnaireService;
 import com.smu.oopg1t4.response.RejectionResponse;
 import com.smu.oopg1t4.response.StatusResponse;
 import com.smu.oopg1t4.response.SuccessResponse;
+import com.smu.oopg1t4.user.User;
+import com.smu.oopg1t4.user.UserRepository;
 import com.smu.oopg1t4.util.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import com.smu.oopg1t4.user.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,7 @@ public class FormResponseService {
     private final SequenceGeneratorService sequenceGeneratorService;
     private final QuestionnaireService questionnaireService;
     private final FormService formService;
+    private final UserRepository userRepository;
 
     @Autowired
     public FormResponseService(
@@ -37,13 +41,15 @@ public class FormResponseService {
             SequenceGeneratorService sequenceGeneratorService,
             QuestionnaireService questionnaireService,
             FormRepository formRepository,
-            FormService formService
+            FormService formService,
+            UserRepository userRepository
     ) {
         this.formResponseRepository = formResponseRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
         this.questionnaireService = questionnaireService;
         this.formRepository = formRepository;
         this.formService = formService;
+        this.userRepository = userRepository;
     }
 
 
@@ -72,6 +78,10 @@ public class FormResponseService {
         Optional<Form> optionalForm = formRepository.findById(formId);
         if (optionalForm.isPresent()) {
             Form form = optionalForm.get();
+            String status = "incomplete";
+            if (form.getQuestionnaires().get(0).getRoleRequired().equals("Approver")){
+                status = "complete";
+            }
             FormResponse formResponse = new FormResponse(
                     sequenceGeneratorService.generateSequence(FormResponse.SEQUENCE_NAME),
                     form.getFormCode(),
@@ -86,7 +96,7 @@ public class FormResponseService {
                     vendorId,
                     form.getQuestionnaires().get(0).getRoleRequired(),
                     0,
-                    "incomplete",
+                    status,
                     formId
             );
             formResponseRepository.save(formResponse);
@@ -263,8 +273,12 @@ public class FormResponseService {
         //2. Craft Message Body
         String rejectionBody = "Dear vendor,<br/><br/>The approver has rejected the form <b>(" + formResponseToReject.getFormCode() + ")</b> that you have submitted.<br/><br/><b>Reason for rejection:</b>"+ rejectionResponse.getMessage() + "<br/><br/>Please visit our website again to re-submit the form.<br/><br/>Thank you.<br/><br/>Bestest of Regards,<br/>Fuck you.";
 
+        //4. Get User email
+        Optional<User> owner = userRepository.findById(formResponseToReject.getOwnerId());
+        String ownerEmail = owner.get().getEmailAddress();
+
         //3. Create Email object
-        Email rejectionEmail = new Email("oopg1t4@gmail.com", rejectionSubject, rejectionBody);
+        Email rejectionEmail = new Email(ownerEmail, rejectionSubject, rejectionBody);
         //4. Send the Email
         
         RestTemplate restTemplate = new RestTemplate();
