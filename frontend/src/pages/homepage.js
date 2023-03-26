@@ -13,10 +13,17 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import axios from '../api/axios'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Snackbar from '@mui/material/Snackbar';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
 
 export default function Homepage() {
     // navigate to forms page with formId
     const navigate = useNavigate();
+
+    const [open, setOpen] = React.useState(false);
+    const [msg, setMsg] = useState();
+    const [isActive, setIsActive] = useState({});
 
     // forms from backend
     const backendDomain = process.env.REACT_APP_backendDomain;
@@ -50,6 +57,15 @@ export default function Homepage() {
       setUserid(id);
       console.log(id);
       setVendorId(id);
+      const message = localStorage.getItem('message');
+        console.log(message);
+        console.log(message === 'null')
+
+        if (message !== 'null' && message !== null){
+            setMsg(message);
+            // setOpen(true);  
+            displayMessage();      
+        }
 
       setUsername(username);  
       if (authenticated) {
@@ -63,6 +79,24 @@ export default function Homepage() {
     };
 
     // ^ vendor
+
+    const displayMessage = () => {
+      setOpen(true);
+      setTimeout(()=>{
+          setOpen(false);
+          localStorage.setItem('message', null);
+      }, 3000)
+  }
+
+  const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+      return;
+      }
+
+      setOpen(false);
+      localStorage.setItem('message', null);
+      setMsg(null);
+  };
    
     
     const getFormData = async (userid) => {
@@ -103,6 +137,19 @@ export default function Homepage() {
       setExpanded(isExpanded? panel : false);
     }
     console.log(incompleteForms);
+
+    const action = (
+      <React.Fragment>
+        <IconButton
+          size="small"
+          aria-label="close"
+          color="inherit"
+          onClick={handleClose}
+        >
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      </React.Fragment>
+  );
 
       return (
         <> 
@@ -272,7 +319,7 @@ export default function Homepage() {
                       </Col>
                       <Col xs={6} md={4} xl={2}>
                         <button className='formButton' size="lg" style={{backgroundColor: '#46AF05', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(completedForms.id)}>
-                          View Submission
+                          View Form
                         </button>
                       </Col>
                     </Row>
@@ -280,6 +327,13 @@ export default function Homepage() {
               })}
             </Container>
           </div>
+          <Snackbar
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                message={msg}
+                action={action}
+          />
         </>
       )
     }

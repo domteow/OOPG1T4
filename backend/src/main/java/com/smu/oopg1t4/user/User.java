@@ -21,7 +21,7 @@ public abstract class User {
     protected int id;
     protected String name;
     protected String emailAddress;
-    @JsonProperty("password") // IF YOU WANT TO FORCE A RETURN OF PASSWORD
+//    @JsonProperty("password") // IF YOU WANT TO FORCE A RETURN OF PASSWORD
     protected String password;
     protected String accountType;
     protected boolean active;
@@ -74,6 +74,10 @@ public abstract class User {
 
     public String getPassword(){
         return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public boolean getActive() {

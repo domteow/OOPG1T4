@@ -18,6 +18,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import Tooltip from '@mui/material/Tooltip';
 
 const ListItem = styled('li')(({ theme }) => ({
     margin: theme.spacing(0.5),
@@ -35,6 +36,7 @@ export default function AssignForm(){
     const [allForms, setAllForms] = useState([]);
     const [selectedValue, setSelectedValue] = useState(0);
     const [assignedNames, setAssignedNames] = useState([]);
+    const [disabled, setDisabled] = useState(true);
 
     const getFormData = async () => {
         try {
@@ -46,28 +48,28 @@ export default function AssignForm(){
             const assignedForms = response.data.data
             console.log(assignedForms);
             
-            assignedForms.map(form => {
-                if(form['status'] === 'completed'){
-                    if (completedForms.indexOf(form) === -1){
-                        setCompletedForms(prevCompletedForms => ([...prevCompletedForms, form]));
-                    }
-                }
-                else if(form['status'] === 'incomplete'){
-                    if (incompleteForms.indexOf(form) === -1){
-                        setIncompleteForms(prevIncompletedForms => ([...prevIncompletedForms, form]));
-                    }
-                }
-                else if(form['status'] === 'readonly'){
-                    if (readOnlyForms.indexOf(form) === -1){
-                        setReadOnlyForms(prevForms => ([...prevForms, form]));
-                    }
-                }
-                else if (form['status'] === 'approved'){
-                    if (approvedForms.indexOf(form) === -1){
-                        setApprovedForms(prevForms => ([...prevForms, form]));
-                    }
-                }
-            });
+            // assignedForms.map(form => {
+            //     if(form['status'] === 'completed'){
+            //         if (completedForms.indexOf(form) === -1){
+            //             setCompletedForms(prevCompletedForms => ([...prevCompletedForms, form]));
+            //         }
+            //     }
+            //     else if(form['status'] === 'incomplete'){
+            //         if (incompleteForms.indexOf(form) === -1){
+            //             setIncompleteForms(prevIncompletedForms => ([...prevIncompletedForms, form]));
+            //         }
+            //     }
+            //     else if(form['status'] === 'readonly'){
+            //         if (readOnlyForms.indexOf(form) === -1){
+            //             setReadOnlyForms(prevForms => ([...prevForms, form]));
+            //         }
+            //     }
+            //     else if (form['status'] === 'approved'){
+            //         if (approvedForms.indexOf(form) === -1){
+            //             setApprovedForms(prevForms => ([...prevForms, form]));
+            //         }
+            //     }
+            // });
           
         } 
         catch (error) {
@@ -79,7 +81,13 @@ export default function AssignForm(){
         try{
             const response = await axios.get("/api/v1/form/get")
             // console.log([response.data.data]);
-            setAllForms(response.data.data);
+            const forms = response.data.data;
+            forms.map((form) => {
+                if (form.active == true){
+                    setAllForms(prev => ([...prev, form]))
+                }
+            })
+            // setAllForms(response.data.data);
         }
         catch(error){
             console.log(error);
@@ -93,9 +101,9 @@ export default function AssignForm(){
     console.log(allForms);
     console.log(assignedForms);
 
-
     const handleChange = (e) => {
         setSelectedValue(e.target.value);
+        setDisabled(false);
     }
     console.log(selectedValue)
 
@@ -106,6 +114,7 @@ export default function AssignForm(){
         vendorId: vendorId,
         formId: selectedValue
     }
+
     const handleAssign = async() => {
         console.log(vendorId);
         console.log(selectedValue);
@@ -114,8 +123,13 @@ export default function AssignForm(){
             const response = await axios.get('api/v1/formResponse/assignFormToVendor/' + selectedValue + '/' + vendorId);
             console.log(response.data);
             if (response.data.status == 200) {
-                navigate('/react/viewvendor/' + vendorId)
-                alert('Form assigned successfully')
+                localStorage.setItem('message', 'Form assigned successfully!');
+                if (localStorage.getItem('role') == 'Admin'){
+                    navigate('/react/viewvendor/' + vendorId);
+                }
+                else{
+                    navigate('/react/approver/viewvendor/' + vendorId);
+                }
             }
         }
         catch(error){
@@ -181,11 +195,10 @@ export default function AssignForm(){
                         onChange={handleChange}
                     >
                         {allForms.map(form => {
-                            if (assignedForms.indexOf(form) === -1){
+                            if (!assignedForms.some((item)=> item.id === form.id)){
                                 return(
                                     <Row className='formRowData'>
                                         <Col md={2}>
-                                            
                                             <FormControlLabel value={form.id} control={<Radio />}  />
                                         </Col>
                                         <Col md={5}>
@@ -210,8 +223,7 @@ export default function AssignForm(){
                     <button onClick={handleCancelForm} className='cancelFormButton'>
                         Cancel
                     </button>
-
-                    <button onClick={handleAssign} className='createFormButton'>
+                    <button onClick={handleAssign} disabled={disabled} className='createFormButton'>
                         Assign Form
                     </button>
                 </div>

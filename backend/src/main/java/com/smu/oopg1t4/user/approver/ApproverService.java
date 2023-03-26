@@ -1,5 +1,6 @@
 package com.smu.oopg1t4.user.approver;
 
+import com.smu.oopg1t4.encryptor.Encryptor;
 import com.smu.oopg1t4.response.StatusResponse;
 import com.smu.oopg1t4.response.SuccessResponse;
 import com.smu.oopg1t4.user.User;
@@ -29,6 +30,8 @@ public class ApproverService {
     public ResponseEntity<StatusResponse> createNewApprover(Approver approver) {
         try {
             approver.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
+            approver.setPassword(Encryptor.hash(approver.getPassword()));
+            approver.setActive(true);
             userRepository.save(approver);
             StatusResponse successResponse = new StatusResponse("Approver added successfully", HttpStatus.CREATED.value());
             return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);

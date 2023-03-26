@@ -18,14 +18,14 @@ import Select from './select';
 import NativeSelect from '@mui/material/NativeSelect';
 import Subheader from './subheader';
 
-const options = ['Sub Header', 'Text Field', 'Radio Button', 'Checkbox', 'Select'];
+const options = ['Header', 'Sub Header', 'Subtext', 'Text Field', 'Radio Button', 'Checkbox', 'Select'];
 
 // export default function CreateQuestionnaire(){
 const CreateQuestionnaire = ({formDetails, id, value}) => {
     const [open, setOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(options[1]);
     const [questionnaireName, setQuestionnaireName] = useState("");
-    const [assigned, setAssigned] = useState("admin");
+    const [assigned, setAssigned] = useState("Admin");
     // inputList contains all the input fields that you're adding into the questionnaire 
     const [inputList, setInputList] = useState([]);
     // details contains all the details of the questionnaire ehehehhe
@@ -101,7 +101,39 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
     const handleSubTextChange = (e, i)=>{
         const data = {
             name : e.target.value,
+            type: 'subtext'
+        }
+        const newDetails = details.map((item, index)=>{
+            if (index === i){
+                return data
+            }
+            else{
+                return item
+            }
+        });
+        setDetails(newDetails);
+    }
+
+    const handleSubheaderChange = (e, i)=>{
+        const data = {
+            name : e.target.value,
             type: 'subheader'
+        }
+        const newDetails = details.map((item, index)=>{
+            if (index === i){
+                return data
+            }
+            else{
+                return item
+            }
+        });
+        setDetails(newDetails);
+    }
+
+    const handleHeaderChange = (e, i)=>{
+        const data = {
+            name : e.target.value,
+            type: 'header'
         }
         const newDetails = details.map((item, index)=>{
             if (index === i){
@@ -206,7 +238,33 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
             return(
                 <>
                     <div className='radioOption'>
-                        <TextField name='text' placeholder='Subheader' sx={{width: '100%'}}  onChange={(e)=>handleSubTextChange(e, i)}/>
+                        <TextField name='text' placeholder='Subheader' sx={{width: '100%'}}  onChange={(e)=>handleSubheaderChange(e, i)}/>
+                    </div>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Subheader
+                    </button>
+                </>
+            )
+        }
+
+        else if (item === 'Header'){
+            return(
+                <>
+                    <div className='radioOption'>
+                        <TextField name='text' placeholder='Header' sx={{width: '100%'}} className='headertext' onChange={(e)=>handleHeaderChange(e, i)}/>
+                    </div>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Subheader
+                    </button>
+                </>
+            )
+        }
+
+        else if (item === 'Subtext'){
+            return(
+                <>
+                    <div className='radioOption'>
+                        <TextField name='text' placeholder='Header' sx={{width: '100%'}} className='subtext' onChange={(e)=>handleSubTextChange(e, i)}/>
                     </div>
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Subheader
@@ -257,9 +315,9 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
                                     name:'Assigned',
                                 }}>
                                 
-                                <option value='admin'>Admin</option>
-                                <option value='approver'>Approver</option>
-                                <option value='vendor'>Vendor</option>
+                                <option value='Admin'>Admin</option>
+                                <option value='Approver'>Approver</option>
+                                <option value='Vendor'>Vendor</option>
                             </NativeSelect>
                         </Col>
                     </Row>

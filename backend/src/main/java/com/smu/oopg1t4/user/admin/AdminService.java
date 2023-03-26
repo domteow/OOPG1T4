@@ -1,5 +1,6 @@
 package com.smu.oopg1t4.user.admin;
 
+import com.smu.oopg1t4.encryptor.Encryptor;
 import com.smu.oopg1t4.response.StatusResponse;
 import com.smu.oopg1t4.response.SuccessResponse;
 import com.smu.oopg1t4.user.User;
@@ -29,6 +30,8 @@ public class AdminService {
     public ResponseEntity<StatusResponse> createNewAdmin(Admin admin) {
         try {
             admin.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
+            admin.setPassword(Encryptor.hash(admin.getPassword()));
+            admin.setActive(true);
             userRepository.save(admin);
             StatusResponse successResponse = new StatusResponse("Admin added successfully", HttpStatus.CREATED.value());
             return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);

@@ -1,5 +1,6 @@
 package com.smu.oopg1t4.user.vendor;
 
+import com.smu.oopg1t4.encryptor.Encryptor;
 import com.smu.oopg1t4.form.Form;
 import com.smu.oopg1t4.response.StatusResponse;
 import com.smu.oopg1t4.response.SuccessResponse;
@@ -31,6 +32,8 @@ public class VendorService {
     public ResponseEntity<StatusResponse> createNewVendor(Vendor vendor) {
         try {
             vendor.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
+            vendor.setPassword(Encryptor.hash(vendor.getPassword()));
+            vendor.setActive(true);
             userRepository.save(vendor);
             StatusResponse successResponse = new StatusResponse("Vendor added successfully", HttpStatus.CREATED.value());
             return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
@@ -55,8 +58,10 @@ public class VendorService {
 
     public ResponseEntity<?> getVendor(int id) {
         try{
-            List<User> vendor = userRepository.findById(id, "Vendor");
-            SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), vendor.get(0));
+            List<User> vendorList = userRepository.findById(id, "Vendor");
+            User vendor = vendorList.get(0);
+            vendor.setPassword("************");
+            SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), vendor);
             return ResponseEntity.ok().body(successResponse);
 
         } catch (Exception e) {
@@ -117,6 +122,8 @@ public class VendorService {
         try{
             Optional<User> optionalVendor = userRepository.findById(id);
             if (optionalVendor.isPresent()){
+                User oldVendor = optionalVendor.get();
+                vendor.setPassword(oldVendor.getPassword());
                 userRepository.save(vendor);
             }
             StatusResponse successResponse = new StatusResponse("Vendor with id " + id + " edited successfully", HttpStatus.OK.value());

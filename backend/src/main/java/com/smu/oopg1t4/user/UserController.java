@@ -24,8 +24,24 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody String user){
-        return userService.login(user);
+    @GetMapping("/getUserById/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable int id){
+        return userService.getUserById(id);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody String userString){
+        return userService.login(userString);
+    }
+
+    @PutMapping("editUserDetails")
+    public ResponseEntity<?> editUserDetails(@RequestBody String userString) {
+        return userService.editUserDetails(userString);
+    }
+
+    @PutMapping("changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody String passwordString) {
+        return userService.changePassword(passwordString);
+    }
+
 }
