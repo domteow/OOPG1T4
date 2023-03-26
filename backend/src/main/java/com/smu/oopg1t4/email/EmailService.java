@@ -1,17 +1,20 @@
 package com.smu.oopg1t4.email;
 
 import com.smu.oopg1t4.response.StatusResponse;
+import com.smu.oopg1t4.user.User;
+import com.smu.oopg1t4.user.UserRepository;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
+import java.util.Optional;
 
 @Service
 public class EmailService {
@@ -20,9 +23,12 @@ public class EmailService {
     private String sender;
     private String senderName = "OOP G1T4";
 
+    private final UserRepository userRepository;
+
     @Autowired
-    public EmailService(JavaMailSender javaMailSender) {
+    public EmailService(JavaMailSender javaMailSender, UserRepository userRepository) {
         this.javaMailSender = javaMailSender;
+        this.userRepository = userRepository;
     }
 
     public ResponseEntity<?> sendMail(Email email) {
@@ -66,5 +72,25 @@ public class EmailService {
             StatusResponse statusResponse = new StatusResponse("Error sending email", HttpStatus.INTERNAL_SERVER_ERROR.value());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
         }
+    }
+
+    public ResponseEntity<?> sendReminderMail(int id) {
+        //get User email
+        Optional<User> user = userRepository.findById(id);
+        String userEmail = user.get().getEmailAddress();
+        System.out.println(userEmail);
+
+        //1. Craft the subject line
+        String reminderSubject = "Reminder to complete your required forms";
+
+        //2. Craft Message Body
+        String reminderBody = "Dear vendor,<br/><br/>Please be reminded to complete the required forms which are pending under your account..<br/><br/>Thank you.<br/><br/>Regards,<br/>zxc.";
+
+        //3. Create Email object
+        Email reminderEmail = new Email(userEmail, reminderSubject, reminderBody);
+
+        //4. Send the Email
+        return sendMail(reminderEmail);
+
     }
 }
