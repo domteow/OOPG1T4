@@ -23,7 +23,7 @@ public class EmailController {
         return emailService.sendMailWithAttachment(email);
     }
 
-    @GetMapping("/sendReminderMail/{id}")
+    @PostMapping("/sendReminderMail/{id}")
     public ResponseEntity<?> sendReminderMail(@PathVariable int id) {
         return emailService.sendReminderMail(id);
     }
