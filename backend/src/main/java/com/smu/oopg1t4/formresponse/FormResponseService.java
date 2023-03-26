@@ -271,7 +271,7 @@ public class FormResponseService {
         String rejectionSubject = "The form " + formResponseToReject.getFormCode() + " has been rejected.";
 
         //2. Craft Message Body
-        String rejectionBody = "Dear vendor,<br/><br/>The approver has rejected the form <b>(" + formResponseToReject.getFormCode() + ")</b> that you have submitted.<br/><br/><b>Reason for rejection:</b>"+ rejectionResponse.getMessage() + "<br/><br/>Please visit our website again to re-submit the form.<br/><br/>Thank you.<br/><br/>Bestest of Regards,<br/>Fuck you.";
+        String rejectionBody = "Dear vendor,<br/><br/>The approver has rejected the form <b>(" + formResponseToReject.getFormCode() + ")</b> that you have submitted.<br/><br/><b>Reason for rejection:</b>"+ rejectionResponse.getMessage() + "<br/><br/>Please visit our website again to re-submit the form.<br/><br/>Thank you.<br/><br/>Regards,<br/>zxc.";
 
         //4. Get User email
         Optional<User> owner = userRepository.findById(formResponseToReject.getOwnerId());
