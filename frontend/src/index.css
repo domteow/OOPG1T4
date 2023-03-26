@@ -103,6 +103,17 @@
     color: #f9f9f9;
 }
 
+.cancelButtform{
+    border-color: transparent;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #848783;
+    color: #f9f9f9;
+    width: 10%;
+    padding: 0.5%;
+    border-radius: 5px;
+    text-align: center;
+}
+
 .submitButt{
     border-color: transparent;
     justify-content: center;
@@ -1035,6 +1046,22 @@ input:disabled {
 }
 
 .createFormButton:disabled{
+    background-color: #979797;
+    color: #3f3f3f;
+    border-color: transparent;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    pointer-events: all;
+}
+
+.saveDraft:disabled{
+    background-color: #979797;
+    color: #3f3f3f;
+    border-color: transparent;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    pointer-events: all;
+}
+
+.submitButt:disabled{
     background-color: #979797;
     color: #3f3f3f;
     border-color: transparent;
