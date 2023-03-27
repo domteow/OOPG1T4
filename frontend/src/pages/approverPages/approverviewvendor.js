@@ -270,6 +270,34 @@ export default function ApproverViewVendor(){
     // );
     // const ref = React.createRef();
 
+    // pdf 
+    const getPdf = async(formId) => {
+      const pdfName = "form_id_" + formId + '.pdf'
+      try{
+      axios({
+        url: 'api/v1/pdf/generatePDF/' + formId, //your url
+        method: 'GET',
+        responseType: 'blob', // important
+    }).then((response) => {
+        // create file link in browser's memory
+        const href = URL.createObjectURL(response.data);
+    
+        // create "a" HTML element with href to file & click
+        const link = document.createElement('a');
+        link.href = href;
+        link.setAttribute('download', pdfName); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+    
+        // clean up "a" element & remove ObjectURL
+        document.body.removeChild(link);
+        URL.revokeObjectURL(href);
+    })}
+    catch(error){
+      console.log(error)
+    }
+    }
+
     return(
         <>
             <Navbar />
@@ -486,7 +514,7 @@ export default function ApproverViewVendor(){
                         </Col>
                         <Col xs={6} md={2} xl={2}>
                           
-                              <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}}>
+                              <button className='formButton' onClick={() => getPdf(form.id)} size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}}>
                                   Generate PDF
                               </button>
                             
