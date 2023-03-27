@@ -48,13 +48,16 @@ public class PDFGenerator {
         fontTitle.setStyle("underline");
 
         Font fontBody = FontFactory.getFont(FontFactory.TIMES_ROMAN);
-        fontBody.setSize(14);
+        fontBody.setSize(13);
+
+        Font fontBodyBold = FontFactory.getFont(FontFactory.TIMES_BOLD);
+        fontBody.setSize(13);
 
         Font fontHeader = FontFactory.getFont(FontFactory.TIMES_BOLD);
-        fontHeader.setSize(16);
+        fontHeader.setSize(13);
 
-        Font fontAnswer = FontFactory.getFont(FontFactory.TIMES_ITALIC);
-        fontAnswer.setSize(14);
+        Font fontAnswer = FontFactory.getFont(FontFactory.TIMES_ROMAN);
+        fontAnswer.setSize(13);
 
         // Creating paragraph
         Paragraph paragraph1 = new Paragraph(form.getDescription() + " (" + form.getFormCode() + ")\n", fontTitle);
@@ -74,7 +77,7 @@ public class PDFGenerator {
                     tempParagraph.add(new Phrase(field.getName() + "\n", fontBody));
                 }
                 else {
-                    tempParagraph.add(new Phrase(field.getName() + ":\n", fontBody));
+                    tempParagraph.add(new Phrase(field.getName() + ":\n", fontBodyBold));
                     tempParagraph.add(new Phrase(field.getValue() + "\n", fontAnswer));
                 }
             }
