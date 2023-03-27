@@ -31,6 +31,10 @@ public class VendorService {
 
     public ResponseEntity<StatusResponse> createNewVendor(Vendor vendor) {
         try {
+            if (userRepository.findByEmailOnly(vendor.getEmailAddress()).size() != 0){
+                StatusResponse statusResponse = new StatusResponse("Account with email address already exists", HttpStatus.INTERNAL_SERVER_ERROR.value());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+            }
             vendor.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
             vendor.setPassword(Encryptor.hash(vendor.getPassword()));
             vendor.setActive(true);
