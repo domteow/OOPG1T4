@@ -252,6 +252,19 @@ export default function Viewvendor(){
     }
     }
 
+    const remind = async() => {
+      try{
+        const response = await axios.post('/api/v1/email/sendReminderMail/' + vendorId);
+        if (response.status >= 200){
+          setMsg('Email reminder sent successfully')
+          displayMessage();
+        }
+      }
+      catch (error){
+        console.log(error)
+      }
+    }
+
     const action = (
       <React.Fragment>
         <IconButton
@@ -430,13 +443,13 @@ export default function Viewvendor(){
                                 </div>
                               </Col>
                               <Col xs={6} md={2} xl={2}>
-                                <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
-                                  Remind Vendor
+                                <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
+                                  View Form
                                 </button>
                               </Col>
                               <Col xs={6} md={2} xl={2}>
-                                <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
-                                  View Form
+                                <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => remind()}>
+                                  Remind Vendor
                                 </button>
                               </Col>
                               <Col xs={6} md={1} xl={1} className='companyHeader' >
