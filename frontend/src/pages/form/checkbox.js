@@ -50,7 +50,8 @@ const Checkbox = ({allDetails, id, value, options, other, edit}) => {
         name: checkboxQuestion,
         options: checkboxOptions,
         type: 'checkbox',
-        others: others
+        others: others,
+        id: id
     }
 
     useEffect(()=>{

@@ -56,7 +56,8 @@ const Select = ({allDetails, id, value, options, edit}) => {
     const data = {
         name: selectQuestion,
         options: selectOptions,
-        type: 'select'
+        type: 'select',
+        id: id
     }
 
     useEffect(()=>{

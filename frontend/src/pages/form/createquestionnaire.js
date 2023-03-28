@@ -68,7 +68,7 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
             }
         });
         setInputList(newInputs);
-
+        // search for the index of the item with the id to splice it out
         const index = details.findIndex(item => item.id === id);
         if (index >= 0) {
             const newData = [...details];
@@ -251,7 +251,7 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
         else if(item === 'Checkbox'){
             return(
                 <>
-                    <Checkbox id={id} allDetails={allDetails} value={''} options={[]} other={false} edit={false} />
+                    <Checkbox id={id} allDetails={allDetails} value={name} options={opt} other={false} edit={true} />
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Checkbox
                     </button>
@@ -261,7 +261,7 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
         else if(item === 'Select'){
             return(
                 <>
-                    <Select id={id} allDetails={allDetails} value={''} options={[]} edit={false} />
+                    <Select id={id} allDetails={allDetails} value={name} options={opt} edit={true} />
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Select
                     </button>
