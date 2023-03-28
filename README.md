@@ -33,6 +33,7 @@ To configure CMS, follow these steps:
 To use My Web App, follow these steps:
 
 - Open your web browser and navigate to the [Login Page](http://localhost:3000/react/login).
+![Login screen](images/loginpage.JPG)
 - Login with any of the available Vendor/Admin/Approver accounts
 
 <b>Admin 1</b>
