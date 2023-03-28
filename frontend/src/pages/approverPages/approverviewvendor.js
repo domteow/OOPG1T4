@@ -242,9 +242,9 @@ export default function ApproverViewVendor(){
       navigate('/react/viewcompletedform/' + formId);
     }
 
-    const remind = async() => {
+    const remind = async(formId) => {
       try{
-        const response = await axios.post('/api/v1/email/sendReminderMail/' + vendorId);
+        const response = await axios.post('/api/v1/email/sendReminderMail/' + vendorId + "/" + formId);
         console.log(response);
         if (response.status >= 200){
           setMsg('Email reminder sent successfully')
@@ -460,7 +460,7 @@ export default function ApproverViewVendor(){
                                                 </button>
                                             </Col>
                                             <Col xs={6} md={2} xl={2}>
-                                                <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => remind()}>
+                                                <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => remind(form.id)}>
                                                   Remind Vendor
                                                 </button>
                                             </Col>
