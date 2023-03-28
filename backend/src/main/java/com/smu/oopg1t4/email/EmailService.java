@@ -1,10 +1,7 @@
 package com.smu.oopg1t4.email;
 
-import com.smu.oopg1t4.form.Form;
-import com.smu.oopg1t4.form.FormRepository;
 import com.smu.oopg1t4.formresponse.FormResponse;
 import com.smu.oopg1t4.formresponse.FormResponseRepository;
-import com.smu.oopg1t4.formresponse.FormResponseService;
 import com.smu.oopg1t4.response.StatusResponse;
 import com.smu.oopg1t4.user.User;
 import com.smu.oopg1t4.user.UserRepository;
@@ -12,14 +9,13 @@ import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,7 +23,8 @@ public class EmailService {
     private JavaMailSender javaMailSender;
     @Value("${spring.mail.username}")
     private String sender;
-    private String senderName = "OOP G1T4";
+    private final String senderName = "OOP G1T4";
+    private final String URL = "localhost:3000";
 
     private final UserRepository userRepository;
     private final FormResponseRepository formResponseRepository;
@@ -101,22 +98,34 @@ public class EmailService {
         String reminderSubject = "Reminder to complete your required forms";
 
         //2. Craft Message Body
-        String reminderBody = "Dear vendor,<br/><br/>Please be reminded to complete the following form: <b>(" +pendingFormCode + ") - "+ pendingFormDescription + "</b>. <br/><br/>Please visit our website again to complete the form.<br/><br/>Thank you.<br/><br/>Regards,<br/>The team at Quantum Leap";
+        String reminderBody = "Dear vendor,<br/><br/>Please be reminded to complete the following form: <b>(" + pendingFormCode + ") - " + pendingFormDescription + "</b>. <br/><br/>Please visit our website again to complete the form.<br/><br/>Thank you.<br/><br/>Regards,<br/>The team at Quantum Leap";
 
         //3. Create Email object
         Email reminderEmail = new Email(userEmail, reminderSubject, reminderBody);
 
 
-        try{
+        try {
             this.sendMail(reminderEmail);
             StatusResponse successResponse = new StatusResponse("Success!", HttpStatus.OK.value());
             return ResponseEntity.status(HttpStatus.OK).body(successResponse);
 
-        }catch(Exception e){
+        } catch (Exception e) {
             StatusResponse statusResponse = new StatusResponse("Error sending email", HttpStatus.INTERNAL_SERVER_ERROR.value());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
         }
+    }
 
-
+    public ResponseEntity<?> sendWelcomeMail(User user, String password) {
+        String subject = "Welcome to Quantum Leap Incorporation!";
+        String emailBody = String.format("Dear %s,<br/><br/>Your %s account has been created. Please use the credentials below to login at: %s <br/><br/>Username: <b>%s</b><br/>Password: <b>%s</b><br/><br/>Thank you.<br/><br/>Kind regards,<br/>Quantum Leap Incorporated", user.getName(), user.getAccountType().toLowerCase(), URL, user.getEmailAddress(), password);
+        Email email = new Email(user.getEmailAddress(), subject, emailBody);
+        try {
+            this.sendMail(email);
+            StatusResponse successResponse = new StatusResponse("Success!", HttpStatus.OK.value());
+            return ResponseEntity.status(HttpStatus.OK).body(successResponse);
+        } catch (Exception e) {
+            StatusResponse statusResponse = new StatusResponse("Error sending email", HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+        }
     }
 }
