@@ -1,5 +1,6 @@
 package com.smu.oopg1t4.user.admin;
 
+import com.smu.oopg1t4.email.EmailService;
 import com.smu.oopg1t4.encryptor.Encryptor;
 import com.smu.oopg1t4.response.StatusResponse;
 import com.smu.oopg1t4.response.SuccessResponse;
@@ -20,23 +21,27 @@ public class AdminService {
     private final UserRepository userRepository;
 
     private final SequenceGeneratorService sequenceGeneratorService;
+    private final EmailService emailService;
 
     @Autowired
-    public AdminService(UserRepository userRepository, SequenceGeneratorService sequenceGeneratorService) {
+    public AdminService(UserRepository userRepository, SequenceGeneratorService sequenceGeneratorService, EmailService emailService) {
         this.userRepository = userRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
+        this.emailService = emailService;
     }
 
     public ResponseEntity<StatusResponse> createNewAdmin(Admin admin) {
         try {
-            if (userRepository.findByEmailOnly(admin.getEmailAddress()).size() != 0){
+            if (userRepository.findByEmailOnly(admin.getEmailAddress()).size() != 0) {
                 StatusResponse statusResponse = new StatusResponse("Account with email address already exists", HttpStatus.INTERNAL_SERVER_ERROR.value());
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
             }
             admin.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
+            String passwordBeforeHash = admin.getPassword();
             admin.setPassword(Encryptor.hash(admin.getPassword()));
             admin.setActive(true);
             userRepository.save(admin);
+            emailService.sendWelcomeMail(admin, passwordBeforeHash);
             StatusResponse successResponse = new StatusResponse("Admin added successfully", HttpStatus.CREATED.value());
             return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
         } catch (Exception e) {
@@ -60,7 +65,7 @@ public class AdminService {
     }
 
     public ResponseEntity<?> getAdmin(int id) {
-        try{
+        try {
             List<User> admin = userRepository.findById(id, "Admin");
             SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), admin.get(0));
             return ResponseEntity.ok().body(successResponse);
@@ -72,7 +77,7 @@ public class AdminService {
     }
 
     public ResponseEntity<?> getAdminByEmail(String email) {
-        try{
+        try {
             List<User> admin = userRepository.findByEmail(email, "Admin");
             SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), admin.get(0));
             return ResponseEntity.ok().body(successResponse);
@@ -103,7 +108,7 @@ public class AdminService {
         if (optionalAdmin.isPresent()) {
             User admin = optionalAdmin.get();
             boolean check = admin.getActive();
-            if (check){
+            if (check) {
                 admin.setActive(false);
             } else {
                 admin.setActive(true);

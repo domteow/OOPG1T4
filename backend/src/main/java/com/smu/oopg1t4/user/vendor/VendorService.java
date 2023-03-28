@@ -35,11 +35,12 @@ public class VendorService {
 
     public ResponseEntity<StatusResponse> createNewVendor(Vendor vendor) {
         try {
-            if (userRepository.findByEmailOnly(vendor.getEmailAddress()).size() != 0){
+            if (userRepository.findByEmailOnly(vendor.getEmailAddress()).size() != 0) {
                 StatusResponse statusResponse = new StatusResponse("Account with email address already exists", HttpStatus.INTERNAL_SERVER_ERROR.value());
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
             }
             vendor.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
+            String passwordBeforeHash = vendor.getPassword();
             vendor.setPassword(Encryptor.hash(vendor.getPassword()));
             vendor.setActive(true);
             userRepository.save(vendor);
@@ -49,15 +50,16 @@ public class VendorService {
             String notificationSubject = "Welcome to QuantumLeap!";
 
             //2. Craft Message Body
-            String notificationBody = "Dear Vendor,<br/><br/>Welcome to QuantumLeap! We are glad to have you on board. <br/><br/>Here are your account details: <br/><br/>&emsp;<b>Email: </b>" + vendor.getEmailAddress() + "<br/>&emsp;<b>Company: </b>" + vendor.getCompany() + "<br/>&emsp;<b>Phone Number: </b>"  + vendor.getPhoneNumber() +"<br/><br/>Thank you for choosing us as your partner.<br/><br/>Regards,<br/>The team at Quantum Leap";
+            String notificationBody = "Dear Vendor,<br/><br/>Welcome to QuantumLeap! We are glad to have you on board. <br/><br/>Here are your account details: <br/><br/>&emsp;<b>Email: </b>" + vendor.getEmailAddress() + "<br/>&emsp;<b>Company: </b>" + vendor.getCompany() + "<br/>&emsp;<b>Phone Number: </b>" + vendor.getPhoneNumber() + "<br/><br/>Thank you for choosing us as your partner.<br/><br/>Regards,<br/>The team at Quantum Leap";
 
             //3. Create Email object
             Email reminderEmail = new Email(vendor.getEmailAddress(), notificationSubject, notificationBody);
 
+            emailService.sendWelcomeMail(vendor, passwordBeforeHash);
             //4. Send the Email
-            try{
+            try {
                 emailService.sendMail(reminderEmail);
-            }catch(Exception e){
+            } catch (Exception e) {
                 StatusResponse statusResponse = new StatusResponse("Error sending email", HttpStatus.INTERNAL_SERVER_ERROR.value());
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
             }
@@ -85,7 +87,7 @@ public class VendorService {
     }
 
     public ResponseEntity<?> getVendor(int id) {
-        try{
+        try {
             List<User> vendorList = userRepository.findById(id, "Vendor");
             User vendor = vendorList.get(0);
             vendor.setPassword("************");
@@ -99,7 +101,7 @@ public class VendorService {
     }
 
     public ResponseEntity<?> getVendorByEmail(String email) {
-        try{
+        try {
             List<User> vendor = userRepository.findByEmail(email, "Vendor");
             SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), vendor.get(0));
             return ResponseEntity.ok().body(successResponse);
@@ -129,7 +131,7 @@ public class VendorService {
         if (optionalVendor.isPresent()) {
             User vendor = optionalVendor.get();
             boolean check = vendor.getActive();
-            if (check){
+            if (check) {
                 vendor.setActive(false);
             } else {
                 vendor.setActive(true);
@@ -147,16 +149,16 @@ public class VendorService {
 
 
     public ResponseEntity<StatusResponse> editVendor(int id, Vendor vendor) {
-        try{
+        try {
             Optional<User> optionalVendor = userRepository.findById(id);
-            if (optionalVendor.isPresent()){
+            if (optionalVendor.isPresent()) {
                 User oldVendor = optionalVendor.get();
                 vendor.setPassword(oldVendor.getPassword());
                 userRepository.save(vendor);
             }
             StatusResponse successResponse = new StatusResponse("Vendor with id " + id + " edited successfully", HttpStatus.OK.value());
             return ResponseEntity.status(HttpStatus.OK).body(successResponse);
-        } catch (Exception e){
+        } catch (Exception e) {
             StatusResponse statusResponse = new StatusResponse("Error editing vendor for id: " + id, HttpStatus.NOT_FOUND.value());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
         }

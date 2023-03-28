@@ -1,5 +1,6 @@
 package com.smu.oopg1t4.user.approver;
 
+import com.smu.oopg1t4.email.EmailService;
 import com.smu.oopg1t4.encryptor.Encryptor;
 import com.smu.oopg1t4.response.StatusResponse;
 import com.smu.oopg1t4.response.SuccessResponse;
@@ -20,23 +21,28 @@ public class ApproverService {
     private final UserRepository userRepository;
 
     private final SequenceGeneratorService sequenceGeneratorService;
+    private final EmailService emailService;
 
     @Autowired
-    public ApproverService(UserRepository userRepository, SequenceGeneratorService sequenceGeneratorService) {
+    public ApproverService(UserRepository userRepository, SequenceGeneratorService sequenceGeneratorService, EmailService emailService) {
         this.userRepository = userRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
+        this.emailService = emailService;
+
     }
 
     public ResponseEntity<StatusResponse> createNewApprover(Approver approver) {
         try {
-            if (userRepository.findByEmailOnly(approver.getEmailAddress()).size() != 0){
+            if (userRepository.findByEmailOnly(approver.getEmailAddress()).size() != 0) {
                 StatusResponse statusResponse = new StatusResponse("Account with email address already exists", HttpStatus.INTERNAL_SERVER_ERROR.value());
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
             }
             approver.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
+            String passwordBeforeHash = approver.getPassword();
             approver.setPassword(Encryptor.hash(approver.getPassword()));
             approver.setActive(true);
             userRepository.save(approver);
+            emailService.sendWelcomeMail(approver, passwordBeforeHash);
             StatusResponse successResponse = new StatusResponse("Approver added successfully", HttpStatus.CREATED.value());
             return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
         } catch (Exception e) {
@@ -60,7 +66,7 @@ public class ApproverService {
     }
 
     public ResponseEntity<?> getApprover(int id) {
-        try{
+        try {
             List<User> admin = userRepository.findById(id, "Approver");
             SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), admin.get(0));
             return ResponseEntity.ok().body(successResponse);
@@ -72,7 +78,7 @@ public class ApproverService {
     }
 
     public ResponseEntity<?> getApproverByEmail(String email) {
-        try{
+        try {
             List<User> admin = userRepository.findByEmail(email, "Approver");
             SuccessResponse successResponse = new SuccessResponse("Success", HttpStatus.OK.value(), admin.get(0));
             return ResponseEntity.ok().body(successResponse);
@@ -103,7 +109,7 @@ public class ApproverService {
         if (optionalApprover.isPresent()) {
             User approver = optionalApprover.get();
             boolean check = approver.getActive();
-            if (check){
+            if (check) {
                 approver.setActive(false);
             } else {
                 approver.setActive(true);
