@@ -3,7 +3,7 @@
 Client Management System (CMS) is a data capture web application for Quantum Leap Corporation that aims to simplify the process of onboarding vendors and subcontractors, ensuring that all necessary forms are collected and retained for record-keeping. CMS also allows for approval workflow processing and the ability to visualize which stage of a workflow a vendor is at the moment.
 
 
-This is the first release of LJPS which contains its core functionalities as provided by the sponsor.
+This is the first release of CMS which contains its core functionalities as provided by the sponsor.
 
 ## Installation ##
 
