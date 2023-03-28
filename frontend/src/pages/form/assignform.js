@@ -37,6 +37,7 @@ export default function AssignForm(){
     const [selectedValue, setSelectedValue] = useState(0);
     const [assignedNames, setAssignedNames] = useState([]);
     const [disabled, setDisabled] = useState(true);
+    const [existingFormCode, setExistingFormCode] = useState([]);
 
     const getFormData = async () => {
         try {
@@ -47,35 +48,17 @@ export default function AssignForm(){
             // store locally for the stuff below
             const assignedForms = response.data.data
             console.log(assignedForms);
-            
-            // assignedForms.map(form => {
-            //     if(form['status'] === 'completed'){
-            //         if (completedForms.indexOf(form) === -1){
-            //             setCompletedForms(prevCompletedForms => ([...prevCompletedForms, form]));
-            //         }
-            //     }
-            //     else if(form['status'] === 'incomplete'){
-            //         if (incompleteForms.indexOf(form) === -1){
-            //             setIncompleteForms(prevIncompletedForms => ([...prevIncompletedForms, form]));
-            //         }
-            //     }
-            //     else if(form['status'] === 'readonly'){
-            //         if (readOnlyForms.indexOf(form) === -1){
-            //             setReadOnlyForms(prevForms => ([...prevForms, form]));
-            //         }
-            //     }
-            //     else if (form['status'] === 'approved'){
-            //         if (approvedForms.indexOf(form) === -1){
-            //             setApprovedForms(prevForms => ([...prevForms, form]));
-            //         }
-            //     }
-            // });
+            assignedForms.map((form) => {
+                const code = form.formCode;
+                setExistingFormCode((prev) => ([...prev, code]));
+            })
           
         } 
         catch (error) {
   
         }
     }
+    console.log(existingFormCode);
 
     const getAllForms = async() =>{
         try{
@@ -195,7 +178,8 @@ export default function AssignForm(){
                         onChange={handleChange}
                     >
                         {allForms.map(form => {
-                            if (!assignedForms.some((item)=> item.id === form.id)){
+                            const code = form.formCode;
+                            if (!existingFormCode.includes(code)){
                                 return(
                                     <Row className='formRowData'>
                                         <Col md={2}>
@@ -213,6 +197,7 @@ export default function AssignForm(){
                                     </Row>
                                 )
                             }
+                            
                         })}
                         </RadioGroup>
                     </fieldset>

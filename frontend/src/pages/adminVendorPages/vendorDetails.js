@@ -225,13 +225,6 @@ export default function VendorDetails(){
         }
     }
 
-
-
-
-
-
-
-
     if(isLoading) {
         return (
             <div style={{
