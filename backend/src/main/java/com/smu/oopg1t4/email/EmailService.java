@@ -101,7 +101,7 @@ public class EmailService {
         String reminderSubject = "Reminder to complete your required forms";
 
         //2. Craft Message Body
-        String reminderBody = "Dear vendor,<br/><br/>Please be reminded to complete the following form: <b>(" +pendingFormCode + ") - "+ pendingFormDescription + "</b>. <br/><br/>Please visit our website again to complete the form.<br/><br/>Thank you.<br/><br/>Regards,<br/>zxc.";
+        String reminderBody = "Dear vendor,<br/><br/>Please be reminded to complete the following form: <b>(" +pendingFormCode + ") - "+ pendingFormDescription + "</b>. <br/><br/>Please visit our website again to complete the form.<br/><br/>Thank you.<br/><br/>Regards,<br/>The team at Quantum Leap";
 
         //3. Create Email object
         Email reminderEmail = new Email(userEmail, reminderSubject, reminderBody);
