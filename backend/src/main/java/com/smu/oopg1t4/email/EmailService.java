@@ -1,5 +1,7 @@
 package com.smu.oopg1t4.email;
 
+import com.smu.oopg1t4.form.Form;
+import com.smu.oopg1t4.form.FormRepository;
 import com.smu.oopg1t4.formresponse.FormResponse;
 import com.smu.oopg1t4.formresponse.FormResponseRepository;
 import com.smu.oopg1t4.formresponse.FormResponseService;
@@ -28,13 +30,13 @@ public class EmailService {
     private String senderName = "OOP G1T4";
 
     private final UserRepository userRepository;
-    private final FormResponseRepository formResponseRepository;
+    private final FormRepository formRepository;
 
     @Autowired
-    public EmailService(JavaMailSender javaMailSender, UserRepository userRepository, FormResponseRepository formResponseRepository) {
+    public EmailService(JavaMailSender javaMailSender, UserRepository userRepository, FormRepository formRepository) {
         this.javaMailSender = javaMailSender;
         this.userRepository = userRepository;
-        this.formResponseRepository = formResponseRepository;
+        this.formRepository = formRepository;
     }
 
     public ResponseEntity<?> sendMail(Email email) {
@@ -80,29 +82,26 @@ public class EmailService {
         }
     }
 
-    public ResponseEntity<?> sendReminderMail(int id) {
+    public ResponseEntity<?> sendReminderMail(int vendorId, int formId) {
         //get User email
-        Optional<User> user = userRepository.findById(id);
-//        String userEmail = user.get().getEmailAddress();
-        String userEmail = "oopg1t4@gmail.com";
+        Optional<User> user = userRepository.findById(vendorId);
+        String userEmail = user.get().getEmailAddress();
+//        String userEmail = "oopg1t4@gmail.com";
 
-        //Create pending forms string
-        String pendingForms = "";
+        //Get pending form
+        Form pendingForm = formRepository.findById(formId).get();
 
-        //Get all form responses
-        List<FormResponse> userFormResponses = formResponseRepository.getFormByVendorID(id);
-        System.out.println(userFormResponses);
-        for (FormResponse fr : userFormResponses){
-            if (fr.getOwnerId() == id && fr.getPendingUserInput() == "Vendor"){
-                pendingForms += fr.getFormCode() + ", ";
-            }
-        }
+        //Get pending form code
+        String pendingFormCode = pendingForm.getFormCode();
 
+        //get form description
+        String pendingFormDescription = pendingForm.getDescription();
+        
         //1. Craft the subject line
         String reminderSubject = "Reminder to complete your required forms";
 
         //2. Craft Message Body
-        String reminderBody = "Dear vendor,<br/><br/>Please be reminded to complete the following forms: <b>(" + pendingForms.substring(0, pendingForms.length()) + ")</b>. <br/><br/>Please visit our website again to complete the form.<br/><br/>Thank you.<br/><br/>Regards,<br/>zxc.";
+        String reminderBody = "Dear vendor,<br/><br/>Please be reminded to complete the following form: <b>(" +pendingFormCode + ") - "+ pendingFormDescription + "</b>. <br/><br/>Please visit our website again to complete the form.<br/><br/>Thank you.<br/><br/>Regards,<br/>zxc.";
 
         //3. Create Email object
         Email reminderEmail = new Email(userEmail, reminderSubject, reminderBody);
