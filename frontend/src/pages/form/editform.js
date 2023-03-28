@@ -175,16 +175,16 @@ export default function Newform(){
     const handleUpdateForm = async() => {
         console.log("DOM DOM DO THIS");
 
-        // try {
-        //     const response = await axios.post('/api/v1/form/createForm', submitForm);
-        //     console.log(response);
-        //     if (response.data.status == 201) {
-        //         navigate('../react/allforms')
-        //         alert('Form template added successfully')
-        //     }
-        // } catch (error) {
-        //     console.log(error);
-        // }
+        try {
+            const response = await axios.put('/api/v1/form/update/' + formId, submitForm);
+            console.log(response);
+            if (response.data.status == 201) {
+                navigate('../react/allforms')
+                alert('Form template added successfully')
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const handleCancelForm = () => {
