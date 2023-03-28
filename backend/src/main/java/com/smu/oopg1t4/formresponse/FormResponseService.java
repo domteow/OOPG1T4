@@ -1,6 +1,7 @@
 package com.smu.oopg1t4.formresponse;
 
 import com.smu.oopg1t4.email.Email;
+import com.smu.oopg1t4.email.EmailService;
 import com.smu.oopg1t4.exceptions.FormNotEditableException;
 import com.smu.oopg1t4.exceptions.FormNotFoundException;
 import com.smu.oopg1t4.exceptions.FormResponseNotFoundException;
@@ -34,6 +35,7 @@ public class FormResponseService {
     private final QuestionnaireService questionnaireService;
     private final FormService formService;
     private final UserRepository userRepository;
+    private final EmailService emailService;
 
     @Autowired
     public FormResponseService(
@@ -42,7 +44,8 @@ public class FormResponseService {
             QuestionnaireService questionnaireService,
             FormRepository formRepository,
             FormService formService,
-            UserRepository userRepository
+            UserRepository userRepository,
+            EmailService emailService
     ) {
         this.formResponseRepository = formResponseRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
@@ -50,6 +53,7 @@ public class FormResponseService {
         this.formRepository = formRepository;
         this.formService = formService;
         this.userRepository = userRepository;
+        this.emailService = emailService;
     }
 
 
@@ -280,16 +284,9 @@ public class FormResponseService {
         //3. Create Email object
         Email rejectionEmail = new Email(ownerEmail, rejectionSubject, rejectionBody);
         //4. Send the Email
-        
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8080/api/v1/email/sendMail";
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Email> request = new HttpEntity<>(rejectionEmail, headers);
-        ResponseEntity<?> response = restTemplate.postForEntity(url, request, Object.class);
-        if (response.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR){
-            throw new Exception("Error sending email");
-        }
+
+        //4. Send the Email
+        emailService.sendMail(rejectionEmail);
     }
 
     public ResponseEntity<StatusResponse> deleteFormFromVendor(int formId) {

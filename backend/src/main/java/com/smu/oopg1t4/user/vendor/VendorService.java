@@ -1,5 +1,7 @@
 package com.smu.oopg1t4.user.vendor;
 
+import com.smu.oopg1t4.email.Email;
+import com.smu.oopg1t4.email.EmailService;
 import com.smu.oopg1t4.encryptor.Encryptor;
 import com.smu.oopg1t4.form.Form;
 import com.smu.oopg1t4.response.StatusResponse;
@@ -9,9 +11,9 @@ import com.smu.oopg1t4.user.admin.Admin;
 import com.smu.oopg1t4.util.SequenceGeneratorService;
 import com.smu.oopg1t4.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,11 +24,13 @@ public class VendorService {
     private final UserRepository userRepository;
 
     private final SequenceGeneratorService sequenceGeneratorService;
+    private final EmailService emailService;
 
     @Autowired
-    public VendorService(UserRepository userRepository, SequenceGeneratorService sequenceGeneratorService) {
+    public VendorService(UserRepository userRepository, SequenceGeneratorService sequenceGeneratorService, EmailService emailService) {
         this.userRepository = userRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
+        this.emailService = emailService;
     }
 
     public ResponseEntity<StatusResponse> createNewVendor(Vendor vendor) {
@@ -39,6 +43,26 @@ public class VendorService {
             vendor.setPassword(Encryptor.hash(vendor.getPassword()));
             vendor.setActive(true);
             userRepository.save(vendor);
+
+            // Send email notification
+            //1. Craft the subject line
+            String notificationSubject = "Welcome to QuantumLeap!";
+
+            //2. Craft Message Body
+            String notificationBody = "Dear Vendor,<br/><br/>Welcome to QuantumLeap! We are glad to have you on board. <br/><br/>Here are your account details: <br/><br/>&emsp;<b>Email: </b>" + vendor.getEmailAddress() + "<br/>&emsp;<b>Company: </b>" + vendor.getCompany() + "<br/>&emsp;<b>Phone Number: </b>"  + vendor.getPhoneNumber() +"<br/><br/>Thank you for choosing us as your partner.<br/><br/>Regards,<br/>The team at Quantum Leap";
+
+            //3. Create Email object
+            Email reminderEmail = new Email(vendor.getEmailAddress(), notificationSubject, notificationBody);
+
+            //4. Send the Email
+            try{
+                emailService.sendMail(reminderEmail);
+            }catch(Exception e){
+                StatusResponse statusResponse = new StatusResponse("Error sending email", HttpStatus.INTERNAL_SERVER_ERROR.value());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+            }
+
+
             StatusResponse successResponse = new StatusResponse("Vendor added successfully", HttpStatus.CREATED.value());
             return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
         } catch (Exception e) {

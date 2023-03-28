@@ -106,21 +106,17 @@ public class EmailService {
         //3. Create Email object
         Email reminderEmail = new Email(userEmail, reminderSubject, reminderBody);
 
-        //4. Send the Email
-        try{
-            RestTemplate restTemplate = new RestTemplate();
-            String url = "http://localhost:8080/api/v1/email/sendMail";
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Email> request = new HttpEntity<>(reminderEmail, headers);
-            ResponseEntity<?> response = restTemplate.postForEntity(url, request, Object.class);
 
+        try{
+            this.sendMail(reminderEmail);
             StatusResponse successResponse = new StatusResponse("Success!", HttpStatus.OK.value());
             return ResponseEntity.status(HttpStatus.OK).body(successResponse);
+
         }catch(Exception e){
             StatusResponse statusResponse = new StatusResponse("Error sending email", HttpStatus.INTERNAL_SERVER_ERROR.value());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
         }
+
 
     }
 }
