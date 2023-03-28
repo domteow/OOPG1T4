@@ -30,13 +30,13 @@ public class EmailService {
     private String senderName = "OOP G1T4";
 
     private final UserRepository userRepository;
-    private final FormRepository formRepository;
+    private final FormResponseRepository formResponseRepository;
 
     @Autowired
-    public EmailService(JavaMailSender javaMailSender, UserRepository userRepository, FormRepository formRepository) {
+    public EmailService(JavaMailSender javaMailSender, UserRepository userRepository, FormResponseRepository formResponseRepository) {
         this.javaMailSender = javaMailSender;
         this.userRepository = userRepository;
-        this.formRepository = formRepository;
+        this.formResponseRepository = formResponseRepository;
     }
 
     public ResponseEntity<?> sendMail(Email email) {
@@ -88,15 +88,15 @@ public class EmailService {
         String userEmail = user.get().getEmailAddress();
 //        String userEmail = "oopg1t4@gmail.com";
 
-        //Get pending form
-        Form pendingForm = formRepository.findById(formId).get();
+        //Get pending form response
+        FormResponse pendingForm = formResponseRepository.findById(formId).get();
 
         //Get pending form code
         String pendingFormCode = pendingForm.getFormCode();
 
         //get form description
         String pendingFormDescription = pendingForm.getDescription();
-        
+
         //1. Craft the subject line
         String reminderSubject = "Reminder to complete your required forms";
 
