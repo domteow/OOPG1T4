@@ -360,7 +360,7 @@ export default function VendorDetails(){
                             Cancel
                         </button>
 
-                        <button className='createFormButton' onClick={handleSubmit}>
+                        <button className='createFormButton' disabled={isDisabled} onClick={handleSubmit}>
                             Confirm Edit
                         </button>
                     </div>

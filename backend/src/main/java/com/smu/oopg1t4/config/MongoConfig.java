@@ -78,7 +78,7 @@ public class MongoConfig {
             Field fx1 = new Field("Evaluation", "header");
             Field f14 = new Field("ISO 9001 Certification (if present, type in Certification Body)", "text");
             Field f15 = new Field("Accreditation of Laboratory (if present, type in Accreditation Body)", "text");
-            Field f16 = new Field("Product Certification (if present, type in Product Markings (e.g. PSB, UL, TUV):", "text");
+            Field f16 = new Field("Product Certification (if present, type in Product Markings (e.g. PSB, UL, TUV)", "text");
             Field f17 = new Field("Site Evaluation Results", "radio", List.of("Satisfactory", "Unsatisfactory"), false);
             Field f18 = new Field("Results of Samples/Product Evaluation", "radio", List.of("Satisfactory", "Unsatisfactory"), false);
             Field f19 = new Field("Results of First Deal", "radio", List.of("Satisfactory", "Unsatisfactory"), false);
@@ -137,7 +137,7 @@ public class MongoConfig {
             Field f47 = new Field("6. Responsible Personnel", "header");
             Field f48 = new Field("a) Is there a Safety Supervisor working at least 5 hrs / week?", "radio", List.of("Yes", "No"), false);
             Field f49 = new Field("b) Is there a qualified First Aider?", "radio", List.of("Yes", "No"), false);
-            Field f50 = new Field("Are there relevant Licensed Electrical Workers, qualified engineers, qualified supervisors, lifting supervisors, qualified JCB Tower / Mobile / Crawler Crane operators?", "radio", List.of("Yes", "No"), false);
+            Field f50 = new Field("c) Are there relevant Licensed Electrical Workers, qualified engineers, qualified supervisors, lifting supervisors, qualified JCB Tower / Mobile / Crawler Crane operators?", "radio", List.of("Yes", "No"), false);
 
             //Questionnaire 12 for SUBCONTRACTOR’S SAFETY & HEALTH PRE-EVALUATION
             Field f51 = new Field("7. Accident Analysis", "header");

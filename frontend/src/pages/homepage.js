@@ -109,7 +109,7 @@ export default function Homepage() {
         const allforms = response.data.data
         allforms.forEach(form => {
           console.log(form)
-          if(form['status'] === 'completed'){
+          if(form['status'] === 'complete'){
             setCompletedForms(prevCompletedForms => ([...prevCompletedForms, form]))
             console.log(completedForms)
           }
@@ -318,7 +318,7 @@ export default function Homepage() {
                         </div>
                       </Col>
                       <Col xs={6} md={4} xl={2}>
-                        <button className='formButton' size="lg" style={{backgroundColor: '#46AF05', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(completedForms.id)}>
+                        <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
                           View Form
                         </button>
                       </Col>

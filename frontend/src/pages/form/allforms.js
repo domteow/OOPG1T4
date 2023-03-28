@@ -189,10 +189,10 @@ export default function Allforms(){
                             const formId = form.id;
                             return(
                                 <Row className='formDataRow'>
-                                    <Col xs={12} md={3}>
+                                    <Col xs={12} md={3} className='headerCenter'>
                                         {form.description}
                                     </Col>
-                                    <Col xs={12} md={2}>
+                                    <Col xs={12} md={2} className='headerCenter'>
                                         {form.formCode}
                                     </Col>
                                     <Col xs={12} md={1} className='headerCenter'>

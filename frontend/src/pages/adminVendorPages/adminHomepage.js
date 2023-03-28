@@ -107,6 +107,8 @@ export default function AdminHomepage(){
             );
             console.log(response.data);
             // refresh the list of vendors
+            setMsg('Vendor deleted successfully.')
+            displayMessage();
             setOpenDelete(false)
             getAllVendors();
         } catch (error) {

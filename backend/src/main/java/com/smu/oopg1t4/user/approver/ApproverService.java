@@ -29,6 +29,10 @@ public class ApproverService {
 
     public ResponseEntity<StatusResponse> createNewApprover(Approver approver) {
         try {
+            if (userRepository.findByEmailOnly(approver.getEmailAddress()).size() != 0){
+                StatusResponse statusResponse = new StatusResponse("Account with email address already exists", HttpStatus.INTERNAL_SERVER_ERROR.value());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+            }
             approver.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
             approver.setPassword(Encryptor.hash(approver.getPassword()));
             approver.setActive(true);

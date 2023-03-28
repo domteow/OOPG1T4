@@ -29,6 +29,10 @@ public class AdminService {
 
     public ResponseEntity<StatusResponse> createNewAdmin(Admin admin) {
         try {
+            if (userRepository.findByEmailOnly(admin.getEmailAddress()).size() != 0){
+                StatusResponse statusResponse = new StatusResponse("Account with email address already exists", HttpStatus.INTERNAL_SERVER_ERROR.value());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+            }
             admin.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
             admin.setPassword(Encryptor.hash(admin.getPassword()));
             admin.setActive(true);

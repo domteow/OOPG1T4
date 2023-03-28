@@ -224,6 +224,47 @@ export default function Viewvendor(){
     }
     // end of delete 
 
+    // pdf 
+    const getPdf = async(formId) => {
+      const pdfName = "form_id_" + formId + '.pdf'
+      try{
+      axios({
+        url: 'api/v1/pdf/generatePDF/' + formId, //your url
+        method: 'GET',
+        responseType: 'blob', // important
+    }).then((response) => {
+        // create file link in browser's memory
+        const href = URL.createObjectURL(response.data);
+    
+        // create "a" HTML element with href to file & click
+        const link = document.createElement('a');
+        link.href = href;
+        link.setAttribute('download', pdfName); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+    
+        // clean up "a" element & remove ObjectURL
+        document.body.removeChild(link);
+        URL.revokeObjectURL(href);
+    })}
+    catch(error){
+      console.log(error)
+    }
+    }
+
+    const remind = async(formId) => {
+      try{
+        const response = await axios.post('/api/v1/email/sendReminderMail/' + vendorId + "/" + formId);
+        if (response.status >= 200){
+          setMsg('Email reminder sent successfully')
+          displayMessage();
+        }
+      }
+      catch (error){
+        console.log(error)
+      }
+    }
+
     const action = (
       <React.Fragment>
         <IconButton
@@ -283,7 +324,7 @@ export default function Viewvendor(){
                       </button>
                     </Col>
                     <Col xs={6} md={2} xl={2}>
-                      <button className='formButton' onClick={() => goToForm(form.id)} size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}}>
+                      <button className='formButton' onClick={() => getPdf(form.id)} size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}}>
                         Generate PDF
                       </button>
                     </Col>
@@ -402,13 +443,13 @@ export default function Viewvendor(){
                                 </div>
                               </Col>
                               <Col xs={6} md={2} xl={2}>
-                                <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
-                                  Remind Vendor
+                                <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
+                                  View Form
                                 </button>
                               </Col>
                               <Col xs={6} md={2} xl={2}>
-                                <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
-                                  View Form
+                                <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => remind(form.id)}>
+                                  Remind Vendor
                                 </button>
                               </Col>
                               <Col xs={6} md={1} xl={1} className='companyHeader' >
