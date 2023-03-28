@@ -32,6 +32,7 @@ export default function Newform(){
     const [effectiveDate, setEffectiveDate] = useState("");
     const navigate = useNavigate();
     const [questionnaireList, setQuestionnaireList] = useState([]);
+    const [count, setCount] = useState(0);
 
     const getAllQuestionnaires = async() =>{
         try{
@@ -69,8 +70,12 @@ export default function Newform(){
             })
         }
         else{
+            setCount((prev) => prev+1)
+            const data = {
+                count: count,
+            }
             setInputList([...inputList, value])
-            setFormData([...formData, ""]);
+            setFormData([...formData, data]);
         }
     };
     /* END OF ONCLICK INPUT THING TO ADD INPUTFIELD */
@@ -91,10 +96,12 @@ export default function Newform(){
         }); 
         setInputList(newDat);
     };
-
+    console.log(formData);
     const formDetails = (data, index) => {
+        console.log(data);
         const newFormDetails = formData.map((item, i) => {
-            if (index === i){
+            const ctr = item.count;
+            if (data.count === ctr){
                 return data;
             }
 
@@ -104,6 +111,7 @@ export default function Newform(){
         });
         setFormData(newFormDetails);
     }
+    console.log(formData);
 
     const handleFormName = (e) => {
         setFormName(e.target.value);
@@ -151,6 +159,7 @@ export default function Newform(){
 
     /* THIS IS TO RENDER THE ADDING OF INPUT FIELDS */
     const renderInputField = (item, i) =>{
+        
         if(item === 'New Questionnaire'){
             return(
                 <>
@@ -160,6 +169,7 @@ export default function Newform(){
                     </button>
                 </>
             )
+
         }
 
         else if (item === 'Cancel'){
@@ -174,13 +184,15 @@ export default function Newform(){
             // to display an existing questionnaire 
             return (
                 <>
-                    <Questionnaire id={item}/>
-                    <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveInputField(i)}>
+                    <Questionnaire id={count}/>
+                    <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveInputField(count)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Questionnaire
                     </button>
                 </>
             )
+            
         }
+    
     }
     /* END OF RENDER OF ADDING OF INPUT FIELDS */
 

@@ -189,10 +189,12 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
     // console.log(assigned);
     // console.log(details);
     const [prevData, setPrevdata] = useState({});
+    console.log(details);
     const data = { 
         name: questionnaireName, 
         roleRequired: assigned,
-        fields: details 
+        fields: details,
+        count: id
     }
     console.log(data);
 
