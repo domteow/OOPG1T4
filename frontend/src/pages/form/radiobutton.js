@@ -11,16 +11,21 @@ import Radio from '@mui/material/Radio';
 const RadioButton = ({allDetails, id, value, options, other, edit}) => {
     console.log(value)
     console.log(options)
-    const [radioQuestion, setRadioQuestion] = useState('');
-    const [radioOptions, setRadioOptions] = useState([]);
-    const [prevOption, setPrevOption] = useState([]);
-    const [prevQuestion, setPrevQuestion] = useState('');      
+    const [radioQuestion, setRadioQuestion] = useState(value);
+    const [radioOptions, setRadioOptions] = useState(options);
+    const [prevOption, setPrevOption] = useState(options);
+    const [prevQuestion, setPrevQuestion] = useState(value);      
     const [others, setOthers] = useState(other);
     const [prevOthers, setPrevOthers] = useState(other);
     console.log(radioOptions)
+    console.log(radioQuestion);
+    console.log(prevQuestion);
+
     const handleQuestionChange = (e) => {
+        console.log(e.target.value);
         setRadioQuestion(e.target.value);
     };
+    console.log(radioQuestion)
     
     const handleOptionChange = (e, index) => {
         const updatedOptions = [...radioOptions];
@@ -50,26 +55,27 @@ const RadioButton = ({allDetails, id, value, options, other, edit}) => {
         name: radioQuestion,
         options: radioOptions,
         type: 'radio',
-        others: others
+        others: others,
+        id: id
     }
-
-    useEffect(()=>{
-        if (radioQuestion == ''){
-            setRadioQuestion(value);
-        }
-        if (radioOptions == []){
-        setRadioOptions(options);}
+    console.log(data);
+    console.log(radioQuestion)
+    console.log(prevQuestion);
+    console.log(prevOption)
+    useEffect(()=>{        
         if (prevQuestion !== radioQuestion){
-            setPrevQuestion(radioQuestion);
+            console.log('hi')
             allDetails(data, id);
+            setPrevQuestion(radioQuestion);
         }
         if(prevOption!== radioOptions){
-            setPrevOption(radioOptions);
+            console.log('hi2')
             allDetails(data, id);
+            setPrevOption(radioOptions);
         }
         if (others !== prevOthers){
-            setPrevOthers(others);
             allDetails(data, id);
+            setPrevOthers(others);
         }
     })
 
@@ -91,18 +97,16 @@ const RadioButton = ({allDetails, id, value, options, other, edit}) => {
     console.log(radioOptions);
 
     if (!edit){
-        let l = value;
-        console.log(l);
         console.log(value);
         return(
             <>
                 <div className='newFormInput'>
-                    <TextField value={radioQuestion} defaultValue={value} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Radio Question"/>
+                    <TextField defaultValue={radioQuestion} sx={{width: '100%'}} onChange={handleQuestionChange} placeholder="Radio Question"/>
 
-                    {options.map((option, index) => (
+                    {radioOptions.map((option, index) => (
                         <div key={index} className="radioOption">
                             <Radio disabled={true} />
-                            <TextField value={option} sx={{width: '70%'}} onChange={(e) => handleOptionChange(e, index)} placeholder="Radio Option"/>
+                            <TextField defaultValue={option} sx={{width: '70%'}} onChange={(e) => handleOptionChange(e, index)} placeholder="Radio Option"/>
                             <DeleteIcon onClick={() => handleRemoveOption(index)}/>
                         </div>
                     ))}

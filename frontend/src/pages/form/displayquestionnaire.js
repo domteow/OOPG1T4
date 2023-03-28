@@ -112,8 +112,9 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
         });
         setDetails(newDetails);
     }
-    // console.log("RHYS SEE IF IT CHANGE PLEASE");
-    // console.log(details);
+
+    console.log("RHYS TANNNN")
+    console.log(details)
 
     const newData = {
         name: questionnaireName,

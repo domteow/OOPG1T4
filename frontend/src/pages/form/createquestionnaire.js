@@ -20,19 +20,18 @@ import Subheader from './subheader';
 
 const options = ['Header', 'Sub Header', 'Subtext', 'Text Field', 'Radio Button', 'Checkbox', 'Select'];
 
-// export default function CreateQuestionnaire(){
 const CreateQuestionnaire = ({formDetails, id, value}) => {
     const [open, setOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(options[1]);
     const [questionnaireName, setQuestionnaireName] = useState("");
     const [assigned, setAssigned] = useState("Admin");
-    // inputList contains all the input fields that you're adding into the questionnaire 
     const [inputList, setInputList] = useState([]);
-    // details contains all the details of the questionnaire ehehehhe
     const [details, setDetails] = useState([]);
     const [prevFields, setPreviousFields] = useState({});
     const [prevAssign, setPreviousAssign] = useState("");
     const [prevName, setPreviousName] = useState("");
+    const [counter, setCounter] = useState(0);
+
     /* DIALOGUE STUFF */
     // this is for opening the dialogue
     const handleClickOpen = () => {
@@ -40,13 +39,22 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
     };
     
     // this is for closing the dialogue
+
     const handleClose = (value) => {
+        setCounter((prev) => prev+1);
         setOpen(false);
         setSelectedValue(value);
-        setInputList([...inputList, value]);
-        setDetails([...details, value]);
+        const data = {
+            type: value,
+            id:counter,
+            name: '',
+            options: []
+        }
+        setInputList([...inputList, data]);
+        setDetails([...details, data]);
     };
     /* END OF DIALOGUE STUFF */
+    console.log(inputList);
 
     // this is to delete the input field 
     const handleRemoveInputField = index => {
@@ -58,7 +66,8 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
         // setInputList(list);
 
         const newInputs = inputList.map((item, i) => {
-            if (i === index){
+            const idx = item.id;
+            if (index === idx){
                 return "";
             }
             else{
@@ -66,13 +75,38 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
             }
         });
         setInputList(newInputs);
+
+        // const newDat = [...inputList];
+        // newDat.splice(index, 1);
+        // setInputList(newDat);
+
+        const newData = [...details];
+        newData.splice(index, 1);
+        setDetails(newData)
+
+        // const newDetails = details.map((item, i) => {
+        //     if (i === index){
+        //         return "";
+        //     }
+        //     else{
+        //         return item;
+        //     }
+        // });
+        // setDetails(newDetails);
     };
 
 
+
+    console.log(details);
+
     const allDetails = (data, index) => {
+        console.log(inputList);
         console.log(data);
         const newDetails = details.map((item, i)=>{
-            if (i === index){
+            const idx = item.id;
+            console.log(i);
+            console.log(index)
+            if (idx === index){
                 return data
             }
             else{
@@ -82,13 +116,15 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
         setDetails(newDetails);
     }
 
-    const handleTextChange = (e, i)=>{
+    const handleTextChange = (e, id)=>{
         const data = {
             name : e.target.value,
-            type: 'text'
+            type: 'text',
+            id:id
         }
         const newDetails = details.map((item, index)=>{
-            if (index === i){
+            const idx = item.id;
+            if (id === idx){
                 return data
             }
             else{
@@ -98,13 +134,15 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
         setDetails(newDetails);
     }
 
-    const handleSubTextChange = (e, i)=>{
+    const handleSubTextChange = (e, id)=>{
         const data = {
             name : e.target.value,
-            type: 'subtext'
+            type: 'subtext',
+            id:id
         }
         const newDetails = details.map((item, index)=>{
-            if (index === i){
+            const idx = item.id;
+            if (idx === id){
                 return data
             }
             else{
@@ -114,13 +152,15 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
         setDetails(newDetails);
     }
 
-    const handleSubheaderChange = (e, i)=>{
+    const handleSubheaderChange = (e, id)=>{
         const data = {
             name : e.target.value,
-            type: 'subheader'
+            type: 'subheader',
+            id:id
         }
         const newDetails = details.map((item, index)=>{
-            if (index === i){
+            const idx = item.id;
+            if (idx === id){
                 return data
             }
             else{
@@ -130,13 +170,15 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
         setDetails(newDetails);
     }
 
-    const handleHeaderChange = (e, i)=>{
+    const handleHeaderChange = (e, id)=>{
         const data = {
             name : e.target.value,
-            type: 'header'
+            type: 'header',
+            id:id
         }
         const newDetails = details.map((item, index)=>{
-            if (index === i){
+            const idx = item.id;
+            if (idx === id){
                 return data
             }
             else{
@@ -158,7 +200,7 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
     // console.log(questionnaireName);
     // console.log(assigned);
     // console.log(details);
-
+    const [prevData, setPrevdata] = useState({});
     const data = { 
         name: questionnaireName, 
         roleRequired: assigned,
@@ -184,21 +226,25 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
 
 
     // rendering input fields
-    const renderInputField = (item, i) =>{
+    const renderInputField = (it, i) =>{
+        const item = it.type;
+        const name = it.name;
+        const opt = it.options;
+        const id = it.id;
         if(item === 'Text Field'){
             return(
                 <>
                     <>
                         <div className='newFormQuestion'>
                             <div>
-                                <TextField name='text' placeholder='Question' sx={{width: '100%'}} onChange={(e)=>handleTextChange(e, i)}/>
+                                <TextField name='text' placeholder='Question' sx={{width: '100%'}} onChange={(e)=>handleTextChange(e, id)}/>
                             </div>
                             <div>
                                 <TextField name='answer' placeholder='Answer' sx={{width: '100%'}} disabled={true}/>
                             </div>
                         </div>
                     </>
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Text Field
                     </button>
                 </>
@@ -207,8 +253,8 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
         else if(item === 'Radio Button'){
             return(
                 <>
-                    <RadioButton id={i} allDetails={allDetails} value={''} options={[]} other={false} edit={false}/>
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                    <RadioButton id={id} allDetails={allDetails} value={name} options={opt} other={false} edit={true}/>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Radio
                     </button>
                 </>
@@ -217,8 +263,8 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
         else if(item === 'Checkbox'){
             return(
                 <>
-                    <Checkbox id={i} allDetails={allDetails} value={''} options={[]} other={false} edit={false} />
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                    <Checkbox id={id} allDetails={allDetails} value={''} options={[]} other={false} edit={false} />
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Checkbox
                     </button>
                 </>
@@ -227,8 +273,8 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
         else if(item === 'Select'){
             return(
                 <>
-                    <Select id={i} allDetails={allDetails} value={''} options={[]} edit={false} />
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                    <Select id={id} allDetails={allDetails} value={''} options={[]} edit={false} />
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Select
                     </button>
                 </>
@@ -238,9 +284,9 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
             return(
                 <>
                     <div className='radioOption'>
-                        <TextField name='text' placeholder='Subheader' sx={{width: '100%'}}  onChange={(e)=>handleSubheaderChange(e, i)}/>
+                        <TextField name='text' placeholder='Subheader' sx={{width: '100%'}}  onChange={(e)=>handleSubheaderChange(e, id)}/>
                     </div>
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Subheader
                     </button>
                 </>
@@ -251,10 +297,10 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
             return(
                 <>
                     <div className='radioOption'>
-                        <TextField name='text' placeholder='Header' sx={{width: '100%'}} className='headertext' onChange={(e)=>handleHeaderChange(e, i)}/>
+                        <TextField name='text' placeholder='Header' sx={{width: '100%'}} className='headertext' onChange={(e)=>handleHeaderChange(e, id)}/>
                     </div>
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
-                        <DeleteIcon sx={{fontSize: 30}}/> Delete Subheader
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(id)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Header
                     </button>
                 </>
             )
@@ -264,13 +310,19 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
             return(
                 <>
                     <div className='radioOption'>
-                        <TextField name='text' placeholder='Header' sx={{width: '100%'}} className='subtext' onChange={(e)=>handleSubTextChange(e, i)}/>
+                        <TextField name='text' placeholder='Subtext' sx={{width: '100%'}} className='subtext' onChange={(e)=>handleSubTextChange(e, id)}/>
                     </div>
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
-                        <DeleteIcon sx={{fontSize: 30}}/> Delete Subheader
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(id)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Subtext
                     </button>
                 </>
             )
+        }
+        else if (item === ""){
+            return(<></>)
+        }
+        else if (item === 'Cancel'){
+            return(<></>)
         }
     }
 

@@ -45,6 +45,8 @@ const NewQuestionnaire = ({formDetails, id, value}) => {
         setInputList(newInput);
     }
 
+  
+
     console.log(inputList);
 
     const handleClickOpen = () => {
@@ -60,7 +62,7 @@ const NewQuestionnaire = ({formDetails, id, value}) => {
             options: [],
             other: false
         }
-        setInputList([...inputList, data]);
+        setInputList([...inputList, value]);
     }
 
     const handleTextChange = (e, i) => {
@@ -116,6 +118,7 @@ const NewQuestionnaire = ({formDetails, id, value}) => {
         const type = item.type;
         const name = item.name;
         const options = item.options;
+        console.log(item);
         if (type == 'Text Field' || type =='text'){
             return(
                 <>
@@ -135,17 +138,15 @@ const NewQuestionnaire = ({formDetails, id, value}) => {
                 </>
             )
         }
-        else if (type == 'Radio Button' || type == 'radio'){
-            const type = item.type;
-            const name = item.name;
-            const options = item.options;
+        else if (item == 'Radio Button' || type == 'radio'){
+            const type = item.type
             const other = item.other;
             console.log(item);
             console.log(name);
             console.log(options);
             return(
                 <>
-                    <RadioButton id={i} allDetails={allDetails} value={name} options={options} other={other} edit={false}/>
+                    <RadioButton id={i} allDetails={allDetails} value={''} options={[]} other={false} edit={false}/>
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(item, i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Radio
                     </button>

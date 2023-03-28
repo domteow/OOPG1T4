@@ -154,7 +154,7 @@ export default function Newform(){
         if(item === 'New Questionnaire'){
             return(
                 <>
-                    <NewQuestionnaire formDetails={formDetails} id={i} value={formData[i]}/>
+                    <CreateQuestionnaire formDetails={formDetails} id={i} value={formData[i]}/>
                     <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Questionnaire
                     </button>
