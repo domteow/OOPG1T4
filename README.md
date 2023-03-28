@@ -14,7 +14,7 @@ To install CMS, follow these steps:
 ### Frontend ###
 
 -   Clone the repository to your local machine.
--   Install Node.js from https://nodejs.org/.
+-   Install Node.js from https://nodejs.org/
 -   Open a terminal window and navigate to the project directory.
 -   Navigate into the "frontend" folder
 -   Run npm install to install the required dependencies.
@@ -50,5 +50,47 @@ To use My Web App, follow these steps:
 <b>Vendor 2</b>
 - Username: dominicteow.2020@scis.smu.edu.sg
 - Password: domteow
+
+## Account Features ##
+
+### All Users ###
+- Access the current form in each workflow (zero or more) that they are expected to complete.
+- Edit current forms and subsequently submit them; support for saving partially edited forms
+  without submission is also required.
+- Efficiently browse and view all previously submitted own forms in each workflow.
+- Log out.
+
+### Admin ###
+- Create/read/update/delete accounts of users in the system.
+- Assign workflows to users.
+- List status of workflows of any users.
+- Highlight what documents are missing for which users.
+- Send an email reminder to a user to submit a form in a specific workflow.
+- Generate printouts (preferably PDF documents) representing forms with collected data.
+
+### Approver ###
+- Approve and reject workflows
+
+
+## Technologies Used ##
+- React.js
+- Spring Boot
+- MongoDB
+
+## Course and Team Information ##
+
+IS442 Object-Oriented PRogramming<br>
+AY2022-2023, Term 2<br>
+Group 1<br>
+Team 4
+
+## Authors ##
+
+* Bruno Goh Jing Hang bruno.goh.2020@scis.smu.edu.sg <br>
+* Tan Yu Qing Rhys rhys.tan.2020@scis.smu.edu.sg<br>
+* Teow Zhen Yang Dominic dominicteow.2020@scis.smu.edu.sg <br>
+* Yap Jie En Kelvin kelvin.yap.2020@scis.smu.edu.sg <br>
+* Alvin Ling Wei Chow alvin.ling.2021@scis.smu.edu.sg <br>
+* Neo Jing Min jingmin.neo.2020@scis.smu.edu.sg
 
 
