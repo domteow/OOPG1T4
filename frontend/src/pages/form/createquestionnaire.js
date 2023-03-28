@@ -57,17 +57,10 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
     console.log(inputList);
 
     // this is to delete the input field 
-    const handleRemoveInputField = index => {
-        // const list = [...inputList];
-        // list.splice(index, 1);
-        // const qlist = [...details];
-        // qlist.splice(index, 1);
-        // setDetails(qlist);
-        // setInputList(list);
-
+    const handleRemoveInputField = id => {
         const newInputs = inputList.map((item, i) => {
             const idx = item.id;
-            if (index === idx){
+            if (id === idx){
                 return "";
             }
             else{
@@ -76,23 +69,18 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
         });
         setInputList(newInputs);
 
-        // const newDat = [...inputList];
-        // newDat.splice(index, 1);
-        // setInputList(newDat);
+        const index = details.findIndex(item => item.id === id);
+        if (index >= 0) {
+            const newData = [...details];
+            newData.splice(index, 1);
+            setDetails(newData);
+        }
 
-        const newData = [...details];
-        newData.splice(index, 1);
-        setDetails(newData)
+        if (newInputs.length === 0) {
+            setInputList([]);
+          }
 
-        // const newDetails = details.map((item, i) => {
-        //     if (i === index){
-        //         return "";
-        //     }
-        //     else{
-        //         return item;
-        //     }
-        // });
-        // setDetails(newDetails);
+        
     };
 
 

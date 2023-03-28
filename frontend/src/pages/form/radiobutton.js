@@ -9,8 +9,8 @@ import AddIcon from '@mui/icons-material/Add';
 import Radio from '@mui/material/Radio';
 
 const RadioButton = ({allDetails, id, value, options, other, edit}) => {
-    console.log(value)
-    console.log(options)
+    // console.log(value)
+    // console.log(options)
     const [radioQuestion, setRadioQuestion] = useState(value);
     const [radioOptions, setRadioOptions] = useState(options);
     const [prevOption, setPrevOption] = useState(options);
