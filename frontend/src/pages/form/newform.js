@@ -18,7 +18,7 @@ import Questionnaire from './questionnaire';
 import RadioButton from './radiobutton';
 import Select from './select';
 
-
+import NewQuestionnaire from './newquestionnaire';
 
 export default function Newform(){
     const options = ['New Questionnaire'];
@@ -154,7 +154,7 @@ export default function Newform(){
         if(item === 'New Questionnaire'){
             return(
                 <>
-                    <CreateQuestionnaire formDetails={formDetails} id={i} value={formData[i]}/>
+                    <NewQuestionnaire formDetails={formDetails} id={i} value={formData[i]}/>
                     <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Questionnaire
                     </button>
