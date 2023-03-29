@@ -6,13 +6,13 @@ Client Management System (CMS) is a data capture web application for Quantum Lea
 This is the first release of CMS which contains its core functionalities as provided by the sponsor.
 
 ## Installation ##
-
 To install CMS, follow these steps:
 
 ### Backend ###
 
-### Frontend ###
 
+
+### Frontend ###
 -   Clone the repository to your local machine.
 -   Install Node.js from https://nodejs.org/
 -   Open a terminal window and navigate to the project directory.
@@ -22,14 +22,12 @@ To install CMS, follow these steps:
 
 
 ## Configuration ##
-
 To configure CMS, follow these steps:
 
 - Open the application.properties file located in the backend/src/main/resources directory.
 - Change the value of the spring.data.mongodb.uri property to the URI of your MongoDB instance.
 
 ## Usage ##
-
 To use My Web App, follow these steps:
 
 - Open your web browser and navigate to the [Login Page](http://localhost:3000/react/login).
@@ -72,22 +70,27 @@ To use My Web App, follow these steps:
 
 ### Approver ###
 - Approve and reject workflows
-
+- Create/ read/ update/ delete accounts of users in the system
+- Creation of admins on the system
+- Generate printouts (preferably PDF documents) representing forms with collected data
 
 ## Technologies Used ##
 - React.js
 - Spring Boot
 - MongoDB
 
-## Course and Team Information ##
+## Libraries Used ##
+- Material UI (MUI) 
+- OpenPDF 
+- Project Lombok
 
-IS442 Object-Oriented PRogramming<br>
+## Course and Team Information ##
+IS442 Object-Oriented Programming<br>
 AY2022-2023, Term 2<br>
 Group 1<br>
 Team 4
 
 ## Authors ##
-
 * Bruno Goh Jing Hang bruno.goh.2020@scis.smu.edu.sg <br>
 * Tan Yu Qing Rhys rhys.tan.2020@scis.smu.edu.sg<br>
 * Teow Zhen Yang Dominic dominicteow.2020@scis.smu.edu.sg <br>
