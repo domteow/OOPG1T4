@@ -41,9 +41,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 export default function ApproveForm() {
     const formids  = useParams()['formId'];    
-    // const vendorids = useParams()['vendorId'];
     const [formID, setFormID] = useState(formids);
-    // const [vendorId, setVendorId] = useState(vendorids);
     const [questionnaires, setQuestionnaires] = useState({});
     const [formToSend, setFormToSend] = useState({}); 
     const [form, setForm] = useState({});
@@ -52,15 +50,12 @@ export default function ApproveForm() {
     const [selectedOption, setSelectedOption] = useState('');
     const [revisionNo, setRevisionNo] = useState('');
     const [questionnaireIds, setQuestionnaireIds] = useState([]);
-    // const [isLoading, setLoading] = useState(true); 
     const [upTo, setUpTo] = useState();
     const navigate = useNavigate();
     const [qnInds, setQnInds] = useState([]);
     const [load, setLoad] = useState(true);
     const [open, setOpen] = React.useState(false);
 
-
-    console.log(role);
     // TODO: add POST request to backend to update form response
 
     const [isLoading, setLoading] = useState(true);
@@ -92,10 +87,7 @@ export default function ApproveForm() {
             }}> <CircularProgress /> Form loading in progress... {console.log("loading state")}</div>
         );
     }
-    console.log(form);
 
-      
-    
     const handleChange = (qnIndex, dIndex) => (e) => {
         const value = e.target.value;
         setQuestionnaires((prevState) => {
@@ -143,9 +135,8 @@ export default function ApproveForm() {
         Object.keys(questionnaires).map((key, i) => {
             if (i < upTo){
                 const questionnaire = questionnaires[key];
-                console.log(questionnaire);
                 const fields = questionnaire.fields; 
-                console.log(fields);
+
                 fields.map((field, i) => {
                     const val = field.value;
                     if (field.type != 'subheader' && field.type != 'header' && field.type != 'subtext'){
@@ -165,17 +156,14 @@ export default function ApproveForm() {
         }
     }
 
-
-
-
     console.log(questionnaires)
     const handleSubmit = () => {
         const canSubmit = isFormValid(questionnaires);
         console.log(canSubmit);
         if (canSubmit){
             submit();
-            console.log("okie")
         }
+
         else{
             setOpen(true);   
             window.scrollTo({top: 0, left: 0, behavior: 'smooth'});         
@@ -191,7 +179,6 @@ export default function ApproveForm() {
         console.log(updatedRevisionNo)
         
         const updatedFormToSend = ({ ...form, "revisionNo": updatedRevisionNo, "questionnaires": Object.values(questionnaires) })
-        // console.log(updatedFormToSend)
 
           try {
             const response = await axios.put("/api/v1/formResponse/updateFormResponse/" + formID, updatedFormToSend)
@@ -242,40 +229,9 @@ export default function ApproveForm() {
             console.log(error)
         }
     }
-    const test = async() => {
-        
-        console.log(questionnaires)
-        console.log(revisionNo)
-        const updatedRevisionNo = revisionNo + 1;
-        setRevisionNo(updatedRevisionNo);
-        console.log(updatedRevisionNo)
-        
-        setFormToSend({ ...form, "revisionNo": updatedRevisionNo, "questionnaires": Object.values(questionnaires) })
-
-
-          try {
-            const response = await axios.put("/api/v1/formResponse/updateFormResponse/" + formID, formToSend)
-            console.log(response);
-            if(response.data.status >= 200) {
-                alert("Form submitted successfully");
-                navigate("../react/vendor/homepage")
-            }
-            
-        } catch (error) {
-            console.log(error)
-        }
-        
-    }
-
   
     const cancel = () =>{
         localStorage.getItem('role')
-        // if (role === 'Vendor'){
-        //     navigate('/react/vendor/homepage')
-        // }
-        // else if (role === 'Admin'){
-        //     navigate('/react/admin/homepage')
-        // }
         navigate(-1);
     }
 
@@ -352,7 +308,6 @@ export default function ApproveForm() {
                                         const inputType = detail['type'];
 
                                         if (inputType == 'text'){
-                                            // console.log(detail)
                                             // for input type string, number, text all 
                                             return(
                                                 <fieldset>
@@ -401,9 +356,7 @@ export default function ApproveForm() {
                                         }
                                         else{
                                             const typeMultiSelect = inputType;
-                                            // const multiOptions = inputType.slice();
-                                            // multiOptions.splice(0,1);
-
+                                            
                                             if (typeMultiSelect == 'radio'){
                                                 // for input type radio 
                                                 return (

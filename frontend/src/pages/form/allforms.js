@@ -28,9 +28,8 @@ import IconButton from '@mui/material/IconButton';
 
 
 export default function Allforms(){
-    // get all forms from backend
-        // snackbar
-    const [open, setOpen] = React.useState(false);
+    // snackbar
+    const [open, setOpen] = useState(false);
     const [forms, setForms] = useState([])
     const [msg, setMsg] = useState();
     const [isActive, setIsActive] = useState({});
@@ -38,9 +37,9 @@ export default function Allforms(){
     const getAllForms = async() =>{
         try{
             const response = await axios.get("/api/v1/form/get")
-            // console.log([response.data.data]);
             setForms(response.data.data);
             const act = {};
+
             response.data.data.map((form) => {
                 const id = form.id;
                 const isAct = form.active; 
@@ -56,7 +55,6 @@ export default function Allforms(){
     useEffect(() => {
         getAllForms();
         const message = localStorage.getItem('message');
-        console.log(message);
 
         if (message !== 'null' && message !== null){
             setMsg(message);
@@ -65,7 +63,6 @@ export default function Allforms(){
 
     }, []);
 
-    console.log(isActive);
 
     const displayMessage = () => {
         setOpen(true);
@@ -77,7 +74,7 @@ export default function Allforms(){
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
-        return;
+            return;
         }
 
         setOpen(false);
@@ -98,7 +95,6 @@ export default function Allforms(){
     }
 
     const editForm = (id) => {
-        // navigate('/react/allforms/editform/' + id);
         navigate('/react/formedit/' + id);
     }
 
@@ -107,25 +103,22 @@ export default function Allforms(){
     const handleActive = (formId) => {
 
         const active = isActive[formId];
-        console.log(active);
+  
         setIsActive(prev => ({
             ...prev, 
             [formId]: !active
         }))
-        console.log(isActive);
+        
         deleteForm(formId);
     }
 
     const deleteForm = async(formId) => {
         
-        console.log(formId)
         try{
             const response = await axios.put("/api/v1/form/delete/" + formId)
-            console.log(response.data);
+
             setMsg("Form status updated!");
-            // setOpen(true);
             displayMessage();
-            // getAllForms();
         }
         catch(error){
             console.log(error);

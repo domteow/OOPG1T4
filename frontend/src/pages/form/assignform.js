@@ -42,12 +42,12 @@ export default function AssignForm(){
     const getFormData = async () => {
         try {
             const response = await axios.get("/api/v1/formResponse/getFormsByVendorId/" + vendorId)
-            console.log(response.data.data)
+         
             // store in state
             setAssignedForms(response.data.data)
             // store locally for the stuff below
             const assignedForms = response.data.data
-            console.log(assignedForms);
+           
             assignedForms.map((form) => {
                 const code = form.formCode;
                 setExistingFormCode((prev) => ([...prev, code]));
@@ -58,7 +58,7 @@ export default function AssignForm(){
   
         }
     }
-    console.log(existingFormCode);
+    
 
     const getAllForms = async() =>{
         try{
@@ -81,14 +81,13 @@ export default function AssignForm(){
         getFormData();
         getAllForms();
     }, []);
-    console.log(allForms);
-    console.log(assignedForms);
+
 
     const handleChange = (e) => {
         setSelectedValue(e.target.value);
         setDisabled(false);
     }
-    console.log(selectedValue)
+  
 
     const handleCancelForm = () => {
         navigate(-1);
@@ -99,12 +98,10 @@ export default function AssignForm(){
     }
 
     const handleAssign = async() => {
-        console.log(vendorId);
-        console.log(selectedValue);
 
         try{
             const response = await axios.get('api/v1/formResponse/assignFormToVendor/' + selectedValue + '/' + vendorId);
-            console.log(response.data);
+          
             if (response.data.status == 200) {
                 localStorage.setItem('message', 'Form assigned successfully!');
                 if (localStorage.getItem('role') == 'Admin'){

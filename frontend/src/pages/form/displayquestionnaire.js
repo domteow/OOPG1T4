@@ -32,19 +32,8 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
     const [prevFields, setPreviousFields] = useState(fields);
     const [prevAssign, setPreviousAssign] = useState(assign);
     const [prevName, setPreviousName] = useState(value.name);
-    console.log(inputList);
-    console.log(details);
-    console.log(value);
+   
     
-    // useEffect(() => {
-    //     console.log(value);
-    //     setInputList([]);
-    //     setInputList(value.fields);
-    //     setQuestionnaireName('');
-    //     setQuestionnaireName(value.name);
-    //     setDetails('');
-    //     setDetails(value.fields);
-    // }, [])
 
     /* DIALOGUE STUFF */
     // this is for opening the dialogue
@@ -90,9 +79,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
                 setDetails(newitem);
             }
         })
-        // const newDat = [...details];
-        // newDat.splice(index, 1);
-        // setDetails(newDat);
+  
 
     };
 
@@ -101,10 +88,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
     }
 
     const handleTextChange = (e, i)=>{
-        // const data = {
-        //     question : e.target.value,
-        //     type: 'text'
-        // }
+
         const newDetails = details.map((item, index)=>{
             if (index === i){
                 const dat = item;
@@ -119,11 +103,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
     }
 
     const handleSubtextChange = (e, i)=>{
-        
-        // const data = {
-        //     question : e.target.value,
-        //     type: 'subtext'
-        // }
+       
         const newDetails = details.map((item, index)=>{
             if (index === i){
                 const dat = item;
@@ -138,10 +118,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
     }
 
     const handleSubHeaderChange = (e, i)=>{
-        // const data = {
-        //     question : e.target.value,
-        //     type: 'subheader'
-        // }
+       
         const newDetails = details.map((item, index)=>{
             if (index === i){
                 const dat = item;
@@ -178,7 +155,6 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
     }
 
     const allDetails = (data, index) => {
-        console.log("HELLOHELLOHELLOHELLOOOOOOO")
         console.log(data);
         const newDetails = details.map((item, i)=>{
             if (item.id === index){
@@ -191,8 +167,6 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
         setDetails(newDetails);
     }
 
-    console.log("RHYS TANNNN")
-    console.log(details)
 
     const newData = {
         name: questionnaireName,
@@ -216,9 +190,6 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
             initialDetails(newData, id);
         }
     })
-
-
-
 
 
     const renderInputField = (item, i) =>{

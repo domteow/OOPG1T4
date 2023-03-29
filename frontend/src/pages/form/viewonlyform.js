@@ -94,12 +94,9 @@ export default function ViewForm(props){
                                     return(
                                         <fieldset>
                                             <Row className='radioQuestion'>
-                                                {/* <Col xs={6} md={2} xl={2} className='formQuestion'> */}
                                                     {field.name}
-                                                {/* </Col> */}
                                             </Row>
                                             <Row className='radioFormInput'>
-                                                {/* <Col xs={12} md={10} className='formInput'>  */}
                                                     <FormControl fullWidth>
                                                         <TextField
                                                             required
@@ -110,7 +107,6 @@ export default function ViewForm(props){
                                                             disabled={true}
                                                         />
                                                     </FormControl>
-                                                {/* </Col> */}
                                             </Row>
                                         </fieldset>
                                     )
@@ -120,12 +116,9 @@ export default function ViewForm(props){
                                     return (
                                         <fieldset>
                                             <Row className='radioQuestion'>
-                                                {/* <Col xs={6} md={2} xl={2} className='formQuestion'> */}
                                                 {field.name}
-                                                {/* </Col> */}
                                             </Row>
                                             <Row className='radioFormInput'>
-                                                {/* <Col xs={12} md={10} className='formInput'> */}
                                                     <FormGroup>
                                                         <div>
                                                             <select id={field.name} name={field.name} >
@@ -139,7 +132,6 @@ export default function ViewForm(props){
                                                             </select>
                                                         </div>
                                                     </FormGroup>
-                                                {/* </Col> */}
                                             </Row>
                                         </fieldset>
                                     )
@@ -185,12 +177,9 @@ export default function ViewForm(props){
                                     return(
                                         <fieldset>
                                             <Row className='radioQuestion'>
-                                                {/* <Col xs={6} md={7} xl={2} className='formQuestion'> */}
                                                 {field.name}
-                                                {/* </Col> */}
                                             </Row>
                                             <Row className='radioFormInput'>
-                                                {/* <Col xs={12} md={5} className='formInput'> */}
                                                     <RadioGroup
                                                         aria-labelledby="demo-controlled-radio-buttons-group"
                                                         name={field.name}
@@ -202,7 +191,6 @@ export default function ViewForm(props){
                                                             )
                                                         })}
                                                     </RadioGroup>
-                                                {/* </Col> */}
                                             </Row>
                                         </fieldset>
                                     )
@@ -212,9 +200,7 @@ export default function ViewForm(props){
                                     return(
                                         <fieldset>
                                             <Row className='radioQuestion'>
-                                                {/* <Col xs={6} md={2} xl={2} className='formQuestion'> */}
                                                 {field.name}
-                                                {/* </Col> */}
                                             </Row>
                                             <Row className='radioFormInput'>
                                                 <Col xs={12} md={5} className='formInput'>

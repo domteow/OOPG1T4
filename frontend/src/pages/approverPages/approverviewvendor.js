@@ -51,7 +51,6 @@ export default function ApproverViewVendor(){
     const getVendor = async() =>{
       try{
         const response = await axios.get("/api/v1/vendor/getVendor/" + vendorId)
-        // console.log(response.data.data);
         setName(response.data.data.name);
       }
       catch (error){
@@ -73,29 +72,27 @@ export default function ApproverViewVendor(){
         // store locally for the stuff below
         
         const allforms = response.data.data
-        console.log(allforms);
         allforms.forEach(form => {
           console.log(form)
           if(form.status === 'complete'){
             setCompletedForms(prevCompletedForms => ([...prevCompletedForms, form]))
-           
           }
+
           else if(form.status === 'incomplete'){
             setIncompleteForms(prevIncompleteForms => ([...prevIncompleteForms, form]))
-          
           }
+
           else if(form.status === 'readonly'){
             setReadOnlyForms(prevReadOnlyForms => ([...prevReadOnlyForms, form]))
-           
           }
+
           else if (form.status === 'approved'){
             setApprovedForms(prevApprovedForms => ([...prevApprovedForms, form]))
-          
           }
         });
         
       } catch (error) {
-
+        console.log(error);
       }
     }
 
@@ -103,12 +100,9 @@ export default function ApproverViewVendor(){
       getFormData();
       getVendor();
       const message = localStorage.getItem('message');
-        console.log(message);
-        console.log(message === 'null')
 
         if (message !== 'null' && message !== null){
             setMsg(message);
-            // setOpen(true);  
             displayMessage();      
         }
     }, []);
@@ -175,8 +169,6 @@ export default function ApproverViewVendor(){
       setRejectMsg(e.target.value);
     }
 
-    console.log(rejectMsg);
-
     const handleReject = async() => {
       console.log(rejId);
       console.log(rejectMsg);
@@ -209,12 +201,11 @@ export default function ApproverViewVendor(){
     
     const deleteForm = async() => {
       setOpenDelete(false);
-      console.log(delId);
+    
       try{
         const response = await axios.delete(
           "/api/v1/formResponse/deleteFormFromVendor/" + delId
         );
-        console.log(response.data);
         getFormData();
         setMsg('Form deleted successfully!');
         displayMessage();
@@ -245,7 +236,7 @@ export default function ApproverViewVendor(){
     const remind = async(formId) => {
       try{
         const response = await axios.post('/api/v1/email/sendReminderMail/' + vendorId + "/" + formId);
-        console.log(response);
+     
         if (response.status >= 200){
           setMsg('Email reminder sent successfully')
           displayMessage();
@@ -351,29 +342,24 @@ export default function ApproverViewVendor(){
                 <Container className='displayAllForms'>
                     {readOnlyForms.map((form, index) => {
                     return(
-                    <Row className='formRow'>
-                        <Col xs={12} md={9} className='homepageFormDetails'>
-                        <div className='homepageFormName'>
-                            {form.description}
-                        </div>
-                        <div className='homepageFormStatus'>
-                            Status: {form.status}
-                        </div>
-                        </Col>
-                        <Col xs={6} md={2} xl={2}>
-                        <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => seeForm(form.id)}>
-                            View Form
-                        </button>
-                        </Col>
-                        {/* <Col xs={6} md={2} xl={2}>
-                        <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => handleClickOpen(form.id)}>
-                            Reject Form
-                        </button>
-                        </Col> */}
-                        <Col xs={6} md={1} xl={1} className='companyHeader' >
-                        <DeleteIcon onClick={() => openDel(form.id)} />
-                        </Col>
-                    </Row>
+                      <Row className='formRow'>
+                          <Col xs={12} md={9} className='homepageFormDetails'>
+                            <div className='homepageFormName'>
+                                {form.description}
+                            </div>
+                            <div className='homepageFormStatus'>
+                                Status: {form.status}
+                            </div>
+                          </Col>
+                          <Col xs={6} md={2} xl={2}>
+                            <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => seeForm(form.id)}>
+                                View Form
+                            </button>
+                          </Col>
+                          <Col xs={6} md={1} xl={1} className='companyHeader' >
+                            <DeleteIcon onClick={() => openDel(form.id)} />
+                          </Col>
+                      </Row>
                     )
                     })}
                 </Container>
@@ -400,29 +386,24 @@ export default function ApproverViewVendor(){
                             if (formStatus === 'Admin'){
                             return (
                                 <Row className='formRow'>
-                                <Col xs={12} md={9} className='homepageFormDetails'>
-                                    <div className='homepageFormName'>
-                                    {form.description}
-                                    </div>
-                                    <div className='homepageFormStatus'>
-                                    Status: {form.status}
-                                    </div>
-                                </Col>
-                                <Col xs={6} md={2} xl={2}>
-                                    <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
-                                    View Form
-                                    </button>
-                                </Col>
-                                {/* <Col xs={6} md={2} xl={2}>
-                                    <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => handleClickOpen(form.id)}>
-                                    Reject Form
-                                    </button>
-                                </Col> */}
+                                  <Col xs={12} md={9} className='homepageFormDetails'>
+                                      <div className='homepageFormName'>
+                                        {form.description}
+                                      </div>
+                                      <div className='homepageFormStatus'>
+                                        Status: {form.status}
+                                      </div>
+                                  </Col>
+                                  <Col xs={6} md={2} xl={2}>
+                                      <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
+                                        View Form
+                                      </button>
+                                  </Col>
                                   <Col xs={6} md={1} xl={1} className='companyHeader' >
                                       <DeleteIcon onClick={() => openDel(form.id)} />
                                   </Col>
                                 </Row>
-                            )
+                              )
                             }
                         })}
                         </Container>
@@ -448,15 +429,15 @@ export default function ApproverViewVendor(){
                                             <Row className='formRow'>
                                             <Col xs={12} md={7} className='homepageFormDetails'>
                                                 <div className='homepageFormName'>
-                                                {form.description}
+                                                  {form.description}
                                                 </div>
                                                 <div className='homepageFormStatus'>
-                                                Status: {form.status}
+                                                  Status: {form.status}
                                                 </div>
                                             </Col>
                                             <Col xs={6} md={2} xl={2}>
                                                 <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} oonClick={() => goToForm(form.id)}>
-                                                View Form
+                                                  View Form
                                                 </button>
                                             </Col>
                                             <Col xs={6} md={2} xl={2}>
@@ -482,35 +463,35 @@ export default function ApproverViewVendor(){
                 </div>
 
                 <Container className = 'homepageFormDisplay'>
-                {approvedForms.map((form, index)=>{
-                    return(
-                    <Row className='displayRow'  key={form}> 
-                        <Col xs={12} md={7} className='homepageFormDetails'>
-                        <div className='homepageFormName'>
-                            {form.description}
-                        </div>
-                        <div className='homepageFormStatus'>
-                        Status: {form.status}
-                        </div>
-                        </Col>
-                        <Col xs={6} md={2} xl={2}>
-                        <button className='formButton' onClick={() => seeForm(form.id)} size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}}>
-                            View Form
-                        </button>
-                        </Col>
-                        <Col xs={6} md={2} xl={2}>
-                          
-                              <button className='formButton' onClick={() => getPdf(form.id)} size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}}>
-                                  Generate PDF
-                              </button>
+                  {approvedForms.map((form, index)=>{
+                      return(
+                      <Row className='displayRow'  key={form}> 
+                          <Col xs={12} md={7} className='homepageFormDetails'>
+                          <div className='homepageFormName'>
+                              {form.description}
+                          </div>
+                          <div className='homepageFormStatus'>
+                          Status: {form.status}
+                          </div>
+                          </Col>
+                          <Col xs={6} md={2} xl={2}>
+                          <button className='formButton' onClick={() => seeForm(form.id)} size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}}>
+                              View Form
+                          </button>
+                          </Col>
+                          <Col xs={6} md={2} xl={2}>
                             
-                        </Col>
-                        <Col xs={6} md={1} xl={1} className='companyHeader' >
-                        <DeleteIcon onClick={() => openDel(form.id)} />
-                        </Col>
-                    </Row>                
-                    ) 
-                })}
+                                <button className='formButton' onClick={() => getPdf(form.id)} size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}}>
+                                    Generate PDF
+                                </button>
+                              
+                          </Col>
+                          <Col xs={6} md={1} xl={1} className='companyHeader' >
+                          <DeleteIcon onClick={() => openDel(form.id)} />
+                          </Col>
+                      </Row>                
+                      ) 
+                  })}
                 </Container>
             </div>
 

@@ -47,8 +47,6 @@ const NewQuestionnaire = ({formDetails, id, value}) => {
 
   
 
-    console.log(inputList);
-
     const handleClickOpen = () => {
         setOpen(true);
     }

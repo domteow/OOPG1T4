@@ -58,10 +58,7 @@ const RadioButton = ({allDetails, id, value, options, other, edit}) => {
         others: others,
         id: id
     }
-    // console.log(data);
-    // console.log(radioQuestion)
-    // console.log(prevQuestion);
-    // console.log(prevOption)
+    
     useEffect(()=>{        
         if (prevQuestion !== radioQuestion){
             console.log('hi')
@@ -79,8 +76,7 @@ const RadioButton = ({allDetails, id, value, options, other, edit}) => {
         }
     })
 
-    // console.log(radioQuestion)
-    // console.log(radioOptions)
+    
    
     const Others = () =>{
         if (others){
@@ -94,7 +90,6 @@ const RadioButton = ({allDetails, id, value, options, other, edit}) => {
         }
     }
 
-    // console.log(radioOptions);
 
     if (!edit){
         console.log(value);

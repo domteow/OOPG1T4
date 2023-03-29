@@ -83,12 +83,6 @@ export default function CompletedForm() {
       
     const cancel = () =>{
         localStorage.getItem('role')
-        // if (role === 'Vendor'){
-        //     navigate('/react/vendor/homepage')
-        // }
-        // else if (role === 'Admin'){
-        //     navigate('/react/admin/homepage')
-        // }
         navigate(-1);
     }
 

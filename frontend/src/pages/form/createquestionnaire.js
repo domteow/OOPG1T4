@@ -184,12 +184,8 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
         setQuestionnaireName(e.target.value);
     }
 
-    console.log("RHYS IS A GENIUS DAMN");
-    // console.log(questionnaireName);
-    // console.log(assigned);
-    // console.log(details);
     const [prevData, setPrevdata] = useState({});
-    console.log(details);
+
     const data = { 
         name: questionnaireName, 
         roleRequired: assigned,

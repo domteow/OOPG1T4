@@ -68,9 +68,8 @@ export default function Viewvendor(){
         // store locally for the stuff below
         
         const allforms = response.data.data
-        console.log(allforms);
+        
         allforms.forEach(form => {
-          console.log(form)
           if(form.status === 'complete'){
             setCompletedForms(prevCompletedForms => ([...prevCompletedForms, form]))
            
@@ -98,12 +97,8 @@ export default function Viewvendor(){
       getFormData();
       getVendor();
       const message = localStorage.getItem('message');
-      console.log(message);
-      console.log(message === 'null')
-
       if (message !== 'null' && message !== null){
           setMsg(message);
-          // setOpen(true);  
           displayMessage();      
       }
     }, []);

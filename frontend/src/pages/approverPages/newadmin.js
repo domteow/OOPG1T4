@@ -20,6 +20,7 @@ export default function NewVendor(){
     const [cfmPwdError, setCfmPwdError] = useState(null);
     const [storePwd, setStorePwd] = useState(null);
     const [emailError, setEmailError] = useState(null);
+    const [nameError, setNameError] = useState(null);
     const[values, setValues] = useState({
         accountType : 'Admin',
     });
@@ -69,6 +70,18 @@ export default function NewVendor(){
         }
     }
 
+    const validateName = (name) => {
+        if (name.length > 0){
+            if (/^[A-Za-z]$/.test(name)){
+                return true;
+            }
+        }
+
+        else{
+            setNameError('Name is not valid')
+        }
+    }
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -76,19 +89,19 @@ export default function NewVendor(){
         setPwdError(null);
         setEmailError(null);
         setCfmPwdError(null);
+        setNameError(null);
         const isPwdValid = validatePwd(values.password, storePwd);
         const isEmail = validateEmail(values.emailAddress);
+        const isName = validateName(values.name);
         
-        if (isPwdValid && isEmail) {
+        if (isPwdValid && isEmail && isName) {
             addAdmin();            
         }
     }
 
     
-    console.log(values);
     const addAdmin = async() => {
-        console.log(values);
-        
+
         try {
             const response = await axios.post('/api/v1/admin/createAdmin', values);
             console.log(response.data);
@@ -124,8 +137,9 @@ export default function NewVendor(){
                                 Name:
                             </Col>
                             <Col xs={12} md={8} className='formInput'>
-                                <TextField required name='name' className='inputtext' placeholder="Name" type='text' onChange={handleChange}  />
+                                <TextField required name='name' className='inputtext' placeholder="Name" type='text' onChange={handleChange} error={nameError !== null} />
                             </Col>
+                            {nameError && <div className='errorMsg' >{nameError}</div>}
                         </Row>
 
                         <Row className='formRow'>

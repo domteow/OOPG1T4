@@ -25,7 +25,6 @@ import CloseIcon from '@mui/icons-material/Close';
 export default function ApproverHomepage(){
     const [openMsg, setOpenMsg] = useState(false);
     const [msg, setMsg] = useState();
-    // for backend to get list of all vendors from database
     const [allVendors, setAllVendors] = useState({});
     const user = localStorage.getItem('username');
     const [allAdmins, setAllAdmins] = useState({});
@@ -44,10 +43,7 @@ export default function ApproverHomepage(){
     const getAllVendors = async() => {
         try {
             const response = await axios.get("/api/v1/vendor/getAllVendors")
-            
-            // console.log([response.data.data]);
             setAllVendors(response.data.data);
-            console.log(response.data.data)
             getAllAdmins();
         } catch (error) {
             console.error(error)
@@ -55,7 +51,6 @@ export default function ApproverHomepage(){
     }
     
     useEffect(() => {
-        // getAllAdmins();
         getAllVendors();
         const message = localStorage.getItem('message');
         console.log(message);
@@ -63,7 +58,6 @@ export default function ApproverHomepage(){
 
         if (message !== 'null' && message !== null){
             setMsg(message);
-            // setOpen(true);  
             displayMessage();      
         }
     }, []);
@@ -130,7 +124,6 @@ export default function ApproverHomepage(){
             const response = await axios.put(
                 "/api/v1/vendor/deleteVendor/" + delId
             );
-            console.log(response.data);
             // refresh the list of vendors
             setMsg('Vendor deleted successfully.')
             setOpenDelete(false)
