@@ -25,7 +25,7 @@ import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 import Switch from '@mui/material/Switch';
 import IconButton from '@mui/material/IconButton';
-
+import Box from '@mui/material/Box';
 
 export default function Allforms(){
     // snackbar
@@ -33,6 +33,7 @@ export default function Allforms(){
     const [forms, setForms] = useState([])
     const [msg, setMsg] = useState();
     const [isActive, setIsActive] = useState({});
+    const [selectedValue, setSelectedValue] = useState('All');
 
     const getAllForms = async() =>{
         try{
@@ -109,20 +110,27 @@ export default function Allforms(){
             [formId]: !active
         }))
         
+                
         deleteForm(formId);
+        
     }
 
     const deleteForm = async(formId) => {
         
         try{
             const response = await axios.put("/api/v1/form/delete/" + formId)
-
+            getAllForms();
             setMsg("Form status updated!");
             displayMessage();
+            
         }
         catch(error){
             console.log(error);
         }
+    }
+
+    const handleSelectChange = (e) => {
+        setSelectedValue(e.target.value)
     }
 
     const action = (
@@ -153,6 +161,28 @@ export default function Allforms(){
                     </button>
                 </div>
 
+                <div>
+                <Box sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth>
+                        <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                        Filter
+                        </InputLabel>
+                        <NativeSelect
+                        defaultValue={'All'}
+                        onChange={handleSelectChange}
+                        inputProps={{
+                            name: 'Filter',
+                            id: 'uncontrolled-native',
+                        }}
+                        >
+                        <option value={'All'}>All</option>
+                        <option value={'Active'}>Active</option>
+                        <option value={'Inactive'}>Inactive</option>
+                        </NativeSelect>
+                    </FormControl>
+                    </Box>
+                </div>
+
                 <div className='allFormsContainer'>
                     <Container>
                         <Row className='formHeaderRow'>
@@ -181,40 +211,118 @@ export default function Allforms(){
 
                         {forms.map((form)=>{
                             const formId = form.id;
-                            return(
-                                <Row className='formDataRow'>
-                                    <Col xs={12} md={3} className='headerCenter'>
-                                        {form.description}
-                                    </Col>
-                                    <Col xs={12} md={2} className='headerCenter'>
-                                        {form.formCode}
-                                    </Col>
-                                    <Col xs={12} md={1} className='headerCenter'>
-                                        {form.effectiveDate}
-                                    </Col>
-                                    <Col xs={12} md={1} className='headerCenter'>
-                                        {form.id}
-                                    </Col>
-                                    <Col xs={12} md={2} className='headerCenter'>
-                                        <button className='viewForm' onClick={() => goToForm(formId)}>
-                                            View Form
-                                        </button>
-                                    </Col>
-                                    <Col xs={12} md={2} className='headerCenter'>
-                                        <button className='editForm' onClick={() => editForm(formId)}>
-                                            Edit Form
-                                        </button>
-                                    </Col>
-                                    <Col xs={12} md={1} className='headerCenter'>
-                                        <Switch
-                                            checked = {isActive[formId]}
-                                            name = {form}
-                                            onChange={() => handleActive(formId)}
-                                            inputProps={{ 'aria-label': 'controlled' }}
-                                        />
-                                    </Col>
-                                </Row>
-                            )
+                            if (selectedValue == 'All'){
+                                return(
+                                    <Row className='formDataRow'>
+                                        <Col xs={12} md={3} className='headerCenter'>
+                                            {form.description}
+                                        </Col>
+                                        <Col xs={12} md={2} className='headerCenter'>
+                                            {form.formCode}
+                                        </Col>
+                                        <Col xs={12} md={1} className='headerCenter'>
+                                            {form.effectiveDate}
+                                        </Col>
+                                        <Col xs={12} md={1} className='headerCenter'>
+                                            {form.id}
+                                        </Col>
+                                        <Col xs={12} md={2} className='headerCenter'>
+                                            <button className='viewForm' onClick={() => goToForm(formId)}>
+                                                View Form
+                                            </button>
+                                        </Col>
+                                        <Col xs={12} md={2} className='headerCenter'>
+                                            <button className='editForm' onClick={() => editForm(formId)}>
+                                                Edit Form
+                                            </button>
+                                        </Col>
+                                        <Col xs={12} md={1} className='headerCenter'>
+                                            <Switch
+                                                checked = {isActive[formId]}
+                                                name = {form}
+                                                onChange={() => handleActive(formId)}
+                                                inputProps={{ 'aria-label': 'controlled' }}
+                                            />
+                                        </Col>
+                                    </Row>
+                                )
+                            }
+                            else if (selectedValue == 'Active'){
+                                if (form.active == true){
+                                    return(
+                                        <Row className='formDataRow'>
+                                            <Col xs={12} md={3} className='headerCenter'>
+                                                {form.description}
+                                            </Col>
+                                            <Col xs={12} md={2} className='headerCenter'>
+                                                {form.formCode}
+                                            </Col>
+                                            <Col xs={12} md={1} className='headerCenter'>
+                                                {form.effectiveDate}
+                                            </Col>
+                                            <Col xs={12} md={1} className='headerCenter'>
+                                                {form.id}
+                                            </Col>
+                                            <Col xs={12} md={2} className='headerCenter'>
+                                                <button className='viewForm' onClick={() => goToForm(formId)}>
+                                                    View Form
+                                                </button>
+                                            </Col>
+                                            <Col xs={12} md={2} className='headerCenter'>
+                                                <button className='editForm' onClick={() => editForm(formId)}>
+                                                    Edit Form
+                                                </button>
+                                            </Col>
+                                            <Col xs={12} md={1} className='headerCenter'>
+                                                <Switch
+                                                    checked = {isActive[formId]}
+                                                    name = {form}
+                                                    onChange={() => handleActive(formId)}
+                                                    inputProps={{ 'aria-label': 'controlled' }}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    )
+                                }
+                            }
+                            else if (selectedValue == 'Inactive'){
+                                if (form.active == false){
+                                    return(
+                                        <Row className='formDataRow'>
+                                            <Col xs={12} md={3} className='headerCenter'>
+                                                {form.description}
+                                            </Col>
+                                            <Col xs={12} md={2} className='headerCenter'>
+                                                {form.formCode}
+                                            </Col>
+                                            <Col xs={12} md={1} className='headerCenter'>
+                                                {form.effectiveDate}
+                                            </Col>
+                                            <Col xs={12} md={1} className='headerCenter'>
+                                                {form.id}
+                                            </Col>
+                                            <Col xs={12} md={2} className='headerCenter'>
+                                                <button className='viewForm' onClick={() => goToForm(formId)}>
+                                                    View Form
+                                                </button>
+                                            </Col>
+                                            <Col xs={12} md={2} className='headerCenter'>
+                                                <button className='editForm' onClick={() => editForm(formId)}>
+                                                    Edit Form
+                                                </button>
+                                            </Col>
+                                            <Col xs={12} md={1} className='headerCenter'>
+                                                <Switch
+                                                    checked = {isActive[formId]}
+                                                    name = {form}
+                                                    onChange={() => handleActive(formId)}
+                                                    inputProps={{ 'aria-label': 'controlled' }}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    )
+                                }
+                            }
                         })}
                     </Container>
                 </div>

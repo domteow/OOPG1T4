@@ -179,7 +179,7 @@ export default function FormEdit(){
         description: formName,
         formCode: formCode,
         effectiveDate: effectiveDate,
-        questionnaireS: [...initialQuestionnaire, ...formData],
+        questionnaires: [...initialQuestionnaire, ...formData],
         formStatus: "published",
         revisionNo: form.revisionNo + 1
     }
@@ -188,7 +188,7 @@ export default function FormEdit(){
         // console.log("DOM DOM DO THIS");
 
         try {
-            const response = await axios.put('/api/v1/form/update/' + formId, submitdata);
+            const response = await axios.post('/api/v1/form/reviseFormById/' + formId, submitdata);
             console.log(response);
             if (response.data.status == 201) {
                 navigate('../react/allforms')
@@ -258,6 +258,7 @@ export default function FormEdit(){
                                         required
                                         id="formName"
                                         name="formName"
+                                        disabled={true}
                                         onChange={handleFormName}
                                         type='text'
                                         value={formName}
@@ -275,6 +276,7 @@ export default function FormEdit(){
                                         required
                                         id="formCode"
                                         name="formCode"
+                                        disabled={true}
                                         onChange={handleFormCode}
                                         type='text'
                                         value={formCode}
