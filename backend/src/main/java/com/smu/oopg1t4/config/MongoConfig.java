@@ -59,7 +59,7 @@ public class MongoConfig {
             // ------------------Fields-----------------------
             //QLI-SHSP-10-F01 NEW VENDOR ASSESSMENT FORM FIELDS
             //Questionnaire 1 for NEW VENDOR ASSESSMENT FORM
-            Field fx0 = new Field("Company Details", "header");
+//            Field fx0 = new Field("Company Details", "header");
             Field f1 = new Field("Company Name", "text");
             Field f2 = new Field("Company Registration No", "text");
             Field f3 = new Field( "GST Registered", "radio", List.of("Yes", "No"), false);
@@ -75,7 +75,7 @@ public class MongoConfig {
             Field f13 = new Field("Submit company's profile, brochure on product/services, if available", "subtext");
 
             //Questionnaire 2 for NEW VENDOR ASSESSMENT FORM
-            Field fx1 = new Field("Evaluation", "header");
+//            Field fx1 = new Field("Evaluation", "header");
             Field f14 = new Field("ISO 9001 Certification (if present, type in Certification Body)", "text");
             Field f15 = new Field("Accreditation of Laboratory (if present, type in Accreditation Body)", "text");
             Field f16 = new Field("Product Certification (if present, type in Product Markings (e.g. PSB, UL, TUV)", "text");
@@ -86,14 +86,14 @@ public class MongoConfig {
             Field f21 = new Field("Others (e.g. commercial, sole supplier, customer specified, franchise etc.)", "text");
 
             //Questionnaire 3 for NEW VENDOR ASSESSMENT FORM
-            Field fx2 = new Field("Evaluation Result", "header");
+//            Field fx2 = new Field("Evaluation Result", "header");
             Field f22 = new Field("Result of Evaluation", "radio", List.of("Approved", "not Approved"), false);
             Field f23 = new Field("Evaluated by", "text");
             Field f24 = new Field("Signature (Full Name)", "text");
 
 
             //Questionnaire 4 for NEW VENDOR ASSESSMENT FORM
-            Field fx3 = new Field("For Approval", "header");
+//            Field fx3 = new Field("For Approval", "header");
             Field f25 = new Field("Approved by Director (name)", "text");
             //use f24
             Field f26 = new Field("Effective date", "text");
@@ -101,7 +101,7 @@ public class MongoConfig {
             //---------------------------------------------------------------
             //QLI-SHSP-10-F04 NEW VENDOR ASSESSMENT FORM FIELDS
             //Questionnaire 5 for SUBCONTRACTOR’S SAFETY & HEALTH PRE-EVALUATION
-            Field fx4 = new Field("Sub-Contractor Details", "header");
+//            Field fx4 = new Field("Sub-Contractor Details", "header");
             Field f27 = new Field("Name of Sub-Contractor", "text");
             Field f28 = new Field("Scope of Work", "text");
             Field f29 = new Field("Evaluated By", "text");
@@ -147,7 +147,7 @@ public class MongoConfig {
             Field f55 = new Field("Number of Fatal Cases", "text");
 
             //Questionnaire 13 for SUBCONTRACTOR’S SAFETY & HEALTH PRE-EVALUATION
-            Field f56 = new Field("Acknowledgement", "header");
+//            Field f56 = new Field("Acknowledgement", "header");
             Field f57 = new Field("I, representative of the above-named sub-contractor, have understand the various Safety Criteria listed above and hereby acknowledged that the information given above are valid and supporting items/documents are available upon request by the main contractor.", "subtext");
             Field f58 = new Field("Date", "text");
             Field f59 = new Field("Acknowledged by", "text");
@@ -158,10 +158,10 @@ public class MongoConfig {
             ArrayList<Field> fields = new ArrayList<>();
 
             //For Form 1
-            fields.addAll(List.of(fx0,f1,f2,f3,f4,f5,f7,f8,f9,f10,f11,f12,f13,fx1,f14,f15,f16,f17,f18,f19,f20,f21,fx2,f22,f23,f24,fx3,f25,f26));
+            fields.addAll(List.of(f1,f2,f3,f4,f5,f7,f8,f9,f10,f11,f12,f13,f14,f15,f16,f17,f18,f19,f20,f21,f22,f23,f24,f25,f26));
 
             //For Form 2
-            fields.addAll(List.of(fx4,f27,f28,f29,f30,f31,f32,f33,f34,f35,f36,f37,f38,f39,f40,f41,f42,f43,f44,f45,f46,f47,f48,f49,f50,f51,f52,f53,f54,f55,f56,f57,f58,f59));
+            fields.addAll(List.of(f27,f28,f29,f30,f31,f32,f33,f34,f35,f36,f37,f38,f39,f40,f41,f42,f43,f44,f45,f46,f47,f48,f49,f50,f51,f52,f53,f54,f55,f57,f58,f59));
             int fieldId = 1;
             for (Field field: fields){
                 field.setId(fieldId);
@@ -177,30 +177,30 @@ public class MongoConfig {
 
             //Questionnaire 1 for NEW VENDOR ASSESSMENT FORM
             ArrayList<Field> fields1 = new ArrayList<>();
-            fields1.addAll(List.of(fx0,f1,f2,f3,f4,f5,f7,f8,f9,f10,f11,f12,f13));
-            Questionnaire q1 = new Questionnaire("Vendor Information", fields1, "Vendor", false);
+            fields1.addAll(List.of(f1,f2,f3,f4,f5,f7,f8,f9,f10,f11,f12,f13));
+            Questionnaire q1 = new Questionnaire("Company Details", fields1, "Vendor", false);
 
             //Questionnaire 2 for NEW VENDOR ASSESSMENT FORM
 
             ArrayList<Field> fields2 = new ArrayList<>();
-            fields2.addAll(List.of(fx1,f14,f15,f16,f17,f18,f19,f20,f21));
-            Questionnaire q2 = new Questionnaire("Vendor Evaluation", fields2, "Admin", false);
+            fields2.addAll(List.of(f14,f15,f16,f17,f18,f19,f20,f21));
+            Questionnaire q2 = new Questionnaire("Evaluation", fields2, "Admin", false);
 
             //Questionnaire 3 for NEW VENDOR ASSESSMENT FORM
 
             ArrayList<Field> fields3 = new ArrayList<>();
-            fields3.addAll(List.of(fx2,f22,f23,f24));
-            Questionnaire q3 = new Questionnaire("Evaluation Results", fields3, "Admin", false);
+            fields3.addAll(List.of(f22,f23,f24));
+            Questionnaire q3 = new Questionnaire("Evaluation Result", fields3, "Admin", false);
 
             //Questionnaire 4 for NEW VENDOR ASSESSMENT FORM
             ArrayList<Field> fields4 = new ArrayList<>();
-            fields4.addAll(List.of(fx3,f25,f24,f26));
-            Questionnaire q4 = new Questionnaire("Approver input", fields4, "Approver", false);
+            fields4.addAll(List.of(f25,f24,f26));
+            Questionnaire q4 = new Questionnaire("For Approval", fields4, "Approver", false);
 
             //Questionnaire 5 for SUBCONTRACTOR’S SAFETY & HEALTH PRE-EVALUATION
             ArrayList<Field> fields5 = new ArrayList<>();
-            fields5.addAll(List.of(fx4,f27,f28,f29,f30));
-            Questionnaire q5 = new Questionnaire("Sub-contractor Information", fields5, "Vendor", false);
+            fields5.addAll(List.of(f27,f28,f29,f30));
+            Questionnaire q5 = new Questionnaire("Sub-Contractor Details", fields5, "Vendor", false);
 
             //Questionnaire 6 for SUBCONTRACTOR’S SAFETY & HEALTH PRE-EVALUATION
             ArrayList<Field> fields6 = new ArrayList<>();
@@ -239,8 +239,8 @@ public class MongoConfig {
 
             //Questionnaire 13 for SUBCONTRACTOR’S SAFETY & HEALTH PRE-EVALUATION
             ArrayList<Field> fields13 = new ArrayList<>();
-            fields13.addAll(List.of(f56,f57,f58,f59,f24));
-            Questionnaire q13 = new Questionnaire("Accident Analysis", fields13, "Vendor", false);
+            fields13.addAll(List.of(f57,f58,f59,f24));
+            Questionnaire q13 = new Questionnaire("Acknowledgement", fields13, "Vendor", false);
 
             //Questionnaire 4 for SUBCONTRACTOR’S SAFETY & HEALTH PRE-EVALUATION
 

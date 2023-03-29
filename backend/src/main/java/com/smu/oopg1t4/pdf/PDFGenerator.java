@@ -55,24 +55,32 @@ public class PDFGenerator {
 
         Font fontHeader = FontFactory.getFont(FontFactory.TIMES_BOLD);
         fontHeader.setSize(13);
+        fontHeader.setStyle("underline");
+
 
         Font fontAnswer = FontFactory.getFont(FontFactory.TIMES_ROMAN);
         fontAnswer.setSize(13);
 
         // Creating paragraph
-        Paragraph paragraph1 = new Paragraph(form.getDescription() + " (" + form.getFormCode() + ")\n", fontTitle);
+        Paragraph paragraph1 = new Paragraph(form.getDescription() + "\n", fontTitle);
+        Paragraph paragraph2 = new Paragraph("Form No: " + form.getFormCode() + "   |   Rev. No: " + form.getRevisionNo() + "   |   Effective Date: " + form.getEffectiveDate() + "\n\n", fontBodyBold);
 
         // Aligning the paragraph in the document
         paragraph1.setAlignment(Paragraph.ALIGN_CENTER);
+        paragraph2.setAlignment(Paragraph.ALIGN_CENTER);
+
         // Adding the created paragraph in the document
         document.add(paragraph1);
+        document.add(paragraph2);
+
 
         for (Questionnaire questionnaire: form.getQuestionnaires()){
-            Paragraph tempParagraph = new Paragraph("", fontBody);
+            Paragraph tempParagraph = new Paragraph("",fontBody);
             tempParagraph.setKeepTogether(true);
+            tempParagraph.add(new Phrase(questionnaire.getName() + "\n", fontHeader));
             for (Field field: questionnaire.getFields()){
                 if (field.getType().equals("header") || field.getType().equals("subheader")){
-                    tempParagraph.add(new Phrase("\n" + field.getName() + "\n", fontHeader));
+                    tempParagraph.add(new Phrase( " \n" + field.getName() + "\n", fontHeader));
                 } else if (field.getType().equals("subtext")) {
                     tempParagraph.add(new Phrase(field.getName() + "\n", fontBody));
                 }
@@ -81,10 +89,10 @@ public class PDFGenerator {
                     tempParagraph.add(new Phrase(field.getValue() + "\n", fontAnswer));
                 }
             }
+            tempParagraph.add(new Phrase("\n"));
+
             document.add(tempParagraph);
         }
-
-        //For Admin
 
 
         // Closing the document

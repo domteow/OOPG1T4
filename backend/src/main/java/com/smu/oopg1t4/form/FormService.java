@@ -92,56 +92,56 @@ public class FormService {
     }
 
     // Returns updated form
-    public ResponseEntity<?> updateFormById(int formId, Form form) {
-        try {
-            Form formToUpdate = getFormById(formId);
+//    public ResponseEntity<?> updateFormById(int formId, Form form) {
+//        try {
+//            Form formToUpdate = getFormById(formId);
+//
+//            updateForm(formToUpdate, form);
+//
+//            SuccessResponse successResponse = new SuccessResponse("Successfully updated form with id " + formToUpdate.getId(), HttpStatus.OK.value(), formToUpdate);
+//            return ResponseEntity.ok().body(successResponse);
+//        } catch (FormNotFoundException e) {
+//            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
+//        } catch (FormNotEditableException e) {
+//            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.METHOD_NOT_ALLOWED.value());
+//            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(statusResponse);
+//        } catch (Exception e) {
+//            StatusResponse statusResponse = new StatusResponse("Error updating form. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR.value());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+//        }
+//
+//    }
 
-            updateForm(formToUpdate, form);
-
-            SuccessResponse successResponse = new SuccessResponse("Successfully updated form with id " + formToUpdate.getId(), HttpStatus.OK.value(), formToUpdate);
-            return ResponseEntity.ok().body(successResponse);
-        } catch (FormNotFoundException e) {
-            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
-        } catch (FormNotEditableException e) {
-            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.METHOD_NOT_ALLOWED.value());
-            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(statusResponse);
-        } catch (Exception e) {
-            StatusResponse statusResponse = new StatusResponse("Error updating form. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR.value());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
-        }
-
-    }
-
-    public ResponseEntity<?> updateFormAndSaveQuestionnaire(int formId, int questionnaireIndex, Form form) {
-        try {
-            Form formToUpdate = getFormById(formId);
-
-            updateForm(formToUpdate, form);
-
-            ArrayList<Questionnaire> questionnaires = formToUpdate.getQuestionnaires();
-            Questionnaire questionnaireToSave = questionnaires.get(questionnaireIndex);
-            questionnaireService.createQuestionnaire(questionnaireToSave);
-
-            StatusResponse successResponse = new StatusResponse("Successfully saved questionnaire.", HttpStatus.CREATED.value());
-            return ResponseEntity.ok().body(successResponse);
-        } catch (IndexOutOfBoundsException e) {
-            StatusResponse statusResponse = new StatusResponse("Questionnaire index out of bounds.", HttpStatus.NOT_FOUND.value());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
-        } catch (NoSuchElementException e) {
-            StatusResponse statusResponse = new StatusResponse("Form with id " + formId + " not found.", HttpStatus.NOT_FOUND.value());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
-        } catch (FormNotFoundException e) {
-            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
-        } catch (FormNotEditableException e) {
-            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.METHOD_NOT_ALLOWED.value());
-            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(statusResponse);
-        } catch (Exception e) {
-            StatusResponse statusResponse = new StatusResponse("Error saving questionnaire. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR.value());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
-        }
-    }
+//    public ResponseEntity<?> updateFormAndSaveQuestionnaire(int formId, int questionnaireIndex, Form form) {
+//        try {
+//            Form formToUpdate = getFormById(formId);
+//
+//            updateForm(formToUpdate, form);
+//
+//            ArrayList<Questionnaire> questionnaires = formToUpdate.getQuestionnaires();
+//            Questionnaire questionnaireToSave = questionnaires.get(questionnaireIndex);
+//            questionnaireService.createQuestionnaire(questionnaireToSave);
+//
+//            StatusResponse successResponse = new StatusResponse("Successfully saved questionnaire.", HttpStatus.CREATED.value());
+//            return ResponseEntity.ok().body(successResponse);
+//        } catch (IndexOutOfBoundsException e) {
+//            StatusResponse statusResponse = new StatusResponse("Questionnaire index out of bounds.", HttpStatus.NOT_FOUND.value());
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
+//        } catch (NoSuchElementException e) {
+//            StatusResponse statusResponse = new StatusResponse("Form with id " + formId + " not found.", HttpStatus.NOT_FOUND.value());
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
+//        } catch (FormNotFoundException e) {
+//            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
+//        } catch (FormNotEditableException e) {
+//            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.METHOD_NOT_ALLOWED.value());
+//            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(statusResponse);
+//        } catch (Exception e) {
+//            StatusResponse statusResponse = new StatusResponse("Error saving questionnaire. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR.value());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+//        }
+//    }
 
     // Returns all forms in a List
     public ResponseEntity<?> getAllForms() {
@@ -200,64 +200,64 @@ public class FormService {
     }
 
     //deprecated
-    public ResponseEntity<?> reviseForm(int id) {
-        try {
-            Form form = getFormById(id);
-            Form newForm = new Form(
-                    sequenceGeneratorService.generateSequence(Form.SEQUENCE_NAME),
-                    form.getFormCode(),
-                    form.getRevisionNo() + 1,
-                    form.getDescription(),
-                    form.getEffectiveDate(),
-                    form.getQuestionnaires(),
-                    "draft",
-                    form.getWorkflow(),
-                    form.getUpTo(),
-                    form.getActive()
-            );
-
-            checkDuplicateForm(newForm.getFormCode(), newForm.getRevisionNo());
-
-            formRepository.save(newForm);
-
-            SuccessResponse successResponse = new SuccessResponse("New revision created.", HttpStatus.CREATED.value(), newForm);
-            return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
-        } catch (FormNotFoundException e) {
-            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
-        } catch (FormAlreadyExistsException e) {
-            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
-        } catch (Exception e) {
-            StatusResponse statusResponse = new StatusResponse("Error creating new revision of form. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR.value());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
-        }
-    }
+//    public ResponseEntity<?> reviseForm(int id) {
+//        try {
+//            Form form = getFormById(id);
+//            Form newForm = new Form(
+//                    sequenceGeneratorService.generateSequence(Form.SEQUENCE_NAME),
+//                    form.getFormCode(),
+//                    form.getRevisionNo() + 1,
+//                    form.getDescription(),
+//                    form.getEffectiveDate(),
+//                    form.getQuestionnaires(),
+//                    "draft",
+//                    form.getWorkflow(),
+//                    form.getUpTo(),
+//                    form.getActive()
+//            );
+//
+//            checkDuplicateForm(newForm.getFormCode(), newForm.getRevisionNo());
+//
+//            formRepository.save(newForm);
+//
+//            SuccessResponse successResponse = new SuccessResponse("New revision created.", HttpStatus.CREATED.value(), newForm);
+//            return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
+//        } catch (FormNotFoundException e) {
+//            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
+//        } catch (FormAlreadyExistsException e) {
+//            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+//        } catch (Exception e) {
+//            StatusResponse statusResponse = new StatusResponse("Error creating new revision of form. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR.value());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+//        }
+//    }
 
     //deprecated
-    public ResponseEntity<?> saveAndPublishForm(int id, Form form) {
-        try {
-            Form formToPublish = getFormById(id);
-            updateForm(formToPublish, form);
-
-            formToPublish.setFormStatus("published");
-            formRepository.save(formToPublish);
-
-            setPreviousRevisionStatus(formToPublish.getFormCode(), formToPublish.getRevisionNo() - 1);
-
-            StatusResponse successResponse = new StatusResponse("Success!", HttpStatus.OK.value());
-            return ResponseEntity.status(HttpStatus.OK).body(successResponse);
-        } catch (FormNotFoundException e) {
-            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
-        } catch (FormNotEditableException e) {
-            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.METHOD_NOT_ALLOWED.value());
-            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(statusResponse);
-        } catch (Exception e) {
-            StatusResponse statusResponse = new StatusResponse("Error publishing form. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR.value());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
-        }
-    }
+//    public ResponseEntity<?> saveAndPublishForm(int id, Form form) {
+//        try {
+//            Form formToPublish = getFormById(id);
+//            updateForm(formToPublish, form);
+//
+//            formToPublish.setFormStatus("published");
+//            formRepository.save(formToPublish);
+//
+//            setPreviousRevisionStatus(formToPublish.getFormCode(), formToPublish.getRevisionNo() - 1);
+//
+//            StatusResponse successResponse = new StatusResponse("Success!", HttpStatus.OK.value());
+//            return ResponseEntity.status(HttpStatus.OK).body(successResponse);
+//        } catch (FormNotFoundException e) {
+//            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(statusResponse);
+//        } catch (FormNotEditableException e) {
+//            StatusResponse statusResponse = new StatusResponse(e.getMessage(), HttpStatus.METHOD_NOT_ALLOWED.value());
+//            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(statusResponse);
+//        } catch (Exception e) {
+//            StatusResponse statusResponse = new StatusResponse("Error publishing form. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR.value());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+//        }
+//    }
 
     public ResponseEntity<?> deleteForm(int id) {
         try{
@@ -298,25 +298,25 @@ public class FormService {
     }
 
     //deprecated
-    private void updateForm(Form formToUpdate, Form form) throws FormNotEditableException {
-        if (!formToUpdate.getFormStatus().equals("draft")) {
-            throw new FormNotEditableException("Form has previously been published.");
-        }
-
-        if (form.getDescription() != null) {
-            formToUpdate.setDescription(form.getDescription());
-        }
-
-        if (form.getEffectiveDate() != null) {
-            formToUpdate.setEffectiveDate(form.getEffectiveDate());
-        }
-
-        if (!form.getQuestionnaires().equals(new ArrayList<>())) {
-            formToUpdate.setQuestionnaires(form.getQuestionnaires());
-        }
-
-        formRepository.save(formToUpdate);
-    }
+//    private void updateForm(Form formToUpdate, Form form) throws FormNotEditableException {
+//        if (!formToUpdate.getFormStatus().equals("draft")) {
+//            throw new FormNotEditableException("Form has previously been published.");
+//        }
+//
+//        if (form.getDescription() != null) {
+//            formToUpdate.setDescription(form.getDescription());
+//        }
+//
+//        if (form.getEffectiveDate() != null) {
+//            formToUpdate.setEffectiveDate(form.getEffectiveDate());
+//        }
+//
+//        if (!form.getQuestionnaires().equals(new ArrayList<>())) {
+//            formToUpdate.setQuestionnaires(form.getQuestionnaires());
+//        }
+//
+//        formRepository.save(formToUpdate);
+//    }
 
     private void setPreviousRevisionStatus(String formCode, int revisionNo) {
         List<Form> previousFormQuery = formRepository.findByFormCodeAndRevisionNo(formCode, revisionNo);
@@ -326,6 +326,7 @@ public class FormService {
         }
 
         Form previousRevision = previousFormQuery.get(0);
+        previousRevision.setActive(false);
         previousRevision.setFormStatus("outdated");
         formRepository.save(previousRevision);
     }
@@ -339,8 +340,7 @@ public class FormService {
 
     public ResponseEntity<?> reviseFormById(int id, Form form) {
         try {
-            Form oldForm = getFormById(form.getId());
-            oldForm.setFormStatus("outdated");
+            Form oldForm = getFormById(id);
             form.setRevisionNo(form.getRevisionNo() + 1);
             checkDuplicateForm(form.getFormCode(), form.getRevisionNo());
             setPreviousRevisionStatus(oldForm.getFormCode(),oldForm.getRevisionNo());
