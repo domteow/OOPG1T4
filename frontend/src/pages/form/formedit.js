@@ -312,7 +312,7 @@ export default function FormEdit(){
                             return(
                                 <>
                                     <DisplayQuestionnaire value={item} key={ind} initialDetails={initialDetails}/>
-                                    <button className='deleteInputButton' onClick={()=>handleRemoveInitialQuest(ind)}>
+                                    <button className='deleteQuestionnairebutt' onClick={()=>handleRemoveInitialQuest(ind)}>
                                         <DeleteIcon sx={{fontSize: 30}}/> Delete Questionnaire
                                     </button>
                                     
