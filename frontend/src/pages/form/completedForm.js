@@ -117,80 +117,88 @@ export default function CompletedForm() {
                             const fields = questionnaire.fields;
                             console.log(fields);
                             return(
-                            fields.map((field) => {
-                                const inputType  = field.type;
-                                console.log(inputType == 'text');
+                                <>
+                                    <Row className='formRow'>
+                                        <div className='displayquestionnairename'>
+                                            {questionnaire.name}
+                                        </div>
+                                    </Row>
 
-                                if (inputType == 'text'){
-                                    return(
-                                        <>
-                                            <Row className='radioQuestion'>
-                                                {field.name}
-                                            </Row>
-                                        
-                                            <Row className='radioFormInput'>
-                                                {field.value}
-                                            </Row>
-                                        </>
-                                    )
-                                }
-                                else if (inputType == 'subheader'){
-                                    return(
-                                        <Row className='formRow'>
-                                            <div className='displaySubheader'>
-                                                {field.name}
-                                            </div>
-                                        </Row>
-                                    )
-                                }
-                                else if (inputType == 'subtext'){
-                                    return(
-                                        <Row className='formRow'>
-                                            <div className='subtext'>
-                                                {field.name}
-                                            </div>
-                                        </Row>
-                                    )
-                                }
-                                else if (inputType == 'header'){
-                                    return (
-                                        <Row className='formRow'>
-                                            <div className='headertext'>
-                                                {field.name}
-                                            </div>
-                                        </Row>
-                                    )
-                                }
-                                else if (inputType == 'select' || inputType == 'checkbox'){
-                                    const answers = field.value;
-                                    console.log(answers);
-                                    return(
-                                        <>
-                                            <Row className='radioQuestion'>
-                                                {field.name}
-                                            </Row>
-                                            <Row className='radioFormInput'>
-                                            {answers
-                                                .map(t => <span>{t}</span>)
-                                                .reduce((prev, curr) => [prev, ', ', curr])}
-                                            </Row>
-                                        </>
-                                    )
-                                }
-                                else if (inputType =='radio'){
-                                    return(
-                                        <>
-                                            <Row className='radioQuestion'>
-                                                {field.name}
-                                            </Row>
-                                        
-                                            <Row className='radioFormInput'>
-                                                {field.value}
-                                            </Row>
-                                        </>
-                                    )
-                                }
-                            })
+                                    {fields.map((field) => {
+                                        const inputType  = field.type;
+                                        console.log(inputType == 'text');
+
+                                        if (inputType == 'text'){
+                                            return(
+                                                <>
+                                                    <Row className='radioQuestion'>
+                                                        {field.name}
+                                                    </Row>
+                                                
+                                                    <Row className='radioFormInput'>
+                                                        {field.value}
+                                                    </Row>
+                                                </>
+                                            )
+                                        }
+                                        else if (inputType == 'subheader'){
+                                            return(
+                                                <Row className='formRow'>
+                                                    <div className='displaySubheader'>
+                                                        {field.name}
+                                                    </div>
+                                                </Row>
+                                            )
+                                        }
+                                        else if (inputType == 'subtext'){
+                                            return(
+                                                <Row className='formRow'>
+                                                    <div className='subtext'>
+                                                        {field.name}
+                                                    </div>
+                                                </Row>
+                                            )
+                                        }
+                                        else if (inputType == 'header'){
+                                            return (
+                                                <Row className='formRow'>
+                                                    <div className='headertext'>
+                                                        {field.name}
+                                                    </div>
+                                                </Row>
+                                            )
+                                        }
+                                        else if (inputType == 'select' || inputType == 'checkbox'){
+                                            const answers = field.value;
+                                            console.log(answers);
+                                            return(
+                                                <>
+                                                    <Row className='radioQuestion'>
+                                                        {field.name}
+                                                    </Row>
+                                                    <Row className='radioFormInput'>
+                                                    {answers
+                                                        .map(t => <span>{t}</span>)
+                                                        .reduce((prev, curr) => [prev, ', ', curr])}
+                                                    </Row>
+                                                </>
+                                            )
+                                        }
+                                        else if (inputType =='radio'){
+                                            return(
+                                                <>
+                                                    <Row className='radioQuestion'>
+                                                        {field.name}
+                                                    </Row>
+                                                
+                                                    <Row className='radioFormInput'>
+                                                        {field.value}
+                                                    </Row>
+                                                </>
+                                            )
+                                        }
+                                    })}
+                                </>
                             )
                         })}
                         

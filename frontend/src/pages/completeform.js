@@ -300,12 +300,11 @@ export default function Formpage() {
                         Object.values(questionnaires).map((question, qnIndex)=>{
                             // compare the questionnaire index qnIndex to the upTo number upTo
                             // questionnaire index must be < upTo number 
+                            
+                            
+                            console.log(question.name)
 
                             const roleRequired = question.roleRequired;
-                            // console.log(roleRequired);
-                            // console.log(question);
-                            // console.log(upTo);
-                            // console.log(role);
                             var disabled = true;
 
                             // check those that could be edited then 
@@ -320,8 +319,13 @@ export default function Formpage() {
                             
                             return(
                                 <>
+                                    <Row className='formRow'>
+                                        <div className='displayquestionnairename'>
+                                            {question.name}
+                                        </div>
+                                    </Row>
                                     {Object.values(question['fields']).map((detail, dIndex)=>{
-                                    
+                                        
                                         const inputType = detail['type'];
 
                                         if (inputType == 'text'){
