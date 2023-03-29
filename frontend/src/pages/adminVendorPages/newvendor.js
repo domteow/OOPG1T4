@@ -22,6 +22,14 @@ export default function NewVendor(){
     const [emailError, setEmailError] = useState(null);
     const [phoneError, setPhoneError] = useState(null);
     const [faxError, setFaxError] = useState(null);
+    const[values, setValues] = useState({
+      accountType : 'Vendor',
+    });
+    const [county, setCounty] = useState([])
+    const [prevCounty, setPrevCounty] = useState([])
+    const [nameError, setNameError] = useState(null);
+    const [companyError, setCompanyError] = useState(null);
+
 
     const validatePwd = (pwd, pwd2) => {
         if (pwd.length >= 8){
@@ -38,10 +46,6 @@ export default function NewVendor(){
             setCfmPwdError('Passwords  need to be at least 8 characters long')
         }
     }
-
-    const[values, setValues] = useState({
-        accountType : 'Vendor',
-    });
 
     const handleChange = (e) => {
         const {name, value} = e.target; 
@@ -63,19 +67,15 @@ export default function NewVendor(){
         setStorePwd(e.target.value);
     }
 
-    const [county, setCounty] = useState([])
-    const [prevCounty, setPrevCounty] = useState([])
-    console.log(county);
     const handleCounty = (newValue) => {
         setCounty([]);
-        // console.log(newValue);
         newValue.map(country => {
             const countryName = country.label;
             console.log(countryName);
             setCounty(prev => [...prev, countryName]);
         })
-        console.log(county);
     }
+
     if (prevCounty !== county){
         setPrevCounty(county);
         setValues({
@@ -84,8 +84,6 @@ export default function NewVendor(){
         })
     }
     
-    // console.log(county);
-
     const validateEmail = (email) => {
         if(/\S+@\S+\.\S+/.test(email)){
             return true;
@@ -120,20 +118,44 @@ export default function NewVendor(){
         }
     }
 
+    const validateName = (name) => {
+      if (name.length > 0){
+        if (/^[A-Za-z]+$/.test(name)){
+          return true;
+        }
+      }
+      else{
+        setNameError("Please enter a valid name")
+      }
+    }
+
+    const validateCompany = (company) => {
+      if (company.length > 0){
+        return true;
+      }
+      else{
+        setCompanyError('Please enter a company name')
+      }
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(values);
+        setNameError(null);
+        setCompanyError(null);
         setPhoneError(null);
         setFaxError(null);
         setPwdError(null);
         setEmailError(null);
         setCfmPwdError(null);
+    
+        const isName = validateName(values.name)
+        const isCompany = validateCompany(values.company)
         const isPwdValid = validatePwd(values.password, storePwd);
         const isEmail = validateEmail(values.emailAddress);
         const isPhone = validatePhone(values.phoneNumber);
         const isFax = validateFax(values.faxNumber);
         
-        if (isPwdValid && isEmail && isPhone && isFax) {
+        if (isPwdValid && isEmail && isPhone && isFax && isName && isCompany) {
             addVendor();            
         }
     }
@@ -186,8 +208,9 @@ export default function NewVendor(){
                                 Name:
                             </Col>
                             <Col xs={12} md={8} className='formInput'>
-                                <TextField required name='name' className='inputtext' placeholder="Name" type='text' onChange={handleChange}  />
+                                <TextField required name='name' className='inputtext' placeholder="Name" type='text' onChange={handleChange} error={nameError !== null} />
                             </Col>
+                            {nameError && <div className='errorMsg' >{nameError}</div>}
                         </Row>
 
                         <Row className='formRow'>
@@ -195,8 +218,9 @@ export default function NewVendor(){
                                 Company Name:
                             </Col>
                             <Col xs={12} md={8} className='formInput'>
-                                <TextField required name='company' className='inputtext' type='text' placeholder="Company Name" onChange={handleChange} error={emailError !== null} />
+                                <TextField required name='company' className='inputtext' type='text' placeholder="Company Name" onChange={handleChange} error={companyError !== null}/>
                             </Col>
+                            {companyError && <div className='errorMsg' >{companyError}</div>}
                         </Row>
 
                         <Row className='formRow'>

@@ -24,7 +24,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
     const fields = value.fields; 
     const [open, setOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(options[1]);
-    const [inputList, setInputList] = useState([fields]);
+    const [inputList, setInputList] = useState(fields);
     const [questionnaireName, setQuestionnaireName] = useState(value.name);
     const [details, setDetails] = useState(fields);
     const assign = value.roleRequired.toLowerCase();

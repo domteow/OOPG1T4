@@ -27,8 +27,6 @@ export default function AdminHomepage(){
     const [openMsg, setOpenMsg] = useState(false);
     const name = localStorage.getItem('username');
     const email = localStorage.getItem('email');
-    console.log(name);
-    console.log(email);
     const [msg, setMsg] = useState();
     // for backend to get list of all vendors from database
     const [allVendors, setAllVendors] = useState({});
@@ -48,12 +46,10 @@ export default function AdminHomepage(){
     useEffect(() => {
         getAllVendors();
         const message = localStorage.getItem('message');
-        console.log(message);
-        console.log(message === 'null')
+
 
         if (message !== 'null' && message !== null){
-            setMsg(message);
-            // setOpen(true);  
+            setMsg(message);  
             displayMessage();      
         }
     }, []);

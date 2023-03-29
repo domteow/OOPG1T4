@@ -83,7 +83,6 @@ export default function VendorDetails(){
 
     const [pwdError, setPwdError] = useState(null);
     const [cfmPwdError, setCfmPwdError] = useState(null);
-    
     const [emailError, setEmailError] = useState(null);
     const [phoneError, setPhoneError] = useState(null);
     const [faxError, setFaxError] = useState(null);
