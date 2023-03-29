@@ -342,9 +342,10 @@ public class FormService {
     public ResponseEntity<?> reviseFormById(int id, Form form) {
         try {
             Form oldForm = getFormById(id);
-            form.setRevisionNo(getLatestRevisionNo(oldForm.getFormCode()) + 1);
+            int revNo = getLatestRevisionNo(oldForm.getFormCode());
+            form.setRevisionNo(revNo + 1);
             checkDuplicateForm(form.getFormCode(), form.getRevisionNo());
-            setPreviousRevisionStatus(oldForm.getFormCode(),oldForm.getRevisionNo());
+            setPreviousRevisionStatus(oldForm.getFormCode(), revNo);
             createForm(form);
 
             SuccessResponse successResponse = new SuccessResponse("New revision created.", HttpStatus.CREATED.value(), form);
