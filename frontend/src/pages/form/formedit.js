@@ -18,6 +18,7 @@ import DisplayQuestionnaire from './displayquestionnaire';
 import RadioButton from './radiobutton';
 import Select from './select';
 import Questionnaire from './questionnaire';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function FormEdit(){
     const formId = useParams().formId;
@@ -36,6 +37,7 @@ export default function FormEdit(){
     const [formData, setFormData] = useState([]);
     const [count, setCount] = useState(0);
     const [prevQ, setPrevQ] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     
 
     const getAllQuestionnaires = async() =>{
@@ -81,6 +83,9 @@ export default function FormEdit(){
     }
 
     useEffect(() => {
+        setTimeout(() => {
+
+        
         const getAllForms = async() =>{
             try{
                 const response = await axios.get("/api/v1/form/get/id/" + formId)
@@ -101,6 +106,8 @@ export default function FormEdit(){
             }
         }
         getAllForms();
+        setIsLoading(false);
+        }, 800);
     }, [formId]);
 
     const initialDetails = (data, index) => {
@@ -192,7 +199,8 @@ export default function FormEdit(){
             console.log(response);
             if (response.data.status == 201) {
                 navigate('../react/allforms')
-                alert('Form template added successfully')
+                // alert('Form template added successfully')
+                localStorage.setItem('message', 'Form template added successfully')
             }
         } catch (error) {
             console.log(error);
@@ -239,6 +247,18 @@ export default function FormEdit(){
             
         }
     
+    }
+
+    if (isLoading) {
+        return (
+            <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+            }}> <CircularProgress /> Form loading in progress... {console.log("loading state")}</div>
+        );
     }
 
     return(

@@ -34,6 +34,8 @@ export default function Allforms(){
     const [msg, setMsg] = useState();
     const [isActive, setIsActive] = useState({});
     const [selectedValue, setSelectedValue] = useState('All');
+    const [published, setPublished] = useState([]);
+    const [outdated, setOutdated] = useState([]);
 
     const getAllForms = async() =>{
         try{
@@ -170,6 +172,7 @@ export default function Allforms(){
                         <NativeSelect
                         defaultValue={'All'}
                         onChange={handleSelectChange}
+                        sx={{width:'15%'}}
                         inputProps={{
                             name: 'Filter',
                             id: 'uncontrolled-native',
@@ -178,6 +181,8 @@ export default function Allforms(){
                         <option value={'All'}>All</option>
                         <option value={'Active'}>Active</option>
                         <option value={'Inactive'}>Inactive</option>
+                        <option value={'Published'}>Published</option>
+                        <option value={'Outdated'}>Outdated</option>
                         </NativeSelect>
                     </FormControl>
                     </Box>
@@ -196,7 +201,7 @@ export default function Allforms(){
                                 Date 
                             </Col>
                             <Col xs={12} md={1} className='headerCenter'>
-                                Id
+                                Status
                             </Col>
                             <Col xs={12} md={2} className='headerCenter'>
                                 View
@@ -205,7 +210,7 @@ export default function Allforms(){
                                 Edit
                             </Col>
                             <Col xs={12} md={1} className='headerCenter'>
-                                Status
+                                Active
                             </Col>
                         </Row>
 
@@ -224,7 +229,7 @@ export default function Allforms(){
                                             {form.effectiveDate}
                                         </Col>
                                         <Col xs={12} md={1} className='headerCenter'>
-                                            {form.id}
+                                            {form.formStatus}<div className='revNo'>Rev No: {form.revisionNo}</div>
                                         </Col>
                                         <Col xs={12} md={2} className='headerCenter'>
                                             <button className='viewForm' onClick={() => goToForm(formId)}>
@@ -261,7 +266,7 @@ export default function Allforms(){
                                                 {form.effectiveDate}
                                             </Col>
                                             <Col xs={12} md={1} className='headerCenter'>
-                                                {form.id}
+                                                {form.formStatus}
                                             </Col>
                                             <Col xs={12} md={2} className='headerCenter'>
                                                 <button className='viewForm' onClick={() => goToForm(formId)}>
@@ -299,7 +304,84 @@ export default function Allforms(){
                                                 {form.effectiveDate}
                                             </Col>
                                             <Col xs={12} md={1} className='headerCenter'>
-                                                {form.id}
+                                                {form.formStatus}
+                                            </Col>
+                                            <Col xs={12} md={2} className='headerCenter'>
+                                                <button className='viewForm' onClick={() => goToForm(formId)}>
+                                                    View Form
+                                                </button>
+                                            </Col>
+                                            <Col xs={12} md={2} className='headerCenter'>
+                                                <button className='editForm' onClick={() => editForm(formId)}>
+                                                    Edit Form
+                                                </button>
+                                            </Col>
+                                            <Col xs={12} md={1} className='headerCenter'>
+                                                <Switch
+                                                    checked = {isActive[formId]}
+                                                    name = {form}
+                                                    onChange={() => handleActive(formId)}
+                                                    inputProps={{ 'aria-label': 'controlled' }}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    )
+                                }
+                            }
+                            else if (selectedValue == 'Published'){
+                                if (form.formStatus == 'published'){
+                                    return(
+                                        <Row className='formDataRow'>
+                                            <Col xs={12} md={3} className='headerCenter'>
+                                                {form.description}
+                                            </Col>
+                                            <Col xs={12} md={2} className='headerCenter'>
+                                                {form.formCode}
+                                            </Col>
+                                            <Col xs={12} md={1} className='headerCenter'>
+                                                {form.effectiveDate}
+                                            </Col>
+                                            <Col xs={12} md={1} className='headerCenter'>
+                                                {form.formStatus}
+                                            </Col>
+                                            <Col xs={12} md={2} className='headerCenter'>
+                                                <button className='viewForm' onClick={() => goToForm(formId)}>
+                                                    View Form
+                                                </button>
+                                            </Col>
+                                            <Col xs={12} md={2} className='headerCenter'>
+                                                <button className='editForm' onClick={() => editForm(formId)}>
+                                                    Edit Form
+                                                </button>
+                                            </Col>
+                                            <Col xs={12} md={1} className='headerCenter'>
+                                                <Switch
+                                                    checked = {isActive[formId]}
+                                                    name = {form}
+                                                    onChange={() => handleActive(formId)}
+                                                    inputProps={{ 'aria-label': 'controlled' }}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    )
+                                }
+                            }
+
+                            else if (selectedValue == 'Outdated'){
+                                if (form.formStatus == 'outdated'){
+                                    return(
+                                        <Row className='formDataRow'>
+                                            <Col xs={12} md={3} className='headerCenter'>
+                                                {form.description}
+                                            </Col>
+                                            <Col xs={12} md={2} className='headerCenter'>
+                                                {form.formCode}
+                                            </Col>
+                                            <Col xs={12} md={1} className='headerCenter'>
+                                                {form.effectiveDate}
+                                            </Col>
+                                            <Col xs={12} md={1} className='headerCenter'>
+                                                {form.formStatus} <div>{form.revisionNo}</div>
                                             </Col>
                                             <Col xs={12} md={2} className='headerCenter'>
                                                 <button className='viewForm' onClick={() => goToForm(formId)}>

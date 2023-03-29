@@ -140,6 +140,7 @@ export default function NewVendor(){
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
         setNameError(null);
         setCompanyError(null);
         setPhoneError(null);
@@ -201,7 +202,7 @@ export default function NewVendor(){
                 <div className='subDividerForm'>
                     New Vendor
                 </div>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}>
                     <fieldset className='newVendorForm'>
                         <Row className='formRow'>
                             <Col xs={6} md={4} xl={2} className='formQuestion'>

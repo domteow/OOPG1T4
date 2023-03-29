@@ -1170,6 +1170,10 @@ input:disabled {
     text-align: center;
 }
 
+.revNo{
+    font-size: 14px;
+    font-style:italic;
+}
 
 
 
