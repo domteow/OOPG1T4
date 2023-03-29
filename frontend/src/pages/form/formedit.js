@@ -258,6 +258,7 @@ export default function FormEdit(){
                                         required
                                         id="formName"
                                         name="formName"
+                                        disabled={true}
                                         onChange={handleFormName}
                                         type='text'
                                         value={formName}
@@ -275,6 +276,7 @@ export default function FormEdit(){
                                         required
                                         id="formCode"
                                         name="formCode"
+                                        disabled={true}
                                         onChange={handleFormCode}
                                         type='text'
                                         value={formCode}

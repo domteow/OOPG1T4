@@ -259,7 +259,8 @@ export default function Newform(){
                                         required
                                         id="formName"
                                         name="formName"
-                                        onChange={handleFormName}
+                                        // onChange={handleFormName}
+                                        disabled={true}
                                         type='text'
                                         value={formName}
                                         sx={{width: '100%'}}
@@ -276,7 +277,8 @@ export default function Newform(){
                                         required
                                         id="formCode"
                                         name="formCode"
-                                        onChange={handleFormCode}
+                                        disabled={true}
+                                        // onChange={handleFormCode}
                                         type='text'
                                         value={formCode}
                                         sx={{width: '100%'}}
