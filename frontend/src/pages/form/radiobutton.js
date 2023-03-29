@@ -17,15 +17,15 @@ const RadioButton = ({allDetails, id, value, options, other, edit}) => {
     const [prevQuestion, setPrevQuestion] = useState(value);      
     const [others, setOthers] = useState(other);
     const [prevOthers, setPrevOthers] = useState(other);
-    console.log(radioOptions)
-    console.log(radioQuestion);
-    console.log(prevQuestion);
+    // console.log(radioOptions)
+    // console.log(radioQuestion);
+    // console.log(prevQuestion);
 
     const handleQuestionChange = (e) => {
         console.log(e.target.value);
         setRadioQuestion(e.target.value);
     };
-    console.log(radioQuestion)
+    // console.log(radioQuestion)
     
     const handleOptionChange = (e, index) => {
         const updatedOptions = [...radioOptions];
@@ -58,10 +58,10 @@ const RadioButton = ({allDetails, id, value, options, other, edit}) => {
         others: others,
         id: id
     }
-    console.log(data);
-    console.log(radioQuestion)
-    console.log(prevQuestion);
-    console.log(prevOption)
+    // console.log(data);
+    // console.log(radioQuestion)
+    // console.log(prevQuestion);
+    // console.log(prevOption)
     useEffect(()=>{        
         if (prevQuestion !== radioQuestion){
             console.log('hi')
@@ -79,8 +79,8 @@ const RadioButton = ({allDetails, id, value, options, other, edit}) => {
         }
     })
 
-    console.log(radioQuestion)
-    console.log(radioOptions)
+    // console.log(radioQuestion)
+    // console.log(radioOptions)
    
     const Others = () =>{
         if (others){
@@ -94,7 +94,7 @@ const RadioButton = ({allDetails, id, value, options, other, edit}) => {
         }
     }
 
-    console.log(radioOptions);
+    // console.log(radioOptions);
 
     if (!edit){
         console.log(value);

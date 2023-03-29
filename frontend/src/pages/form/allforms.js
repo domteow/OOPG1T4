@@ -98,7 +98,8 @@ export default function Allforms(){
     }
 
     const editForm = (id) => {
-        navigate('/react/allforms/editform/' + id);
+        // navigate('/react/allforms/editform/' + id);
+        navigate('/react/formedit/' + id);
     }
 
     console.log(forms);

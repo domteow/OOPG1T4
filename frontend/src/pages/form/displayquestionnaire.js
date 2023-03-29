@@ -20,7 +20,7 @@ import Subheader from './subheader';
 
 const options = ['Sub Header', 'Text Field', 'Radio Button', 'Checkbox', 'Select'];
 
-const DisplayQuestionnaire = ({formDetails, id, value}) => {
+const DisplayQuestionnaire = ({initialDetails, id, value}) => {
     const fields = value.fields; 
     const [open, setOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(options[1]);
@@ -32,6 +32,8 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
     const [prevFields, setPreviousFields] = useState(fields);
     const [prevAssign, setPreviousAssign] = useState(assign);
     const [prevName, setPreviousName] = useState(value.name);
+    console.log(inputList);
+    console.log(details);
 
     /* DIALOGUE STUFF */
     // this is for opening the dialogue
@@ -43,14 +45,25 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
     const handleClose = (value) => {
         setOpen(false);
         setSelectedValue(value);
-        setInputList([...inputList, value]);
-        setDetails([...details, value]);
+        const lastitem = details[details.length - 1];
+        const len = lastitem.id;
+        console.log(lastitem);
+        console.log(len);
+        const data = {
+            type: value, 
+            id: len + 1,        
+            name: '',
+            value:'',
+            options: []
+        }
+        setInputList([...inputList, data]);
+        setDetails([...details, data]);
     };
     /* END OF DIALOGUE STUFF */
 
     const handleRemoveInputField = index => {
         const newInputs = inputList.map((item, i) => {
-            if (i === index){
+            if (item.id === index){
                 return "";
             }
             else{
@@ -58,6 +71,18 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
             }
         });
         setInputList(newInputs);
+
+        details.map((item, i) => {
+            if (item.id === index){
+                const newitem = [...details]
+                newitem.splice(i, 1);
+                setDetails(newitem);
+            }
+        })
+        // const newDat = [...details];
+        // newDat.splice(index, 1);
+        // setDetails(newDat);
+
     };
 
     const handleQuestionnaireTitleChange = (e) => {
@@ -65,13 +90,15 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
     }
 
     const handleTextChange = (e, i)=>{
-        const data = {
-            question : e.target.value,
-            type: 'text'
-        }
+        // const data = {
+        //     question : e.target.value,
+        //     type: 'text'
+        // }
         const newDetails = details.map((item, index)=>{
             if (index === i){
-                return data
+                const dat = item;
+                const newdata = {...item, name:e.target.value};
+                return newdata
             }
             else{
                 return item
@@ -80,14 +107,17 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
         setDetails(newDetails);
     }
 
-    const handleSubTextChange = (e, i)=>{
-        const data = {
-            question : e.target.value,
-            type: 'subheader'
-        }
+    const handleSubtextChange = (e, i)=>{
+        
+        // const data = {
+        //     question : e.target.value,
+        //     type: 'subtext'
+        // }
         const newDetails = details.map((item, index)=>{
             if (index === i){
-                return data
+                const dat = item;
+                const newdata = {...item, name:e.target.value};
+                return newdata
             }
             else{
                 return item
@@ -96,14 +126,51 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
         setDetails(newDetails);        
     }
 
+    const handleSubHeaderChange = (e, i)=>{
+        // const data = {
+        //     question : e.target.value,
+        //     type: 'subheader'
+        // }
+        const newDetails = details.map((item, index)=>{
+            if (index === i){
+                const dat = item;
+                const newdata = {...item, name:e.target.value};
+                return newdata
+            }
+            else{
+                return item
+            }
+        });
+        setDetails(newDetails);        
+    }
+
+    const handleHeaderChange = (e, i) => {
+        const data = {
+            question : e.target.value,
+            type: 'header'
+        }
+        const newDetails = details.map((item, index)=>{
+            if (index === i){
+                const dat = item;
+                const newdata = {...item, name:e.target.value};
+                return newdata
+            }
+            else{
+                return item
+            }
+        });
+        setDetails(newDetails);
+    }
+
     const handleSelectChange = (e) => { 
         setAssigned(e.target.value);
     }
 
     const allDetails = (data, index) => {
+        console.log("HELLOHELLOHELLOHELLOOOOOOO")
         console.log(data);
         const newDetails = details.map((item, i)=>{
-            if (i === index){
+            if (item.id === index){
                 return data
             }
             else{
@@ -119,22 +186,23 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
     const newData = {
         name: questionnaireName,
         roleRequired: assigned,
-        fields: details
+        fields: details,
+        countIni: id
     }
     console.log(newData);
 
     useEffect(() => {
         if (details !== prevFields){
             setPreviousFields(details);
-            formDetails(newData, id);
+            initialDetails(newData, id);
         }
         if (assigned !== prevAssign){
             setPreviousAssign(assigned);
-            formDetails(newData, id);
+            initialDetails(newData, id);
         }
         if (questionnaireName !== prevName){
             setPreviousName(questionnaireName);
-            formDetails(newData, id);
+            initialDetails(newData, id);
         }
     })
 
@@ -147,7 +215,7 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
         const itemName = item.name;
         const itemOptions = item.options;
 
-        if(itemType === 'text' || item === 'Text Field'){
+        if(itemType === 'text' || itemType === 'Text Field'){
             return(
                 <>
                     <>
@@ -160,17 +228,17 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
                             </div>
                         </div>
                     </>
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(item.id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Text Field
                     </button>
                 </>
             )
         }
-        else if(itemType === 'radio'){
+        else if(itemType === 'radio' || itemType =='Radio Button'){
             return(
                 <>
-                    <RadioButton id={i} allDetails={allDetails} value={itemName} options = {itemOptions} other={item.others} edit={true}/>
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                    <RadioButton id={item.id} allDetails={allDetails} value={itemName} options = {itemOptions} other={item.others} edit={true}/>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(item.id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Radio
                     </button>
                 </>
@@ -180,7 +248,7 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
             return(
                 <>
                     <Checkbox id={i} allDetails={allDetails} value={itemName} options = {itemOptions} other={item.others} edit={true} />
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(item.id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Checkbox
                     </button>
                 </>
@@ -190,7 +258,7 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
             return(
                 <>
                     <Select id={i} allDetails={allDetails} value={itemName} options = {itemOptions} edit = {true} />
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(item.id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Select
                     </button>
                 </>
@@ -200,10 +268,34 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
             return(
                 <>
                     <div className='radioOption'>
-                        <TextField name='text' placeholder='Subheader' sx={{width: '100%'}} defaultValue={itemName}  onChange={(e)=>handleSubTextChange(e, i)}/>
+                        <TextField name='text' placeholder='Subheader' sx={{width: '100%'}} defaultValue={itemName}  onChange={(e)=>handleSubHeaderChange(e, i)}/>
                     </div>
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(item.id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Subheader
+                    </button>
+                </>
+            )
+        }
+        else if (itemType === 'header' || item === 'Header'){
+            return(
+                <>
+                    <div className='radioOption'>
+                        <TextField name='text' placeholder='Header' sx={{width: '100%'}} defaultValue={itemName}  onChange={(e)=>handleHeaderChange(e, i)}/>
+                    </div>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(item.id)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Header
+                    </button>
+                </>
+            )
+        }
+        else if (itemType === 'subtext' || item === 'Sub Text'){
+            return(
+                <>
+                    <div className='radioOption'>
+                        <TextField name='text' placeholder='Subtext' sx={{width: '100%'}} defaultValue={itemName}  onChange={(e)=>handleSubtextChange(e, i)}/>
+                    </div>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(item.id)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Subtext
                     </button>
                 </>
             )
@@ -212,7 +304,7 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
             return(
                 <>
                     <RadioButton id={i} allDetails={allDetails} value={''} options={[]} other={false} edit={false}/>
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(item.id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Radio
                     </button>
                 </>
@@ -222,7 +314,7 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
             return(
                 <>
                     <Checkbox id={i} allDetails={allDetails} value={''} options={[]} other={false} edit={false} />
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(item.id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Checkbox
                     </button>
                 </>
@@ -232,7 +324,7 @@ const DisplayQuestionnaire = ({formDetails, id, value}) => {
             return(
                 <>
                     <Select id={i} allDetails={allDetails} value={''} options={[]} edit={false} />
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(i)}>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(item.id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Select
                     </button>
                 </>

@@ -19,26 +19,19 @@ import RadioButton from './radiobutton';
 import Select from './select';
 import Questionnaire from './questionnaire';
 
-export default function Newform(){
-    const formId  = useParams()['formId'];
+export default function FormEdit(){
+    const formId = useParams().formId;
     const options = ['New Questionnaire'];
-    console.log(formId);
+    const [questionnaireList, setQuestionnaireList] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [form, setForm] = useState({});
     const [formName, setFormName] = useState('');
     const [formCode, setFormCode] = useState('');
     const [effectiveDate, setEffectiveDate] = useState('');
-    const [form, setForm] = useState({});
-    // questionnaires store all the original questionnaires
-    const [questionnaires, setQuestionnaires] = useState([]);
-    const [newForm, setNewForm] = useState([]);
-    const [inputList, setInputList] = useState([]);
-    const [open, setOpen] = useState(false);
+    const [initialQuestionnaire, setInitialQuestionnaire] = useState([]);
+    const [countIni, setCountIni] = useState(0)
     const [selectedValue, setSelectedValue] = useState(options[1]);
-    // questionnaireList stores all the existing questionnaires that can be added
-    const [questionnaireList, setQuestionnaireList] = useState([]);
-    // store all new data for questionnaries
-    const [edittedData, setEdittedData] = useState([]);
     const navigate = useNavigate();
-    const[count, setCount] = useState(0);
 
     const getAllQuestionnaires = async() =>{
         try{
@@ -55,86 +48,29 @@ export default function Newform(){
         getAllQuestionnaires();
     }, []);
 
-    /* THIS IS TO OPEN THE DIALOGUE TO CHOOSE WHAT TO ADD */
     const handleClickOpen = () => {
         setOpen(true);
     };
-    /* END OF OPEN DIALOGUE FUNCTION THING */
 
-    /* ONCLICK ON THE INPUT THING, DIALOGUE CLOSES, WHEN CLOSE, IT WILL UPDATE THE INPUTLIST THAT WILL BE USED TO RENDER THE RENDERINPUTFIELD */
     const handleClose = (value) => {
-        setOpen(false);
-        setSelectedValue(value);
-        setCount((prev) => prev+1)
-        if (value !== 'New Questionnaire'){
-            questionnaireList.map((questionnaire) => {
-                const name = questionnaire.name;
-                const id = questionnaire.id;
-                if (name === value){
-                    const newQ = {...questionnaire, count:count}
-                    
-                    setInputList([...inputList, id]);
-                    setEdittedData([...edittedData, newQ]);
-                    // setQuestionnaires([...questionnaires, questionnaire]);
-                }
-            })
-        }
-        else{
-            const newQ = {count:count}
-            setInputList([...inputList, value]);
-            setEdittedData([...edittedData, newQ]);
-            // setQuestionnaires([...questionnaires, ""]);
-        }
-    };
-    console.log(edittedData)
-    /* END OF ONCLICK INPUT THING TO ADD INPUTFIELD */
 
-    //  ON CLICK, DELETE THE INPUT FIELD
-    const handleRemoveInputField = index => {
-        // remove data of questionnaire from editted data
-        const newEdit = edittedData.map((item, i) => {
-            if (item.count == index){
-                const newItem = [...edittedData];
-                newItem.splice(i, 1);
-                setEdittedData(newItem);
-            }
-        })
-
-        // remove from input list
-        const newDat = inputList.map((item, i) => {
-            if (i === index){
-                return "";
-            }
-            else{
-                return item;
-            }
-        }); 
-        setInputList(newDat);
-    };
-
-    const handleFormName = (e) => {
-        setFormName(e.target.value);
-    }
-
-    const handleFormCode = (e) => {
-        setFormCode(e.target.value);
-    }
-
-    const handleEffectiveDate = (e) => {
-        setEffectiveDate(e.target.value);
     }
 
     useEffect(() => {
         const getAllForms = async() =>{
             try{
                 const response = await axios.get("/api/v1/form/get/id/" + formId)
-                console.log([response.data.data]);
                 setForm(response.data.data);
-                setQuestionnaires(response.data.data.questionnaires);
-                setEdittedData(response.data.data.questionnaires);
                 setFormName(response.data.data.description);
                 setFormCode(response.data.data.formCode);
                 setEffectiveDate(response.data.data.effectiveDate);
+                //setInitialQuestionnaire(response.data.data.questionnaires);
+                response.data.data.questionnaires.map((item, i) => {
+                    console.log(countIni)
+                    const newD = {...item, countIni:countIni}
+                    setInitialQuestionnaire((prev) => [...prev, newD]);
+                })
+                setCountIni(prev => prev + 1);
             }
             catch(error){
                 console.log(error);
@@ -143,105 +79,62 @@ export default function Newform(){
         getAllForms();
     }, [formId]);
 
-    // console.log(form);
-    console.log(questionnaires);
-
-    const formDetails = (data, index) => {
-        // data represents each questionnaire
-        console.log(data);
-        const newFormDetails = questionnaires.map((item, i) => {
-            if (index === i){
-                return data;
+    const initialDetails = (data, index) => {
+        const newdata = initialQuestionnaire.map((item, i) => {
+            if (item.id == index){
+                return data; 
             }
-
             else{
-                return item;
-            }
-        });
-        setQuestionnaires(newFormDetails);
-
-        const editData = edittedData.map((item, i) => {
-            if (index === item.count){
-                return data;
-            }
-
-            else{
-                return item;
+                return item 
             }
         })
-        setEdittedData(editData);
+        setInitialQuestionnaire(newdata);
     }
 
+    const handleRemoveInitialQuest = (index) => {
+        initialQuestionnaire.map((item, i) =>{
+            if (item.id == index){
+                const newdat = [...initialQuestionnaire];
+                newdat.splice(i, 1);
+                setInitialQuestionnaire(newdat);
+            }
+        })
+        
+    }
+    console.log(initialQuestionnaire);
 
-    const submitForm = {
-        description: formName, 
-        formCode: formCode,
-        effectiveDate: effectiveDate,
-        questionnaires : edittedData,
-        formStatus: "published",
-        revisionNo: form.revisionNo+1
+    const handleFormName = (e) => {
+        setFormName(e.target.value);
+    }
+
+    const handleEffectiveDate = (e) => {
+        setEffectiveDate(e.target.value);
+    }
+
+    const handleFormCode = (e) => {
+        setFormCode(e.target.value);
     }
 
     const handleUpdateForm = async() => {
-        console.log("DOM DOM DO THIS");
+        // console.log("DOM DOM DO THIS");
 
-        try {
-            const response = await axios.put('/api/v1/form/update/' + formId, submitForm);
-            console.log(response);
-            if (response.data.status == 201) {
-                navigate('../react/allforms')
-                alert('Form template added successfully')
-            }
-        } catch (error) {
-            console.log(error);
-        }
+        // try {
+        //     const response = await axios.put('/api/v1/form/update/' + formId, submitForm);
+        //     console.log(response);
+        //     if (response.data.status == 201) {
+        //         navigate('../react/allforms')
+        //         alert('Form template added successfully')
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        // }
     }
 
     const handleCancelForm = () => {
         navigate(-1);
     }
+ 
 
-    console.log('rhystan');
-    console.log(submitForm);
-    console.log('rhystan');
-    /* THIS IS TO RENDER THE ADDING OF INPUT FIELDS */
-    const renderInputField = (item, i) =>{
-        const newIndex = i + questionnaires.length;
-        const count = item.count;
-        if(item === 'New Questionnaire'){
-            return(
-                <>
-                    <CreateQuestionnaire formDetails={formDetails} id={count} value={questionnaires[i]}/>
-                    <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveInputField(count)}>
-                        <DeleteIcon sx={{fontSize: 30}}/> Delete Questionnaire
-                    </button>
-                </>
-            )
-        }
-
-        else if (item === 'Cancel'){
-            return (<></>);
-        }
-
-        else if (item === ""){
-            return(<></>)
-        }
-
-        else{
-            // to display an existing questionnaire 
-            return (
-                <>
-                    <Questionnaire id={count}/>
-                    <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveInputField(count)}>
-                        <DeleteIcon sx={{fontSize: 30}}/> Delete Questionnaire
-                    </button>
-                </>
-            )
-        }
-    }
-    /* END OF RENDER OF ADDING OF INPUT FIELDS */
-    console.log(formName);
-    console.log(formCode);
     return(
         <>
             <Navbar />
@@ -303,25 +196,21 @@ export default function Newform(){
                     </FormControl>
                     {/* to display existing form stuff*/} 
                     <div>
-                        {questionnaires.map((questionnaire, index) =>{
+                        {initialQuestionnaire.map((item, i) => {
+                            const ind = item.id;
                             return(
-                                <DisplayQuestionnaire value={questionnaire} id={index} formDetails={formDetails} />
-                            )
+                                <>
+                                    <DisplayQuestionnaire value={item} id={ind} initialDetails={initialDetails}/>
+                                    <button className='deleteInputButton' onClick={()=>handleRemoveInitialQuest(ind)}>
+                                        <DeleteIcon sx={{fontSize: 30}}/> Delete Questionnaire
+                                    </button>
+                                    
+                                </>
+                            )                            
                         })}
                     </div>
 
-                    {/* this is to display new questionnaires */}
-                    <div>
-                        {inputList.map((item, i)=>{
-                            console.log(item);
-                            return(
-                                <div>
-                                    {renderInputField(item, i)}
-                                </div>
-                            )
-                        })}
-                    </div>
-
+        
                     <button onClick={handleClickOpen} className='dialogueButton'>
                         <AddIcon/> Add Questionnaire
                     </button>

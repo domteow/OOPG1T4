@@ -43,6 +43,8 @@ import Newadmin from './pages/approverPages/newadmin'
 import CompletedForm from "./pages/form/completedForm";
 import Pdf from "./pages/pdf/pdf";
 
+import FormEdit from './pages/form/formedit';
+
 export default function App(){
     
     return (
@@ -68,6 +70,7 @@ export default function App(){
                 <Route exact path="/react/newadmin" element={<Newadmin/>}/>
                 <Route exact path='/react/account/:userId' element={<Account />}/>
                 <Route exact path='/react/viewcompletedform/:formId' element={<CompletedForm/>}/>
+                <Route exact path='/react/formedit/:formId' element={<FormEdit/>}/>
             </Routes>
             </div>
         </BrowserRouter>
