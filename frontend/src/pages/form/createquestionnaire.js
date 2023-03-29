@@ -88,12 +88,11 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
     console.log(details);
 
     const allDetails = (data, index) => {
-        console.log(inputList);
-        console.log(data);
+        // console.log(inputList);
+        // console.log(data);
         const newDetails = details.map((item, i)=>{
             const idx = item.id;
-            console.log(i);
-            console.log(index)
+        
             if (idx === index){
                 return data
             }

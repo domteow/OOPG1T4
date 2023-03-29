@@ -35,15 +35,17 @@ import { styled } from '@mui/material/styles';
 
 const options = ['Text Field', 'Radio Button', 'Checkbox', 'Dropdown'];
 
-export default function Questionnaire(props){
+export default function Questionnaire({id}){
     // props is the id of the questionnaire
-    const questionnaireId = props.id; ;
+    const questionnaireId = id; 
     const [fields, setFields] = useState([]);
     const [questionnaire, setQuestionnaire] = useState({});
-
-    const getQuestionnaire = async() => {
+    console.log(questionnaireId)
+    const [previd, setPrevid] = useState();
+    const getQuestionnaire = async(id) => {
+        console.log(id);
         try{
-            const response = await axios.get("/api/v1/questionnaire/getQuestionnaireByID/" + questionnaireId)
+            const response = await axios.get("/api/v1/questionnaire/getQuestionnaireByID/" + id)
             setQuestionnaire(response.data.data)
             const allFields = response.data.data['fields'];
             setFields(allFields);          
@@ -53,8 +55,14 @@ export default function Questionnaire(props){
         }
     }
 
+    if (previd != id){
+        setPrevid(id);
+        getQuestionnaire(id);
+    }
+
     useEffect(() => {
-        getQuestionnaire();
+        console.log(id)
+        getQuestionnaire(id);
     }, []);
     console.log(questionnaire)
     const assigned = questionnaire['roleRequired'];

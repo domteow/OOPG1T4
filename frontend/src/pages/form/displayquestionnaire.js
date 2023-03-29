@@ -20,7 +20,7 @@ import Subheader from './subheader';
 
 const options = ['Sub Header', 'Text Field', 'Radio Button', 'Checkbox', 'Select'];
 
-const DisplayQuestionnaire = ({initialDetails, id, value}) => {
+const DisplayQuestionnaire = ({initialDetails, key, value}) => {
     const fields = value.fields; 
     const [open, setOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(options[1]);
@@ -90,7 +90,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
     const handleTextChange = (e, i)=>{
 
         const newDetails = details.map((item, index)=>{
-            if (index === i){
+            if (item.id === i){
                 const dat = item;
                 const newdata = {...item, name:e.target.value};
                 return newdata
@@ -105,7 +105,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
     const handleSubtextChange = (e, i)=>{
        
         const newDetails = details.map((item, index)=>{
-            if (index === i){
+            if (item.id === i){
                 const dat = item;
                 const newdata = {...item, name:e.target.value};
                 return newdata
@@ -120,7 +120,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
     const handleSubHeaderChange = (e, i)=>{
        
         const newDetails = details.map((item, index)=>{
-            if (index === i){
+            if (item.id === i){
                 const dat = item;
                 const newdata = {...item, name:e.target.value};
                 return newdata
@@ -138,7 +138,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
             type: 'header'
         }
         const newDetails = details.map((item, index)=>{
-            if (index === i){
+            if (item.id === i){
                 const dat = item;
                 const newdata = {...item, name:e.target.value};
                 return newdata
@@ -169,25 +169,25 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
 
 
     const newData = {
+        ...value,
         name: questionnaireName,
         roleRequired: assigned,
         fields: details,
-        countIni: id
     }
     console.log(newData);
 
     useEffect(() => {
         if (details !== prevFields){
             setPreviousFields(details);
-            initialDetails(newData, id);
+            initialDetails(newData, key);
         }
         if (assigned !== prevAssign){
             setPreviousAssign(assigned);
-            initialDetails(newData, id);
+            initialDetails(newData, key);
         }
         if (questionnaireName !== prevName){
             setPreviousName(questionnaireName);
-            initialDetails(newData, id);
+            initialDetails(newData, key);
         }
     })
 
@@ -203,7 +203,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
                     <>
                         <div className='newFormQuestion'>
                             <div>
-                                <TextField name='text' placeholder='Question' sx={{width: '100%'}} defaultValue={itemName} onChange={(e)=>handleTextChange(e, i)}/>
+                                <TextField name='text' placeholder='Question' sx={{width: '100%'}} defaultValue={itemName} onChange={(e)=>handleTextChange(e, item.id)}/>
                             </div>
                             <div>
                                 <TextField name='answer' placeholder='Answer' sx={{width: '100%'}} disabled={true}/>
@@ -250,7 +250,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
             return(
                 <>
                     <div className='radioOption'>
-                        <TextField name='text' placeholder='Subheader' sx={{width: '100%'}} defaultValue={itemName}  onChange={(e)=>handleSubHeaderChange(e, i)}/>
+                        <TextField name='text' placeholder='Subheader' sx={{width: '100%'}} defaultValue={itemName}  onChange={(e)=>handleSubHeaderChange(e, item.id)}/>
                     </div>
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(item.id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Subheader
@@ -262,7 +262,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
             return(
                 <>
                     <div className='radioOption'>
-                        <TextField name='text' placeholder='Header' sx={{width: '100%'}} defaultValue={itemName}  onChange={(e)=>handleHeaderChange(e, i)}/>
+                        <TextField name='text' placeholder='Header' sx={{width: '100%'}} defaultValue={itemName}  onChange={(e)=>handleHeaderChange(e, item.id)}/>
                     </div>
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(item.id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Header
@@ -274,7 +274,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
             return(
                 <>
                     <div className='radioOption'>
-                        <TextField name='text' placeholder='Subtext' sx={{width: '100%'}} defaultValue={itemName}  onChange={(e)=>handleSubtextChange(e, i)}/>
+                        <TextField name='text' placeholder='Subtext' sx={{width: '100%'}} defaultValue={itemName}  onChange={(e)=>handleSubtextChange(e, item.id)}/>
                     </div>
                     <button className='deleteInputButton' onClick={()=>handleRemoveInputField(item.id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Subtext

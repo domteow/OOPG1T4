@@ -88,13 +88,13 @@ export default function FormEdit(){
                 setFormName(response.data.data.description);
                 setFormCode(response.data.data.formCode);
                 setEffectiveDate(response.data.data.effectiveDate);
-                //setInitialQuestionnaire(response.data.data.questionnaires);
-                response.data.data.questionnaires.map((item, i) => {
-                    console.log(countIni)
-                    const newD = {...item, countIni:countIni}
-                    setInitialQuestionnaire((prev) => [...prev, newD]);
-                })
-                setCountIni(prev => prev + 1);
+                setInitialQuestionnaire(response.data.data.questionnaires);
+                // response.data.data.questionnaires.map((item, i) => {
+                //     console.log(countIni)
+                //     const newD = {...item, countIni:countIni}
+                //     setInitialQuestionnaire((prev) => [...prev, newD]);
+                // })
+                // setCountIni(prev => prev + 1);
             }
             catch(error){
                 console.log(error);
@@ -104,8 +104,9 @@ export default function FormEdit(){
     }, [formId]);
 
     const initialDetails = (data, index) => {
+        console.log(data);
         const newdata = initialQuestionnaire.map((item, i) => {
-            if (item.id == index){
+            if (item.id == data.id){
                 return data; 
             }
             else{
@@ -182,7 +183,7 @@ export default function FormEdit(){
         formStatus: "published",
         revisionNo: form.revisionNo + 1
     }
-
+    console.log(submitdata)
     const handleUpdateForm = async() => {
         // console.log("DOM DOM DO THIS");
 
@@ -310,7 +311,7 @@ export default function FormEdit(){
                             const ind = item.id;
                             return(
                                 <>
-                                    <DisplayQuestionnaire value={item} id={ind} initialDetails={initialDetails}/>
+                                    <DisplayQuestionnaire value={item} key={ind} initialDetails={initialDetails}/>
                                     <button className='deleteInputButton' onClick={()=>handleRemoveInitialQuest(ind)}>
                                         <DeleteIcon sx={{fontSize: 30}}/> Delete Questionnaire
                                     </button>

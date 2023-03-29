@@ -33,6 +33,9 @@ export default function Newform(){
     const navigate = useNavigate();
     const [questionnaireList, setQuestionnaireList] = useState([]);
     const [count, setCount] = useState(0);
+    const [formNameError, setFormNameError] = useState(null);
+    const [formCodeError, setFormCodeError] = useState(null);
+    const [dateError, setDateError] = useState(null);
 
     const getAllQuestionnaires = async() =>{
         try{
@@ -63,8 +66,13 @@ export default function Newform(){
             questionnaireList.map((questionnaire) => {
                 const name = questionnaire.name;
                 const id = questionnaire.id;
+
+                const data = {
+                    id: id,
+                    type: 'questionnaire'
+                }
                 if (name === value){
-                    setInputList([...inputList, id]);
+                    setInputList([...inputList, data]);
                     setFormData([...formData, questionnaire]);
                 }
             })
@@ -73,8 +81,9 @@ export default function Newform(){
             setCount((prev) => prev+1)
             const data = {
                 count: count,
+                type: 'New Questionnaire'
             }
-            setInputList([...inputList, value])
+            setInputList([...inputList, data])
             setFormData([...formData, data]);
         }
     };
@@ -86,20 +95,81 @@ export default function Newform(){
         newData.splice(index, 1);
         setFormData(newData);
 
-        const newDat = inputList.map((item, i) => {
-            if (i === index){
-                return "";
+        formData.map((item, i) => {
+            if (item.count == index){
+                const newDat = [...formData];
+                newDat.splice(i, 1);
+                setFormData(newDat);
             }
-            else{
-                return item;
+        })
+
+        inputList.map((item, i) => {
+            if (item.count == index){
+                const newInp = [...inputList];
+                newInp.splice(i, 1);
+                setInputList(newInp);
             }
-        }); 
-        setInputList(newDat);
+        })
+
+
+        // const newDat = inputList.map((item, i) => {
+        //     if (item.count === index){
+        //         return "";
+        //     }
+        //     else{
+        //         return item;
+        //     }
+        // }); 
+        // setInputList(newDat);
     };
+
+    const handleRemoveQuestionnaireInput = (id) => {
+        console.log(id);
+
+        formData.map((item, i) => {
+            console.log(item.id);
+                console.log(id)
+                console.log(item.id == id)
+            if (item.id == id){
+                
+                const newDat = [...formData];
+                newDat.splice(i, 1);
+                setFormData(newDat);
+            }
+        })
+
+        inputList.map((item, i) => {
+            console.log(item.id);
+            console.log(id)
+            console.log(item.id == id)
+            if (item.id == id){
+                const newInp = [...inputList];
+                newInp.splice(i, 1);
+                setInputList(newInp);
+            }
+        })
+    }
+
     console.log(formData);
+
     const formDetails = (data, index) => {
         console.log(data);
+        // const newFormDetails = [...formData];
+        // newFormDetails.map((item, i) => {
+        //     console.log(item);
+        //     console.log(item.count);
+        //     console.log(data.count);
+        //     console.log(item.count == data.count);
+        //     if (item.count == data.count){
+        //         return data;
+        //     }
+        //     else{
+        //         return item;
+        //     }
+        // })
         const newFormDetails = formData.map((item, i) => {
+            console.log(data.count);
+            console.log(item);
             const ctr = item.count;
             if (data.count === ctr){
                 return data;
@@ -109,6 +179,7 @@ export default function Newform(){
                 return item;
             }
         });
+
         setFormData(newFormDetails);
     }
    
@@ -134,9 +205,73 @@ export default function Newform(){
     }
 
     console.log(submitForm)
+    const validateFormName = (formName) => {
+        const parts = formName.replace(/ /g, '');
+        if (parts.length >0){
+            return true;
+        }
+        else{
+            setFormNameError('Please enter a form name');
+        }
+    }
+
+    const validateFormCode = (formCode) => {
+        const parts = formCode.replace(/ /g, '');
+        if (parts.length >0) {
+            return true;
+        }
+        else{
+            setFormCodeError("Please enter a form code")
+        }
+    }
+
+    // const validateDate = (date) => {
+    //     const days = ['01', 1, '03', 3, '05', 5, '07', 7, '08', 8, 10, 12]
+    //     const parts = date.split('-');
+    //     const year = parts[0];
+    //     const month = parts[1];
+    //     const day = parts[2];
+    //     console.log(parts);
+    //     if (year > 2014 && year < 3000){
+    //         if (month == '02' || month == 2){
+    //             if (day >0 && day < 30){
+    //                 return true;
+    //             }
+    //         }
+    //         else if (days.includes(month) >= 0){
+    //             if (day > 0 && day < 32){
+    //                 return true;
+    //             }
+    //         }
+    //         else if (days.includes(month) == -1 ){
+    //             if (day > 0 && day < 31){
+    //                 return true;
+    //             }
+    //         }
+    //     }
+    //     else{
+    //         setDateError("Please enter a valid date");
+    //     }
+    // }
+
+    const handleCreateForm = () => {
+        setFormNameError(null);
+        setFormCodeError(null);
+        setDateError(null);
+
+        const isFormName = validateFormName(formName);
+        const isFormCode = validateFormCode(formCode);
+        // const isDate = validateDate(effectiveDate);
+        
+        if (isFormName && isFormCode){
+            handleSubmitNewForm();
+        }
+    }
 
     
-    const handleCreateForm = async() => {
+    console.log('FORM TO SUBMIT')
+    console.log(submitForm)
+    const handleSubmitNewForm = async() => {
 
         try {
             const response = await axios.post('/api/v1/form/createForm', submitForm);
@@ -156,12 +291,15 @@ export default function Newform(){
 
     /* THIS IS TO RENDER THE ADDING OF INPUT FIELDS */
     const renderInputField = (item, i) =>{
-        
-        if(item === 'New Questionnaire'){
+        console.log(item);
+        const type = item.type;
+        console.log(item.id);
+        const id = item.id;
+        if(type === 'New Questionnaire'){
             return(
                 <>
-                    <CreateQuestionnaire formDetails={formDetails} id={i} value={formData[i]}/>
-                    <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveInputField(i)}>
+                    <CreateQuestionnaire formDetails={formDetails} id={item.count} value={formData[i]}/>
+                    <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveInputField(item.count)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Questionnaire
                     </button>
                 </>
@@ -169,11 +307,11 @@ export default function Newform(){
 
         }
 
-        else if (item === 'Cancel'){
+        else if (type === 'Cancel'){
             return (<></>);
         }
 
-        else if (item === ""){
+        else if (type === ""){
             return(<></>)
         }
 
@@ -181,8 +319,8 @@ export default function Newform(){
             // to display an existing questionnaire 
             return (
                 <>
-                    <Questionnaire id={count}/>
-                    <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveInputField(count)}>
+                    <Questionnaire id={id}/>
+                    <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveQuestionnaireInput(id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Questionnaire
                     </button>
                 </>
@@ -217,8 +355,10 @@ export default function Newform(){
                                         onChange={handleFormName}
                                         type='text'
                                         sx={{width: '100%'}}
+                                        error={formNameError !== null} 
                                     />
                                 </Col>
+                                {formNameError && <div className='errorMsg' >{formNameError}</div>}
                             </Row>
 
                             <Row className="newFormRow" >
@@ -233,8 +373,10 @@ export default function Newform(){
                                         onChange={handleFormCode}
                                         type='text'
                                         sx={{width: '100%'}}
+                                        error={formCodeError !== null} 
                                     />
                                 </Col>
+                                {formCodeError && <div className='errorMsg' >{formCodeError}</div>}
                                 <Col xs={6} md={2} xl={2} className='formQuestion'>
                                     Effective Date:
                                 </Col>
@@ -246,8 +388,10 @@ export default function Newform(){
                                         onChange={handleEffectiveDate}
                                         type='date'
                                         sx={{width: '100%'}}
+                                        error={dateError !== null} 
                                     />
                                 </Col>
+                                {dateError && <div className='errorMsg' >{dateError}</div>}
                             </Row>
                         </Container>
                     </FormControl>
