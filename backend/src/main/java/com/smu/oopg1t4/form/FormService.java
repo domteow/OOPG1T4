@@ -342,7 +342,7 @@ public class FormService {
     public ResponseEntity<?> reviseFormById(int id, Form form) {
         try {
             Form oldForm = getFormById(id);
-            form.setRevisionNo(form.getRevisionNo() + 1);
+            form.setRevisionNo(getLatestRevisionNo(oldForm.getFormCode()) + 1);
             checkDuplicateForm(form.getFormCode(), form.getRevisionNo());
             setPreviousRevisionStatus(oldForm.getFormCode(),oldForm.getRevisionNo());
             createForm(form);
@@ -359,5 +359,11 @@ public class FormService {
             StatusResponse statusResponse = new StatusResponse("Error creating new revision of form. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR.value());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
         }
+    }
+
+    private int getLatestRevisionNo(String formCode){
+        List<Form> forms = formRepository.findByFormCode(formCode);
+        Form form = forms.get(forms.size() - 1);
+        return form.getRevisionNo();
     }
 }

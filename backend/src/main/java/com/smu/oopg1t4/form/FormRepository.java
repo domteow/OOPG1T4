@@ -16,6 +16,9 @@ public interface FormRepository extends MongoRepository<Form, Integer> {
     @Query("{'formCode': ?0, 'revisionNo': ?1}")
     List<Form> findByFormCodeAndRevisionNo(String formCode, int revisionNo);
 
+    @Query("{'formCode': ?0}")
+    List<Form> findByFormCode(String formCode);
+
     @Query("{ " +
             "'formCode' : { $regex: ?0, $options : 'i'}, " +
             "'description' : { $regex: ?1, $options: 'i' }, " +
