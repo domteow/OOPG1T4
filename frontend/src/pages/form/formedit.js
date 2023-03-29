@@ -32,6 +32,11 @@ export default function FormEdit(){
     const [countIni, setCountIni] = useState(0)
     const [selectedValue, setSelectedValue] = useState(options[1]);
     const navigate = useNavigate();
+    const [inputList, setInputList] = useState([]);
+    const [formData, setFormData] = useState([]);
+    const [count, setCount] = useState(0);
+    const [prevQ, setPrevQ] = useState([]);
+    
 
     const getAllQuestionnaires = async() =>{
         try{
@@ -53,7 +58,26 @@ export default function FormEdit(){
     };
 
     const handleClose = (value) => {
-
+        setOpen(false);
+        setSelectedValue(value);
+        if (value !== 'New Questionnaire'){
+            questionnaireList.map((questionnaire) => {
+                const name = questionnaire.name;
+                const id = questionnaire.id;
+                if (name === value){
+                    setInputList([...inputList, id]);
+                    setFormData([...formData, questionnaire]);
+                }
+            })
+        }
+        else{
+            setCount((prev) => prev+1)
+            const data = {
+                count: count,
+            }
+            setInputList([...inputList, value])
+            setFormData([...formData, data]);
+        }
     }
 
     useEffect(() => {
@@ -97,11 +121,30 @@ export default function FormEdit(){
                 const newdat = [...initialQuestionnaire];
                 newdat.splice(i, 1);
                 setInitialQuestionnaire(newdat);
+                console.log(item);
             }
         })
         
     }
     console.log(initialQuestionnaire);
+    console.log(formData);
+
+    const handleRemoveInputField = index => {
+        const newData = [...formData];
+        newData.splice(index, 1);
+        setFormData(newData);
+
+        const newDat = inputList.map((item, i) => {
+            if (i === index){
+                return "";
+            }
+            else{
+                return item;
+            }
+        }); 
+        setInputList(newDat);
+    };
+    console.log(formData);
 
     const handleFormName = (e) => {
         setFormName(e.target.value);
@@ -115,25 +158,87 @@ export default function FormEdit(){
         setFormCode(e.target.value);
     }
 
+    const formDetails = (data, index) => {
+        console.log(data);
+        const newFormDetails = formData.map((item, i) => {
+            const ctr = item.count;
+            if (data.count === ctr){
+                return data;
+            }
+
+            else{
+                return item;
+            }
+        });
+        setFormData(newFormDetails);
+    }
+
+    console.log([...initialQuestionnaire, ...formData]);
+    const submitdata = {
+        description: formName,
+        formCode: formCode,
+        effectiveDate: effectiveDate,
+        questionnaireS: [...initialQuestionnaire, ...formData],
+        formStatus: "published",
+        revisionNo: form.revisionNo + 1
+    }
+
     const handleUpdateForm = async() => {
         // console.log("DOM DOM DO THIS");
 
-        // try {
-        //     const response = await axios.put('/api/v1/form/update/' + formId, submitForm);
-        //     console.log(response);
-        //     if (response.data.status == 201) {
-        //         navigate('../react/allforms')
-        //         alert('Form template added successfully')
-        //     }
-        // } catch (error) {
-        //     console.log(error);
-        // }
+        try {
+            const response = await axios.put('/api/v1/form/update/' + formId, submitdata);
+            console.log(response);
+            if (response.data.status == 201) {
+                navigate('../react/allforms')
+                alert('Form template added successfully')
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const handleCancelForm = () => {
         navigate(-1);
     }
  
+    const renderInputField = (item, i) =>{
+        
+        if(item === 'New Questionnaire'){
+            
+            return(
+                <>
+                    <CreateQuestionnaire formDetails={formDetails} id={i} value={formData[i]}/>
+                    <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveInputField(i)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Questionnaire
+                    </button>
+                </>
+            )
+
+        }
+
+        else if (item === 'Cancel'){
+            return (<></>);
+        }
+
+        else if (item === ""){
+            return(<></>)
+        }
+
+        else{
+            // to display an existing questionnaire 
+            return (
+                <>
+                    <Questionnaire id={count}/>
+                    <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveInputField(count)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Questionnaire
+                    </button>
+                </>
+            )
+            
+        }
+    
+    }
 
     return(
         <>
@@ -196,7 +301,12 @@ export default function FormEdit(){
                     </FormControl>
                     {/* to display existing form stuff*/} 
                     <div>
+
+                        
+                
                         {initialQuestionnaire.map((item, i) => {
+                            console.log(item)
+                            
                             const ind = item.id;
                             return(
                                 <>
@@ -207,6 +317,17 @@ export default function FormEdit(){
                                     
                                 </>
                             )                            
+                        })}
+                    </div>
+
+                    <div>
+                        {inputList.map((item, i) => {
+                        
+                            return(
+                                <div>
+                                    {renderInputField(item, i)}
+                                </div>
+                            )
                         })}
                     </div>
 

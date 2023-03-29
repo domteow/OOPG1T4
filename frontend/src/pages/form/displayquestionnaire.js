@@ -24,7 +24,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
     const fields = value.fields; 
     const [open, setOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(options[1]);
-    const [inputList, setInputList] = useState(fields);
+    const [inputList, setInputList] = useState([fields]);
     const [questionnaireName, setQuestionnaireName] = useState(value.name);
     const [details, setDetails] = useState(fields);
     const assign = value.roleRequired.toLowerCase();
@@ -34,6 +34,17 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
     const [prevName, setPreviousName] = useState(value.name);
     console.log(inputList);
     console.log(details);
+    console.log(value);
+    
+    // useEffect(() => {
+    //     console.log(value);
+    //     setInputList([]);
+    //     setInputList(value.fields);
+    //     setQuestionnaireName('');
+    //     setQuestionnaireName(value.name);
+    //     setDetails('');
+    //     setDetails(value.fields);
+    // }, [])
 
     /* DIALOGUE STUFF */
     // this is for opening the dialogue
@@ -244,7 +255,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
                 </>
             )
         }
-        else if(itemType === 'checkbox'){
+        else if(itemType === 'checkbox' || itemType =='Checkbox'){
             return(
                 <>
                     <Checkbox id={i} allDetails={allDetails} value={itemName} options = {itemOptions} other={item.others} edit={true} />
@@ -254,7 +265,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
                 </>
             )
         }
-        else if(itemType === 'select'){
+        else if(itemType === 'select' || itemType === 'Select'){
             return(
                 <>
                     <Select id={i} allDetails={allDetails} value={itemName} options = {itemOptions} edit = {true} />
@@ -264,7 +275,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
                 </>
             )
         }
-        else if (itemType === 'subheader' || item === 'Sub Header'){
+        else if (itemType === 'subheader' || itemType === 'Sub Header'){
             return(
                 <>
                     <div className='radioOption'>
@@ -276,7 +287,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
                 </>
             )
         }
-        else if (itemType === 'header' || item === 'Header'){
+        else if (itemType === 'header' || itemType === 'Header'){
             return(
                 <>
                     <div className='radioOption'>
@@ -288,7 +299,7 @@ const DisplayQuestionnaire = ({initialDetails, id, value}) => {
                 </>
             )
         }
-        else if (itemType === 'subtext' || item === 'Sub Text'){
+        else if (itemType === 'subtext' || itemType === 'Sub Text'){
             return(
                 <>
                     <div className='radioOption'>
