@@ -35,9 +35,7 @@ public class Questionnaire {
     }
 
     public Questionnaire(String name, ArrayList<Field> fields, String roleRequired, boolean complete) {
-        this.name = name;
-        this.fields = fields;
-        this.roleRequired = roleRequired;
+        this(name, fields, roleRequired);
         this.complete = complete;
     }
 

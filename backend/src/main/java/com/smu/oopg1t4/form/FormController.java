@@ -46,42 +46,11 @@ public class FormController {
         return formService.createForm(form);
     }
 
-//    @PostMapping("/revise/{id}")
-//    public ResponseEntity<?> reviseForm(@PathVariable int id) {
-//        return formService.reviseForm(id);
-//    }
 
     @PostMapping("/reviseFormById/{id}")
     public ResponseEntity<?> reviseForm(@PathVariable int id, @RequestBody Form form) {
         return formService.reviseFormById(id, form);
     }
-
-//    // Only updates description, effectiveDate, questionnaires.
-//    // (?) revisionNo should only be updated when admins "revise" a form?
-//    // formStatus should only be updated when they "publish" a form
-//    @PutMapping("/update/{formId}")
-//    public ResponseEntity<?> updateForm(
-//            @PathVariable int formId,
-//            @RequestBody Form form) {
-//        return formService.updateFormById(formId, form);
-//    }
-
-//    @PutMapping("/update/{formId}/{questionnaireIndex}")
-//    public ResponseEntity<?> updateFormAndSaveQuestionnaire(
-//            @PathVariable int formId,
-//            @PathVariable int questionnaireIndex,
-//            @RequestBody Form form
-//    ) {
-//        return formService.updateFormAndSaveQuestionnaire(formId, questionnaireIndex, form);
-//    }
-
-//    @PutMapping("/publish/{id}")
-//    public ResponseEntity<?> saveAndPublishForm(
-//            @PathVariable int id,
-//            @RequestBody Form form
-//    ) {
-//        return formService.saveAndPublishForm(id, form);
-//    }
 
     @PutMapping("/delete/{id}")
     public ResponseEntity<?> deleteForm(@PathVariable int id) {
