@@ -148,15 +148,16 @@ public class FormResponseService {
         if (formResponseToUpdate.getWorkflow().size() == 0){
             formResponseToUpdate.setStatus("approved");
         }
-
         //Add to questionnaires completed
         formResponseToUpdate.setQuestionnairesCompleted(formResponseToUpdate.getQuestionnairesCompleted() + numQuestionnairesSubmitted);
 
-        //Add to upTo (for frontend use)
-        formResponseToUpdate.setUpTo(formResponseToUpdate.getUpTo() + numQuestionnairesSubmitted);
+
 
         //Update pendingUserInput
         if (formResponseToUpdate.getWorkflow().size()!= 0) {
+            //Add to upTo (for frontend use)
+            formResponseToUpdate.setUpTo(formResponseToUpdate.getUpTo() + formResponseToUpdate.getWorkflow().get(0));
+
             String nextRoleRequired = updatedFormResponse.getQuestionnaires().get(formResponseToUpdate.getQuestionnairesCompleted()).getRoleRequired();
             formResponseToUpdate.setPendingUserInput(nextRoleRequired);
         }
