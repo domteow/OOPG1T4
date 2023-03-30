@@ -1,12 +1,12 @@
-# Client Management System #
+# Form Application System #
 
-Client Management System (CMS) is a data capture web application for Quantum Leap Corporation that aims to simplify the process of onboarding vendors and subcontractors, ensuring that all necessary forms are collected and retained for record-keeping. CMS also allows for approval workflow processing and the ability to visualize which stage of a workflow a vendor is at the moment.
+Form Application System (FMS) is a data capture web application for Quantum Leap Corporation that aims to simplify the process of onboarding vendors and subcontractors, ensuring that all necessary forms are collected and retained for record-keeping. FMS also allows for approval workflow processing and the ability to visualize which stage of a workflow a vendor is at the moment.
 
 
-This is the first release of CMS which contains its core functionalities as provided by the sponsor.
+This is the first release of FMS which contains its core functionalities as provided by the sponsor.
 
 ## Installation ##
-To install CMS, follow these steps:
+To install FMS, follow these steps:
 
 ### Backend ###
 
@@ -41,7 +41,7 @@ To use My Web App, follow these steps:
 
 <b>Approver 1</b>
 - Username: rhys.tan.2020@scis.smu.edu.sg
-- Password: rhystan
+- Password: rhystanyq
 
 <b>Vendor 1</b>
 - Username: bruno.goh.2020@scis.smu.edu.sg
@@ -49,7 +49,7 @@ To use My Web App, follow these steps:
 
 <b>Vendor 2</b>
 - Username: dominicteow.2020@scis.smu.edu.sg
-- Password: domteow
+- Password: domteowzy
 
 ## Account Features ##
 
@@ -84,6 +84,9 @@ To use My Web App, follow these steps:
 - OpenPDF 
 - Project Lombok
 
+## Dependencies ## 
+react >= 17.0.0 and react-dom >= 17.0.0 are peer dependencies
+
 ## Course and Team Information ##
 IS442 Object-Oriented Programming<br>
 AY2022-2023, Term 2<br>
@@ -98,4 +101,5 @@ Team 4
 * Alvin Ling Wei Chow alvin.ling.2021@scis.smu.edu.sg <br>
 * Neo Jing Min jingmin.neo.2020@scis.smu.edu.sg
 
-
+## License ## 
+@mui/material
