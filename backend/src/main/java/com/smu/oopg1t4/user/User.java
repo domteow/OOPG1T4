@@ -41,12 +41,8 @@ public abstract class User {
     }
 
     public User(int id, String name, String emailAddress, String password, String accountType, boolean active) throws NoSuchAlgorithmException {
+       this(name, emailAddress, password, accountType, active);
         this.id = id;
-        this.name = name;
-        this.emailAddress = emailAddress;
-        this.password = Encryptor.hash(password);
-        this.accountType = accountType;
-        this.active = active;
     }
 
 

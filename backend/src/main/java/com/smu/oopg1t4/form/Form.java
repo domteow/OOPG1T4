@@ -45,8 +45,7 @@ public class Form {
             String formStatus,
             boolean active
     ) {
-        this.formCode = formCode;
-        this.revisionNo = revisionNo;
+        this(formCode, revisionNo);
         this.description = description;
         this.effectiveDate = effectiveDate;
         this.questionnaires = questionnaires;
@@ -64,14 +63,8 @@ public class Form {
             String formStatus,
             boolean active
     ) {
+        this(formCode, revisionNo, description, effectiveDate, questionnaires, formStatus, active);
         this.id = formId;
-        this.formCode = formCode;
-        this.revisionNo = revisionNo;
-        this.description = description;
-        this.effectiveDate = effectiveDate;
-        this.questionnaires = questionnaires;
-        this.formStatus = formStatus;
-        this.active = active;
     }
 
     public int getId() {
