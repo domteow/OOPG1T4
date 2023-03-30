@@ -211,19 +211,24 @@ export default function ApproveForm() {
         
         const updatedFormToSend = ({ ...form, "revisionNo": updatedRevisionNo, "questionnaires": Object.values(questionnaires) })
 
-          try {
-            const response = await axios.put("/api/v1/formResponse/saveFormResponseAsDraft/" + formID, updatedFormToSend)
-            console.log(response);
-            if(response.data.status >= 200) {
-                alert("Form draft saved successfully");
-                localStorage.getItem('role')
-                if (role === 'Vendor'){
-                    navigate('/react/vendor/homepage')
-                }
-                else if (role === 'Admin'){
-                    navigate('/react/admin/homepage')
-                }
+        try {
+        const response = await axios.put("/api/v1/formResponse/saveFormResponseAsDraft/" + formID, updatedFormToSend)
+        console.log(response);
+        console.log(response.status)
+        if(response.data.status >= 200) {
+            localStorage.setItem('message', 'Form response saved successfully');
+            localStorage.getItem('role')
+            
+            if (role === 'Vendor'){
+                navigate('/react/vendor/homepage')
             }
+            else if (role === 'Admin'){
+                navigate('/react/admin/homepage')
+            }
+            else if (role === 'Approver'){
+                navigate('/react/approver/homepage')
+            }
+        }
             
         } catch (error) {
             console.log(error)

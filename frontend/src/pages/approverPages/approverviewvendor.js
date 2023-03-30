@@ -132,7 +132,7 @@ export default function ApproverViewVendor(){
     }
 
     const goToForm = (formId) =>{
-      navigate("/react/viewform/" + formId )
+      navigate("/react/approver/approveform/" + formId )
     };
 
     const assignform = () => {

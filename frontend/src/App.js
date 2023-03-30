@@ -67,7 +67,7 @@ export default function App(){
                 <Route exact path="/react/vendordetails/:vendorId" element={<VendorDetails/>}/>
                 <Route exact path="/react/approver/homepage" element={<ApproverHomepage/>}/>
                 <Route exact path="/react/approver/viewvendor/:vendorId" element={<ApproverViewVendor/>}/>
-                <Route exact path='./react/approver/approveform/:formId' element={<ApproveForm/>}/>
+                <Route exact path='/react/approver/approveform/:formId' element={<ApproveForm/>}/>
                 <Route exact path="/react/newadmin" element={<Newadmin/>}/>
                 <Route exact path='/react/account/:userId' element={<Account />}/>
                 <Route exact path='/react/viewcompletedform/:formId' element={<CompletedForm/>}/>
