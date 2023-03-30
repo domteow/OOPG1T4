@@ -156,10 +156,10 @@ export default function ApproveForm() {
         }
     }
 
-    console.log(questionnaires)
+   
     const handleSubmit = () => {
         const canSubmit = isFormValid(questionnaires);
-        console.log(canSubmit);
+        
         if (canSubmit){
             submit();
         }
@@ -172,17 +172,15 @@ export default function ApproveForm() {
 
     // to submit the form 
     const submit = async() => {
-        console.log(questionnaires)
-        console.log(revisionNo)
+        
         const updatedRevisionNo = revisionNo + 1;
         setRevisionNo(updatedRevisionNo);
-        console.log(updatedRevisionNo)
         
         const updatedFormToSend = ({ ...form, "revisionNo": updatedRevisionNo, "questionnaires": Object.values(questionnaires) })
 
           try {
             const response = await axios.put("/api/v1/formResponse/updateFormResponse/" + formID, updatedFormToSend)
-            console.log(response);
+       
             if(response.data.status >= 200) {
                 localStorage.getItem('role')
                 localStorage.setItem('message', 'Form completed!')
@@ -203,18 +201,16 @@ export default function ApproveForm() {
         
     }
     const submitDraft = async() => {
-        console.log(questionnaires)
-        console.log(revisionNo)
+   
         const updatedRevisionNo = revisionNo + 1;
         setRevisionNo(updatedRevisionNo);
-        console.log(updatedRevisionNo)
+     
         
         const updatedFormToSend = ({ ...form, "revisionNo": updatedRevisionNo, "questionnaires": Object.values(questionnaires) })
 
         try {
         const response = await axios.put("/api/v1/formResponse/saveFormResponseAsDraft/" + formID, updatedFormToSend)
-        console.log(response);
-        console.log(response.status)
+    
         if(response.data.status >= 200) {
             localStorage.setItem('message', 'Form response saved successfully');
             localStorage.getItem('role')
@@ -290,10 +286,7 @@ export default function ApproveForm() {
                             // questionnaire index must be < upTo number 
 
                             const roleRequired = question.roleRequired;
-                            // console.log(roleRequired);
-                            // console.log(question);
-                            // console.log(upTo);
-                            // console.log(role);
+                            
                             var disabled = true;
 
                             // check those that could be edited then 
@@ -379,7 +372,6 @@ export default function ApproveForm() {
                                                                     
                                                                 >
                                                                     {detail['options'].map(option =>{
-                                                                        //console.log(detail['options'][0])
                                                                         return(
                                                                             <FormControlLabel disabled={disabled} required value={option} control={<Radio checked={option === detail['value']}/>} label={option} />
                                                                             )
@@ -403,11 +395,26 @@ export default function ApproveForm() {
                                                             <Col xs={12} md={10} className='formInput'>
                                                                 <FormGroup>
                                                                 {detail['options'].map(option =>{
-                                                                    const isChecked = detail['value'].includes(option);
+                                                                    console.log(option);
+                                                                    let disa = true;
+                                                                    const checkVal = detail.value;
+                                                                    console.log(checkVal);
+
+                                                                    if (checkVal == null){
+                                                                        disa = false;
+                                                                    }
+                                                                    else{
+                                                                        if (checkVal.indexOf(option) > -1){
+                                                                            disa = true;
+                                                                        }
+                                                                        else{
+                                                                            disa = false;
+                                                                        }
+                                                                    }
                                                                     return(
                                                                         <div>
-                                                                            <FormControlLabel disabled={disabled} control={<Checkbox checked={isChecked} />} type={typeMultiSelect} id={option} name={detail.name} required value = {option} onChange={handleCheckboxChange(qnIndex, dIndex)} label = {option}/>
-                                                                            {/* <input type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/>  */}
+                                                                            <FormControlLabel disabled={disabled} control={<Checkbox checked={disa} />} type={typeMultiSelect} id={option} name={detail.name} required value = {option} onChange={handleCheckboxChange(qnIndex, dIndex)} label = {option}/>
+                                                                            
                                                                         </div>
                                                                     )
                                                                 })}
@@ -430,7 +437,7 @@ export default function ApproveForm() {
                                                                 
                                                                     
                                                                         <div>
-                                                                            <select required id={detail.name} name={detail.name} disabled={disabled} value = {questionnaires[qnIndex]['fields'][dIndex]['value']} onChange={handleSelectChange(qnIndex, dIndex)}>
+                                                                            <select required id={detail.name} name={detail.name} className='selectclass' disabled={disabled} value = {questionnaires[qnIndex]['fields'][dIndex]['value']} onChange={handleSelectChange(qnIndex, dIndex)}>
                                                                             {detail['options'].map((selection, idx) => (
                                                                                 <option key={idx} value={selection} selected={selection === questionnaires[qnIndex]['fields'][dIndex]['value']}>
                                                                                     {selection}
@@ -438,7 +445,7 @@ export default function ApproveForm() {
                                                                                 ))}
 
                                                                             </select>
-                                                                            {/* <input type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/>  */}
+                                                                       
                                                                         </div>
                                                                     
                                                                 

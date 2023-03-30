@@ -3,7 +3,7 @@ import axios from '../../api/axios'
 import { useState, useEffect } from 'react'
 import { ReactDOM } from 'react-dom'
 import { Link, Route, Routes, BrowserRouter, useLocation, useParams, useNavigate } from 'react-router-dom'
-import logo from '../../assets/quantum.png'
+import logo from '../../assets/logo.png'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -33,7 +33,7 @@ import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
-
+import Typography from '@mui/material/Typography';
 
 export default function CompletedForm() {
     const formids  = useParams()['formId'];    
@@ -91,6 +91,15 @@ export default function CompletedForm() {
                 <Navbar />
 
                 <Container className='formPage'>
+                    <Row className='imgrow'>
+                        <Typography
+                            variant="h2"
+                            component="div"
+                            sx={{ flexGrow: 100, display: { xs: 'none', sm: 'block' }}}
+                        >
+                            <img src={logo}/>
+                        </Typography>
+                    </Row>
                     <Row className='formDetailsRow'>
                         <Col className='formName'>
                             {form['description']}
@@ -102,6 +111,9 @@ export default function CompletedForm() {
                             </div>
                             <div>
                                 {form['effectiveDate']}
+                            </div>
+                            <div>
+                                {form['revisionNo']}
                             </div>
                         </Col>
                     </Row>
@@ -165,15 +177,23 @@ export default function CompletedForm() {
                                         else if (inputType == 'select' || inputType == 'checkbox'){
                                             const answers = field.value;
                                             console.log(answers);
+                                            console.log(typeof(answers));
                                             return(
                                                 <>
                                                     <Row className='radioQuestion'>
                                                         {field.name}
                                                     </Row>
                                                     <Row className='radioFormInput'>
-                                                    {answers
-                                                        .map(t => <span>{t}</span>)
-                                                        .reduce((prev, curr) => [prev, ', ', curr])}
+
+                                                        {Object.keys(answers).map((item, i) => {
+                                                            console.log(answers);
+                                                            console.log(item);
+                                                            return (
+                                                                <li>
+                                                                    {answers[item]}
+                                                                </li>
+                                                            )
+                                                        })}
                                                     </Row>
                                                 </>
                                             )

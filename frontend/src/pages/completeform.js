@@ -112,9 +112,12 @@ export default function Formpage() {
                 if(fields[dIndex]['value'] === null){
                     fields[dIndex]['value'] = [value];
                 } else {
-                fields[dIndex]['value'].push(value);
+                    fields[dIndex]['value'].push(value);
                 }
             } else{
+                if (fields[dIndex]['value'] !== null){
+                    fields[dIndex]['value'] = fields[dIndex]['value'].filter((item) => item !== value);
+                }
                 fields[dIndex]['value'] = fields[dIndex]['value'].filter((item) => item !== value);
             }
 
@@ -434,10 +437,26 @@ export default function Formpage() {
                                                             {/* <Col xs={12} md={10} className='formInput'> */}
                                                                 <FormGroup>
                                                                 {detail['options'].map(option =>{
-                                                                    const isChecked = detail['value'].includes(option);
+                                                                    console.log(option);
+                                                                    let disa = true;
+                                                                    const checkVal = detail.value;
+                                                                    console.log(checkVal);
+
+                                                                    if (checkVal == null){
+                                                                        disa = false;
+                                                                    }
+                                                                    else{
+                                                                        if (checkVal.indexOf(option) > -1){
+                                                                            disa = true;
+                                                                        }
+                                                                        else{
+                                                                            disa = false;
+                                                                        }
+                                                                    }
+                                                                    
                                                                     return(
                                                                         <div>
-                                                                            <FormControlLabel disabled={disabled} control={<Checkbox checked={isChecked} />} type={typeMultiSelect} id={option} name={detail.name} required value = {option} onChange={handleCheckboxChange(qnIndex, dIndex)} label = {option}/>
+                                                                            <FormControlLabel disabled={disabled} control={<Checkbox checked={disa} />} type={typeMultiSelect} id={option} name={detail.name} required value = {option} onChange={handleCheckboxChange(qnIndex, dIndex)} label = {option}/>
                                                                             {/* <input type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/>  */}
                                                                         </div>
                                                                     )
@@ -463,7 +482,7 @@ export default function Formpage() {
                                                                 
                                                                     
                                                                         <div>
-                                                                            <select required id={detail.name} name={detail.name} disabled={disabled} value = {questionnaires[qnIndex]['fields'][dIndex]['value']} onChange={handleSelectChange(qnIndex, dIndex)}>
+                                                                            <select required id={detail.name} name={detail.name} className='selectclass' disabled={disabled} value = {questionnaires[qnIndex]['fields'][dIndex]['value']} onChange={handleSelectChange(qnIndex, dIndex)}>
                                                                             {detail['options'].map((selection, idx) => (
                                                                                 <option key={idx} value={selection} selected={selection === questionnaires[qnIndex]['fields'][dIndex]['value']}>
                                                                                     {selection}

@@ -165,7 +165,6 @@ export default function Viewvendor(){
       setRejectMsg({message: e.target.value});
     }
 
-    console.log(rejectMsg);
 
     const seeForm = (formId) => {
       navigate('/react/viewcompletedform/' + formId);
