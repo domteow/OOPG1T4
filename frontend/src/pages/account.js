@@ -133,12 +133,12 @@ export default function Account(){
     const detailsData = {
         name: name,
         emailAddress: email, 
-        id: parseInt(userId)
+        id: userId
     }
     console.log(detailsData);
 
     const pwdData = {
-        id: parseInt(userId),
+        id: userId,
         oldPassword: currPwd,
         newPassword: newPwd
     }
@@ -202,7 +202,7 @@ export default function Account(){
 
     const changeDetails = async() =>{
         try{
-            const response = await axios.put('/api/v1/user/editUserDetails', pwdData);
+            const response = await axios.put('/api/v1/user/editUserDetails', detailsData);
 
             if (response.data.status == 200){
                 console.log('hi');
