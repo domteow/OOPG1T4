@@ -133,12 +133,12 @@ export default function Account(){
     const detailsData = {
         name: name,
         emailAddress: email, 
-        id: userId
+        id: parseInt(userId)
     }
     console.log(detailsData);
 
     const pwdData = {
-        id: userId, 
+        id: parseInt(userId),
         oldPassword: currPwd,
         newPassword: newPwd
     }

@@ -248,7 +248,7 @@ export default function VendorDetails(){
                     </div>
                     <Container>
                         <Row className='formRow'>
-                            <Col xs={6} md={4} xl={2} className='formQuestion'>
+                            <Col xs={6} md={4} xl={2} className='vendorDetailsQues'>
                                 Name:
                             </Col>
                             <Col xs={12} md={8} className='formInput'>
@@ -257,7 +257,7 @@ export default function VendorDetails(){
                         </Row>
 
                         <Row className='formRow'>
-                            <Col xs={6} md={4} xl={2} className='formQuestion'>
+                            <Col xs={6} md={4} xl={2} className='vendorDetailsQues'>
                                 Company Name:
                             </Col>
                             <Col xs={12} md={8} className='formInput'>
@@ -266,7 +266,7 @@ export default function VendorDetails(){
                         </Row>
 
                         <Row className='formRow'>
-                            <Col xs={6} md={4} xl={2} className='formQuestion'>
+                            <Col xs={6} md={4} xl={2} className='vendorDetailsQues'>
                                 Email Address:
                             </Col>
                             <Col xs={12} md={8} className='formInput'>
@@ -296,7 +296,7 @@ export default function VendorDetails(){
                         </Row> */}
 
                         <Row className='formRow'>
-                            <Col xs={6} md={4} xl={2} className='formQuestion'>
+                            <Col xs={6} md={4} xl={2} className='vendorDetailsQues'>
                                 Phone Number:
                             </Col>
                             <Col xs={12} md={8} className='formInput'>
@@ -306,7 +306,7 @@ export default function VendorDetails(){
                         </Row>
 
                         <Row className='formRow'>
-                            <Col xs={6} md={4} xl={2} className='formQuestion'>
+                            <Col xs={6} md={4} xl={2} className='vendorDetailsQues'>
                                 Fax Number:
                             </Col>
                             <Col xs={12} md={8} className='formInput'>
@@ -316,7 +316,7 @@ export default function VendorDetails(){
                         </Row>
 
                         <Row className='formRow'>
-                            <Col xs={6} md={4} xl={2} className='formQuestion'>
+                            <Col xs={6} md={4} xl={2} className='vendorDetailsQues'>
                                 Countries:
                             </Col>
                             <Col xs={12} md={8} className='formInput'>

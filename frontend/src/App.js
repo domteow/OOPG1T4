@@ -30,6 +30,7 @@ import AssignForm from './pages/form/assignform'
 // all vendors page 
 import AdminHomepage from "./pages/adminVendorPages/adminHomepage"
 import VendorDetails from './pages/adminVendorPages/vendorDetails'
+import VendorProfile from "./pages/profile";
 
 // home page for admin ^
 import Viewvendor from "./pages/adminVendorPages/viewvendor"
@@ -71,6 +72,7 @@ export default function App(){
                 <Route exact path='/react/account/:userId' element={<Account />}/>
                 <Route exact path='/react/viewcompletedform/:formId' element={<CompletedForm/>}/>
                 <Route exact path='/react/formedit/:formId' element={<FormEdit/>}/>
+                <Route exact path='/react/vendor/profile/:vendorId' element={<VendorProfile/>}/>
             </Routes>
             </div>
         </BrowserRouter>

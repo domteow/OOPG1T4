@@ -84,6 +84,10 @@ export default function Navbar(){
     navigate('/react/account/' + userId);
   }
 
+  const navigateProfile = () => {
+    navigate('/react/vendor/profile/' + userId);
+  }
+
 
 
   console.log(role);
@@ -128,7 +132,10 @@ export default function Navbar(){
             >
               
                 <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center" onClick={navigateAccount}>Account</Typography>
+                  <Typography textAlign="center" onClick={navigateProfile}>Profile</Typography>
+                </MenuItem>
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center" onClick={navigateAccount}>Settings</Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography textAlign="center" onClick={navigateLogout}>Logout</Typography>
