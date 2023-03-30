@@ -174,7 +174,7 @@ export default function CompletedForm() {
                                                 </Row>
                                             )
                                         }
-                                        else if (inputType == 'select' || inputType == 'checkbox'){
+                                        else if (inputType == 'checkbox'){
                                             const answers = field.value;
                                             console.log(answers);
                                             console.log(typeof(answers));
@@ -188,9 +188,12 @@ export default function CompletedForm() {
                                                         {Object.keys(answers).map((item, i) => {
                                                             console.log(answers);
                                                             console.log(item);
+                                                            const val = answers[item];
+                                                            console.log(val);
+
                                                             return (
                                                                 <li>
-                                                                    {answers[item]}
+                                                                    {val}
                                                                 </li>
                                                             )
                                                         })}
@@ -198,7 +201,8 @@ export default function CompletedForm() {
                                                 </>
                                             )
                                         }
-                                        else if (inputType =='radio'){
+
+                                        else if (inputType =='radio' || inputType == 'select' ){
                                             return(
                                                 <>
                                                     <Row className='radioQuestion'>

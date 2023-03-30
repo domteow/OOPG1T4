@@ -89,6 +89,7 @@ export default function ViewForm(props){
                                 const fieldType = field.type; 
                                 console.log(fieldType);
                                 const fieldOptions = field.options;
+                                console.log(fieldOptions);
                                 if (fieldType === 'text'){
                                     
                                     return(
@@ -120,12 +121,13 @@ export default function ViewForm(props){
                                             </Row>
                                             <Row className='radioFormInput'>
                                                     <FormGroup>
+                                                        
                                                         <div>
-                                                            <select id={field.name} name={field.name} >
-                                                            {fieldOptions.map(selection =>{
+                                                            <select required id={field.name} className='selectclass' name={field.name} >
+                                                            {fieldOptions.map((selection, idx) =>{
                                                                 return (
-                                                                <option key={selection.value} value={selection.value}>
-                                                                    {selection.label}
+                                                                <option key={idx} value={selection}>
+                                                                    {selection}
                                                                 </option>
                                                                 )
                                                             })}
@@ -205,10 +207,11 @@ export default function ViewForm(props){
                                             <Row className='radioFormInput'>
                                                 <Col xs={12} md={5} className='formInput'>
                                                     <FormGroup>
-                                                    {fieldOptions.map(option =>{
+                                                    {Object.keys(fieldOptions).map((option) => {
+                                                        const val = fieldOptions[option];
                                                         return(
                                                             <div>
-                                                                <FormControlLabel control={<Checkbox />}  id={option} name={field.name} value = {option} label = {option}/>
+                                                                <FormControlLabel disabled={true} control={<Checkbox checked={false} />} type='checkbox' id={val} name={field.name} required value = {val} label = {val}/>
                                                             </div>
                                                         )
                                                     })}

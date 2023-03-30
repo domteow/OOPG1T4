@@ -52,7 +52,6 @@ export default function App(){
         <BrowserRouter>
             <div className="body">
             <Routes>
-                <Route exact path = '/react/pdf' element = {<Pdf/>}/>
                 <Route exact path='/react/login' element={<Login />} />
                 <Route exact path="/react/viewform/:formId" element={<Form/>}/>
                 <Route exact path="/react/vendor/homepage" element={<Homepage />} />

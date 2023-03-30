@@ -135,6 +135,7 @@ export default function Formpage() {
             return updatedQuestionnaires
         })
     }
+    console.log(questionnaires);
 
     const isFormValid = (questionnaires) => {
         let count = 0;
@@ -188,7 +189,6 @@ export default function Formpage() {
         console.log(updatedRevisionNo)
         
         const updatedFormToSend = ({ ...form, "revisionNo": updatedRevisionNo, "questionnaires": Object.values(questionnaires) })
-        // console.log(updatedFormToSend)
 
           try {
             const response = await axios.put("/api/v1/formResponse/updateFormResponse/" + formID, updatedFormToSend)
@@ -242,18 +242,9 @@ export default function Formpage() {
    
     const cancel = () =>{
         localStorage.getItem('role')
-        // if (role === 'Vendor'){
-        //     navigate('/react/vendor/homepage')
-        // }
-        // else if (role === 'Admin'){
-        //     navigate('/react/admin/homepage')
-        // }
         navigate(-1);
     }
 
-    console.log(role);
-    console.log(form.pendingUserInput);
-    console.log(form.pendingUserInput !== role)
 
         return (
             <>
@@ -304,7 +295,6 @@ export default function Formpage() {
                             // compare the questionnaire index qnIndex to the upTo number upTo
                             // questionnaire index must be < upTo number 
                             
-                            
                             console.log(question.name)
 
                             const roleRequired = question.roleRequired;
@@ -332,31 +322,26 @@ export default function Formpage() {
                                         const inputType = detail['type'];
 
                                         if (inputType == 'text'){
-                                            // console.log(detail)
                                             // for input type string, number, text all 
                                             return(
                                                 <fieldset>
                                                     <Row className='radioQuestion'>
-                                                        {/* <Col xs={6} md={2} xl={2} className='formQuestion'> */}
-                                                            {detail.name}
-                                                        {/* </Col> */}
+                                                        {detail.name}
                                                     </Row>
                                                     <Row className='radioFormInput'>
-                                                        {/* <Col xs={12} md={10} className='formInput'>  */}
-                                                            <FormControl fullWidth>
-                                                                <TextField
-                                                                    required
-                                                                    label="Required"
-                                                                    id={detail.id}
-                                                                    name={detail.name}
-                                                                    onChange={handleChange(qnIndex, dIndex)}
-                                                                    type={inputType}
-                                                                    value={detail.value}
-                                                                    disabled={disabled}
-                                                                />
-                                                            </FormControl>
-                                                        {/* </Col> */}
-                                                    </Row>
+                                                        <FormControl fullWidth>
+                                                            <TextField
+                                                                required
+                                                                label="Required"
+                                                                id={detail.id}
+                                                                name={detail.name}
+                                                                onChange={handleChange(qnIndex, dIndex)}
+                                                                type={inputType}
+                                                                value={detail.value}
+                                                                disabled={disabled}
+                                                            />
+                                                        </FormControl>
+                                                </Row>
                                                 </fieldset>
                                             )
                                         }
@@ -389,20 +374,15 @@ export default function Formpage() {
                                         }
                                         else{
                                             const typeMultiSelect = inputType;
-                                            // const multiOptions = inputType.slice();
-                                            // multiOptions.splice(0,1);
 
                                             if (typeMultiSelect == 'radio'){
                                                 // for input type radio 
                                                 return (
                                                     <fieldset>
                                                         <Row className='radioQuestion'>
-                                                            {/* <Col xs={6} md={2} xl={2} className='formQuestion'> */}
                                                             {detail.name}
-                                                            {/* </Col> */}
                                                         </Row>
                                                         <Row className='radioFormInput'>
-                                                            {/* <Col xs={12} md={10} className='formInput'> */}
                                                                 <RadioGroup
                                                                     aria-labelledby="demo-controlled-radio-buttons-group"
                                                                     name={detail.name}
@@ -411,15 +391,12 @@ export default function Formpage() {
                                                                     
                                                                 >
                                                                     {detail['options'].map(option =>{
-                                                                        //console.log(detail['options'][0])
                                                                         return(
                                                                             <FormControlLabel disabled={disabled} required value={option} control={<Radio checked={option === detail['value']}/>} label={option} />
                                                                             )
                                                                     })}
                                                                 </RadioGroup>
                                                                 
-                                                                
-                                                            {/* </Col> */}
                                                         </Row>
                                                     </fieldset>
                                                 )
@@ -429,12 +406,9 @@ export default function Formpage() {
                                                 return (
                                                     <fieldset>
                                                         <Row className='radioQuestion'>
-                                                            {/* <Col xs={6} md={2} xl={2} className='formQuestion'> */}
                                                             {detail.name}
-                                                            {/* </Col> */}
                                                         </Row>
                                                         <Row className='radioFormInput'>
-                                                            {/* <Col xs={12} md={10} className='formInput'> */}
                                                                 <FormGroup>
                                                                 {detail['options'].map(option =>{
                                                                     console.log(option);
@@ -457,12 +431,10 @@ export default function Formpage() {
                                                                     return(
                                                                         <div>
                                                                             <FormControlLabel disabled={disabled} control={<Checkbox checked={disa} />} type={typeMultiSelect} id={option} name={detail.name} required value = {option} onChange={handleCheckboxChange(qnIndex, dIndex)} label = {option}/>
-                                                                            {/* <input type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/>  */}
                                                                         </div>
                                                                     )
                                                                 })}
                                                                 </FormGroup>
-                                                            {/* </Col> */}
                                                         </Row>
                                                     </fieldset>
                                                 )
@@ -472,15 +444,10 @@ export default function Formpage() {
                                                 return (
                                                     <fieldset>
                                                         <Row className='radioQuestion'>
-                                                            {/* <Col xs={6} md={2} xl={2} className='formQuestion'> */}
                                                             {detail.name}
-                                                            {/* </Col> */}
                                                         </Row>
                                                         <Row className='radioFormInput'>
-                                                            {/* <Col xs={12} md={10} className='formInput'> */}
                                                                 <FormGroup>
-                                                                
-                                                                    
                                                                         <div>
                                                                             <select required id={detail.name} name={detail.name} className='selectclass' disabled={disabled} value = {questionnaires[qnIndex]['fields'][dIndex]['value']} onChange={handleSelectChange(qnIndex, dIndex)}>
                                                                             {detail['options'].map((selection, idx) => (
@@ -490,12 +457,8 @@ export default function Formpage() {
                                                                                 ))}
 
                                                                             </select>
-                                                                            {/* <input type={typeMultiSelect} id={option} name={question} value = {option} onChange={handleChange}/>  */}
                                                                         </div>
-                                                                    
-                                                                
                                                                 </FormGroup>
-                                                            {/* </Col> */}
                                                         </Row>
                                                     </fieldset>
                                                 )
