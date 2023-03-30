@@ -23,7 +23,7 @@ import Form from "./pages/completeform"
 import AllForms from "./pages/form/allforms"
 import Newform from "./pages/form/newform"
 import ViewForm from './pages/form/viewonlyform'
-import EditForm from './pages/form/editform'
+// import EditForm from './pages/form/editform'
 import AssignForm from './pages/form/assignform'
 
 // ======== vendors ========
@@ -62,7 +62,7 @@ export default function App(){
                 <Route exact path="/react/allforms" element={<AllForms/>}/>
                 <Route exact path="/react/newform" element={<Newform/>}/>
                 <Route exact path="/react/allforms/viewform/:formId" element={<ViewForm/>}/>
-                <Route exact path="/react/allforms/editform/:formId" element={<EditForm/>}/>
+                {/* <Route exact path="/react/allforms/editform/:formId" element={<EditForm/>}/> */}
                 <Route exact path="/react/assignform/:vendorId" element={<AssignForm/>}/>
                 <Route exact path="/react/vendordetails/:vendorId" element={<VendorDetails/>}/>
                 <Route exact path="/react/approver/homepage" element={<ApproverHomepage/>}/>

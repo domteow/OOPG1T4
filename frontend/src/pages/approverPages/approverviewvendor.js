@@ -131,9 +131,15 @@ export default function ApproverViewVendor(){
         navigate('/react/approver/homepage');
     }
 
-    const goToForm = (formId) =>{
+    const goToApproveForm = (formId) =>{
       navigate("/react/approver/approveform/" + formId )
     };
+
+    const goToForm = (formId) => {
+      console.log('going to form');
+      console.log(formId);
+      navigate("/react/viewform/" + formId )
+    }
 
     const assignform = () => {
       navigate("/react/assignform/" + vendorId);
@@ -299,6 +305,42 @@ export default function ApproverViewVendor(){
                     </button>
                 </div>
 
+                <div className='formHeader'>
+                    Approved
+                </div>
+
+                <Container className = 'homepageFormDisplay'>
+                  {approvedForms.map((form, index)=>{
+                      return(
+                      <Row className='displayRow'  key={form}> 
+                          <Col xs={12} md={7} className='homepageFormDetails'>
+                          <div className='homepageFormName'>
+                              {form.description}
+                          </div>
+                          <div className='homepageFormStatus'>
+                          Status: {form.status}
+                          </div>
+                          </Col>
+                          <Col xs={6} md={2} xl={2}>
+                          <button className='formButton' onClick={() => seeForm(form.id)} size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}}>
+                              View Form
+                          </button>
+                          </Col>
+                          <Col xs={6} md={2} xl={2}>
+                            
+                            <button className='formButton' onClick={() => getPdf(form.id)} size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}}>
+                                Generate PDF
+                            </button>
+                              
+                          </Col>
+                          <Col xs={6} md={1} xl={1} className='companyHeader' >
+                          <DeleteIcon onClick={() => openDel(form.id)} />
+                          </Col>
+                      </Row>                
+                      ) 
+                  })}
+                </Container>
+
                 {/* for all forms that are completed */}
                 <div className='formHeader'>
                     Forms to Approve
@@ -317,7 +359,7 @@ export default function ApproverViewVendor(){
                             </div>
                             </Col>
                             <Col xs={6} md={2} xl={2}>
-                              <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
+                              <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToApproveForm(form.id)}>
                                   View Form
                               </button>
                             </Col>
@@ -436,7 +478,7 @@ export default function ApproverViewVendor(){
                                                 </div>
                                             </Col>
                                             <Col xs={6} md={2} xl={2}>
-                                                <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} oonClick={() => goToForm(form.id)}>
+                                                <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
                                                   View Form
                                                 </button>
                                             </Col>
@@ -458,41 +500,7 @@ export default function ApproverViewVendor(){
                     </Accordion>
                 </div>
 
-                <div className='formHeader'>
-                    Approved
-                </div>
-
-                <Container className = 'homepageFormDisplay'>
-                  {approvedForms.map((form, index)=>{
-                      return(
-                      <Row className='displayRow'  key={form}> 
-                          <Col xs={12} md={7} className='homepageFormDetails'>
-                          <div className='homepageFormName'>
-                              {form.description}
-                          </div>
-                          <div className='homepageFormStatus'>
-                          Status: {form.status}
-                          </div>
-                          </Col>
-                          <Col xs={6} md={2} xl={2}>
-                          <button className='formButton' onClick={() => seeForm(form.id)} size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}}>
-                              View Form
-                          </button>
-                          </Col>
-                          <Col xs={6} md={2} xl={2}>
-                            
-                                <button className='formButton' onClick={() => getPdf(form.id)} size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}}>
-                                    Generate PDF
-                                </button>
-                              
-                          </Col>
-                          <Col xs={6} md={1} xl={1} className='companyHeader' >
-                          <DeleteIcon onClick={() => openDel(form.id)} />
-                          </Col>
-                      </Row>                
-                      ) 
-                  })}
-                </Container>
+                
             </div>
 
             <Dialog open={open} onClose={handleClose} fullWidth='90%'>

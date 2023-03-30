@@ -13,6 +13,12 @@ import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
+import Collapse from '@mui/material/Collapse';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Alert from '@mui/material/Alert';
 
 export default function NewVendor(){
     const navigate = useNavigate();
@@ -24,6 +30,8 @@ export default function NewVendor(){
     const[values, setValues] = useState({
         accountType : 'Admin',
     });
+    const [open, setOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const validatePwd = (pwd, pwd2) => {
         if (pwd.length >= 8){
@@ -72,13 +80,16 @@ export default function NewVendor(){
 
     const validateName = (name) => {
         if (name.length > 0){
-            if (/^[A-Za-z]$/.test(name)){
+            if (/^[A-Za-z\s]*$/.test(name)){
+                console.log('hello')
                 return true;
+            }        
+            else{
+                setNameError("Please enter a valid name")
             }
         }
-
         else{
-            setNameError('Name is not valid')
+            setNameError("Please enter a valid name")
         }
     }
 
@@ -95,24 +106,27 @@ export default function NewVendor(){
         const isName = validateName(values.name);
         
         if (isPwdValid && isEmail && isName) {
+            console.log('hello')
             addAdmin();            
         }
     }
 
     
     const addAdmin = async() => {
-
+        setIsLoading(true);
         try {
             const response = await axios.post('/api/v1/admin/createAdmin', values);
             console.log(response.data);
+            setIsLoading(true);
             if (response.data.status == 201) {
-              localStorage.setItem('message', 'Admin added successfully!')
-              navigate('/react/approver/homepage')
-                
+                setIsLoading(false);
+                localStorage.setItem('message', 'Admin added successfully!')
+                navigate('/react/approver/homepage')
             }
         }
         catch (error){
             console.log(error);
+            setOpen(true);
         }
     }
 
@@ -120,16 +134,51 @@ export default function NewVendor(){
         navigate(-1);
     }
 
-    
+    if (isLoading) {
+        return (
+            <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+            }}> <CircularProgress /> Adding admin in progress... {console.log("loading state")}</div>
+        );
+    }
 
     return(
         <>
             <Navbar />
 
             <div className='newVendorContent'>
+                <Box sx={{ width: '100%' }}>
+                    <Collapse in={open}>
+                        <Alert
+                        severity="error"
+                        action={
+                            <IconButton
+                            aria-label="close"
+                            color="inherit"
+                            size="small"
+                            onClick={() => {
+                                setOpen(false);
+                            }}
+                            >
+                            <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                        }
+                        sx={{ mb: 2 }}
+                        >
+                        Error! Account with email address already exists. 
+                        </Alert>
+                    </Collapse>
+                </Box>
+                
+
                 <div className='subDividerForm'>
-                    New Vendor
+                    New Admin
                 </div>
+
                 <form onSubmit={handleSubmit} onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}>
                     <fieldset className='newVendorForm'>
                         <Row className='formRow'>
@@ -179,7 +228,7 @@ export default function NewVendor(){
                             <button className='cancelButton' onClick={cancel}>Cancel</button>
                         </Col>
                         <Col>
-                            <button className='cfmVendorButton' type='submit'>Add Vendor</button>
+                            <button className='cfmVendorButton' type='submit'>Add Admin</button>
                         </Col>
                     </Row>
                 </form>

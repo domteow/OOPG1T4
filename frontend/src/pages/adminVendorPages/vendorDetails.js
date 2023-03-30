@@ -70,7 +70,7 @@ export default function VendorDetails(){
           });
          }, 800);
     }, []);
-    console.log(allCountry);
+
 
     const handleCancel = () => {
         setIsDisabled(true);
@@ -81,27 +81,9 @@ export default function VendorDetails(){
         setIsDisabled(false);
     }
 
-    const [pwdError, setPwdError] = useState(null);
-    const [cfmPwdError, setCfmPwdError] = useState(null);
     const [emailError, setEmailError] = useState(null);
     const [phoneError, setPhoneError] = useState(null);
     const [faxError, setFaxError] = useState(null);
-
-    const validatePwd = (pwd, pwd2) => {
-        if (pwd.length >= 8){
-            if (pwd === pwd2){
-                return true;
-            }
-            else{
-                setPwdError('Passwords do not match')
-                setCfmPwdError('Passwords do not match')
-            }
-        }
-        else{
-            setPwdError('Passwords need to be at least 8 characters long')
-            setCfmPwdError('Passwords  need to be at least 8 characters long')
-        }
-    }
 
     const handleChange = (e) => {
         const {name, value} = e.target; 
@@ -119,23 +101,19 @@ export default function VendorDetails(){
         }
     }
 
-    const handlePassword = (e) =>{
-        setStorePwd(e.target.value);
-    }
-
     const [county, setCounty] = useState([countries[196]])
     const [prevCounty, setPrevCounty] = useState([countries[196]])
-    console.log(county);
+ 
 
     const handleCounty = (newValue) => {
         setCounty([]);
         // console.log(newValue);
         newValue.map(country => {
             const countryName = country.label;
-            console.log(countryName);
+      
             setCounty(prev => [...prev, countryName]);
         })
-        console.log(county);
+
     }
     if (prevCounty !== county){
         setPrevCounty(county);
@@ -145,7 +123,6 @@ export default function VendorDetails(){
         })
     }
     
-    // console.log(county);
 
     const validateEmail = (email) => {
         if(/\S+@\S+\.\S+/.test(email)){
@@ -186,17 +163,14 @@ export default function VendorDetails(){
         console.log(values);
         setPhoneError(null);
         setFaxError(null);
-        setPwdError(null);
+        
         setEmailError(null);
-        setCfmPwdError(null);
-        // const isPwdValid = validatePwd(values.password, storePwd);
+       
         const isEmail = validateEmail(values.emailAddress);
         const isPhone = validatePhone(values.phoneNumber);
         const isFax = validateFax(values.faxNumber);
-        console.log(isPhone);
-        console.log(isFax);
-        console.log(values.phoneNumber);
-        console.log(values.faxNumber);
+      
+       
         if (isEmail && isPhone && isFax) {
           console.log('bo');
             updateVendor();            
@@ -206,13 +180,10 @@ export default function VendorDetails(){
     console.log(vendorId)
     console.log(values);
     const updateVendor = async() => {
-        console.log(values);
         
         try {
-            console.log(values);
-            console.log(vendorId);
             const response = await axios.put('/api/v1/vendor/editVendor/' + vendorId, values);
-            console.log(response.data);
+            
             if (response.data.status == 200) {
               localStorage.setItem('message', 'Vendor details updated successfully!')
                 navigate('/react/viewvendor/' + vendorId)
@@ -274,26 +245,6 @@ export default function VendorDetails(){
                             </Col>
                             {emailError && <div className='errorMsg' >{emailError}</div>}
                         </Row>
-
-                        {/* <Row className='formRow'>
-                            <Col xs={6} md={4} xl={2} className='formQuestion'>
-                                Password:
-                            </Col>
-                            <Col xs={12} md={8} className='formInput'>
-                                <TextField required name='password' disabled={isDisabled} className='inputtext' sx={{':disabled': {color:"#FFE9e9"}}} type='text' defaultValue={vendor.password} onChange={handleChange} />
-                            </Col>
-                            {pwdError && <div className='errorMsg' >{pwdError}</div>}
-                        </Row>
-                        
-                        <Row className='formRow'>
-                            <Col xs={6} md={4} xl={2} className='formQuestion'>
-                                Confirm Password:
-                            </Col>
-                            <Col xs={12} md={8} className='formInput'>
-                                <TextField required name='cfmPassword' disabled={isDisabled} className='inputtext' type='text' defaultValue={vendor.password} onChange={handleChange} />
-                            </Col>
-                            {cfmPwdError && <div className='errorMsg'>{cfmPwdError}</div>}
-                        </Row> */}
 
                         <Row className='formRow'>
                             <Col xs={6} md={4} xl={2} className='vendorDetailsQues'>

@@ -13,6 +13,12 @@ import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
+import Collapse from '@mui/material/Collapse';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Alert from '@mui/material/Alert';
 
 export default function NewVendor(){
     const navigate = useNavigate();
@@ -29,7 +35,8 @@ export default function NewVendor(){
     const [prevCounty, setPrevCounty] = useState([])
     const [nameError, setNameError] = useState(null);
     const [companyError, setCompanyError] = useState(null);
-
+    const [open, setOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const validatePwd = (pwd, pwd2) => {
         if (pwd.length >= 8){
@@ -152,7 +159,7 @@ export default function NewVendor(){
         setPwdError(null);
         setEmailError(null);
         setCfmPwdError(null);
-        console.log(values.name);
+        
         const isName = validateName(values.name)
         const isCompany = validateCompany(values.company)
         const isPwdValid = validatePwd(values.password, storePwd);
@@ -169,11 +176,12 @@ export default function NewVendor(){
     console.log(values);
     const addVendor = async() => {
         console.log(values);
-        
+        setIsLoading(true);
         try {
             const response = await axios.post('/api/v1/vendor/createVendor', values);
-            console.log(response.data);
+            
             if (response.data.status == 201) {
+              setIsLoading(false);
               localStorage.setItem('message', 'Vendor added successfully!')
               const role = localStorage.getItem('role');
               if (role == 'Admin'){
@@ -186,7 +194,8 @@ export default function NewVendor(){
             }
         }
         catch (error){
-            console.log(error);
+            setIsLoading(false);
+            setOpen(true);
         }
     }
 
@@ -196,6 +205,18 @@ export default function NewVendor(){
         
     }
 
+    if (isLoading) {
+      return (
+          <div style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          }}> <CircularProgress /> Adding vendor in progress... {console.log("loading state")}</div>
+      );
+  }
+
     
 
     return(
@@ -203,6 +224,28 @@ export default function NewVendor(){
             <Navbar />
 
             <div className='newVendorContent'>
+                  <Box sx={{ width: '100%' }}>
+                    <Collapse in={open}>
+                        <Alert
+                        severity="error"
+                        action={
+                            <IconButton
+                            aria-label="close"
+                            color="inherit"
+                            size="small"
+                            onClick={() => {
+                                setOpen(false);
+                            }}
+                            >
+                            <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                        }
+                        sx={{ mb: 2 }}
+                        >
+                        Error! Account with email address already exists. 
+                        </Alert>
+                    </Collapse>
+                </Box>
                 <div className='subDividerForm'>
                     New Vendor
                 </div>

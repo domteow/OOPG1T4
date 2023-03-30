@@ -47,7 +47,6 @@ export default function AdminHomepage(){
         getAllVendors();
         const message = localStorage.getItem('message');
 
-
         if (message !== 'null' && message !== null){
             setMsg(message);  
             displayMessage();      
