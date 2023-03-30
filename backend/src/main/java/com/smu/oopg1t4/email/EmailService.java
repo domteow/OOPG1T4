@@ -117,7 +117,7 @@ public class EmailService {
 
     public ResponseEntity<?> sendWelcomeMail(User user, String password) {
         String subject = "Welcome to Quantum Leap Incorporation!";
-        String emailBody = String.format("Dear %s,<br/><br/>Your %s account has been created. Please use the credentials below to login at: %s <br/><br/>Username: <b>%s</b><br/>Password: <b>%s</b><br/><br/>Thank you.<br/><br/>Kind regards,<br/>Quantum Leap Incorporated", user.getName(), user.getAccountType().toLowerCase(), URL, user.getEmailAddress(), password);
+        String emailBody = String.format("Dear %s,<br/><br/>Your %s account has been created. Please use the credentials below to login at: %s <br/><br/>Username: <b>%s</b><br/>Password: <b>%s</b><br/><br/>Thank you.<br/><br/>Kind regards,<br/>Quantum Leap Incorporated", user.getName(), user.getAccountType().toLowerCase(), URL + "/react/login", user.getEmailAddress(), password);
         Email email = new Email(user.getEmailAddress(), subject, emailBody);
         try {
             this.sendMail(email);

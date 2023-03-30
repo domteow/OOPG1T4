@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class Vendor extends User {
+public class    Vendor extends User {
 
     private ArrayList<String> countries;
     private String phoneNumber;

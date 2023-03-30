@@ -46,19 +46,8 @@ public class VendorService {
             userRepository.save(vendor);
 
             // Send email notification
-            //1. Craft the subject line
-            String notificationSubject = "Welcome to QuantumLeap!";
-
-            //2. Craft Message Body
-            String notificationBody = "Dear Vendor,<br/><br/>Welcome to QuantumLeap! We are glad to have you on board. <br/><br/>Here are your account details: <br/><br/>&emsp;<b>Email: </b>" + vendor.getEmailAddress() + "<br/>&emsp;<b>Company: </b>" + vendor.getCompany() + "<br/>&emsp;<b>Phone Number: </b>" + vendor.getPhoneNumber() + "<br/><br/>Thank you for choosing us as your partner.<br/><br/>Regards,<br/>The team at Quantum Leap";
-
-            //3. Create Email object
-            Email reminderEmail = new Email(vendor.getEmailAddress(), notificationSubject, notificationBody);
-
-            emailService.sendWelcomeMail(vendor, passwordBeforeHash);
-            //4. Send the Email
             try {
-                emailService.sendMail(reminderEmail);
+                emailService.sendWelcomeMail(vendor, passwordBeforeHash);
             } catch (Exception e) {
                 StatusResponse statusResponse = new StatusResponse("Error sending email", HttpStatus.INTERNAL_SERVER_ERROR.value());
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
