@@ -12,6 +12,12 @@ import loginLogo from '../assets/loginLogo.png';
 import TextField from '@mui/material/TextField';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+import Collapse from '@mui/material/Collapse';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Login = () =>{
     const navigate = useNavigate();
@@ -20,6 +26,7 @@ const Login = () =>{
     const [user, setUser] = useState();
     const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated")|| false));
     const [showPwd, setShowPwd] = useState(false);
+    const [open, setOpen] = React.useState(false);
 
     const togglePwd = () => {
         setShowPwd(!showPwd);
@@ -66,12 +73,36 @@ const Login = () =>{
             }
         } catch (error) {
             console.log(error)
+            setOpen(true)
         }
         
     };
     return(
         <div className='loginBody'>
+            <Box sx={{ width: '100%' }}>
+                    <Collapse in={open}>
+                        <Alert
+                        severity="error"
+                        action={
+                            <IconButton
+                            aria-label="close"
+                            color="inherit"
+                            size="small"
+                            onClick={() => {
+                                setOpen(false);
+                            }}
+                            >
+                            <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                        }
+                        sx={{ mb: 2 }}
+                        >
+                        Error! Incorrect email or password. 
+                        </Alert>
+                    </Collapse>
+                </Box>
             <Container >
+                
                 <Row>
                     <Col className='ehhe'>
                         <div className='loginwelcomeText'>
