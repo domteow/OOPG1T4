@@ -41,6 +41,11 @@ public class PDFGenerator {
         // Opening the created document to change it
         document.open();
 
+        // Add logo
+        Image png = Image.getInstance("backend\\src\\main\\java\\com\\smu\\oopg1t4\\pdf\\image.png");
+        png.setAlignment(Paragraph.ALIGN_CENTER);
+
+        document.add(png);
         // Creating font
         // Setting font style and size
         Font fontTitle = FontFactory.getFont(FontFactory.TIMES_BOLD);
