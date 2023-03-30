@@ -162,7 +162,7 @@ export default function Viewvendor(){
 
     const [rejectMsg, setRejectMsg] = useState('')
     const handleRejection = (e) => {
-      setRejectMsg(e.target.value);
+      setRejectMsg({message: e.target.value});
     }
 
     console.log(rejectMsg);
@@ -177,9 +177,12 @@ export default function Viewvendor(){
       handleClose();
       try{
         const response = await axios.put("/api/v1/formResponse/rejectFormResponse/" + rejId, rejectMsg)
-        getFormData();
-        setMsg('Form rejected successfully');
-        displayMessage();
+        if(response.data.status >= 200 && response.data.status < 300) {
+          getFormData();
+          setMsg('Form rejected successfully');
+          displayMessage();
+        }
+        
       }
       catch (error){
         console.log(error);
