@@ -192,7 +192,7 @@ export default function Navbar(){
           >
             
               <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center" onClick={navigateAccount}>Account</Typography>
+                <Typography textAlign="center" onClick={navigateAccount}>Settings</Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center" onClick={navigateLogout}>Logout</Typography>
@@ -250,7 +250,7 @@ export default function Navbar(){
           >
             
               <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center" onClick={navigateAccount}>Account</Typography>
+                <Typography textAlign="center" onClick={navigateAccount}>Settings</Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center" onClick={navigateLogout}>Logout</Typography>
