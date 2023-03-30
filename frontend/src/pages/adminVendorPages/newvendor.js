@@ -25,7 +25,7 @@ export default function NewVendor(){
     const[values, setValues] = useState({
       accountType : 'Vendor',
     });
-    const [county, setCounty] = useState([])
+    const [county, setCounty] = useState(["Singapore"])
     const [prevCounty, setPrevCounty] = useState([])
     const [nameError, setNameError] = useState(null);
     const [companyError, setCompanyError] = useState(null);
@@ -120,8 +120,12 @@ export default function NewVendor(){
 
     const validateName = (name) => {
       if (name.length > 0){
-        if (/^[A-Za-z]+$/.test(name)){
+        if (/^[A-Za-z\s]*$/.test(name)){
+          console.log('hello')
           return true;
+        }        
+        else{
+          setNameError("Please enter a valid name")
         }
       }
       else{
@@ -148,7 +152,7 @@ export default function NewVendor(){
         setPwdError(null);
         setEmailError(null);
         setCfmPwdError(null);
-    
+        console.log(values.name);
         const isName = validateName(values.name)
         const isCompany = validateCompany(values.company)
         const isPwdValid = validatePwd(values.password, storePwd);
@@ -281,6 +285,7 @@ export default function NewVendor(){
                             <Col xs={12} md={8} className='formInput'>
                                 <Stack spacing={3} sx={{width:'95%'}}>
                                     <Autocomplete
+                                      defaultValue={[countries[196]]}
                                         onChange={(event, newValue) => {
                                             handleCounty(newValue)
                                         }}
@@ -289,7 +294,7 @@ export default function NewVendor(){
                                         id="tags-outlined"
                                         options={countries}
                                         getOptionLabel={(option) => option.label}
-                                        defaultValue={county}
+                                        
                                         filterSelectedOptions
                                         renderInput={(params) => (
                                         <TextField
