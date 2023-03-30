@@ -34,12 +34,12 @@ public class UserController {
         return userService.login(userString);
     }
 
-    @PutMapping("editUserDetails")
+    @PutMapping("/editUserDetails")
     public ResponseEntity<?> editUserDetails(@RequestBody String userString) {
         return userService.editUserDetails(userString);
     }
 
-    @PutMapping("changePassword")
+    @PutMapping("/changePassword")
     public ResponseEntity<?> changePassword(@RequestBody String passwordString) {
         return userService.changePassword(passwordString);
     }
