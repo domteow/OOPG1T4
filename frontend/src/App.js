@@ -27,6 +27,7 @@ import ViewForm from './pages/form/viewonlyform'
 import AssignForm from './pages/form/assignform'
 import Notice from "./pages/form/createnotice";
 import DisplayNotice from "./pages/form/dispalyNotice";
+import ViewOnlyNotice from "./pages/form/viewonlynotice";
 
 // ======== vendors ========
 // all vendors page 
@@ -76,6 +77,7 @@ export default function App(){
                 <Route exact path='/react/vendor/profile/:vendorId' element={<VendorProfile/>}/>
                 <Route exact path='/react/newnotice' element={<Notice/>}/>
                 <Route exact path='/react/displaynotice/:formId' element={<DisplayNotice/>}/> 
+                <Route exact path='/react/viewonlynotice/:formId' element={<ViewOnlyNotice/>}/> 
             </Routes>
             </div>
         </BrowserRouter>

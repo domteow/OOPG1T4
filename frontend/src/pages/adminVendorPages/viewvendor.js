@@ -68,14 +68,20 @@ export default function Viewvendor(){
         // store locally for the stuff below
         
         const allforms = response.data.data
-        
+        console.log(allforms);
         allforms.forEach(form => {
           if(form.status === 'complete'){
             setCompletedForms(prevCompletedForms => ([...prevCompletedForms, form]))
            
           }
           else if(form.status === 'incomplete'){
-            setIncompleteForms(prevIncompleteForms => ([...prevIncompleteForms, form]))
+            if (form.formStatus == 'readonly'){
+              setReadOnlyForms(prevReadOnlyForms => ([...prevReadOnlyForms, form]))
+            }
+            else{
+              setIncompleteForms(prevIncompleteForms => ([...prevIncompleteForms, form]))
+            }
+            
           
           }
           else if(form.status === 'readonly'){

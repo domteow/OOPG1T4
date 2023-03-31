@@ -47,7 +47,7 @@ export default function AssignForm(){
             setAssignedForms(response.data.data)
             // store locally for the stuff below
             const assignedForms = response.data.data
-           
+            console.log(response.data.data)
             assignedForms.map((form) => {
                 const code = form.formCode;
                 setExistingFormCode((prev) => ([...prev, code]));
@@ -65,6 +65,7 @@ export default function AssignForm(){
             const response = await axios.get("/api/v1/form/get")
             // console.log([response.data.data]);
             const forms = response.data.data;
+            console.log(response.data.data)
             forms.map((form) => {
                 if (form.active == true){
                     setAllForms(prev => ([...prev, form]))
