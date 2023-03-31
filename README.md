@@ -6,19 +6,16 @@ Form Application System (FMS) is a data capture web application for Quantum Leap
 This is the first release of FMS which contains its core functionalities as provided by the sponsor.
 
 ## Installation ##
-To install FMS, follow these steps:
-
-### Backend ###
-
-
-
-### Frontend ###
--   Clone the repository to your local machine.
+To install FMS, follow these steps (for MacOS):
+-   Clone this repository to your local machine.
 -   Install Node.js from https://nodejs.org/
--   Open a terminal window and navigate to the project directory.
--   Navigate into the "frontend" folder
--   Run npm install to install the required dependencies.
--   Run npm start to start the application.
+-   Follow the installation instructions on your local machine
+-   Next, go to https://maven.apache.org/download.cgi
+-   Download the binary zip archive
+-   Unzip apache-maven-3.9.1.zip
+-   Place apache-maven-3.9.1 in a directory of your choosing
+-   Copy the path of the bin folder within the apache-maven-3.9.1 folder
+--  An example path would be /Applications/MAMP/htdocs/apache-maven-3.9.1/bin
 
 
 ## Configuration ##
@@ -29,7 +26,10 @@ To configure CMS, follow these steps:
 
 ## Usage ##
 To use My Web App, follow these steps:
-
+- Open your terminal and navigate to the OOPG1T4/backend folder
+- In your terminal run this command "sh build.sh"
+- You will then be promopted to enter a path. This path is the path of the bin folder within the apache-maven-3.9.1 folder which you have installed earlier
+- Wait for the installations to complete and springboot to start up. 
 - Open your web browser and navigate to the [Login Page](http://localhost:3000/react/login).
 
 ![Login screen](images/loginpage.JPG)
