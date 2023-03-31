@@ -409,8 +409,7 @@ export default function EditNotice() {
         <>
             <Navbar />
 
-            
-
+            <div className='newFormContent'>
                 <div className = 'standardInputForm'>
                     <FormControl fullWidth>
                         <Container>
@@ -473,9 +472,7 @@ export default function EditNotice() {
                     </FormControl>
                     {/* to display existing form stuff*/} 
                     <div>
-
-                        
-                
+                        <div className='noticecontent'>
                         {initialQuestionnaire.map((item, i) => {
                             console.log(item)
                             const fields = item.fields;
@@ -491,17 +488,20 @@ export default function EditNotice() {
                             ); 
                                 
                         })}
+                        </div>
                             
                     </div>
                         <div>
-                            {inputList.map((item, i)=>{
-                                console.log(item);
-                                return(
-                                    <div>
-                                        {renderInputField(item, i)}
-                                    </div>
-                                )
-                            })}
+                            <div className='noticecontent'>
+                                {inputList.map((item, i)=>{
+                                    console.log(item);
+                                    return(
+                                        <div>
+                                            {renderInputField(item, i)}
+                                        </div>
+                                    )
+                                })}
+                            </div>
                         </div>
 
                         <button onClick={handleClickOpen} className='dialogueButton'>
@@ -518,14 +518,15 @@ export default function EditNotice() {
                 </div>
             
 
-            <div className="buttonFormRow">
-                <button onClick={handleCancelForm} className='cancelFormButton'>
-                    Cancel
-                </button>
+                <div className="buttonFormRow">
+                    <button onClick={handleCancelForm} className='cancelFormButton'>
+                        Cancel
+                    </button>
 
-                <button onClick={handleUpdateForm} disabled={inputList.length === 0} className='createFormButton anyButton'>
-                    Update Notice
-                </button>
+                    <button onClick={handleUpdateForm} disabled={inputList.length === 0} className='createFormButton anyButton'>
+                        Update Notice
+                    </button>
+                </div>
             </div>
         </>
     )
