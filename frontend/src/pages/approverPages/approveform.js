@@ -438,8 +438,9 @@ export default function ApproveForm() {
                                                                     
                                                                         <div>
                                                                             <select required id={detail.name} name={detail.name} className='selectclass' disabled={disabled} value = {questionnaires[qnIndex]['fields'][dIndex]['value']} onChange={handleSelectChange(qnIndex, dIndex)}>
+                                                                            <option value=""></option>
                                                                             {detail['options'].map((selection, idx) => (
-                                                                                <option key={idx} value={selection} selected={selection === questionnaires[qnIndex]['fields'][dIndex]['value']}>
+                                                                                <option key={idx} value={selection}>
                                                                                     {selection}
                                                                                 </option>
                                                                                 ))}
