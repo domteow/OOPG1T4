@@ -42,10 +42,15 @@ public class PDFGenerator {
         document.open();
 
         // Add logo
-        Image png = Image.getInstance("backend\\src\\main\\java\\com\\smu\\oopg1t4\\pdf\\image.png");
-        png.setAlignment(Paragraph.ALIGN_CENTER);
-
-        document.add(png);
+        try{
+            Image png = Image.getInstance("src/main/java/com/smu/oopg1t4/pdf/image.png");
+            png.setAlignment(Paragraph.ALIGN_CENTER);
+    
+            document.add(png);
+        } catch (Exception e){
+            //image fails
+        }
+        
         // Creating font
         // Setting font style and size
         Font fontTitle = FontFactory.getFont(FontFactory.TIMES_BOLD);
