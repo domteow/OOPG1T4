@@ -20,169 +20,139 @@ import Select from './select';
 
 import NewQuestionnaire from './newquestionnaire';
 
-export default function Newform(){
-    const options = ['New Questionnaire'];
-    const [open, setOpen] = useState(false);
-    const [selectedValue, setSelectedValue] = useState(options[1]);
-    const [newFormList, setNewFormList] = useState({});
-    const [inputList, setInputList] = useState([]);
+const options = ['Header', 'Sub Header', 'Subtext', 'Text Field'];
+
+export default function Notice(){
     const [formData, setFormData] = useState([]);
     const [formName, setFormName] = useState("");
     const [formCode, setFormCode] = useState("");
-    const [effectiveDate, setEffectiveDate] = useState("");
-    const navigate = useNavigate();
-    const [questionnaireList, setQuestionnaireList] = useState([]);
-    const [count, setCount] = useState(0);
+    const [inputList, setInputList] = useState([]);
+    const [details, setDetails] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [counter, setCounter] = useState(0);
     const [formNameError, setFormNameError] = useState(null);
     const [formCodeError, setFormCodeError] = useState(null);
     const [dateError, setDateError] = useState(null);
+    const [selectedValue, setSelectedValue] = useState(options[1]);
+    const [effectiveDate, setEffectiveDate] = useState("");
+    const navigate = useNavigate();
 
-    const getAllQuestionnaires = async() =>{
-        try{
-            const response = await axios.get("/api/v1/questionnaire/getAllQuestionnaires")
-            // console.log([response.data.data]);
-            setQuestionnaireList(response.data.data);
-        }
-        catch(error){
-            console.log(error);
-        }
-    }
-
-    useEffect(() => {
-        getAllQuestionnaires();
-    }, []);
-
-    /* THIS IS TO OPEN THE DIALOGUE TO CHOOSE WHAT TO ADD */
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    /* END OF OPEN DIALOGUE FUNCTION THING */
-
-    /* ONCLICK ON THE INPUT THING, DIALOGUE CLOSES, WHEN CLOSE, IT WILL UPDATE THE INPUTLIST THAT WILL BE USED TO RENDER THE RENDERINPUTFIELD */
     const handleClose = (value) => {
+        setCounter((prev) => prev+1);
         setOpen(false);
         setSelectedValue(value);
-        if (value !== 'New Questionnaire'){
-            questionnaireList.map((questionnaire) => {
-                const name = questionnaire.name;
-                const id = questionnaire.id;
-
-                const data = {
-                    id: id,
-                    type: 'questionnaire'
-                }
-                if (name === value){
-                    setInputList([...inputList, data]);
-                    setFormData([...formData, questionnaire]);
-                }
-            })
+        const data = {
+            type: value,
+            id:counter,
+            name: '',
+            options: []
         }
-        else{
-            setCount((prev) => prev+1)
-            const data = {
-                count: count,
-                type: 'New Questionnaire'
-            }
-            setInputList([...inputList, data])
-            setFormData([...formData, data]);
-        }
-    };
-    /* END OF ONCLICK INPUT THING TO ADD INPUTFIELD */
-
-    //  ON CLICK, DELETE THE INPUT FIELD
-    const handleRemoveInputField = index => {
-        const newData = [...formData];
-        newData.splice(index, 1);
-        setFormData(newData);
-
-        formData.map((item, i) => {
-            if (item.count == index){
-                const newDat = [...formData];
-                newDat.splice(i, 1);
-                setFormData(newDat);
-            }
-        })
-
-        inputList.map((item, i) => {
-            if (item.count == index){
-                const newInp = [...inputList];
-                newInp.splice(i, 1);
-                setInputList(newInp);
-            }
-        })
-
-
-        // const newDat = inputList.map((item, i) => {
-        //     if (item.count === index){
-        //         return "";
-        //     }
-        //     else{
-        //         return item;
-        //     }
-        // }); 
-        // setInputList(newDat);
+        setInputList([...inputList, data]);
+        setDetails([...details, data]);
     };
 
-    const handleRemoveQuestionnaireInput = (id) => {
-        console.log(id);
-
-        formData.map((item, i) => {
-            console.log(item.id);
-                console.log(id)
-                console.log(item.id == id)
-            if (item.id == id){
-                
-                const newDat = [...formData];
-                newDat.splice(i, 1);
-                setFormData(newDat);
+    const handleRemoveInputField = id => {
+        const newInputs = inputList.map((item, i) => {
+            const idx = item.id;
+            if (id === idx){
+                return "";
             }
-        })
-
-        inputList.map((item, i) => {
-            console.log(item.id);
-            console.log(id)
-            console.log(item.id == id)
-            if (item.id == id){
-                const newInp = [...inputList];
-                newInp.splice(i, 1);
-                setInputList(newInp);
-            }
-        })
-    }
-
-    console.log(formData);
-
-    const formDetails = (data, index) => {
-        console.log(data);
-        // const newFormDetails = [...formData];
-        // newFormDetails.map((item, i) => {
-        //     console.log(item);
-        //     console.log(item.count);
-        //     console.log(data.count);
-        //     console.log(item.count == data.count);
-        //     if (item.count == data.count){
-        //         return data;
-        //     }
-        //     else{
-        //         return item;
-        //     }
-        // })
-        const newFormDetails = formData.map((item, i) => {
-            console.log(data.count);
-            console.log(item);
-            const ctr = item.count;
-            if (data.count === ctr){
-                return data;
-            }
-
             else{
                 return item;
             }
         });
+        setInputList(newInputs);
+        // search for the index of the item with the id to splice it out
+        const index = details.findIndex(item => item.id === id);
+        if (index >= 0) {
+            const newData = [...details];
+            newData.splice(index, 1);
+            setDetails(newData);
+        }
 
-        setFormData(newFormDetails);
+        if (newInputs.length === 0) {
+            setInputList([]);
+          }
+
+        
+    };
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleTextChange = (e, id)=>{
+        const data = {
+            name : e.target.value,
+            type: 'text',
+            id:id
+        }
+        const newDetails = details.map((item, index)=>{
+            const idx = item.id;
+            if (id === idx){
+                return data
+            }
+            else{
+                return item
+            }
+        });
+        setDetails(newDetails);
     }
-   
+
+    const handleSubTextChange = (e, id)=>{
+        const data = {
+            name : e.target.value,
+            type: 'subtext',
+            id:id
+        }
+        const newDetails = details.map((item, index)=>{
+            const idx = item.id;
+            if (idx === id){
+                return data
+            }
+            else{
+                return item
+            }
+        });
+        setDetails(newDetails);
+    }
+
+    console.log(details);
+
+    const handleSubheaderChange = (e, id)=>{
+        const data = {
+            name : e.target.value,
+            type: 'subheader',
+            id:id
+        }
+        const newDetails = details.map((item, index)=>{
+            const idx = item.id;
+            if (idx === id){
+                return data
+            }
+            else{
+                return item
+            }
+        });
+        setDetails(newDetails);
+    }
+
+    const handleHeaderChange = (e, id)=>{
+        const data = {
+            name : e.target.value,
+            type: 'header',
+            id:id
+        }
+        const newDetails = details.map((item, index)=>{
+            const idx = item.id;
+            if (idx === id){
+                return data
+            }
+            else{
+                return item
+            }
+        });
+        setDetails(newDetails);
+    }
 
     const handleFormName = (e) => {
         setFormName(e.target.value);
@@ -196,16 +166,6 @@ export default function Newform(){
         setEffectiveDate(e.target.value);
     }
 
-    const submitForm = {
-        description: formName, 
-        formCode: formCode,
-        effectiveDate: effectiveDate,
-        questionnaires : formData,
-        revisionNo: 1,
-        formStatus: 'published'
-    }
-
-    console.log(submitForm)
     const validateFormName = (formName) => {
         const parts = formName.replace(/ /g, '');
         if (parts.length >0){
@@ -226,10 +186,25 @@ export default function Newform(){
         }
     }
 
+
+    const data = {
+        description: formName,
+        formCode: formCode,
+        formStatus: 'readonly',
+        effectiveDate: effectiveDate,
+        questionnaires: [{
+            fields: [details],
+            name: 'Read Only Notice'
+        }],
+        revisionNo: 1
+
+    }
+
+    console.log(data)
+
     const handleCreateForm = () => {
         setFormNameError(null);
         setFormCodeError(null);
-        setDateError(null);
 
         const isFormName = validateFormName(formName);
         const isFormCode = validateFormCode(formCode);
@@ -240,13 +215,10 @@ export default function Newform(){
         }
     }
 
-    
-    console.log('FORM TO SUBMIT')
-    console.log(submitForm)
     const handleSubmitNewForm = async() => {
 
         try {
-            const response = await axios.post('/api/v1/form/createForm', submitForm);
+            const response = await axios.post('/api/v1/form/createForm', data);
             console.log(response);
             if (response.data.status == 201) {
                 localStorage.setItem('message', 'Form template added successfully')
@@ -257,26 +229,70 @@ export default function Newform(){
         }
     }
 
+
     const handleCancelForm = () => {
         navigate(-1);
     }
 
-    /* THIS IS TO RENDER THE ADDING OF INPUT FIELDS */
-    const renderInputField = (item, i) =>{
-        console.log(item);
-        const type = item.type;
-        console.log(item.id);
-        const id = item.id;
-        if(type === 'New Questionnaire'){
+    const renderInputField = (it, i) =>{
+        const type = it.type;
+        const name = it.name;
+        const opt = it.options;
+        const id = it.id;
+        if(type === 'Header'){
             return(
                 <>
-                    <CreateQuestionnaire formDetails={formDetails} id={item.count} value={formData[i]}/>
-                    <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveInputField(item.count)}>
-                        <DeleteIcon sx={{fontSize: 30}}/> Delete Questionnaire
+                    <div className='radioOption'>
+                        <TextField name='text' placeholder='Header' sx={{width: '100%'}} className='headertext' onChange={(e)=>handleHeaderChange(e, id)}/>
+                    </div>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(id)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Header
                     </button>
                 </>
             )
+        }
 
+        else if (type === 'Sub Header'){
+            return(
+                <>
+                    <div className='radioOption'>
+                        <TextField name='text' placeholder='Subheader' sx={{width: '100%'}}  onChange={(e)=>handleSubheaderChange(e, id)}/>
+                    </div>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(id)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Subheader
+                    </button>
+                </>
+            )
+        }
+
+        else if (type === 'Subtext'){
+            return(
+                <>
+                    <div className='radioOption'>
+                        <TextField name='text' placeholder='Subtext' sx={{width: '100%'}} className='subtext' onChange={(e)=>handleSubTextChange(e, id)}/>
+                    </div>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(id)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Subtext
+                    </button>
+                </>
+            )
+        }
+
+        else if (type === 'Text Field'){
+            return(
+                <>
+                    <>
+                        <div className='newFormQuestion'>
+                            <div>
+                                <TextField multiline rows={5} name='text' placeholder='Text' sx={{width: '100%', height: '20%'}} onChange={(e)=>handleTextChange(e, id)}/>
+                            </div>
+                        </div>
+                    </>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(id)}>
+                        <DeleteIcon sx={{fontSize: 30}}/> Delete Text Field
+                    </button>
+                </>
+            )
         }
 
         else if (type === 'Cancel'){
@@ -286,24 +302,9 @@ export default function Newform(){
         else if (type === ""){
             return(<></>)
         }
-
-        else{
-            // to display an existing questionnaire 
-            return (
-                <>
-                    <Questionnaire id={id}/>
-                    <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveQuestionnaireInput(id)}>
-                        <DeleteIcon sx={{fontSize: 30}}/> Delete Questionnaire
-                    </button>
-                </>
-            )
-            
-        }
-    
     }
-    /* END OF RENDER OF ADDING OF INPUT FIELDS */
 
-    return(
+        return(
         <>
             <Navbar />
 
@@ -379,11 +380,11 @@ export default function Newform(){
                         </div>
 
                         <button onClick={handleClickOpen} className='dialogueButton'>
-                            <AddIcon/> Add Questionnaire
+                            <AddIcon/> Add Field
                         </button>
 
                         <Dialogue 
-                            id='newForm'
+                            id='notice'
                             selectedValue={selectedValue}
                             open={open}
                             onClose={handleClose}

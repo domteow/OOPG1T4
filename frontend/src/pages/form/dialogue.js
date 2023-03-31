@@ -31,6 +31,7 @@ export default function Dialogue(props){
     const questionnaires = [];
     const questionnaireOptions = ['Header','Sub Header','Subtext', 'Text Field', 'Radio Button', 'Checkbox', 'Select', 'Cancel'];
     const [questionnaireList, setQuestionnaireList] = useState([]);
+    const noticeOptions = ['Header', 'Sub Header', 'Subtext', 'Text Field']
 
     const getAllQuestionnaires = async() =>{
         try{
@@ -95,6 +96,26 @@ export default function Dialogue(props){
                 />
                 <List className='allOptions'>
                     {formOptions.map((option)=>(
+                        <ListItem disableGutters>
+                            <ListItemButton onClick={()=> handleListItemClick(option)} key={option}>
+                                <ListItemText primary={option} />
+                            </ListItemButton>
+                        </ListItem>           
+                    ))}
+                </List>
+            </Dialog>
+        )
+    }
+
+    else if (type === 'notice'){
+        return(
+            <Dialog onClose={handleClose} open={open}>
+                <DialogTitle>
+                    + Add
+                </DialogTitle>
+                
+                <List className='allOptions'>
+                    {noticeOptions.map((option)=>(
                         <ListItem disableGutters>
                             <ListItemButton onClick={()=> handleListItemClick(option)} key={option}>
                                 <ListItemText primary={option} />

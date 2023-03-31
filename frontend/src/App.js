@@ -25,6 +25,7 @@ import Newform from "./pages/form/newform"
 import ViewForm from './pages/form/viewonlyform'
 // import EditForm from './pages/form/editform'
 import AssignForm from './pages/form/assignform'
+import Notice from "./pages/form/createnotice";
 
 // ======== vendors ========
 // all vendors page 
@@ -72,6 +73,7 @@ export default function App(){
                 <Route exact path='/react/viewcompletedform/:formId' element={<CompletedForm/>}/>
                 <Route exact path='/react/formedit/:formId' element={<FormEdit/>}/>
                 <Route exact path='/react/vendor/profile/:vendorId' element={<VendorProfile/>}/>
+                <Route exact path='/react/newnotice' element={<Notice/>}/>
             </Routes>
             </div>
         </BrowserRouter>

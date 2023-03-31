@@ -117,6 +117,10 @@ export default function Allforms(){
         
     }
 
+    const goToNewNotice = () => {
+        navigate('/react/newnotice')
+    }
+
     const deleteForm = async(formId) => {
         
         try{
@@ -160,6 +164,10 @@ export default function Allforms(){
                 <div className='buttonFormRow'>
                     <button className='newFormButton' onClick={() => goToNewForm()}>
                         Create New Form
+                    </button>
+
+                    <button className='newFormButton' onClick={() => goToNewNotice()}>
+                        Create Notice
                     </button>
                 </div>
 
