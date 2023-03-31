@@ -76,7 +76,6 @@ public class FormService {
 
             form.setWorkflow(workflow);
             form.setUpTo(upTo);
-            form.setFormStatus("published");
             form.setActive(true);
 
 
