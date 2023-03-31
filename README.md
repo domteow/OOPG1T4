@@ -6,7 +6,7 @@ Form Application System (FMS) is a data capture web application for Quantum Leap
 This is the first release of FMS which contains its core functionalities as provided by the sponsor.
 
 ## Installation ##
-To install FMS, follow these steps:
+To install FMS, follow these steps (for MacOS):
 -   Clone this repository to your local machine.
 -   Install Node.js from https://nodejs.org/
 -   Follow the installation instructions on your local machine
