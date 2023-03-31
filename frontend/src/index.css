@@ -802,6 +802,15 @@ input:disabled {
     padding: 2%;
 }
 
+.noticecontent{
+    width: 93%; 
+    margin-left: auto;
+    margin-right:auto;
+    margin-top: 3%;
+    padding: 1%;
+    padding: 2%;
+}
+
 .deleteQuestionnaireButton{
     width: 15%;
     border: transparent;

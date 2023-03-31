@@ -370,6 +370,7 @@ export default function Notice(){
                         </Container>
                     </FormControl>
                         <div>
+                            <div className='noticecontent'>
                             {inputList.map((item, i)=>{
                                 console.log(item);
                                 return(
@@ -378,6 +379,7 @@ export default function Notice(){
                                     </div>
                                 )
                             })}
+                            </div>
                         </div>
 
                         <button onClick={handleClickOpen} className='dialogueButton'>
