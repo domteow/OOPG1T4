@@ -194,7 +194,8 @@ export default function Notice(){
         effectiveDate: effectiveDate,
         questionnaires: [{
             fields: details,
-            name: 'Read Only Notice'
+            name: 'Read Only Notice',
+            roleRequired:'readonly'
         }],
         revisionNo: 1
 

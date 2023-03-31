@@ -357,9 +357,9 @@ const DisplayQuestionnaire = ({initialDetails, key, value}) => {
                                     name:'Assigned',
                                 }}>
                                 
-                                <option value='admin' >Admin</option>
-                                <option value='approver' >Approver</option>
-                                <option value='vendor' >Vendor</option>
+                                <option value='Admin' >Admin</option>
+                                <option value='Approver' >Approver</option>
+                                <option value='Vendor' >Vendor</option>
                             </NativeSelect>
                         </Col>
                     </Row>

@@ -20,7 +20,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import { get } from 'react-hook-form'
 
-export default function DisplayNotice(){
+export default function ViewOnlyNotice(){
     const formId = useParams().formId;
     const [form, setForm] = useState({});
     const [questionnaire, setQuestionnaire] = useState([]);
@@ -28,11 +28,10 @@ export default function DisplayNotice(){
     useEffect(() => {
         const getAllForms = async() =>{
             try{
-                const response = await axios.get("/api/v1/formResponse/getFormByFormResponseID/" + formId)
+                const response = await axios.get("/api/v1/form/get/id/" + formId)
                 console.log([response.data.data]);
                 setForm(response.data.data);
                 setQuestionnaire(response.data.data.questionnaires)
-                
             }
             catch(error){
                 console.log(error);

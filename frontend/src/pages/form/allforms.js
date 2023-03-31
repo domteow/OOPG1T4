@@ -153,7 +153,7 @@ export default function Allforms(){
     );
 
     const goToNotice = (formId) => {
-        navigate('/react/displaynotice/'+formId);
+        navigate('/react/viewonlynotice/'+formId);
       }
   
 
@@ -167,11 +167,11 @@ export default function Allforms(){
                 </div>
 
                 <div className='buttonFormRow'>
-                    <button className='newFormButton' onClick={() => goToNewForm()}>
+                    <button className='createNFormButton' onClick={() => goToNewForm()} >
                         Create New Form
                     </button>
 
-                    <button className='newFormButton' onClick={() => goToNewNotice()}>
+                    <button className='createNoticeButton' onClick={() => goToNewNotice()}>
                         Create Notice
                     </button>
                 </div>

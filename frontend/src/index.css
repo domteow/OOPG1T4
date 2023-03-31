@@ -715,6 +715,29 @@ input:disabled {
     border: 1px solid #1073b0
 }
 
+.createNoticeButton{
+    width:15%;
+    padding: 1%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #066FB0;
+    color: #EDFFFE;
+    border: 1px solid #1073b0;
+    margin-left: 0.5%;
+}
+
+.createNFormButton{
+    width:15%;
+    padding: 1%;
+    border-radius: 5px;
+    box-shadow: rgba(100, 106, 112, 0.2) 0px 8px 24px;
+    background-color: #066FB0;
+    color: #EDFFFE;
+    border: 1px solid #1073b0;
+    margin-right: 0.5%;
+}
+
+
 .editForm{
     width:90%;
     padding: 3%;
