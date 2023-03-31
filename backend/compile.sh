@@ -1,2 +1,4 @@
-export PATH=/Applications/MAMP/htdocs/apache-maven-3.9.1/bin:$PATH
+echo "Enter the path:"
+read path
+export PATH=$path:$PATH
 mvn clean compile
