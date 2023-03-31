@@ -107,26 +107,33 @@ export default function Homepage() {
         setAllForms(response.data.data)
         // store locally for the stuff below
         const allforms = response.data.data
+        let tempCompletedForms = [];
+        let tempIncompleteForms = [];
+        let tempReadOnlyForms = [];
+        let tempApprovedForms = [];
         allforms.forEach(form => {
           console.log(form)
           if(form['status'] === 'complete'){
-            setCompletedForms(prevCompletedForms => ([...prevCompletedForms, form]))
+            tempCompletedForms.push(form)
             console.log(completedForms)
           }
           else if(form['status'] === 'incomplete'){
-            setIncompleteForms(prevIncompleteForms => ([...prevIncompleteForms, form]))
+            tempIncompleteForms.push(form)
             console.log(incompleteForms)
           }
           else if(form['status'] === 'readonly'){
-            setReadOnlyForms(prevReadOnlyForms => ([...prevReadOnlyForms, form]))
+            tempReadOnlyForms.push(form)
             console.log(readOnlyForms)
           }
           else if (form['status'] === 'approved'){
-            setApprovedForms(prevApprovedForms => ([...prevApprovedForms, form]))
+            tempApprovedForms.push(form)
             console.log(readOnlyForms)
           }
         });
-        
+        setCompletedForms(tempCompletedForms);
+        setIncompleteForms(tempIncompleteForms);
+        setReadOnlyForms(tempReadOnlyForms);
+        setApprovedForms(tempApprovedForms);
       } catch (error) {
 
       }
@@ -237,7 +244,7 @@ export default function Homepage() {
                     const assignedTo = form.pendingUserInput;
                     if (assignedTo === 'Admin'){
                       return (
-                        <Row className='formRow' key={form}>
+                        <Row className='formRow' key={form.formCode}>
                           <Col xs={12} md={8} className='homepageFormDetails'>
                             <div className='homepageFormName'>
                               {form.description}
@@ -270,6 +277,7 @@ export default function Homepage() {
 
                 <AccordionDetails>
                   <Container >
+                  {console.log(incompleteForms)}
                   {incompleteForms.map((form, i) => {
                     console.log(form);
                     const assignedTo = form.pendingUserInput;
@@ -277,7 +285,7 @@ export default function Homepage() {
                       console.log('hi')
                       console.log(form.description);
                       return (
-                        <Row className='formRow' key={form}>
+                        <Row className='formRow' key={form.formCode}>
                           <Col xs={12} md={8} className='homepageFormDetails'>
                             <div className='homepageFormName'>
                               {form.description}
