@@ -103,12 +103,6 @@ export default function FormEdit(){
                 setFormCode(response.data.data.formCode);
                 setEffectiveDate(response.data.data.effectiveDate);
                 setInitialQuestionnaire(response.data.data.questionnaires);
-                // response.data.data.questionnaires.map((item, i) => {
-                //     console.log(countIni)
-                //     const newD = {...item, countIni:countIni}
-                //     setInitialQuestionnaire((prev) => [...prev, newD]);
-                // })
-                // setCountIni(prev => prev + 1);
             }
             catch(error){
                 console.log(error);

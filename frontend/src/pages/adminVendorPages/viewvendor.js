@@ -247,8 +247,8 @@ export default function Viewvendor(){
     // end of delete 
 
     // pdf 
-    const getPdf = async(formId) => {
-      const pdfName = "form_id_" + formId + '.pdf'
+    const getPdf = async(formId, formCode) => {
+      const pdfName = name + "_" + formCode + '.pdf'
       try{
       axios({
         url: 'api/v1/pdf/generatePDF/' + formId, //your url
@@ -346,7 +346,7 @@ export default function Viewvendor(){
                       </button>
                     </Col>
                     <Col xs={6} md={2} xl={2}>
-                      <button className='formButton' onClick={() => getPdf(form.id)} size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}}>
+                      <button className='formButton' onClick={() => getPdf(form.id, form.formCode)} size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}}>
                         Generate PDF
                       </button>
                     </Col>
