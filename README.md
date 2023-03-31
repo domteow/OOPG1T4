@@ -25,9 +25,9 @@ To configure CMS, follow these steps:
 - Change the value of the spring.data.mongodb.uri property to the URI of your MongoDB instance.
 
 ## Usage ##
-To use My Web App, follow these steps (MacOS):
+To use My Web App, follow these steps (MacOS/Windows):
 - Open your terminal and navigate to the OOPG1T4/backend folder
-- In your terminal run this command "sh build.sh"
+- In your terminal run this command "sh build.sh" for MacOS and "build.bat" for Windows.
 - You will then be promopted to enter a path. This path is the path of the bin folder within the apache-maven-3.9.1 folder which you have installed earlier
 - Wait for the installations to complete and springboot to start up. 
 - Open your web browser and navigate to the [Login Page](http://localhost:3000/react/login).
