@@ -6,7 +6,7 @@ Form Application System (FMS) is a data capture web application for Quantum Leap
 This is the first release of FMS which contains its core functionalities as provided by the sponsor.
 
 ## Installation ##
-To install FMS, follow these steps (for MacOS):
+To install FMS, follow these steps:
 -   Clone this repository to your local machine.
 -   Install Node.js from https://nodejs.org/
 -   Follow the installation instructions on your local machine
@@ -25,7 +25,7 @@ To configure CMS, follow these steps:
 - Change the value of the spring.data.mongodb.uri property to the URI of your MongoDB instance.
 
 ## Usage ##
-To use My Web App, follow these steps:
+To use My Web App, follow these steps (MacOS):
 - Open your terminal and navigate to the OOPG1T4/backend folder
 - In your terminal run this command "sh build.sh"
 - You will then be promopted to enter a path. This path is the path of the bin folder within the apache-maven-3.9.1 folder which you have installed earlier
