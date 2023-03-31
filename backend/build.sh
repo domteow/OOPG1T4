@@ -1,8 +1,7 @@
 echo "Enter the path:"
 read path
 export PATH=$path:$PATH
-cd ..
-cd frontend
+cd ../frontend
 npm install
 npm start &
 sleep 10
