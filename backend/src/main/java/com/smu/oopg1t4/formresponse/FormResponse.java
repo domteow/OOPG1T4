@@ -19,7 +19,7 @@ public class FormResponse extends Form {
     @JsonProperty("ownerId")
     private int ownerId; // Tagged to whoever the form is for. (vendorId)
     private String pendingUserInput;
-    private int questionnairesCompleted = 0; // Frontend will block inputs to n-1 questionnairesCompleted (?)
+    private int questionnairesCompleted = 0;
     private String status; // incomplete, complete, approved, rejected
     private int templateId;
 

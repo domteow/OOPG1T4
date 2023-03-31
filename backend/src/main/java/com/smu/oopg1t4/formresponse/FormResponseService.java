@@ -56,8 +56,6 @@ public class FormResponseService {
         this.emailService = emailService;
     }
 
-
-    //get forms by vendor id
     public ResponseEntity<?> getFormByVendorID(int ownerId) {
         List<FormResponse> forms = formResponseRepository.getFormByVendorID(ownerId);
         if (forms.isEmpty()) {
@@ -141,21 +139,15 @@ public class FormResponseService {
         //Pop first index of workflow and get the removed element
         int numQuestionnairesSubmitted = formResponseToUpdate.getWorkflow().remove(0);
 
-        //set status (incomplete/complete/approved)
-//        if (formResponseToUpdate.getWorkflow().size() == 1){
-//            formResponseToUpdate.setStatus("complete");
-//        }
+        //set new status
         if (formResponseToUpdate.getWorkflow().size() == 0){
             formResponseToUpdate.setStatus("approved");
         }
         //Add to questionnaires completed
         formResponseToUpdate.setQuestionnairesCompleted(formResponseToUpdate.getQuestionnairesCompleted() + numQuestionnairesSubmitted);
 
-
-
         //Update pendingUserInput
         if (formResponseToUpdate.getWorkflow().size()!= 0) {
-            //Add to upTo (for frontend use)
             formResponseToUpdate.setUpTo(formResponseToUpdate.getUpTo() + formResponseToUpdate.getWorkflow().get(0));
 
             String nextRoleRequired = updatedFormResponse.getQuestionnaires().get(formResponseToUpdate.getQuestionnairesCompleted()).getRoleRequired();
@@ -179,7 +171,7 @@ public class FormResponseService {
     }
 
     public ResponseEntity<StatusResponse> saveFormResponseAsDraft(int formId, FormResponse formResponseDraft) {
-        // Only updating questionnaire. pendingUserInput, workflow, upTo all remains same. (since current user still working on it)
+
         try{
             Optional<FormResponse> formResponseToUpdate = formResponseRepository.findById(formId);
             if (formResponseToUpdate.isPresent()){
@@ -231,7 +223,6 @@ public class FormResponseService {
     private void rejectFormResponse(FormResponse formResponseToReject, RejectionResponse rejectionResponse) throws FormNotFoundException,Exception {
         //Get template questionnaires
         ArrayList<Questionnaire> templateQuestionnaires = formService.getFormById(formResponseToReject.getTemplateId()).getQuestionnaires();
-
 
         //reset questionnaires
         formResponseToReject.setQuestionnaires(templateQuestionnaires);
@@ -287,7 +278,6 @@ public class FormResponseService {
 
         //3. Create Email object
         Email rejectionEmail = new Email(ownerEmail, rejectionSubject, rejectionBody);
-        //4. Send the Email
 
         //4. Send the Email
         emailService.sendMail(rejectionEmail);
