@@ -10,7 +10,7 @@
 
 /* FOR THE TITLE PORTION W THE GREY LINE BELOW IT */
 .mainContent{
-    width: 93%;
+    width: 90%;
     margin-left: auto;
     margin-right: auto;
     padding-bottom: 3%;
@@ -660,7 +660,7 @@ input{
 
 /* ALL FORM PAGE */
 .allFormContent{
-    width: 95%;
+    width: 90%;
     margin-left: auto;
     margin-right: auto;
 }
