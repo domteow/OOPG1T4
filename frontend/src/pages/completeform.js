@@ -148,6 +148,8 @@ export default function Formpage() {
                 console.log(fields);
                 fields.map((field, i) => {
                     const val = field.value;
+                    console.log(field)
+                    console.log(val);
                     if (field.type != 'subheader' && field.type != 'header' && field.type != 'subtext'){
                         if (val == null){
                             count = count + 1;
