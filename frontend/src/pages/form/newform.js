@@ -250,29 +250,43 @@ export default function Newform(){
     const validateFields = (questionnaires) => {
         console.log(questionnaires);
         let count = 0;
+        
         questionnaires.map((questionnaire,i) => {
             if (questionnaire.name != '' && questionnaire.name != null){
+                let qcount = 0;
                 const fields = questionnaire.fields;
+                console.log(questionnaire);
                 fields.map((field,i)=>{
                     if (field.type == 'radio' || field.type == 'checkbox' || field.type == 'select'){
                         if (field.name != '' && field.name != null){
                             const opts = field.options;
                             opts.map((options) => {
                                 if (options.length > 0 && options != null){
-                                    count = count + 1;
+                                    // count = count + 1;
+                                    qcount = qcount + 1;
                                 }
                             })
                         }
                     }
                     else{
                         console.log(field.name);
+                        console.log(field.name != null && field.name!='')
                         if (field.name != null && field.name != ''){
-                            count = count + 1;
+                            // count = count + 1;
+                            qcount = qcount + 1;
                         }
                     }
                 })
+                console.log(qcount);
+                console.log(fields.length);
+                if (qcount == fields.length){
+                    count = count +1;
+                }
             }
         })
+
+        console.log(count);
+        console.log(questionnaires.length);
 
         if(count == questionnaires.length){
             return true;

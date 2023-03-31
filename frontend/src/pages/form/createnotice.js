@@ -43,6 +43,7 @@ export default function Notice(){
     const [effectiveDate, setEffectiveDate] = useState("");
     const navigate = useNavigate();
     const [openError, setOpenError] = useState(false);
+    const [errorMessage, setErrormessage] = useState();
 
     const handleClose = (value) => {
         setCounter((prev) => prev+1);
@@ -193,6 +194,25 @@ export default function Notice(){
         }
     }
 
+    const validateFields = (details) => {
+       
+        let count = 0;
+        details.map((detail,i) => {
+            if (detail.name != null && detail.name != ''){
+                count = count + 1;
+            }
+        })
+
+        if(count == details.length){
+            return true;
+        }
+        else{
+            setErrormessage('Error! Some fields are missing.')
+            setOpenError(true);
+            window.scrollTo({top: 0, left: 0, behavior: 'smooth'});   
+        }
+    }
+
 
     const data = {
         description: formName,
@@ -216,9 +236,10 @@ export default function Notice(){
 
         const isFormName = validateFormName(formName);
         const isFormCode = validateFormCode(formCode);
+        const isFields = validateFields(details);
         // const isDate = validateDate(effectiveDate);
         
-        if (isFormName && isFormCode){
+        if (isFormName && isFormCode && isFields){
             handleSubmitNewForm();
         }
     }
@@ -234,6 +255,7 @@ export default function Notice(){
             }
         } catch (error) {
             console.log(error);
+            setErrormessage('Error! Form with form code already exists')
             setOpenError(true);
             window.scrollTo({top: 0, left: 0, behavior: 'smooth'});   
         }
@@ -335,7 +357,7 @@ export default function Notice(){
                         }
                         sx={{ mb: 2 }}
                         >
-                        Error! Form with form code already exists. 
+                        {errorMessage} 
                         </Alert>
                     </Collapse>
                 </Box>

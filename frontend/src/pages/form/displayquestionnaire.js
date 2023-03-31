@@ -270,7 +270,7 @@ const DisplayQuestionnaire = ({initialDetails, key, value}) => {
                 </>
             )
         }
-        else if (itemType === 'subtext' || itemType === 'Sub Text'){
+        else if (itemType === 'subtext' || itemType === 'Subtext'){
             return(
                 <>
                     <div className='radioOption'>
