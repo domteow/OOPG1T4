@@ -193,7 +193,7 @@ export default function Notice(){
         formStatus: 'readonly',
         effectiveDate: effectiveDate,
         questionnaires: [{
-            fields: [details],
+            fields: details,
             name: 'Read Only Notice'
         }],
         revisionNo: 1
