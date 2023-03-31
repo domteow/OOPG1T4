@@ -27,7 +27,7 @@ const DisplayQuestionnaire = ({initialDetails, key, value}) => {
     const [inputList, setInputList] = useState(fields);
     const [questionnaireName, setQuestionnaireName] = useState(value.name);
     const [details, setDetails] = useState(fields);
-    const assign = value.roleRequired.toLowerCase();
+    const assign = value.roleRequired
     const [assigned, setAssigned] = useState(assign);
     const [prevFields, setPreviousFields] = useState(fields);
     const [prevAssign, setPreviousAssign] = useState(assign);
