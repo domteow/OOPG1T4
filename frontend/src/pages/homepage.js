@@ -118,8 +118,14 @@ export default function Homepage() {
             console.log(completedForms)
           }
           else if(form['status'] === 'incomplete'){
-            tempIncompleteForms.push(form)
-            console.log(incompleteForms)
+            if (form.formStatus == 'readonly'){
+              tempReadOnlyForms.push(form)
+              console.log(readOnlyForms)
+            }
+            else{
+              tempIncompleteForms.push(form)
+              console.log(incompleteForms)
+            }            
           }
           else if(form['status'] === 'readonly'){
             tempReadOnlyForms.push(form)
