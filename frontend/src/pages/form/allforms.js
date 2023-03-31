@@ -359,12 +359,12 @@ export default function Allforms(){
                                             </Col>
                                             <Col xs={12} md={2} className='headerCenter'>
                                                 <button className='viewForm' onClick={() => goToNotice(formId)}>
-                                                    View Form
+                                                    View Notice
                                                 </button>
                                             </Col>
                                             <Col xs={12} md={2} className='headerCenter'>
-                                                <button className='editForm' onClick={() => editForm(formId)}>
-                                                    Edit Form
+                                                <button className='editForm' onClick={() => editNotice(formId)}>
+                                                    Edit Notice
                                                 </button>
                                             </Col>
                                             <Col xs={12} md={1} className='headerCenter'>

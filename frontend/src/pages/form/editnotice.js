@@ -308,7 +308,7 @@ export default function EditNotice() {
             )
         }
 
-        else if (type === 'text field'){
+        else if (type === 'text'){
             return(
                 <>
                     <>
