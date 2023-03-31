@@ -142,9 +142,9 @@ public class FormResponseService {
         int numQuestionnairesSubmitted = formResponseToUpdate.getWorkflow().remove(0);
 
         //set status (incomplete/complete/approved)
-        if (formResponseToUpdate.getWorkflow().size() == 1){
-            formResponseToUpdate.setStatus("complete");
-        }
+//        if (formResponseToUpdate.getWorkflow().size() == 1){
+//            formResponseToUpdate.setStatus("complete");
+//        }
         if (formResponseToUpdate.getWorkflow().size() == 0){
             formResponseToUpdate.setStatus("approved");
         }
@@ -160,6 +160,9 @@ public class FormResponseService {
 
             String nextRoleRequired = updatedFormResponse.getQuestionnaires().get(formResponseToUpdate.getQuestionnairesCompleted()).getRoleRequired();
             formResponseToUpdate.setPendingUserInput(nextRoleRequired);
+            if (nextRoleRequired.equals("Approver")){
+                formResponseToUpdate.setStatus("complete");
+            }
         }
 
         //update questionnaires
