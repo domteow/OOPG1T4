@@ -68,31 +68,46 @@ export default function Viewvendor(){
         // store locally for the stuff below
         
         const allforms = response.data.data
+        let tempCompletedForms = [];
+        let tempIncompleteForms = [];
+        let tempReadOnlyForms = [];
+        let tempApprovedForms = [];
         console.log(allforms);
         allforms.forEach(form => {
           if(form.status === 'complete'){
-            setCompletedForms(prevCompletedForms => ([...prevCompletedForms, form]))
-           
+            //setCompletedForms(prevCompletedForms => ([...prevCompletedForms, form]))
+            tempCompletedForms.push(form)
+            console.log(completedForms)
           }
           else if(form.status === 'incomplete'){
             if (form.formStatus == 'readonly'){
-              setReadOnlyForms(prevReadOnlyForms => ([...prevReadOnlyForms, form]))
+              //setReadOnlyForms(prevReadOnlyForms => ([...prevReadOnlyForms, form]))
+              tempReadOnlyForms.push(form)
+              console.log(readOnlyForms)
             }
             else{
-              setIncompleteForms(prevIncompleteForms => ([...prevIncompleteForms, form]))
+              //setIncompleteForms(prevIncompleteForms => ([...prevIncompleteForms, form]))
+              tempIncompleteForms.push(form)
+              console.log(incompleteForms)
             }
             
           
           }
           else if(form.status === 'readonly'){
-            setReadOnlyForms(prevReadOnlyForms => ([...prevReadOnlyForms, form]))
-           
+            //setReadOnlyForms(prevReadOnlyForms => ([...prevReadOnlyForms, form]))
+            tempReadOnlyForms.push(form)
+            console.log(readOnlyForms)
           }
           else if (form.status === 'approved'){
-            setApprovedForms(prevApprovedForms => ([...prevApprovedForms, form]))
-          
+            //setApprovedForms(prevApprovedForms => ([...prevApprovedForms, form]))
+            tempApprovedForms.push(form)
+            console.log(readOnlyForms)
           }
         });
+        setCompletedForms(tempCompletedForms);
+        setIncompleteForms(tempIncompleteForms);
+        setReadOnlyForms(tempReadOnlyForms);
+        setApprovedForms(tempApprovedForms);
         
       } catch (error) {
 
@@ -394,7 +409,7 @@ export default function Viewvendor(){
                         const formStatus = form.pendingUserInput;
                         if (formStatus === 'Admin'){
                           return (
-                            <Row className='formRow'>
+                            <Row className='formRow' key={form.formCode}>
                               <Col xs={12} md={7} className='homepageFormDetails'>
                                 <div className='homepageFormName'>
                                   {form.description}
@@ -440,7 +455,7 @@ export default function Viewvendor(){
                         const formStatus = form.pendingUserInput;
                         if (formStatus === 'Vendor'){
                           return (
-                            <Row className='formRow'>
+                            <Row className='formRow' key={form.formCode}>
                               <Col xs={12} md={7} className='homepageFormDetails'>
                                 <div className='homepageFormName'>
                                   {form.description}

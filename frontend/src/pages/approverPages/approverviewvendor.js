@@ -72,25 +72,50 @@ export default function ApproverViewVendor(){
         // store locally for the stuff below
         
         const allforms = response.data.data
+        let tempCompletedForms = [];
+        let tempIncompleteForms = [];
+        let tempReadOnlyForms = [];
+        let tempApprovedForms = [];
         allforms.forEach(form => {
           console.log(form)
           if(form.status === 'complete'){
-            setCompletedForms(prevCompletedForms => ([...prevCompletedForms, form]))
+            //setCompletedForms(prevCompletedForms => ([...prevCompletedForms, form]))
+            tempCompletedForms.push(form)
+            console.log(completedForms)
           }
 
           else if(form.status === 'incomplete'){
-            setIncompleteForms(prevIncompleteForms => ([...prevIncompleteForms, form]))
+            //setIncompleteForms(prevIncompleteForms => ([...prevIncompleteForms, form]))
+            if (form.formStatus == 'readonly'){
+              //setReadOnlyForms(prevReadOnlyForms => ([...prevReadOnlyForms, form]))
+              tempReadOnlyForms.push(form)
+              console.log(readOnlyForms)
+            }
+            else{
+              //setIncompleteForms(prevIncompleteForms => ([...prevIncompleteForms, form]))
+              tempIncompleteForms.push(form)
+              console.log(incompleteForms)
+            }
           }
 
           else if(form.status === 'readonly'){
-            setReadOnlyForms(prevReadOnlyForms => ([...prevReadOnlyForms, form]))
+            //setReadOnlyForms(prevReadOnlyForms => ([...prevReadOnlyForms, form]))
+            tempReadOnlyForms.push(form)
+            console.log(readOnlyForms)
           }
 
           else if (form.status === 'approved'){
-            setApprovedForms(prevApprovedForms => ([...prevApprovedForms, form]))
+            //setApprovedForms(prevApprovedForms => ([...prevApprovedForms, form]))
+            tempApprovedForms.push(form)
+            console.log(readOnlyForms)
           }
         });
         
+        setCompletedForms(tempCompletedForms);
+        setIncompleteForms(tempIncompleteForms);
+        setReadOnlyForms(tempReadOnlyForms);
+        setApprovedForms(tempApprovedForms);
+
       } catch (error) {
         console.log(error);
       }
@@ -388,7 +413,7 @@ export default function ApproverViewVendor(){
                 <Container className='displayAllForms'>
                     {readOnlyForms.map((form, index) => {
                     return(
-                      <Row className='formRow'>
+                      <Row className='formRow' >
                           <Col xs={12} md={9} className='homepageFormDetails'>
                             <div className='homepageFormName'>
                                 {form.description}
@@ -431,7 +456,7 @@ export default function ApproverViewVendor(){
                             const formStatus = form.pendingUserInput;
                             if (formStatus === 'Admin'){
                             return (
-                                <Row className='formRow'>
+                                <Row className='formRow'  key={form.formCode}>
                                   <Col xs={12} md={9} className='homepageFormDetails'>
                                       <div className='homepageFormName'>
                                         {form.description}
@@ -472,7 +497,7 @@ export default function ApproverViewVendor(){
                                     const formStatus = form.pendingUserInput;
                                     if (formStatus === 'Vendor'){
                                         return (
-                                            <Row className='formRow'>
+                                            <Row className='formRow'  key={form.formCode}>
                                             <Col xs={12} md={7} className='homepageFormDetails'>
                                                 <div className='homepageFormName'>
                                                   {form.description}

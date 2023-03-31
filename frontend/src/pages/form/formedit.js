@@ -20,6 +20,13 @@ import Select from './select';
 import Questionnaire from './questionnaire';
 import CircularProgress from '@mui/material/CircularProgress';
 
+import Collapse from '@mui/material/Collapse';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import NewQuestionnaire from './newquestionnaire';
+import Alert from '@mui/material/Alert';
+
 export default function FormEdit(){
     const formId = useParams().formId;
     const options = ['New Questionnaire'];
@@ -38,6 +45,8 @@ export default function FormEdit(){
     const [count, setCount] = useState(0);
     const [prevQ, setPrevQ] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [openError, setOpenError] = useState(false);
+    const [errormessage, setErrormessage] = useState(null);
     
 
     const getAllQuestionnaires = async() =>{
@@ -191,7 +200,29 @@ export default function FormEdit(){
         revisionNo: form.revisionNo + 1
     }
     console.log(submitdata)
-    const handleUpdateForm = async() => {
+
+    const validateQuestionnaire = (questionnaire) => {
+        const question = questionnaire[questionnaire.length - 1];
+        const rolereq = question.roleRequired;
+        if (rolereq == 'Approver'){
+            return true;
+        }
+        else{
+            setErrormessage('Error! Form should end with a questionnaire for Approver.');
+            setOpenError(true);
+            window.scrollTo({top: 0, left: 0, behavior: 'smooth'});  
+        }
+    }
+
+    const handleUpdateForm = () => {
+        const isQuestionnaire = validateQuestionnaire([...initialQuestionnaire, ...formData]);
+        if (isQuestionnaire) {
+            handleSubmitForm()
+        }
+
+    }
+
+    const handleSubmitForm = async() => {
         // console.log("DOM DOM DO THIS");
 
         try {
@@ -204,6 +235,9 @@ export default function FormEdit(){
             }
         } catch (error) {
             console.log(error);
+            setErrormessage('Error! Form with form code already exists.')
+            setOpenError(true);
+            window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
         }
     }
 
@@ -212,7 +246,8 @@ export default function FormEdit(){
     }
  
     const renderInputField = (item, i) =>{
-        
+        console.log(item);
+        console.log(count);
         if(item === 'New Questionnaire'){
             
             return(
@@ -238,8 +273,8 @@ export default function FormEdit(){
             // to display an existing questionnaire 
             return (
                 <>
-                    <Questionnaire id={count}/>
-                    <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveInputField(count)}>
+                    <Questionnaire id={item}/>
+                    <button className='deleteQuestionnaireButton' onClick={()=>handleRemoveInputField(i)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Questionnaire
                     </button>
                 </>
@@ -264,6 +299,29 @@ export default function FormEdit(){
     return(
         <>
             <Navbar />
+
+            <Box sx={{ width: '100%' }}>
+                    <Collapse in={openError}>
+                        <Alert
+                        severity="error"
+                        action={
+                            <IconButton
+                            aria-label="close"
+                            color="inherit"
+                            size="small"
+                            onClick={() => {
+                                setOpenError(false);
+                            }}
+                            >
+                            <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                        }
+                        sx={{ mb: 2 }}
+                        >
+                            {errormessage}
+                        </Alert>
+                    </Collapse>
+                </Box>
             
             <div>
                 <div className = 'standardInputForm'>
