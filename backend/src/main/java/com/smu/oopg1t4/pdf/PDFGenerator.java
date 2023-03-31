@@ -42,7 +42,7 @@ public class PDFGenerator {
         document.open();
 
         // Add logo
-        Image png = Image.getInstance("backend\\src\\main\\java\\com\\smu\\oopg1t4\\pdf\\image.png");
+        Image png = Image.getInstance("src\\main\\java\\com\\smu\\oopg1t4\\pdf\\image.png");
         png.setAlignment(Paragraph.ALIGN_CENTER);
 
         document.add(png);
