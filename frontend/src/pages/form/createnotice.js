@@ -17,8 +17,14 @@ import CreateQuestionnaire from './createquestionnaire';
 import Questionnaire from './questionnaire';
 import RadioButton from './radiobutton';
 import Select from './select';
-
+import Collapse from '@mui/material/Collapse';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import NewQuestionnaire from './newquestionnaire';
+import Alert from '@mui/material/Alert';
+
+
 
 const options = ['Header', 'Sub Header', 'Subtext', 'Text Field'];
 
@@ -36,6 +42,7 @@ export default function Notice(){
     const [selectedValue, setSelectedValue] = useState(options[1]);
     const [effectiveDate, setEffectiveDate] = useState("");
     const navigate = useNavigate();
+    const [openError, setOpenError] = useState(false);
 
     const handleClose = (value) => {
         setCounter((prev) => prev+1);
@@ -227,6 +234,8 @@ export default function Notice(){
             }
         } catch (error) {
             console.log(error);
+            setOpenError(true);
+            window.scrollTo({top: 0, left: 0, behavior: 'smooth'});   
         }
     }
 
@@ -308,6 +317,28 @@ export default function Notice(){
         return(
         <>
             <Navbar />
+            <Box sx={{ width: '100%' }}>
+                    <Collapse in={openError}>
+                        <Alert
+                        severity="error"
+                        action={
+                            <IconButton
+                            aria-label="close"
+                            color="inherit"
+                            size="small"
+                            onClick={() => {
+                                setOpenError(false);
+                            }}
+                            >
+                            <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                        }
+                        sx={{ mb: 2 }}
+                        >
+                        Error! Form with form code already exists. 
+                        </Alert>
+                    </Collapse>
+                </Box>
 
             <div className='newFormContent'>
                 <div className='newformheader'>
@@ -370,6 +401,7 @@ export default function Notice(){
                         </Container>
                     </FormControl>
                         <div>
+                            <div className='noticecontent'>
                             {inputList.map((item, i)=>{
                                 console.log(item);
                                 return(
@@ -378,6 +410,7 @@ export default function Notice(){
                                     </div>
                                 )
                             })}
+                            </div>
                         </div>
 
                         <button onClick={handleClickOpen} className='dialogueButton'>

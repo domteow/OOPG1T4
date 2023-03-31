@@ -196,6 +196,7 @@ export default function NewVendor(){
         catch (error){
             setIsLoading(false);
             setOpen(true);
+            window.scrollTo({top: 0, left: 0, behavior: 'smooth'}); 
         }
     }
 
