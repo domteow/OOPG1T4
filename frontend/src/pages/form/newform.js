@@ -247,6 +247,43 @@ export default function Newform(){
         }
     }
 
+    const validateFields = (questionnaires) => {
+        console.log(questionnaires);
+        let count = 0;
+        questionnaires.map((questionnaire,i) => {
+            if (questionnaire.name != '' && questionnaire.name != null){
+                const fields = questionnaire.fields;
+                fields.map((field,i)=>{
+                    if (field.type == 'radio' || field.type == 'checkbox' || field.type == 'select'){
+                        if (field.name != '' && field.name != null){
+                            const opts = field.options;
+                            opts.map((options) => {
+                                if (options.length > 0 && options != null){
+                                    count = count + 1;
+                                }
+                            })
+                        }
+                    }
+                    else{
+                        console.log(field.name);
+                        if (field.name != null && field.name != ''){
+                            count = count + 1;
+                        }
+                    }
+                })
+            }
+        })
+
+        if(count == questionnaires.length){
+            return true;
+        }
+        else{
+            setErrormessage('Error! Some fields are missing.')
+            setOpenError(true);
+            window.scrollTo({top: 0, left: 0, behavior: 'smooth'});   
+        }
+    }
+
     const handleCreateForm = () => {
         setFormNameError(null);
         setFormCodeError(null);
@@ -254,9 +291,11 @@ export default function Newform(){
         const isQuestionnaire = validateQuestionnaire(formData);
         const isFormName = validateFormName(formName);
         const isFormCode = validateFormCode(formCode);
+        const isFields = validateFields(formData);
         // const isDate = validateDate(effectiveDate);
+        console.log(isFields);
         
-        if (isFormName && isFormCode && isQuestionnaire){
+        if (isFormName && isFormCode && isQuestionnaire && isFields){
             handleSubmitNewForm();
         }
     }
