@@ -156,7 +156,9 @@ export default function Allforms(){
         navigate('/react/viewonlynotice/'+formId);
       }
   
-
+    const editNotice = (formId) => {
+        navigate('/react/editnotice/' + formId);
+    }
     return(
         <>
             <Navbar />
@@ -283,11 +285,13 @@ export default function Allforms(){
                                         </Col>
                                         <Col xs={12} md={2} className='headerCenter'>
                                             <button className='viewForm' onClick={() => goToNotice(formId)}>
-                                                View Form
+                                                View Notice
                                             </button>
                                         </Col>
                                         <Col xs={12} md={2} className='headerCenter'>
-                                            
+                                            <button className='viewForm' onClick={() => editNotice(formId)}>
+                                                Edit Notice
+                                            </button>
                                         </Col>
                                         <Col xs={12} md={1} className='headerCenter'>
                                             <Switch
@@ -359,7 +363,9 @@ export default function Allforms(){
                                                 </button>
                                             </Col>
                                             <Col xs={12} md={2} className='headerCenter'>
-                                                
+                                                <button className='editForm' onClick={() => editForm(formId)}>
+                                                    Edit Form
+                                                </button>
                                             </Col>
                                             <Col xs={12} md={1} className='headerCenter'>
                                                 <Switch
@@ -428,11 +434,13 @@ export default function Allforms(){
                                             </Col>
                                             <Col xs={12} md={2} className='headerCenter'>
                                                 <button className='viewForm' onClick={() => goToNotice(formId)}>
-                                                    View Form
+                                                    View Notice
                                                 </button>
                                             </Col>
                                             <Col xs={12} md={2} className='headerCenter'>
-                                                
+                                                <button className='viewForm' onClick={() => editNotice(formId)}>
+                                                    Edit Notice
+                                                </button>
                                             </Col>
                                             <Col xs={12} md={1} className='headerCenter'>
                                                 <Switch
@@ -543,11 +551,13 @@ export default function Allforms(){
                                         </Col>
                                         <Col xs={12} md={2} className='headerCenter'>
                                             <button className='viewForm' onClick={() => goToNotice(formId)}>
-                                                View Form
+                                                View Notice
                                             </button>
                                         </Col>
                                         <Col xs={12} md={2} className='headerCenter'>
-                                            
+                                            <button className='viewForm' onClick={() => editNotice(formId)}>
+                                                Edit Notice
+                                            </button>
                                         </Col>
                                         <Col xs={12} md={1} className='headerCenter'>
                                             <Switch

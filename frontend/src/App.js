@@ -26,7 +26,7 @@ import ViewForm from './pages/form/viewonlyform'
 // import EditForm from './pages/form/editform'
 import AssignForm from './pages/form/assignform'
 import Notice from "./pages/form/createnotice";
-import DisplayNotice from "./pages/form/dispalyNotice";
+import DisplayNotice from "./pages/form/displayNotice";
 import ViewOnlyNotice from "./pages/form/viewonlynotice";
 
 // ======== vendors ========
@@ -48,6 +48,7 @@ import CompletedForm from "./pages/form/completedForm";
 import Pdf from "./pages/pdf/pdf";
 
 import FormEdit from './pages/form/formedit';
+import EditNotice from "./pages/form/editnotice";
 
 export default function App(){
     
@@ -78,6 +79,7 @@ export default function App(){
                 <Route exact path='/react/newnotice' element={<Notice/>}/>
                 <Route exact path='/react/displaynotice/:formId' element={<DisplayNotice/>}/> 
                 <Route exact path='/react/viewonlynotice/:formId' element={<ViewOnlyNotice/>}/> 
+                <Route exact path='/react/editnotice/:formId' element={<EditNotice/>}/>
             </Routes>
             </div>
         </BrowserRouter>
