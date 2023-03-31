@@ -235,6 +235,10 @@ export default function ApproverViewVendor(){
       </React.Fragment>
     );
 
+    const goToNotice = (formId) => {
+      navigate('/react/displaynotice/'+formId);
+    }
+
     const seeForm = (formId) => {
       navigate('/react/viewcompletedform/' + formId);
     }
@@ -394,7 +398,7 @@ export default function ApproverViewVendor(){
                             </div>
                           </Col>
                           <Col xs={6} md={2} xl={2}>
-                            <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => seeForm(form.id)}>
+                            <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToNotice(form.id)}>
                                 View Form
                             </button>
                           </Col>
