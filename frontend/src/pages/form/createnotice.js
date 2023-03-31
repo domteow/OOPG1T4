@@ -310,7 +310,7 @@ export default function Notice(){
 
             <div className='newFormContent'>
                 <div className='newformheader'>
-                    New Form
+                    New Notice
                 </div>
 
                 <div className = 'standardInputForm'>

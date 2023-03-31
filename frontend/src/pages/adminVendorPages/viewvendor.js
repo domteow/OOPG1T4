@@ -112,6 +112,10 @@ export default function Viewvendor(){
       }, 3000)
     }
 
+    const goToNotice = (formId) => {
+      navigate('/react/displaynotice/'+formId);
+    }
+
     const handleCloseMsg = (event, reason) => {
       if (reason === 'clickaway') {
       return;
@@ -351,7 +355,7 @@ export default function Viewvendor(){
                       </div>
                     </Col>
                     <Col xs={6} md={2} xl={2}>
-                      <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => seeForm(form.id)}>
+                      <button className='formButton' size="lg" style={{backgroundColor: '#066FB0', color: '#edfffe', fontStyle:'none'}} onClick={() => goToNotice(form.id)}>
                         View Form
                       </button>
                     </Col>

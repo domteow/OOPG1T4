@@ -145,6 +145,10 @@ export default function Homepage() {
     }
     console.log(incompleteForms);
 
+    const goToNotice = (formId) => {
+      navigate('/react/displaynotice/'+formId);
+    }
+
     const action = (
       <React.Fragment>
         <IconButton
@@ -212,7 +216,7 @@ export default function Homepage() {
                         </div>
                       </Col>
                       <Col xs={6} md={4} xl={2}>
-                        <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToForm(form.id)}>
+                        <button className='formButton' size="lg" style={{backgroundColor: '#7f7f7f', color: '#edfffe', fontStyle:'none'}} onClick={() => goToNotice(form.id)}>
                           View Form
                         </button>
                       </Col>
