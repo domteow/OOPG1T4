@@ -111,4 +111,12 @@ public class Field<T> {
     public void setOptions(List<String> options) {
         this.options = options;
     }
+
+    public boolean getOthers() {
+        return others;
+    }
+
+    public void setOthers(boolean others) {
+        this.others = others;
+    }
 }
