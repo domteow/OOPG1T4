@@ -98,6 +98,7 @@ export default function FormEdit(){
         const getAllForms = async() =>{
             try{
                 const response = await axios.get("/api/v1/form/get/id/" + formId)
+                console.log(response.data.data);
                 setForm(response.data.data);
                 setFormName(response.data.data.description);
                 setFormCode(response.data.data.formCode);
@@ -196,8 +197,10 @@ export default function FormEdit(){
     console.log(submitdata)
 
     const validateQuestionnaire = (questionnaire) => {
+        console.log(questionnaire);
         const question = questionnaire[questionnaire.length - 1];
         const rolereq = question.roleRequired;
+        console.log(rolereq);
         if (rolereq == 'Approver'){
             return true;
         }
@@ -221,12 +224,17 @@ export default function FormEdit(){
                     if (field.type == 'radio' || field.type == 'checkbox' || field.type == 'select'){
                         if (field.name != '' && field.name != null){
                             const opts = field.options;
+                            let optcount  = 0;
                             opts.map((options) => {
                                 if (options.length > 0 && options != null){
                                     // count = count + 1;
-                                    qcount = qcount + 1;
+                                    // qcount = qcount + 1;
+                                    optcount = optcount + 1;
                                 }
                             })
+                            if (optcount == opts.length){
+                                qcount = qcount + 1;
+                            }
                         }
                     }
                     else{

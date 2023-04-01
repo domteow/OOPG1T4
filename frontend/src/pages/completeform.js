@@ -94,11 +94,32 @@ export default function Formpage() {
     
     const handleChange = (qnIndex, dIndex) => (e) => {
         const value = e.target.value;
+        console.log(e.target.value);
         setQuestionnaires((prevState) => {
             const updatedQuestionnaires = { ...prevState };
             updatedQuestionnaires[qnIndex]['fields'][dIndex]['value'] = value;
             return updatedQuestionnaires;
     })};
+
+    const handleRadioChange = (qnIndex, dIndex) => (e) => {
+        const value = e.target.value;
+        setQuestionnaires((prevState) => {
+            const updatedQuestionnaires = {...prevState};
+            const fields = updatedQuestionnaires[qnIndex]['fields'];
+            fields[dIndex]['value'] = [value, ''];
+            return updatedQuestionnaires;
+        })
+    }
+
+    const handleRadioTextChange = (qnIndex, dIndex) => (e) => {
+        const value = e.target.value;
+        setQuestionnaires((prevState) => {
+            const updatedQuestionnaires = {...prevState};
+            const fields = updatedQuestionnaires[qnIndex]['fields'];
+            fields[dIndex]['value'] = ['Others', value];
+            return updatedQuestionnaires;
+        })
+    }
 
     const handleCheckboxChange = (qnIndex, dIndex) => (e) => {
         const value = e.target.value;
@@ -379,7 +400,18 @@ export default function Formpage() {
 
                                             if (typeMultiSelect == 'radio'){
                                                 // for input type radio 
-                                                return (
+                                                const others = detail.others;
+                                                console.log(others);
+                                                const valueList = detail.value; 
+                                                let values = valueList;
+
+                                                if (valueList == undefined){
+                                                    values=[];
+                                                }
+
+                                                if (others){
+                                                    console.log(detail['value'])
+                                                    return(
                                                     <fieldset>
                                                         <Row className='radioQuestion'>
                                                             {detail.name}
@@ -388,20 +420,52 @@ export default function Formpage() {
                                                                 <RadioGroup
                                                                     aria-labelledby="demo-controlled-radio-buttons-group"
                                                                     name={detail.name}
-                                                                    onChange={handleChange(qnIndex, dIndex)}
+                                                                    onChange={handleRadioChange(qnIndex, dIndex)}
                                                                     required
                                                                     
                                                                 >
                                                                     {detail['options'].map(option =>{
+                                                                        
                                                                         return(
-                                                                            <FormControlLabel disabled={disabled} required value={option} control={<Radio checked={option === detail['value']}/>} label={option} />
+                                                                            <FormControlLabel disabled={disabled} required value={option} control={<Radio checked={option === values[0]}/>} label={option} />
                                                                             )
                                                                     })}
+
+                                                                    <FormControlLabel disabled={disabled} required value={'Others'} control={<Radio checked={'Others' === values[0]}/>} label='Others' />
+                                                                    <TextField sx={{width: '70%'}} disabled={disabled} className="othersOption" defaultValue={values[1]} placeholder="If others, please elaborate" name='others' onChange={handleRadioTextChange(qnIndex, dIndex)} />
                                                                 </RadioGroup>
                                                                 
+                                                        
                                                         </Row>
                                                     </fieldset>
-                                                )
+                                                    )
+                                                }
+                                            
+                                                else{
+                                                    return (
+                                                        <fieldset>
+                                                            <Row className='radioQuestion'>
+                                                                {detail.name}
+                                                            </Row>
+                                                            <Row className='radioFormInput'>
+                                                                    <RadioGroup
+                                                                        aria-labelledby="demo-controlled-radio-buttons-group"
+                                                                        name={detail.name}
+                                                                        onChange={handleChange(qnIndex, dIndex)}
+                                                                        required
+                                                                        
+                                                                    >
+                                                                        {detail['options'].map(option =>{
+                                                                            return(
+                                                                                <FormControlLabel disabled={disabled} required value={option} control={<Radio checked={option === detail['value']}/>} label={option} />
+                                                                                )
+                                                                        })}
+                                                                    </RadioGroup>
+                                                                    
+                                                            </Row>
+                                                        </fieldset>
+                                                    )
+                                                }
                                             }
                                             else if (typeMultiSelect == 'checkbox') {
                                                 // for input type checkbox 

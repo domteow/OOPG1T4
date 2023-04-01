@@ -260,12 +260,17 @@ export default function Newform(){
                     if (field.type == 'radio' || field.type == 'checkbox' || field.type == 'select'){
                         if (field.name != '' && field.name != null){
                             const opts = field.options;
+                            let optcount  = 0;
                             opts.map((options) => {
                                 if (options.length > 0 && options != null){
                                     // count = count + 1;
-                                    qcount = qcount + 1;
+                                    // qcount = qcount + 1;
+                                    optcount = optcount + 1;
                                 }
                             })
+                            if (optcount == opts.length){
+                                qcount = qcount + 1;
+                            }
                         }
                     }
                     else{

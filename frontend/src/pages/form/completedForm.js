@@ -202,7 +202,7 @@ export default function CompletedForm() {
                                             )
                                         }
 
-                                        else if (inputType =='radio' || inputType == 'select' ){
+                                        else if (inputType == 'select' ){
                                             return(
                                                 <>
                                                     <Row className='radioQuestion'>
@@ -214,6 +214,38 @@ export default function CompletedForm() {
                                                     </Row>
                                                 </>
                                             )
+                                        }
+
+                                        else if (inputType == 'radio' ){
+                                            const val = field.value;
+                                            console.log(val);
+                                            console.log(typeof(val));
+                                            if (typeof(val) == 'string'){
+                                                return(
+                                                    <>
+                                                        <Row className='radioQuestion'>
+                                                            {field.name}
+                                                        </Row>
+                                                    
+                                                        <Row className='radioFormInput'>
+                                                            {field.value}
+                                                        </Row>
+                                                    </>
+                                                )
+                                            }
+                                            else{
+                                                return(
+                                                    <>
+                                                        <Row className='radioQuestion'>
+                                                            {field.name}
+                                                        </Row>
+                                                    
+                                                        <Row className='radioFormInput'>
+                                                            {val[0]}: {val[1]}
+                                                        </Row>
+                                                    </>
+                                                )
+                                            }
                                         }
                                     })}
                                 </>

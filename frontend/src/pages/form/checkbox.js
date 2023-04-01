@@ -50,8 +50,8 @@ const Checkbox = ({allDetails, id, value, options, other, edit}) => {
         name: checkboxQuestion,
         options: checkboxOptions,
         type: 'checkbox',
-        others: others,
-        id: id
+        id: id,
+        others: false
     }
 
     useEffect(()=>{
@@ -69,17 +69,17 @@ const Checkbox = ({allDetails, id, value, options, other, edit}) => {
         }
     })
 
-    const Others = () =>{
-        if (others){
-            return(
-                <div className="othersOption">
-                        <CheckboxBox disabled={true}/>
-                        <TextField sx={{width: '70%'}} className="othersOption" placeholder="Others" disabled={true}/>
-                        <DeleteIcon onClick={() => handleRemoveOthers()}/>
-                </div>
-            )
-        }
-    }
+    // const Others = () =>{
+    //     if (others){
+    //         return(
+    //             <div className="othersOption">
+    //                     <CheckboxBox disabled={true}/>
+    //                     <TextField sx={{width: '70%'}} className="othersOption" placeholder="Others" disabled={true}/>
+    //                     <DeleteIcon onClick={() => handleRemoveOthers()}/>
+    //             </div>
+    //         )
+    //     }
+    // }
 
     if (!edit){
         return(
@@ -95,15 +95,11 @@ const Checkbox = ({allDetails, id, value, options, other, edit}) => {
                         </div>
                     ))}
 
-                    <Others />
+                    
                 
                     <div>
                         <button onClick={handleAddOption} className='addCheckbox'>
                             <AddIcon/> Add Option
-                        </button>
-
-                        <button disabled={others} onClick={handleAddOthers} className="addOthers">
-                            <AddIcon/>Add Others
                         </button>
                     </div>
                 </div>            
@@ -125,15 +121,11 @@ const Checkbox = ({allDetails, id, value, options, other, edit}) => {
                         </div>
                     ))}
 
-                    <Others />
+                    
                 
                     <div>
                         <button onClick={handleAddOption} className='addCheckbox'>
                             <AddIcon/> Add Option
-                        </button>
-
-                        <button disabled={others} onClick={handleAddOthers} className="addOthers">
-                            <AddIcon/>Add Others
                         </button>
                     </div>
                 </div>            
