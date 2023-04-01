@@ -45,19 +45,33 @@ const DisplayQuestionnaire = ({initialDetails, key, value}) => {
     const handleClose = (value) => {
         setOpen(false);
         setSelectedValue(value);
-        const lastitem = details[details.length - 1];
-        const len = lastitem.id;
-        console.log(lastitem);
-        console.log(len);
-        const data = {
-            type: value, 
-            id: len + 1,        
-            name: '',
-            value:'',
-            options: []
+        if (details.length > 0){
+            const lastitem = details[details.length - 1];
+            const len = lastitem.id;
+            console.log(lastitem);
+            console.log(len);
+            const data = {
+                type: value, 
+                id: len + 1,        
+                name: '',
+                value:'',
+                options: []
+            }
+            setInputList([...inputList, data]);
+            setDetails([...details, data]);
         }
-        setInputList([...inputList, data]);
-        setDetails([...details, data]);
+        else{
+            const data = {
+                type: value, 
+                id: 1,        
+                name: '',
+                value:'',
+                options: []
+            }
+            setInputList([...inputList, data]);
+            setDetails([...details, data]);
+        }
+        
     };
     /* END OF DIALOGUE STUFF */
 
