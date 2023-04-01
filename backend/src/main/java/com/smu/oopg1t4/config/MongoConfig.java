@@ -370,7 +370,7 @@ public class MongoConfig {
             questionnaires.addAll(List.of(q5,q6,q7,q8,q9,q10,q11,q12,q13));
 
             //For Form 3
-            questionnaires.addAll(List.of(q14,q15,q16,q17,q18,q19,q20,q21,q4));
+            questionnaires.addAll(List.of(q14,q15,q16,q17,q18,q19,q20,q21));
 
 
             int questionnaireId = 1;
