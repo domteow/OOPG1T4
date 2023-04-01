@@ -30,6 +30,7 @@ export default function AdminHomepage(){
     const [msg, setMsg] = useState();
     // for backend to get list of all vendors from database
     const [allVendors, setAllVendors] = useState({});
+    const navigate = useNavigate();
     const user = localStorage.getItem('username');
     const getAllVendors = async() => {
         try {
@@ -41,6 +42,13 @@ export default function AdminHomepage(){
         } catch (error) {
             console.error(error)
         }
+    }
+
+    const loggedInUser = localStorage.getItem('authenticated');
+
+    console.log(loggedInUser);
+    if (loggedInUser == null){
+        navigate('/react/login');
     }
     
     useEffect(() => {
@@ -71,7 +79,7 @@ export default function AdminHomepage(){
         setMsg(null);
     };
 
-    const navigate = useNavigate();
+    
     const addNewVendor = () =>{
         navigate('/react/newvendor');
     }

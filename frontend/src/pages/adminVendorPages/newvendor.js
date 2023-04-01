@@ -206,6 +206,8 @@ export default function NewVendor(){
         
     }
 
+
+
     if (isLoading) {
       return (
           <div style={{

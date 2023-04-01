@@ -28,6 +28,13 @@ export default function ApproverHomepage(){
     const [allVendors, setAllVendors] = useState({});
     const user = localStorage.getItem('username');
     const [allAdmins, setAllAdmins] = useState({});
+    const navigate = useNavigate();
+    const loggedInUser = localStorage.getItem('authenticated');
+
+    console.log(loggedInUser);
+    if (loggedInUser == null){
+        navigate('/react/login');
+    }
 
     const getAllAdmins = async() => {
         try{
@@ -80,7 +87,7 @@ export default function ApproverHomepage(){
         setMsg(null);
     };
 
-    const navigate = useNavigate();
+    
     const addNewVendor = () =>{
         navigate('/react/newvendor');
     }

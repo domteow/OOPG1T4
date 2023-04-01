@@ -24,12 +24,10 @@ export default function Homepage() {
     const [open, setOpen] = React.useState(false);
     const [msg, setMsg] = useState();
     const [isActive, setIsActive] = useState({});
-
     // forms from backend
     const backendDomain = process.env.REACT_APP_backendDomain;
-    
     // to authenticate the homepage 
-    const [authenticated, setAuthenticated] = useState(null);
+    const [authenticated, setAuthenticated] = useState();
     const [userid, setUserid] = useState('');
     const [username, setUsername] = useState('');
     const [allForms, setAllForms] = useState([]);
@@ -43,6 +41,7 @@ export default function Homepage() {
     // use effect to check the user, get the data and return 
     useEffect (() =>{
       const loggedInUser = localStorage.getItem('authenticated');
+      console.log(loggedInUser);
       if (loggedInUser){
         setAuthenticated(loggedInUser);
         console.log(loggedInUser);
