@@ -40,6 +40,15 @@ public class AdminService {
             String passwordBeforeHash = admin.getPassword();
             admin.setPassword(Encryptor.hash(admin.getPassword()));
             admin.setActive(true);
+
+            // Send email notification
+            try {
+                emailService.sendWelcomeMail(admin, passwordBeforeHash);
+            } catch (Exception e) {
+                StatusResponse statusResponse = new StatusResponse("Error sending email", HttpStatus.INTERNAL_SERVER_ERROR.value());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(statusResponse);
+            }
+
             userRepository.save(admin);
             emailService.sendWelcomeMail(admin, passwordBeforeHash);
             StatusResponse successResponse = new StatusResponse("Admin added successfully", HttpStatus.CREATED.value());
