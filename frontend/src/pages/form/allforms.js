@@ -174,7 +174,7 @@ export default function Allforms(){
                     </button>
 
                     <button className='createNoticeButton' onClick={() => goToNewNotice()}>
-                        Create Notice
+                        Create Read Only
                     </button>
                 </div>
 

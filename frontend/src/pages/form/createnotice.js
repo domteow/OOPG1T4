@@ -364,7 +364,7 @@ export default function Notice(){
 
             <div className='newFormContent'>
                 <div className='newformheader'>
-                    New Notice
+                    New Read Only
                 </div>
 
                 <div className = 'standardInputForm'>
