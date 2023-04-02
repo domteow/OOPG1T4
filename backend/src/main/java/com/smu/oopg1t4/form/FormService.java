@@ -193,8 +193,14 @@ public class FormService {
         }
 
         Form previousRevision = previousFormQuery.get(0);
+
+        if (previousRevision.getFormStatus().equals("readonly")){
+            previousRevision.setFormStatus("outdated readonly");
+        } else {
+            previousRevision.setFormStatus("outdated");
+        }
+
         previousRevision.setActive(false);
-        previousRevision.setFormStatus("outdated");
         formRepository.save(previousRevision);
     }
 
