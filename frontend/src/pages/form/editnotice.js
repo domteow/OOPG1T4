@@ -447,33 +447,33 @@ export default function EditNotice() {
 
         else if (type === 'subheader'){
             return(
-                <>
+                <div key ={id}>
                     <div className='radioOption' key={id}>
                         <TextField name='text' defaultValue={name} placeholder='Subheader' sx={{width: '100%'}}  onChange={(e)=>handleIniSubheaderChange(e, id)}/>
                     </div>
                     <button className='deleteInputButton' onClick={()=>handleRemoveIniInputField(id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Subheader
                     </button>
-                </>
+                </div>
             )
         }
 
         else if (type === 'subtext'){
             return(
-                <>
+                <div key ={id}>
                     <div className='radioOption' key={id}>
                         <TextField name='text' defaultValue={name} placeholder='Subtext' sx={{width: '100%'}} className='subtext' onChange={(e)=>handleIniSubTextChange(e, id)}/>
                     </div>
                     <button className='deleteInputButton' onClick={()=>handleRemoveIniInputField(id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Subtext
                     </button>
-                </>
+                </div>
             )
         }
 
         else if (type === 'text'){
             return(
-                <>
+                <div key ={id}>
                     <>
                         <div className='newFormQuestion' key={id}>
                             <div>
@@ -484,7 +484,7 @@ export default function EditNotice() {
                     <button className='deleteInputButton' onClick={()=>handleRemoveIniInputField(id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Text Field
                     </button>
-                </>
+                </div>
             )
         }
 
@@ -567,6 +567,7 @@ export default function EditNotice() {
             return(<></>)
         }
     }
+    console.log(initialFields)
 
         return(
         <>
@@ -658,22 +659,19 @@ export default function EditNotice() {
                     {/* to display existing form stuff*/} 
                     <div>
                         <div className='noticecontent'>
-                        {initialQuestionnaire.map((item, i) => {
-                            console.log(item)
-                            const fields = item.fields;
-                            const ind = item.id;
-                            console.log(ind);
-                            return (
-                                <div >
-                                    {fields.map((field, j) => (
+                            {initialFields.map((field, i) => {
+                               
+                                // const fields = item.fields;
+                                // const ind = item.id;
+                                return (
+                                    <div>
                                         <>
-                                            {renderInitialInputField(field, j)}
+                                            {renderInitialInputField(field, i)}
                                         </>
-                                    ))}
-                                </div>
-                            ); 
-                                
-                        })}
+                                    </div>
+                                ); 
+                                    
+                            })}
                         </div>
                             
                     </div>
