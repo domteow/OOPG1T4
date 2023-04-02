@@ -44,32 +44,37 @@ const DisplayQuestionnaire = ({initialDetails, key, value}) => {
     // this is for closing the dialogue
     const handleClose = (value) => {
         setOpen(false);
-        setSelectedValue(value);
-        if (details.length > 0){
-            const lastitem = details[details.length - 1];
-            const len = lastitem.id;
-            console.log(lastitem);
-            console.log(len);
-            const data = {
-                type: value, 
-                id: len + 1,        
-                name: '',
-                value:'',
-                options: []
+        if (value != 'Cancel'){
+            setSelectedValue(value);
+            if (details.length > 0){
+                const lastitem = details[details.length - 1];
+                const len = lastitem.id;
+                console.log(lastitem);
+                console.log(len);
+                const data = {
+                    type: value, 
+                    id: len + 1,        
+                    name: '',
+                    value:'',
+                    options: []
+                }
+                setInputList([...inputList, data]);
+                setDetails([...details, data]);
             }
-            setInputList([...inputList, data]);
-            setDetails([...details, data]);
+            else{
+                const data = {
+                    type: value, 
+                    id: 1,        
+                    name: '',
+                    value:'',
+                    options: []
+                }
+                setInputList([...inputList, data]);
+                setDetails([...details, data]);
+            }
         }
         else{
-            const data = {
-                type: value, 
-                id: 1,        
-                name: '',
-                value:'',
-                options: []
-            }
-            setInputList([...inputList, data]);
-            setDetails([...details, data]);
+            setOpen(false);
         }
         
     };

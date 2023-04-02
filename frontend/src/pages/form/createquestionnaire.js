@@ -41,17 +41,23 @@ const CreateQuestionnaire = ({formDetails, id, value}) => {
     // this is for closing the dialogue
 
     const handleClose = (value) => {
-        setCounter((prev) => prev+1);
-        setOpen(false);
-        setSelectedValue(value);
-        const data = {
-            type: value,
-            id:counter,
-            name: '',
-            options: []
+        console.log(value);
+        if (value != 'Cancel'){
+            setCounter((prev) => prev+1);
+            setOpen(false);
+            setSelectedValue(value);
+            const data = {
+                type: value,
+                id:counter,
+                name: '',
+                options: []
+            }
+            setInputList([...inputList, data]);
+            setDetails([...details, data]);
         }
-        setInputList([...inputList, data]);
-        setDetails([...details, data]);
+        else{
+            setOpen(false);
+        }
     };
     /* END OF DIALOGUE STUFF */
     console.log(inputList);

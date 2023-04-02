@@ -26,7 +26,7 @@ import Alert from '@mui/material/Alert';
 
 
 
-const options = ['Header', 'Sub Header', 'Subtext', 'Text Field'];
+const options = ['Header', 'Sub Header', 'Subtext', 'Text Field', 'Cancel'];
 
 export default function Notice(){
     const [formData, setFormData] = useState([]);
@@ -46,17 +46,22 @@ export default function Notice(){
     const [errorMessage, setErrormessage] = useState();
 
     const handleClose = (value) => {
-        setCounter((prev) => prev+1);
-        setOpen(false);
-        setSelectedValue(value);
-        const data = {
-            type: value,
-            id:counter,
-            name: '',
-            options: []
+        if (value != 'Cancel'){
+            setCounter((prev) => prev+1);
+            setOpen(false);
+            setSelectedValue(value);
+            const data = {
+                type: value,
+                id:counter,
+                name: '',
+                options: []
+            }
+            setInputList([...inputList, data]);
+            setDetails([...details, data]);
         }
-        setInputList([...inputList, data]);
-        setDetails([...details, data]);
+        else{
+            setOpen(false);
+        }
     };
 
     const handleRemoveInputField = id => {
@@ -455,7 +460,7 @@ export default function Notice(){
                 </button>
 
                 <button onClick={handleCreateForm} disabled={inputList.length === 0} className='createFormButton anyButton'>
-                    Create Form
+                    Create Read Only
                 </button>
             </div>
         </>

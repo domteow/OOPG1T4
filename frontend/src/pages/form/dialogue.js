@@ -31,7 +31,7 @@ export default function Dialogue(props){
     const questionnaires = [];
     const questionnaireOptions = ['Header','Sub Header','Subtext', 'Text Field', 'Radio Button', 'Checkbox', 'Select', 'Cancel'];
     const [questionnaireList, setQuestionnaireList] = useState([]);
-    const noticeOptions = ['Header', 'Sub Header', 'Subtext', 'Text Field']
+    const noticeOptions = ['Header', 'Sub Header', 'Subtext', 'Text Field', 'Cancel']
 
     const getAllQuestionnaires = async() =>{
         try{

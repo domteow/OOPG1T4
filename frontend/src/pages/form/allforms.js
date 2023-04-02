@@ -196,9 +196,10 @@ export default function Allforms(){
                         <option value={'All'}>All</option>
                         <option value={'Active'}>Active</option>
                         <option value={'Inactive'}>Inactive</option>
-                        <option value={'Published'}>Published</option>
-                        <option value={'Outdated'}>Outdated</option>
+                        <option value={'Published'}>Published Forms</option>
+                        <option value={'Outdated'}>Outdated Forms</option>
                         <option value={'Read Only'}>Read Only</option>
+                        <option value={'Outdated Read Only'}>Outdated Read Only</option>
                         </NativeSelect>
                     </FormControl>
                     </Box>
@@ -233,7 +234,7 @@ export default function Allforms(){
                         {forms.map((form)=>{
                             const formId = form.id;
                             if (selectedValue == 'All'){
-                                if (form.formStatus != 'readonly'){
+                                if (form.formStatus != 'readonly' && form.formStatus != 'outdated readonly'){
                                     return(
                                         <Row className='formDataRow'>
                                             <Col xs={12} md={3} className='headerCenter'>
@@ -307,7 +308,7 @@ export default function Allforms(){
                             }
                             else if (selectedValue == 'Active'){
                                 if (form.active == true){
-                                    if (form.formStatus != 'readonly'){
+                                    if (form.formStatus != 'readonly' && form.formStatus != 'outdated readonly'){
                                         return(
                                             <Row className='formDataRow'>
                                                 <Col xs={12} md={3} className='headerCenter'>
@@ -382,7 +383,7 @@ export default function Allforms(){
                             }
                             else if (selectedValue == 'Inactive'){
                                 if (form.active == false){
-                                    if (form.formStatus != 'readonly'){
+                                    if (form.formStatus != 'readonly' && form.formStatus != 'outdated readonly'){
                                         return(
                                             <Row className='formDataRow'>
                                                 <Col xs={12} md={3} className='headerCenter'>
@@ -535,6 +536,45 @@ export default function Allforms(){
 
                             else if (selectedValue == 'Read Only') {
                                 if (form.formStatus == 'readonly'){
+                                    return(
+                                        <Row className='formDataRow'>
+                                        <Col xs={12} md={3} className='headerCenter'>
+                                            {form.description}
+                                        </Col>
+                                        <Col xs={12} md={2} className='headerCenter'>
+                                            {form.formCode}
+                                        </Col>
+                                        <Col xs={12} md={1} className='headerCenter'>
+                                            {form.effectiveDate}
+                                        </Col>
+                                        <Col xs={12} md={1} className='headerCenter'>
+                                            {form.formStatus}<div className='revNo'>Rev No: {form.revisionNo}</div>
+                                        </Col>
+                                        <Col xs={12} md={2} className='headerCenter'>
+                                            <button className='viewForm' onClick={() => goToNotice(formId)}>
+                                                View Notice
+                                            </button>
+                                        </Col>
+                                        <Col xs={12} md={2} className='headerCenter'>
+                                            <button className='viewForm' onClick={() => editNotice(formId)}>
+                                                Edit Notice
+                                            </button>
+                                        </Col>
+                                        <Col xs={12} md={1} className='headerCenter'>
+                                            <Switch
+                                                checked = {isActive[formId]}
+                                                name = {form}
+                                                onChange={() => handleActive(formId)}
+                                                inputProps={{ 'aria-label': 'controlled' }}
+                                            />
+                                        </Col>
+                                    </Row>
+                                    )
+                                }
+                            }
+
+                            else if (selectedValue == 'Outdated Read Only') {
+                                if (form.formStatus == 'outdated readonly'){
                                     return(
                                         <Row className='formDataRow'>
                                         <Col xs={12} md={3} className='headerCenter'>

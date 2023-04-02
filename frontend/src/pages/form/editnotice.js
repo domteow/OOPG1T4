@@ -53,32 +53,37 @@ export default function EditNotice() {
     const [errorMessage, setErrormessage] = useState();
 
     const handleClose = (value) => {
-        console.log(initialFields.length + details.length)
-        setCounter(initialFields.length + details.length + 1);
-        setOpen(false);
-        setSelectedValue(value);
-        const newFields = [...initialFields,...details]
-        if (newFields.length > 0) {
-            const lastitem = newFields[newFields.length - 1];
-            const len = lastitem.id;
-            const data = {
-                type: value,
-                id:len +1,
-                name: '',
-                options: []
+        if (value != 'Cancel'){
+            console.log(initialFields.length + details.length)
+            setCounter(initialFields.length + details.length + 1);
+            setOpen(false);
+            setSelectedValue(value);
+            const newFields = [...initialFields,...details]
+            if (newFields.length > 0) {
+                const lastitem = newFields[newFields.length - 1];
+                const len = lastitem.id;
+                const data = {
+                    type: value,
+                    id:len +1,
+                    name: '',
+                    options: []
+                }
+                setInputList([...inputList, data]);
+                setDetails([...details, data]);
             }
-            setInputList([...inputList, data]);
-            setDetails([...details, data]);
+            else{
+                const data = {
+                    type: value,
+                    id:1,
+                    name: '',
+                    options: []
+                }
+                setInputList([...inputList, data]);
+                setDetails([...details, data]);
+            }
         }
         else{
-            const data = {
-                type: value,
-                id:1,
-                name: '',
-                options: []
-            }
-            setInputList([...inputList, data]);
-            setDetails([...details, data]);
+            setOpen(false);
         }
         
     };

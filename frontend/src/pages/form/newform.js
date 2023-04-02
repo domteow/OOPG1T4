@@ -85,7 +85,7 @@ export default function Newform(){
                 }
             })
         }
-        else{
+        else if (value != 'Cancel'){
             setCount((prev) => prev+1)
             const data = {
                 count: count,
