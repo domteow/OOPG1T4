@@ -12,6 +12,7 @@ To install FMS, follow these steps:
 -   Follow the installation instructions on your local machine
 -   Next, go to https://maven.apache.org/download.cgi
 -   Download the binary zip archive
+![Maven](images/maven.jpg)
 -   Unzip apache-maven-3.9.1.zip
 -   Place apache-maven-3.9.1 in a directory of your choosing
 -   Copy the path of the bin folder within the apache-maven-3.9.1 folder
@@ -28,8 +29,9 @@ To configure CMS, follow these steps:
 To use My Web App, follow these steps (MacOS/Windows):
 - Open your terminal and navigate to the OOPG1T4/backend folder
 - In your terminal run this command "sh build.sh" for MacOS and "build.bat" for Windows.
-- You will then be promopted to enter a path. This path is the path of the bin folder within the apache-maven-3.9.1 folder which you have installed earlier
-- Wait for the installations to complete and springboot to start up. 
+- You will then be prompted to enter a path. This path is the path of the bin folder within the apache-maven-3.9.1 folder which you have installed earlier
+![File Location](images/filelocation.jpg)
+- Wait for the installations to complete and for springboot to start up. 
 - Open your web browser and navigate to the [Login Page](http://localhost:3000/react/login).
 
 ![Login screen](images/loginpage.JPG)
