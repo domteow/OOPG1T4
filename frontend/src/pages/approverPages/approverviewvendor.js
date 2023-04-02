@@ -86,7 +86,7 @@ export default function ApproverViewVendor(){
 
           else if(form.status === 'incomplete'){
             //setIncompleteForms(prevIncompleteForms => ([...prevIncompleteForms, form]))
-            if (form.formStatus == 'readonly'){
+            if (form.pendingUserInput == 'readonly'){
               //setReadOnlyForms(prevReadOnlyForms => ([...prevReadOnlyForms, form]))
               tempReadOnlyForms.push(form)
               console.log(readOnlyForms)

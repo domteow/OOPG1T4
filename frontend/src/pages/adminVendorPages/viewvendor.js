@@ -80,7 +80,7 @@ export default function Viewvendor(){
             console.log(completedForms)
           }
           else if(form.status === 'incomplete'){
-            if (form.formStatus == 'readonly'){
+            if (form.pendingUserInput == 'readonly'){
               //setReadOnlyForms(prevReadOnlyForms => ([...prevReadOnlyForms, form]))
               tempReadOnlyForms.push(form)
               console.log(readOnlyForms)

@@ -117,7 +117,7 @@ export default function Homepage() {
             console.log(completedForms)
           }
           else if(form['status'] === 'incomplete'){
-            if (form.formStatus == 'readonly'){
+            if (form.pendingUserInput == 'readonly'){
               tempReadOnlyForms.push(form)
               console.log(readOnlyForms)
             }
