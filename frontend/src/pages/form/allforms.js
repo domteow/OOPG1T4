@@ -469,7 +469,7 @@ export default function Allforms(){
                                                 {form.effectiveDate}
                                             </Col>
                                             <Col xs={12} md={1} className='headerCenter'>
-                                                {form.formStatus}
+                                                {form.formStatus}<div className='revNo'>Rev No: {form.revisionNo}</div>
                                             </Col>
                                             <Col xs={12} md={2} className='headerCenter'>
                                                 <button className='viewForm' onClick={() => goToForm(formId)}>
@@ -508,7 +508,7 @@ export default function Allforms(){
                                                 {form.effectiveDate}
                                             </Col>
                                             <Col xs={12} md={1} className='headerCenter'>
-                                                {form.formStatus} <div>{form.revisionNo}</div>
+                                                {form.formStatus}<div className='revNo'>Rev No: {form.revisionNo}</div>
                                             </Col>
                                             <Col xs={12} md={2} className='headerCenter'>
                                                 <button className='viewForm' onClick={() => goToForm(formId)}>
