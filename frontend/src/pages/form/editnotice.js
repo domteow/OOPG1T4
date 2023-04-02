@@ -41,7 +41,7 @@ export default function EditNotice() {
     const [inputList, setInputList] = useState([]);
     const [details, setDetails] = useState([]);
     const [open, setOpen] = useState(false);
-    const [counter, setCounter] = useState(0);
+    const [counter, setCounter] = useState();
     const [formNameError, setFormNameError] = useState(null);
     const [formCodeError, setFormCodeError] = useState(null);
     const [dateError, setDateError] = useState(null);
@@ -57,14 +57,30 @@ export default function EditNotice() {
         setCounter(initialFields.length + details.length + 1);
         setOpen(false);
         setSelectedValue(value);
-        const data = {
-            type: value,
-            id:counter,
-            name: '',
-            options: []
+        const newFields = [...initialFields,...details]
+        if (newFields.length > 0) {
+            const lastitem = newFields[newFields.length - 1];
+            const len = lastitem.id;
+            const data = {
+                type: value,
+                id:len +1,
+                name: '',
+                options: []
+            }
+            setInputList([...inputList, data]);
+            setDetails([...details, data]);
         }
-        setInputList([...inputList, data]);
-        setDetails([...details, data]);
+        else{
+            const data = {
+                type: value,
+                id:1,
+                name: '',
+                options: []
+            }
+            setInputList([...inputList, data]);
+            setDetails([...details, data]);
+        }
+        
     };
     useEffect(() => {
         setTimeout(() => {
@@ -96,6 +112,7 @@ export default function EditNotice() {
         setIsLoading(false);
         }, 800);
     }, [formId]);
+
     const handleRemoveInputField = id => {
         const newInputs = inputList.map((item, i) => {
             const idx = item.id;
@@ -118,9 +135,9 @@ export default function EditNotice() {
         if (newInputs.length === 0) {
             setInputList([]);
           }
-
-        
     };
+
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -254,7 +271,8 @@ export default function EditNotice() {
     const handleUpdateForm = () => {
         const isFields = validateFields([...initialFields,...details]);
         if (isFields) {
-            handleSubmitForm();
+            // handleSubmitForm();
+            console.log(submitdata);
         }
     }
 
@@ -279,15 +297,120 @@ export default function EditNotice() {
         navigate(-1);
     }
 
+    const handleRemoveIniInputField = id => {
+        // const newInputs = initialFields.map((item, i) => {
+        //     const idx = item.id;
+        //     if (id === idx){
+        //         return "";
+        //     }
+        //     else{
+        //         return item;
+        //     }
+        // });
+        // setInitialFields(newInputs);
+        // search for the index of the item with the id to splice it out
+        // const index = details.findIndex(item => item.id === id);
+        // if (index >= 0) {
+        //     const newData = [...details];
+        //     newData.splice(index, 1);
+        //     setDetails(newData);
+        // }
+
+        // if (newInputs.length === 0) {
+        //     setInputList([]);
+        //   }
+        const newInputs = [...initialFields];
+        newInputs.map((item, i) => {
+            if (item.id == id){
+                newInputs.splice(i,1);
+            }
+        })
+        setInitialFields(newInputs);
+    };
+    
+    const handleIniTextChange = (e, id)=>{
+        const data = {
+            name : e.target.value,
+            type: 'text',
+            id:id,
+            value: null,
+            option: null
+        }
+        const newDetails = initialFields.map((item, index)=>{
+            const idx = item.id;
+            if (id === idx){
+                return data
+            }
+            else{
+                return item
+            }
+        });
+        setInitialFields(newDetails);
+    }
+
+    const handleIniSubTextChange = (e, id)=>{
+        const data = {
+            name : e.target.value,
+            type: 'subtext',
+            id:id,
+            value: null,
+            option: null
+        }
+        const newDetails = initialFields.map((item, index)=>{
+            const idx = item.id;
+            if (idx === id){
+                return data
+            }
+            else{
+                return item
+            }
+        });
+        setInitialFields(newDetails);
+    }
+  
+
+    const handleIniSubheaderChange = (e, id)=>{
+        const data = {
+            name : e.target.value,
+            type: 'subheader',
+            id:id,
+            value: null,
+            option: null
+        }
+        const newDetails = initialFields.map((item, index)=>{
+            const idx = item.id;
+            if (idx === id){
+                return data
+            }
+            else{
+                return item
+            }
+        });
+        setInitialFields(newDetails);
+    }
+
+    const handleIniHeaderChange = (e, id)=>{
+        const data = {
+            name : e.target.value,
+            type: 'header',
+            id:id,
+            value: null,
+            option: null
+        }
+        const newDetails = initialFields.map((item, index)=>{
+            const idx = item.id;
+            if (idx === id){
+                return data
+            }
+            else{
+                return item
+            }
+        });
+        setInitialFields(newDetails);
+    }
 
 
-    // const initialFields = initialQuestionnaire[0];
-    // console.log(initialFields)
-    // const combinedFields = {...details, ...initialFields};
-
-    // console.log(combinedFields)
-
-
+    console.log(initialFields)
 
     const submitdata = {
         description: formName,
@@ -312,10 +435,10 @@ export default function EditNotice() {
             
             return(
                 <>
-                    <div className='radioOption'>
-                        <TextField name='text' value={name} placeholder='Header' sx={{width: '100%'}} className='headertext' onChange={(e)=>handleHeaderChange(e, id)}/>
+                    <div className='radioOption' key={id}>
+                        <TextField name='text' defaultValue={name} placeholder='Header' sx={{width: '100%'}} className='headertext' onChange={(e)=>handleIniHeaderChange(e, id)}/>
                     </div>
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(id)}>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveIniInputField(id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Header
                     </button>
                 </>
@@ -325,10 +448,10 @@ export default function EditNotice() {
         else if (type === 'subheader'){
             return(
                 <>
-                    <div className='radioOption'>
-                        <TextField name='text' value={name} placeholder='Subheader' sx={{width: '100%'}}  onChange={(e)=>handleSubheaderChange(e, id)}/>
+                    <div className='radioOption' key={id}>
+                        <TextField name='text' defaultValue={name} placeholder='Subheader' sx={{width: '100%'}}  onChange={(e)=>handleIniSubheaderChange(e, id)}/>
                     </div>
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(id)}>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveIniInputField(id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Subheader
                     </button>
                 </>
@@ -338,10 +461,10 @@ export default function EditNotice() {
         else if (type === 'subtext'){
             return(
                 <>
-                    <div className='radioOption'>
-                        <TextField name='text' value={name} placeholder='Subtext' sx={{width: '100%'}} className='subtext' onChange={(e)=>handleSubTextChange(e, id)}/>
+                    <div className='radioOption' key={id}>
+                        <TextField name='text' defaultValue={name} placeholder='Subtext' sx={{width: '100%'}} className='subtext' onChange={(e)=>handleIniSubTextChange(e, id)}/>
                     </div>
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(id)}>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveIniInputField(id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Subtext
                     </button>
                 </>
@@ -352,13 +475,13 @@ export default function EditNotice() {
             return(
                 <>
                     <>
-                        <div className='newFormQuestion'>
+                        <div className='newFormQuestion' key={id}>
                             <div>
-                                <TextField multiline rows={5} value={name} name='text' placeholder='Text' sx={{width: '100%', height: '20%'}} onChange={(e)=>handleTextChange(e, id)}/>
+                                <TextField multiline rows={5} defaultValue={name} name='text' placeholder='Text' sx={{width: '100%', height: '20%'}} onChange={(e)=>handleIniTextChange(e, id)}/>
                             </div>
                         </div>
                     </>
-                    <button className='deleteInputButton' onClick={()=>handleRemoveInputField(id)}>
+                    <button className='deleteInputButton' onClick={()=>handleRemoveIniInputField(id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Text Field
                     </button>
                 </>
@@ -539,10 +662,11 @@ export default function EditNotice() {
                             console.log(item)
                             const fields = item.fields;
                             const ind = item.id;
+                            console.log(ind);
                             return (
-                                <div key ={i}>
+                                <div >
                                     {fields.map((field, j) => (
-                                        <div key={j}>
+                                        <div key={field.id}>
                                             {renderInitialInputField(field, j)}
                                         </div>
                                     ))}
@@ -553,7 +677,7 @@ export default function EditNotice() {
                         </div>
                             
                     </div>
-                        <div>
+                        {/* <div> */}
                             <div className='noticecontent'>
                                 {inputList.map((item, i)=>{
                                     console.log(item);
@@ -564,7 +688,7 @@ export default function EditNotice() {
                                     )
                                 })}
                             </div>
-                        </div>
+                        {/* </div> */}
 
                         <button onClick={handleClickOpen} className='dialogueButton'>
                             <AddIcon/> Add Field
@@ -585,7 +709,7 @@ export default function EditNotice() {
                         Cancel
                     </button>
 
-                    <button onClick={handleUpdateForm} disabled={inputList.length === 0} className='createFormButton anyButton'>
+                    <button onClick={handleUpdateForm} className='createFormButton anyButton'>
                         Update Notice
                     </button>
                 </div>
