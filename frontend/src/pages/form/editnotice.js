@@ -271,7 +271,7 @@ export default function EditNotice() {
     const handleUpdateForm = () => {
         const isFields = validateFields([...initialFields,...details]);
         if (isFields) {
-            // handleSubmitForm();
+            handleSubmitForm();
             console.log(submitdata);
         }
     }
@@ -434,14 +434,14 @@ export default function EditNotice() {
         if(type === 'header'){
             
             return(
-                <>
-                    <div className='radioOption' key={id}>
+                <div key ={id}>
+                    <div className='radioOption' >
                         <TextField name='text' defaultValue={name} placeholder='Header' sx={{width: '100%'}} className='headertext' onChange={(e)=>handleIniHeaderChange(e, id)}/>
                     </div>
                     <button className='deleteInputButton' onClick={()=>handleRemoveIniInputField(id)}>
                         <DeleteIcon sx={{fontSize: 30}}/> Delete Header
                     </button>
-                </>
+                </div>
             )
         }
 
@@ -666,9 +666,9 @@ export default function EditNotice() {
                             return (
                                 <div >
                                     {fields.map((field, j) => (
-                                        <div key={field.id}>
+                                        <>
                                             {renderInitialInputField(field, j)}
-                                        </div>
+                                        </>
                                     ))}
                                 </div>
                             ); 
