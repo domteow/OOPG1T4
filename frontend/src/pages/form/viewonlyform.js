@@ -90,7 +90,7 @@ export default function ViewForm(props){
                                 console.log(fieldType);
                                 const fieldOptions = field.options;
                                 console.log(fieldOptions);
-                                if (fieldType === 'text'){
+                                if (fieldType === 'text' || fieldType === 'Text Field'){
                                     
                                     return(
                                         <fieldset>
@@ -113,7 +113,7 @@ export default function ViewForm(props){
                                     )
                                 }
 
-                                else if (fieldType === 'select'){
+                                else if (fieldType === 'select' || fieldType === 'Select'){
                                     return (
                                         <fieldset>
                                             <Row className='radioQuestion'>
@@ -139,7 +139,7 @@ export default function ViewForm(props){
                                     )
                                 }
 
-                                else if (fieldType === 'subheader'){
+                                else if (fieldType === 'subheader' || fieldType === 'Sub Header'){
                                     return(
                                         <>
                                             <Row className='formRow'>
@@ -151,7 +151,7 @@ export default function ViewForm(props){
                                     )
                                 }
 
-                                else if (fieldType == 'subtext'){
+                                else if (fieldType == 'subtext' || fieldType === 'Subtext'){
                                     return(
                                         <>
                                             <Row className='formRow'>
@@ -163,7 +163,7 @@ export default function ViewForm(props){
                                     )
                                 }
 
-                                else if (fieldType == 'header'){
+                                else if (fieldType == 'header' || fieldType === 'Header'){
                                     return (
                                         <>
                                             <Row className='formRow'>
@@ -175,7 +175,7 @@ export default function ViewForm(props){
                                     )
                                 }
 
-                                else if (fieldType === 'radio'){
+                                else if (fieldType === 'radio' || fieldType === 'Radio'){
                                     return(
                                         <fieldset>
                                             <Row className='radioQuestion'>
@@ -198,7 +198,7 @@ export default function ViewForm(props){
                                     )
                                 }
 
-                                else if (fieldType === 'checkbox'){
+                                else if (fieldType === 'checkbox' || fieldType === 'Checkbox'){
                                     return(
                                         <fieldset>
                                             <Row className='radioQuestion'>

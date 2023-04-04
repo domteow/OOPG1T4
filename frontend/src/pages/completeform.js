@@ -344,7 +344,7 @@ export default function Formpage() {
                                         
                                         const inputType = detail['type'];
 
-                                        if (inputType == 'text'){
+                                        if (inputType == 'text' || inputType == 'Text Field'){
                                             // for input type string, number, text all 
                                             return(
                                                 <fieldset>
@@ -368,7 +368,7 @@ export default function Formpage() {
                                                 </fieldset>
                                             )
                                         }
-                                        else if (inputType == 'subheader'){
+                                        else if (inputType == 'subheader' || inputType == 'Sub Header'){
                                             return(
                                                 <Row className='formRow'>
                                                     <div className='displaySubheader'>
@@ -377,7 +377,7 @@ export default function Formpage() {
                                                 </Row>
                                             )
                                         }
-                                        else if (inputType == 'subtext'){
+                                        else if (inputType == 'subtext' || inputType == 'Subtext'){
                                             return(
                                                 <Row className='formRow'>
                                                     <div className='subtext'>
@@ -386,7 +386,7 @@ export default function Formpage() {
                                                 </Row>
                                             )
                                         }
-                                        else if (inputType == 'header'){
+                                        else if (inputType == 'header' || inputType == 'Header'){
                                             return (
                                                 <Row className='formRow'>
                                                     <div className='headertext'>
@@ -398,7 +398,7 @@ export default function Formpage() {
                                         else{
                                             const typeMultiSelect = inputType;
 
-                                            if (typeMultiSelect == 'radio'){
+                                            if (typeMultiSelect == 'radio' || inputType == 'Radio'){
                                                 // for input type radio 
                                                 const others = detail.others;
                                                 console.log(others);
@@ -467,7 +467,7 @@ export default function Formpage() {
                                                     )
                                                 }
                                             }
-                                            else if (typeMultiSelect == 'checkbox') {
+                                            else if (typeMultiSelect == 'checkbox' || inputType == 'Checkbox') {
                                                 // for input type checkbox 
                                                 return (
                                                     <fieldset>
@@ -505,7 +505,7 @@ export default function Formpage() {
                                                     </fieldset>
                                                 )
                                             }
-                                            else if (typeMultiSelect == 'select') {
+                                            else if (typeMultiSelect == 'select' || inputType == 'Select') {
                                                 // for input type select
                                                 return (
                                                     <fieldset>
